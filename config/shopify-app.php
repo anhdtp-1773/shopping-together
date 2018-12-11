@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'app_name' => env('SHOPIFY_APP_NAME', 'Shopify App'),
+    'app_name' => env('SHOPIFY_APP_NAME', 'Shopping together'),
 
     /*
     |--------------------------------------------------------------------------
@@ -58,6 +58,8 @@ return [
     */
 
     'api_key' => env('SHOPIFY_API_KEY', ''),
+    
+    'domain' => env('SHOPIFY_API_DOMAIN', 'https://0740358a.ngrok.io/authenticate'),
 
     /*
     |--------------------------------------------------------------------------
@@ -79,7 +81,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_products'),
+    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_themes,read_themes,write_script_tags'),
 
     /*
     |--------------------------------------------------------------------------
@@ -164,13 +166,10 @@ return [
     */
 
     'webhooks' => [
-        /*
-            [
-                'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'orders/create'),
-                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://some-app.com/webhook/orders-create')
-            ],
-            ...
-        */
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'app/uninstalled'),
+            'address' => env('SHOPIFY_WEBHOOK_1_UNINSTALL', ''),
+        ],
     ],
 
     /*
@@ -184,12 +183,11 @@ return [
 
     'scripttags' => [
         /*
-            [
-                'src' => env('SHOPIFY_SCRIPTTAG_1_SRC', 'https://some-app.com/some-controller/js-method-response'),
-                'event' => env('SHOPIFY_SCRIPTTAG_1_EVENT', 'onload'),
-                'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', 'online_store')
-            ],
-            ...
+        [
+            'src' => env('SHOPIFY_SCRIPTTAG_1_SRC', ''),
+            'event' => env('SHOPIFY_SCRIPTTAG_1_EVENT', 'onload'),
+            'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', 'online_store')
+        ],
         */
     ],
 
@@ -212,4 +210,6 @@ return [
             ],
         */
     ],
+
+    'mode' => env('MODE', true),  // mode = true (live site), false (local)
 ];
