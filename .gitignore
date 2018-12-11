@@ -14,7 +14,6 @@ yarn-error.log
 .env
 .phpunit.result.cache
 .gitattributes
-.env.example
 .editorconfig
 resources/js/skeleton/dist/main.js
 resources/js/skeleton/dist/bundle.js
