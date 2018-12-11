@@ -66,6 +66,6 @@
     </head>
     <body>
         <div id="root"></div>
-        <script src="../resources/js/skeleton/dist/bundle.js"></script>
+        <script src="../resources/js/dist/bundle.js"></script>
     </body>
 </html>
