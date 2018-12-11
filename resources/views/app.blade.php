@@ -80,6 +80,7 @@
         @endif
         <script>
             var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
+            var lang = <?php echo $lang ?>;
         </script>
         <script src="../resources/js/dist/bundle.js"></script>
     </body>

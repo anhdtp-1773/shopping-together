@@ -20,7 +20,7 @@ export default class App extends Component {
                             <Link to={'/'}>
                                 <i className="fa fa-home"></i>
                                 <span>
-                                    Setting
+                                    {lang.setup}
                                 </span>
                             </Link>
                         </li>
