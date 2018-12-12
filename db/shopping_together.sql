@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : website
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : shopping
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-12-11 10:59:50
+Date: 2018-12-12 15:21:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,7 +49,11 @@ CREATE TABLE `charges` (
   CONSTRAINT `charges_plan_id_foreign` FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`),
   CONSTRAINT `charges_reference_charge_foreign` FOREIGN KEY (`reference_charge`) REFERENCES `charges` (`charge_id`) ON DELETE CASCADE,
   CONSTRAINT `charges_shop_id_foreign` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of charges
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for plans
@@ -68,39 +72,43 @@ CREATE TABLE `plans` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
--- Table structure for setting
+-- Records of plans
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for settings
 -- ----------------------------
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_shop` int(11) NOT NULL,
-  `product_font` varchar(255) NOT NULL,
-  `product_style` varchar(255) NOT NULL,
-  `product_size` varchar(255) NOT NULL,
+  `product_font` enum('timesNewRoman','verdana','arial') CHARACTER SET latin7 NOT NULL,
+  `product_style` enum('bold','italic','normal') NOT NULL,
+  `product_size` int(255) NOT NULL,
   `product_color` varchar(255) NOT NULL,
   `product_image_width` int(11) NOT NULL,
   `product_imgae_height` int(11) NOT NULL,
-  `amount_font` varchar(255) NOT NULL,
-  `amount_style` varchar(255) NOT NULL,
+  `amount_font` enum('timesNewRoman','verdana','arial') NOT NULL,
+  `amount_style` enum('bold','italic','normal') NOT NULL,
   `amount_size` varchar(255) NOT NULL,
   `amount_color` varchar(255) NOT NULL,
-  `new_price_font` varchar(255) NOT NULL,
-  `new_price_style` varchar(255) NOT NULL,
+  `new_price_font` enum('timesNewRoman','verdana','arial') NOT NULL,
+  `new_price_style` enum('bold','italic','normal') NOT NULL,
   `new_price_size` varchar(255) NOT NULL,
   `new_price_color` varchar(255) NOT NULL,
-  `old_price_font` varchar(255) NOT NULL,
-  `old_price_style` varchar(255) NOT NULL,
+  `old_price_font` enum('timesNewRoman','verdana','arial') NOT NULL,
+  `old_price_style` enum('bold','italic','normal') NOT NULL,
   `old_price_size` varchar(255) NOT NULL,
   `old_price_color` varchar(255) NOT NULL,
-  `title_font` varchar(255) NOT NULL,
-  `title_style` varchar(255) NOT NULL,
+  `title_font` enum('timesNewRoman','verdana','arial') NOT NULL,
+  `title_style` enum('bold','italic','normal') NOT NULL,
   `title_size` varchar(255) NOT NULL,
   `title_color` varchar(255) NOT NULL,
-  `cart_font` varchar(255) NOT NULL,
-  `cart_style` varchar(255) NOT NULL,
+  `cart_font` enum('timesNewRoman','verdana','arial') NOT NULL,
+  `cart_style` enumthoiwf ('bold','italic','normal') NOT NULL,
   `cart_size` varchar(255) NOT NULL,
   `cart_color` varchar(255) NOT NULL,
   `cart_text` varchar(255) NOT NULL,
@@ -109,7 +117,11 @@ CREATE TABLE `settings` (
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of settings
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for shops
@@ -128,7 +140,13 @@ CREATE TABLE `shops` (
   `plan_id` int(10) DEFAULT NULL,
   `freemium` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of shops
+-- ----------------------------
+INSERT INTO `shops` VALUES ('1', 'gmail.com', 'gmail', '1', null, null, '2018-12-11 17:12:34', '2018-12-11 17:12:34', null, null, null);
+INSERT INTO `shops` VALUES ('2', 'test', 'com', '1', null, null, '2018-12-12 13:15:02', '2018-12-12 13:15:02', null, null, null);
 
 -- ----------------------------
 -- Table structure for shop_owner
@@ -143,4 +161,9 @@ CREATE TABLE `shop_owner` (
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of shop_owner
+-- ----------------------------
+INSERT INTO `shop_owner` VALUES ('1', 'pa', 'pa@gmail.com', '1234', '12hamsa', '2018-12-11 17:12:27', '2018-12-11 17:12:27');

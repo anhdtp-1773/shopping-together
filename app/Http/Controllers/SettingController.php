@@ -36,16 +36,21 @@ class SettingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getSetting(Request $request){
-        $get_shop = Shop::getShopByDomain($request->shopify_domain);
-        $data = '';
-
-        if (!empty($get_shop)) {
-            $data = Setting::getSettingByShopId($get_shop->id);
+        $settings_folder = './settings';
+        $shop = '';
+        if($request->shopify_domain){
+            $shop_info = Shop::getShopByDomain($request->shopify_domain);
+            if($shop_info){
+                $shop = Shop::find($shop_info->id);
+                $setting = Setting::getSettingByShopId($shop_info->id);
+                $shop->setting = !empty($setting) ? $setting : json_decode(file_get_contents($settings_folder.'/setting.json'), true);
+            }
         }
-
         return response()->json([
-            'message'=> 'success',
-            'data' => $data,
-            ], 200);
+            'message'=> $shop ? 'update_successfully' : 'un_successfully',
+            'data' => array(
+                'setting' => $shop,
+            )
+        ], 200);
     }
 }
