@@ -73,9 +73,10 @@ CREATE TABLE `plans` (
 -- ----------------------------
 -- Table structure for setting
 -- ----------------------------
-DROP TABLE IF EXISTS `setting`;
-CREATE TABLE `setting` (
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_shop` int(11) NOT NULL,
   `product_font` varchar(255) NOT NULL,
   `product_style` varchar(255) NOT NULL,
   `product_size` varchar(255) NOT NULL,
