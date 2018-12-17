@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/app/init', 'SettingController@init');
 Route::post('/app/setting/save', 'SettingController@save');
-Route::post('/app/getSetting', 'SettingController@getSetting');
+Route::post('/app/setting/getData', 'SettingController@getData');
 
