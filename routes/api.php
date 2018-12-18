@@ -21,3 +21,4 @@ Route::post('/app/init', 'SettingController@init');
 Route::post('/app/setting/save', 'SettingController@save');
 Route::post('/app/setting/getData', 'SettingController@getData');
 
+Route::post('/uninstall',['as'=>'uninstall', 'uses'=>'AuthController@uninstall']);

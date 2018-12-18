@@ -8,6 +8,12 @@ use App\Shop;
 
 class SettingController extends Controller
 {   
+
+    public function index()
+    {
+        return view('app');
+    }
+
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -30,7 +36,7 @@ class SettingController extends Controller
             'data' => $result,
             ], 200);
     }
-
+    
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
