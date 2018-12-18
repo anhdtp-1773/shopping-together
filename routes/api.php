@@ -17,4 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/app/init', 'SettingController@init');
+Route::post('/uninstall',['as'=>'uninstall', 'uses'=>'AuthController@uninstall']);

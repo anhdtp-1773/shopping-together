@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('app', function($view){
+            $view->with('lang',json_encode(trans('label')));
+        });
     }
 
     /**
