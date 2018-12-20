@@ -73,7 +73,6 @@ class SettingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function get(Request $request){
-        // dd($request);
         $setting_folder = './settings';
         $setting = '';
         if($request->shopify_domain){
