@@ -2,6 +2,6 @@
     
 return [
     'setup'=> 'Setup',
-    'update_successfully' => 'Update Successfully',
+    'update_successfully' => 'Update successfully',
     'un_successfully' => 'Unsuccessfully'
 ];
