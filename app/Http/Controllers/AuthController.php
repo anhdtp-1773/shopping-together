@@ -7,6 +7,9 @@ use OhMyBrew\ShopifyApp\Jobs\ScripttagInstaller;
 use OhMyBrew\ShopifyApp\Jobs\WebhookInstaller;
 use App\ShopOwner;
 use App\Shop;
+use App\Product;
+use App\Variant;
+use App\Image;
 use Illuminate\Http\Request;
 use OhMyBrew\ShopifyApp\Traits\AuthControllerTrait;
 use DB;
@@ -79,6 +82,7 @@ class AuthController extends Controller
         $shop_owner_info = ShopOwner::getShopOwnerByDomain($request->body->shop->email);
         $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : $this->updateShop($request->body->shop);
         $id_shop_owner ? $this->updateShopOwner($id_shop, $id_shop_owner) : '';
+        self::cloneProducts($id_shop, $shop_domain);
         // Go to homepage of app
         return redirect()->route('home');
     }
@@ -113,6 +117,67 @@ class AuthController extends Controller
         $shop_info = Shop::getShopByDomain($shop_domain);
         if($shop_info){
             DB::table('shops')->where('id',  $shop_info->id)->delete();
+            DB::table('products')->where('id',  $shop_info->id)->delete();
+            DB::table('variants')->where('id',  $shop_info->id)->delete();
+            DB::table('images')->where('id',  $shop_info->id)->delete();
+        }
+    }
+
+    /**
+     * @param  int $id_shop
+     * @param  int $domain
+     */
+    private function cloneProducts($id_shop, $domain){
+        $shop = ShopifyApp::shop();
+        $products = $shop->api()->request('GET', '/admin/products.json')->body->products;
+        if($products){
+            $arr_products = array();
+            $arr_variants  = array();
+            $arr_imgs= array();
+            $variants = array();
+            $images = array();
+            foreach($products as $product){
+                $arr_products[] = array(
+                    'id_product_shopify' => $product->id,
+                    'id_shop' => $id_shop,
+                    'title' => $product->title,
+                    'handle' => $product->handle,
+                );
+                array_push($variants, $product->variants);
+                array_push($images, $product->images);
+            }
+            Product::saveProduct($arr_products);
+            if($variants){
+                foreach($variants as $variant){
+                    foreach($variant as $value){
+                        $arr_variants[] = array(
+                            'id_variant' => $value->id,
+                            'id_product' => $value->product_id,
+                            'id_shop' => $id_shop,
+                            'title' => $value->title,
+                            'price' => $value->price,
+                            'option1' => $value->option1,
+                            'option2' => $value->option2,
+                            'option3' => $value->option3,
+                            'quantity' => $value->inventory_quantity,
+                        );
+                    }
+                }
+                Variant::saveVariant($arr_variants);
+            }
+            if($images){
+                foreach($images as $img){
+                    foreach($img as $value){
+                        $arr_imgs[] = array(
+                            'id_image' => $value->id,
+                            'id_product' => $value->product_id,
+                            'src' => $value->src,
+                            'id_shop'=> $id_shop,
+                        );
+                    }
+                }
+                Image::saveImage($arr_imgs);
+            }
         }
     }
 }
