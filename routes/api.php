@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/uninstall',['as'=>'uninstall', 'uses'=>'AuthController@uninstall']);
 Route::post('/save/product','ProductController@save');
 Route::post('/delete/product','ProductController@delete');
+Route::post('/app/setting/init', 'SettingController@init');
+Route::post('/app/setting/save', 'SettingController@save');
+Route::post('/app/setting/get', 'SettingController@get');

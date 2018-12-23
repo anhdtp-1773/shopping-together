@@ -23,6 +23,14 @@ class Shop extends Model
     }
 
     /**
+     * Relationship: settings
+     * @return Object settings
+     */
+    public function settings() {
+        return $this->hasOne('App\Setting','id_shop');
+    }
+
+    /**
      * @param string $domain
      * @return array
      * <pre>
