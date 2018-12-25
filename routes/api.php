@@ -24,4 +24,5 @@ Route::post('/app/setting/init', 'SettingController@init');
 Route::post('/app/setting/save', 'SettingController@save');
 Route::post('/app/setting/get', 'SettingController@get');
 
-Route::post('product/search', 'ProductController@search');
+Route::post('/product/search', 'ProductController@search');
+Route::post('/product/get-list', 'ProductController@renderList');

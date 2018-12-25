@@ -53,4 +53,22 @@ class Product extends Model
             $sql->orWhere('title', 'like', '%'.$key_word.'%');
         })->get()->toArray();
     }
+
+    public static function getProducts($page_number, $item_limit)
+    {
+        $data = [];
+        $query = DB::table('products');
+        $total = $query->count();
+        $data['page_limit'] = ceil($total / $item_limit);
+        $data['current_page'] = $page_number;
+        $offset = ($page_number - 1)  * $item_limit;
+        $data['items_per_page'] = $item_limit;
+        $data['total_items'] = $total;
+        if($offset>=0 && $item_limit){
+            $data['items'] = $query->offset($offset)->limit($item_limit)->get();
+        }else{
+            $data['items'] = $query->get();
+        }
+        return $data;
+    }
 }
