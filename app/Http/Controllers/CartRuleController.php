@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
-use App\Variant;
-use App\Image;
 use App\Shop;
 use App\CartRule;
 
