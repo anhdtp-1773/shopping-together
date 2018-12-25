@@ -47,4 +47,10 @@ class Product extends Model
     public static function getProduct($id_product_shopify){
         return DB::table('products')->where('id_product_shopify', $id_product_shopify)->get();
     }
+    
+    public static function search($key_word){
+        return Product::where(function($sql) use ($key_word) {
+            $sql->orWhere('title', 'like', '%'.$key_word.'%');
+        })->get()->toArray();
+    }
 }
