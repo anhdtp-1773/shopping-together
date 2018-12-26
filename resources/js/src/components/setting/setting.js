@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Preview from './preview';
 import ProductName from './productName';
 import TotalAmount from './totalAmount';
@@ -20,7 +20,7 @@ export default class Setting extends Component {
         return (
             <div className="home-container">
                 <div className="left-container">
-                    <div>
+                    <Fragment>
                         <Title 
                         />
                    
@@ -44,8 +44,8 @@ export default class Setting extends Component {
                     
                         <Display 
                         />
-
-                    </div>
+                        
+                    </Fragment>
                     <p>{lang.design_and_support_by_hamsa_technology}</p>
                     <p>{lang.user_guide}</p>
                     <p>{lang.help}</p>
