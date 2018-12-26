@@ -89,11 +89,10 @@ class ProductController extends Controller
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
         if(!empty($key_word)){
             $products = Product::search($key_word);
-            $number_product = count($products);
             $data = [
                 'products' => $products,
             ];
-            $msg = $products ? trans('label.find').$number_product.trans('label.record') : trans('label.record_not_found') ;
+            $msg = $products ? trans('label.find').count($products).trans('label.record') : trans('label.record_not_found') ;
         }
         return response()->json([
                 'message'=> $msg,
