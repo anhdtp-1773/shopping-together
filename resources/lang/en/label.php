@@ -23,7 +23,7 @@ return [
     'quick_links' => 'Quick links',
     'talk_about_your_business' => 'Talk about your business',
     'newsletter' => 'Newsletter',
-    'add_bundle_to _cart' => 'Add bundle to cart',
+    'add_bundle_to_cart' => 'Add bundle to cart',
     'frequently_purchased_together' => 'Frequently Purchased Together',
     'total' => 'Total',
     'admin' => 'Admin',

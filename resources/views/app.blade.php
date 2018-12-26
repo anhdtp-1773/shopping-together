@@ -67,7 +67,7 @@
     </head>
     <body>
         <div id="root"></div>
-         {{-- @if(config('shopify-app.esdk_enabled'))
+        @if(config('shopify-app.esdk_enabled'))
             <script src="https://cdn.shopify.com/s/assets/external/app.js?{{ date('YmdH') }}"></script>
             <script type="text/javascript">
                 ShopifyApp.init({
@@ -78,9 +78,9 @@
                 });
             </script>
             @include('shopify-app::partials.flash_messages')
-        @endif --}}
+        @endif
         <script>
-            var domain = "thanhthaobeauty.myshopify.com"; 
+            var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
             var lang = <?php echo $lang ?>;
         </script>
         <script src="../resources/js/dist/bundle.js"></script>
