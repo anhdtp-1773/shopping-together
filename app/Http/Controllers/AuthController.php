@@ -17,7 +17,6 @@ use DB;
 class AuthController extends Controller
 {
     use AuthControllerTrait;
-
     protected function authenticationWithoutCode()
     {
         $shopDomain = session('shopify_domain');
@@ -82,7 +81,6 @@ class AuthController extends Controller
         $shop_owner_info = ShopOwner::getShopOwnerByDomain($request->body->shop->email);
         $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : $this->updateShop($request->body->shop);
         $id_shop_owner ? $this->updateShopOwner($id_shop, $id_shop_owner) : '';
-        self::cloneProducts($id_shop, $shop_domain);
         // Go to homepage of app
         return redirect()->route('home');
     }
@@ -125,31 +123,28 @@ class AuthController extends Controller
 
     /**
      * @param  int $id_shop
-     * @param  int $domain
+     * @param  string $domain
      */
-    private function cloneProducts($id_shop, $domain){
+    public function cloneProducts(Request $request){
+        $status = true;
+        $msg = trans('label.update_successfully');
+        session(['shopify_domain' => $request->shopify_domain]);
         $shop = ShopifyApp::shop();
+        $id_shop = $shop->id;
         $products = $shop->api()->request('GET', '/admin/products.json')->body->products;
         if($products){
-            $arr_products = array();
-            $arr_variants  = array();
-            $arr_imgs= array();
-            $variants = array();
-            $images = array();
-            foreach($products as $product){
-                $arr_products[] = array(
-                    'id_product_shopify' => $product->id,
-                    'id_shop' => $id_shop,
-                    'title' => $product->title,
-                    'handle' => $product->handle,
-                );
-                array_push($variants, $product->variants);
-                array_push($images, $product->images);
-            }
-            Product::saveProduct($arr_products);
-            if($variants){
-                foreach($variants as $variant){
-                    foreach($variant as $value){
+            try{
+                $arr_products = array();
+                $arr_variants  = array();
+                $arr_imgs= array();
+                foreach($products as $product){
+                    $arr_products[] = array(
+                        'id_shopify_product' => $product->id,
+                        'id_shop' => $id_shop,
+                        'title' => $product->title,
+                        'handle' => $product->handle,
+                    );
+                    foreach($product->variants as $value){
                         $arr_variants[] = array(
                             'id_variant' => $value->id,
                             'id_product' => $value->product_id,
@@ -160,24 +155,34 @@ class AuthController extends Controller
                             'option2' => $value->option2,
                             'option3' => $value->option3,
                             'quantity' => $value->inventory_quantity,
+                            'id_image' => $value->image_id
                         );
                     }
+                    if($product->images){
+                        foreach($product->images as $value){
+                            $arr_imgs[] = array(
+                                'id_image' => $value->id,
+                                'id_product' => $value->product_id,
+                                'src' => $value->src,
+                                'id_shop'=> $id_shop,
+                            );
+                        }
+                    }
                 }
+                Product::saveProduct($arr_products);
                 Variant::saveVariant($arr_variants);
-            }
-            if($images){
-                foreach($images as $img){
-                    foreach($img as $value){
-                        $arr_imgs[] = array(
-                            'id_image' => $value->id,
-                            'id_product' => $value->product_id,
-                            'src' => $value->src,
-                            'id_shop'=> $id_shop,
-                        );
-                    }
+                if($arr_imgs){
+                    Image::saveImage($arr_imgs);
                 }
-                Image::saveImage($arr_imgs);
+            } 
+            catch(\Exception $e){
+                $status = false;
+                $msg = $e->getMessage();
             }
         }
+        return response()->json([
+            'message' => $msg,
+            'status' => $status,
+        ], 200);
     }
 }

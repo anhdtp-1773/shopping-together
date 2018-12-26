@@ -12,7 +12,7 @@ class Variant extends Model
      * @var string
      */
     protected $table = 'variants';
-    protected $fillable=['id_variant','id_product','id_shop','title','created_at','updated_at','price','option1','option2','option3','currency_code','quantity'];
+    protected $fillable=['id_variant','id_product','id_shop','title','created_at','updated_at','price','option1','option2','option3','currency_code','quantity', 'id_image'];
     
     /**
      * @param
@@ -50,6 +50,6 @@ class Variant extends Model
      * ))
      */
     public static function updatedVariant($id_variants, $array_variants){
-        DB::table('my_table')->whereIn('id_variant', $id_variants)->update($array_variants);
+        DB::table('variants')->whereIn('id_variant', $id_variants)->update($array_variants);
     }       
 }
