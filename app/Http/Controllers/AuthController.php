@@ -128,7 +128,6 @@ class AuthController extends Controller
     public function cloneProducts(Request $request){
         $status = true;
         $msg = trans('label.update_successfully');
-        $data = array();
         session(['shopify_domain' => $request->shopify_domain]);
         $shop = ShopifyApp::shop();
         $id_shop = $shop->id;
@@ -170,7 +169,7 @@ class AuthController extends Controller
                         }
                     }
                 }
-                $products = Product::saveProduct($arr_products);
+                Product::saveProduct($arr_products);
                 Variant::saveVariant($arr_variants);
                 if($arr_imgs){
                     Image::saveImage($arr_imgs);
@@ -184,7 +183,6 @@ class AuthController extends Controller
         return response()->json([
             'message' => $msg,
             'status' => $status,
-            'data'=> $products
         ], 200);
     }
 }
