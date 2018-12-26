@@ -12,14 +12,14 @@ class Product extends Model
      * @var string
      */
     protected $table = 'products';
-    protected $fillable=['id','id_product_shopify','id_shop','title','created_at','updated_at','handle'];
+    protected $fillable=['id','id_shopify_product','id_shop','title','created_at','updated_at','handle'];
     
 
     /**
      * @param
      * array(
      *  array (
-     *  'id_product_shopify' => string,
+     *  'id_shopify_product' => string,
      *  'id_shop' => int,
      *  'title' => string,
      *  'handle' => string,
@@ -31,12 +31,12 @@ class Product extends Model
     }   
 
     /**
-     * @param string $id_product_shopify
+     * @param string $id_shopify_product
      * @return array
      * <pre>
      * array (
      *  'id' => int,
-     *  'id_product_shopify' => int,
+     *  'id_shopify_product' => int,
      *  'id_shop' => varchar,
      *  'title' => varchar,
      *  'handle' => varchar,
@@ -44,8 +44,8 @@ class Product extends Model
      *  'updated_at' => timestamp
      * )
      */
-    public static function getProduct($id_product_shopify){
-        return DB::table('products')->where('id_product_shopify', $id_product_shopify)->get();
+    public static function getProduct($id_shopify_product){
+        return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
     
     public static function search($key_word){

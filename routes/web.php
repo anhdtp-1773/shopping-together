@@ -35,3 +35,4 @@ Route::get(
     'AuthController@index'
 )->name('login');
 
+Route::get('test','AuthController@test');

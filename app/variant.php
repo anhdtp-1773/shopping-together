@@ -50,6 +50,6 @@ class Variant extends Model
      * ))
      */
     public static function updatedVariant($id_variants, $array_variants){
-        DB::table('my_table')->whereIn('id_variant', $id_variants)->update($array_variants);
+        DB::table('variants')->whereIn('id_variant', $id_variants)->update($array_variants);
     }       
 }

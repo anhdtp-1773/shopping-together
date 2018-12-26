@@ -125,7 +125,7 @@ class AuthController extends Controller
 
     /**
      * @param  int $id_shop
-     * @param  int $domain
+     * @param  string $domain
      */
     private function cloneProducts($id_shop, $domain){
         $shop = ShopifyApp::shop();
@@ -134,40 +134,28 @@ class AuthController extends Controller
             $arr_products = array();
             $arr_variants  = array();
             $arr_imgs= array();
-            $variants = array();
-            $images = array();
             foreach($products as $product){
                 $arr_products[] = array(
-                    'id_product_shopify' => $product->id,
+                    'id_shopify_product' => $product->id,
                     'id_shop' => $id_shop,
                     'title' => $product->title,
                     'handle' => $product->handle,
                 );
-                array_push($variants, $product->variants);
-                array_push($images, $product->images);
-            }
-            Product::saveProduct($arr_products);
-            if($variants){
-                foreach($variants as $variant){
-                    foreach($variant as $value){
-                        $arr_variants[] = array(
-                            'id_variant' => $value->id,
-                            'id_product' => $value->product_id,
-                            'id_shop' => $id_shop,
-                            'title' => $value->title,
-                            'price' => $value->price,
-                            'option1' => $value->option1,
-                            'option2' => $value->option2,
-                            'option3' => $value->option3,
-                            'quantity' => $value->inventory_quantity,
-                        );
-                    }
+                foreach($product->variants as $value){
+                    $arr_variants[] = array(
+                        'id_variant' => $value->id,
+                        'id_product' => $value->product_id,
+                        'id_shop' => $id_shop,
+                        'title' => $value->title,
+                        'price' => $value->price,
+                        'option1' => $value->option1,
+                        'option2' => $value->option2,
+                        'option3' => $value->option3,
+                        'quantity' => $value->inventory_quantity,
+                    );
                 }
-                Variant::saveVariant($arr_variants);
-            }
-            if($images){
-                foreach($images as $img){
-                    foreach($img as $value){
+                if($product->images){
+                    foreach($product->images as $value){
                         $arr_imgs[] = array(
                             'id_image' => $value->id,
                             'id_product' => $value->product_id,
@@ -176,6 +164,11 @@ class AuthController extends Controller
                         );
                     }
                 }
+               
+            }
+            Product::saveProduct($arr_products);
+            Variant::saveVariant($arr_variants);
+            if($arr_imgs){
                 Image::saveImage($arr_imgs);
             }
         }
