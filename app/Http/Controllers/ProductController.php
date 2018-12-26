@@ -107,25 +107,4 @@ class ProductController extends Controller
             DB::table('products')->where('id_product', $response->id)->delete();
         }
     }
-
-    public function search(Request $request){
-        $status = false;
-        $msg = '';
-        $data = array();
-        $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
-        if(!empty($key_word)){
-            $products = Product::search($key_word);
-            $number_product = count($products);
-            $status = $products ? true : false ;
-            $data = [
-                'products' => $products,
-            ];
-            $msg = $status ? trans('label.find').$number_product.trans('label.record') : trans('label.record_not_found') ;
-        }
-        return response()->json([
-                'status' => $status,
-                'message'=> $msg,
-                'data' => $data
-        ], 200);
-    }
 }
