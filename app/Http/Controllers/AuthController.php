@@ -138,7 +138,7 @@ class AuthController extends Controller
             $images = array();
             foreach($products as $product){
                 $arr_products[] = array(
-                    'id_product_shopify' => $product->id,
+                    'id_shopify_product' => $product->id,
                     'id_shop' => $id_shop,
                     'title' => $product->title,
                     'handle' => $product->handle,
