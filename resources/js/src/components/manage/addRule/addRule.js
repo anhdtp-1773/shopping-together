@@ -7,15 +7,20 @@ export default class AddRule extends Component {
         this.state = {
             form: {
                 products: {}
-            }
+            },
+            currentPage: '',
+            itemsPerPage: '',
+            totalItems: '',
         }
     }
 
     render() {
         return (
             <Fragment>
-                <MainProduct 
-                />
+                <div>
+                    <MainProduct 
+                    />
+                </div>
             </Fragment>
         );
     }
