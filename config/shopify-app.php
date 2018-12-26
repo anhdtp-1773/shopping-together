@@ -170,6 +170,18 @@ return [
             'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'app/uninstalled'),
             'address' => env('SHOPIFY_WEBHOOK_1_UNINSTALL', ''),
         ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'products/create'),
+            'address' => env('SHOPIFY_WEBHOOK_1_SAVE_PRODUCT', ''),
+        ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'products/delete'),
+            'address' => env('SHOPIFY_WEBHOOK_1_DELETE_PRODUCT', ''),
+        ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'products/update'),
+            'address' => env('SHOPIFY_WEBHOOK_1_SAVE_PRODUCT', ''),
+        ],
     ],
 
     /*

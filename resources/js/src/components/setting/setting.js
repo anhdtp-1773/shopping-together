@@ -44,7 +44,7 @@ export default class Setting extends Component {
                     
                         <Display 
                         />
-
+                        
                     </Fragment>
                     <p>{lang.design_and_support_by_hamsa_technology}</p>
                     <p>{lang.user_guide}</p>
