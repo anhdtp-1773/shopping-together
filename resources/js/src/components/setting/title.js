@@ -1,6 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import 'rc-color-picker/assets/index.css';
-import classNames from 'classnames'
+import React, { Component } from 'react';
 
 export default class Title extends Component {
     constructor(props) {
@@ -11,7 +9,7 @@ export default class Title extends Component {
     render(){
         return (
             <div className="full-width display-block">
-                <p> {lang.add_to_cart}</p>
+                <p> {lang.title}</p>
             </div>
         );
     }

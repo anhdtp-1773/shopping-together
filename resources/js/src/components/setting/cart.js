@@ -1,6 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import 'rc-color-picker/assets/index.css';
-import classNames from 'classnames'
+import React, { Component } from 'react';
 
 export default class Cart extends Component {
     constructor(props) {

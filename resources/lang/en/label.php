@@ -10,7 +10,7 @@ return [
     'total_amount' => 'Total Amount',
     'new_price' => 'New Price',
     'old_price' => 'Old Price',
-    'translation' => 'Tanslation',
+    'translation' => 'Translation',
     'display' => 'Display',
     'design_and_support_by_hamsa_technology' => 'Design and support by Hamsa Technology',
     'user_guide' => 'User guide',

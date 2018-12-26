@@ -1,5 +1,5 @@
 .home-container .right-container {
-    width: 40%;
+    width: 60%;
     display: inline-block;
     padding: 10px 0px;
     min-height: 500px;
@@ -8,7 +8,7 @@
   
    .home-container .left-container {
     float: left;
-    width: 60%;
+    width: 40%;
     display: inline-block;
     padding: 10px 20px;
     min-height: 500px;
