@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-12-26 09:58:53
+Date: 2018-12-26 11:06:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,5 +31,6 @@ CREATE TABLE `variants` (
   `currency_code` varchar(250) CHARACTER SET utf8mb4 DEFAULT NULL,
   `quantity` int(10) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `id_image` varchar(50) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

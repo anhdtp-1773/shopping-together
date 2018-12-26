@@ -27,7 +27,7 @@ class Product extends Model
      * ))
      */
     public static function saveProduct($array_products){
-        DB::table('products')->insert($array_products);
+        return DB::table('products')->insert($array_products);
     }   
 
     /**

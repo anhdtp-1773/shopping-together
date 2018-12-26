@@ -26,3 +26,4 @@ Route::post('/app/setting/get', 'SettingController@get');
 
 Route::post('product/search', 'ProductController@search');
 Route::post('/cart-rule/save', 'CartRuleController@save');
+Route::post('/product/clone', 'AuthController@cloneProducts');
