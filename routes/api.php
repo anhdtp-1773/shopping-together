@@ -25,3 +25,4 @@ Route::post('/app/setting/save', 'SettingController@save');
 Route::post('/app/setting/get', 'SettingController@get');
 
 Route::post('/cart-rule/save', 'CartRuleController@save');
+Route::post('/product/clone', 'AuthController@cloneProducts');

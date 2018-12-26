@@ -60,6 +60,7 @@ class ProductController extends Controller
                         'option2' => $variant->option2,
                         'option3' => $variant->option3,
                         'quantity' => $variant->inventory_quantity,
+                        'id_image' => $value->image_id
                     );
                 }
                 Variant::saveVariant($arr_variants);
