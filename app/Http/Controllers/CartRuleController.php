@@ -24,8 +24,7 @@ class CartRuleController extends Controller
             if($shop_info){
                 $cart_rule = CartRule::saveCartRule(
                     $shop_info->id,
-                    $request->name,
-                    $request->status
+                    $request->name
                 );
                 if($cart_rule){
                     $array_products = array();
