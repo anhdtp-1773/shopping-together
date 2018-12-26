@@ -15,11 +15,10 @@ class CartRuleController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
         ]);
-        
         if($validator->fails()){
             $msg = $validator->errors();
+            $status = false;
         }
-
         if($status){
             try{
                 $shop_info = Shop::getShopByDomain($request->shopify_domain);
