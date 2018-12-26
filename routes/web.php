@@ -39,4 +39,3 @@ Route::get(
     '/install',
     'AuthController@index'
 )->name('login');
-

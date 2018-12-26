@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Setting from './components/Setting';
+import Setting from './components/setting/setting';
 import { Switch, Route } from 'react-router-dom'
 import Manage from './components/manage/manage';
 import AddRule from './components/manage/addRule/addRule';

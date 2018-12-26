@@ -4,7 +4,7 @@
     padding: 10px 0px;
     min-height: 500px;
     background-color: #f7f8f8;
-  }
+}
   
 .home-container .left-container {
     float: left;
@@ -23,7 +23,7 @@ html, body, #manage {
     font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
     font-size: 13px;
 }
-
+  
 .form-control {
     height: calc(3.25rem + 2px) ;
     font-size: 1.25rem;
