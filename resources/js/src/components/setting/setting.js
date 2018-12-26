@@ -23,40 +23,33 @@ export default class Setting extends Component {
                     <div>
                         <Title 
                         />
-                    </div>
-                    <div>
+                   
                         <ProductName 
                         />
-                    </div>
-                    <div>
+                    
                         <TotalAmount 
                             />
-                    </div>
-                    <div>        
+                           
                         <NewPrice 
                         />
-                    </div>
-                    <div>
+                    
                         <OldPrice 
                         />
-                    </div>
-                    <div>
+                    
                         <Cart 
                         />
-                    </div>
-                    <div>
+                    
                         <Translation 
                         />
-                    </div>
-                    <div>
+                    
                         <Display 
                         />
 
                     </div>
-                    <span>{lang.design_and_support_by_hamsa_technology}</span>
+                    <p>{lang.design_and_support_by_hamsa_technology}</p>
                     <p>{lang.user_guide}</p>
                     <p>{lang.help}</p>
-                    <a>{lang.save}</a>
+                    <button>{lang.save}</button>
                 </div>
                 <div className="right-container">
                     <Preview />

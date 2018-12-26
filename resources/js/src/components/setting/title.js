@@ -11,7 +11,7 @@ export default class Title extends Component {
     render(){
         return (
             <div className="full-width display-block">
-                <p> {lang.add_to_cart}</p>
+                <p> {lang.title}</p>
             </div>
         );
     }

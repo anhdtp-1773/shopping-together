@@ -16,7 +16,8 @@
 //     return view('welcome');
 // });
 
-Route::group(['middleware' => ['auth.shop', 'billable']], function () {
+// Route::group(['middleware' => ['auth.shop', 'billable']], function () {
+Route::group(['prefix' => Session::get('locale')], function () {
     Route::get('/', function () {
         return view('app');
     });
