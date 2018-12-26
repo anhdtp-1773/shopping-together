@@ -6,10 +6,12 @@
 
         <title>Shopping Together</title>
         <!-- Fonts -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/3.0.0-rc.6/polaris.min.css" />
+        <!-- <link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/3.0.0-rc.6/polaris.min.css" /> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+        <link rel="stylesheet" href="../public/css/shopping.css">
         <!-- Styles -->
         <style>
             html, body {
@@ -66,7 +68,7 @@
     </head>
     <body>
         <div id="root"></div>
-         @if(config('shopify-app.esdk_enabled'))
+        {{-- @if(config('shopify-app.esdk_enabled'))
             <script src="https://cdn.shopify.com/s/assets/external/app.js?{{ date('YmdH') }}"></script>
             <script type="text/javascript">
                 ShopifyApp.init({
@@ -77,7 +79,7 @@
                 });
             </script>
             @include('shopify-app::partials.flash_messages')
-        @endif
+        @endif --}}
         <script>
             var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
             var lang = <?php echo $lang ?>;
