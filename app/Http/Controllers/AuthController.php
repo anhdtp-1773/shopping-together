@@ -125,7 +125,7 @@ class AuthController extends Controller
 
     /**
      * @param  int $id_shop
-     * @param  int $domain
+     * @param  string $domain
      */
     private function cloneProducts($id_shop, $domain){
         $shop = ShopifyApp::shop();
