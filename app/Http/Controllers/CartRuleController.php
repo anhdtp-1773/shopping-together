@@ -8,6 +8,10 @@ use App\CartRule;
 
 class CartRuleController extends Controller
 {
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function save(Request $request)
     {
         $status = true;

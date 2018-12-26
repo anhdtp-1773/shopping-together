@@ -122,8 +122,8 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  int $id_shop
-     * @param  string $domain
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
      */
     public function cloneProducts(Request $request){
         $status = true;

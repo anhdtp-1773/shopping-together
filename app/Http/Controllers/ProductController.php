@@ -64,7 +64,7 @@ class ProductController extends Controller
             }
         }else{
             $arr_products[] = array(
-                'id_shopify_product' => $$response->id,
+                'id_shopify_product' => $response->id,
                 'id_shop' => $shop->id,
                 'title' => $response->title,
                 'handle' => $response->handle,
