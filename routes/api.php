@@ -23,3 +23,5 @@ Route::post('/product/delete','ProductController@delete');
 Route::post('/app/setting/init', 'SettingController@init');
 Route::post('/app/setting/save', 'SettingController@save');
 Route::post('/app/setting/get', 'SettingController@get');
+
+Route::post('/cart-rule/save', 'CartRuleController@save');
