@@ -7,4 +7,5 @@ return [
     'find' => 'Find',
     'record' => 'record.', 
     'record_not_found' => 'Record not found.',
+    'successfully' => 'Successfully',
 ];

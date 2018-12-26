@@ -48,9 +48,38 @@ class Product extends Model
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
     
-    public static function search($key_word){
-        return Product::where(function($sql) use ($key_word) {
-            $sql->orWhere('title', 'like', '%'.$key_word.'%');
-        })->get()->toArray();
+    /**
+     * @param int $page_number
+     * @param int $items_per_page
+     * @return array
+     * <pre>
+     *  array (
+     *  'page_limit' => int,
+     *  'current_page' => int,
+     *  'items_per_page' => string,
+     *  'handle' => string,
+     *  'total_items' => string,
+     *  'items' => array(
+     *      'title' => string,
+     *       ......
+     *  )
+     * )
+     */
+    public static function getProducts($page_number, $items_per_page)
+    {
+        $data = [];
+        $query = DB::table('products');
+        $total = $query->count();
+        $data['page_limit'] = ceil($total / $items_per_page);
+        $data['current_page'] = $page_number;
+        $offset = ($page_number - 1)  * $items_per_page;
+        $data['items_per_page'] = $items_per_page;
+        $data['total_items'] = $total;
+        if($offset >=0 && $items_per_page){
+            $data['items'] = $query->offset($offset)->limit($items_per_page)->get();
+        }else{
+            $data['items'] = $query->get();
+        }
+        return $data;
     }
 }
