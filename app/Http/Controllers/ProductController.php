@@ -105,4 +105,21 @@ class ProductController extends Controller
         $response = json_decode(file_get_contents('php://input'));
         DB::table('products')->where('id_shopify_product', $response->id)->delete();
     }
+
+    public function search(Request $request){
+        $msg = '';
+        $data = array();
+        $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
+        if(!empty($key_word)){
+            $products = Product::search($key_word);
+            $data = [
+                'products' => $products,
+            ];
+            $msg = $products ? trans('label.find').count($products).trans('label.record') : trans('label.record_not_found') ;
+        }
+        return response()->json([
+                'message'=> $msg,
+                'data' => $data
+        ], 200);
+    }
 }
