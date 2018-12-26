@@ -48,6 +48,23 @@ class Product extends Model
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
     
+    /**
+     * @param int $page_number
+     * @param int $items_per_page
+     * @return array
+     * <pre>
+     *  array (
+     *  'page_limit' => int,
+     *  'current_page' => int,
+     *  'items_per_page' => string,
+     *  'handle' => string,
+     *  'total_items' => string,
+     *  'items' => array(
+     *      'title' => string,
+     *       ......
+     *  )
+     * )
+     */
     public static function getProducts($page_number, $items_per_page)
     {
         $data = [];
