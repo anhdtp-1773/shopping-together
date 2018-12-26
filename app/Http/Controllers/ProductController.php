@@ -11,7 +11,7 @@ use App\Shop;
 class ProductController extends Controller
 {
     public $page_number = 1;
-    protected $item_limit = 2;
+    protected $items_per_page = 2;
     
     public function renderList(Request $request){
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
@@ -19,7 +19,7 @@ class ProductController extends Controller
         $status = true;
         $msg = trans('label.successfully');
         try{
-            $data = Product::getProducts($this->page_number, $this->item_limit);
+            $data = Product::getProducts($this->page_number, $this->items_per_page);
         }
         catch(\Exception $e){
             $status = false;

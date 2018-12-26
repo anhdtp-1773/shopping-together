@@ -54,18 +54,18 @@ class Product extends Model
         })->get()->toArray();
     }
 
-    public static function getProducts($page_number, $item_limit)
+    public static function getProducts($page_number, $items_per_page)
     {
         $data = [];
         $query = DB::table('products');
         $total = $query->count();
-        $data['page_limit'] = ceil($total / $item_limit);
+        $data['page_limit'] = ceil($total / $items_per_page);
         $data['current_page'] = $page_number;
-        $offset = ($page_number - 1)  * $item_limit;
-        $data['items_per_page'] = $item_limit;
+        $offset = ($page_number - 1)  * $items_per_page;
+        $data['items_per_page'] = $items_per_page;
         $data['total_items'] = $total;
-        if($offset>=0 && $item_limit){
-            $data['items'] = $query->offset($offset)->limit($item_limit)->get();
+        if($offset >=0 && $items_per_page){
+            $data['items'] = $query->offset($offset)->limit($items_per_page)->get();
         }else{
             $data['items'] = $query->get();
         }
