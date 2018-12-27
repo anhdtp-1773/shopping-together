@@ -122,4 +122,18 @@ class ProductController extends Controller
                 'data' => $data
         ], 200);
     }
+    public function get(Request $request){
+        $get_shop = Shop::getShopByDomain($request->shopify_domain);
+        $get_product = $get_shop ? Product::getFirstProduct($get_shop->id) : null;
+        $data = '';
+        
+        if (!empty($get_product)) {
+            $data = Product::get($get_product->id_shopify_product);
+        }
+
+        return response()->json([
+            'message'=> $data ? trans('label.update_successfully') : trans('label.un_successfully'),
+            'data' => $data
+        ], 200);
+    }
 }

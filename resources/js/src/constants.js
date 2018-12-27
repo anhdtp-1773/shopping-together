@@ -10,8 +10,4 @@ export const optionsFontStyle = [
     {label: 'Italic', value: 'italic'},
     {label: 'Bold', value: 'bold'},
 ];
-export const optionsSize = [
-    {label: 'Size-S, Color-Red', value: 'Size-S, Color-Red'},
-    {label: 'Size-M, Color-Blue', value: 'Size-M, Color-Blue'},
-    {label: 'Size-L, Color-Green', value: 'Size-M, Color-Green'},
-]
+
