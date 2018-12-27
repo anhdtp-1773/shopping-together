@@ -82,11 +82,7 @@ class Product extends Model
         }
         return $data;
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> f2465077903cfc24292082e03eee490844a646ab
     public static function search($key_word){
         return DB::table('products')
         ->select('products.*', 'variants.price', 'images.src')
