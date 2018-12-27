@@ -81,7 +81,7 @@
             @include('shopify-app::partials.flash_messages')
         @endif --}}
         <script>
-            var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
+            var domain = "thanhthaobeauty.myshopify.com"; 
             var lang = <?php echo $lang ?>;
         </script>
         <script src="../resources/js/dist/bundle.js"></script>

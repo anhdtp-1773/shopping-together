@@ -4,7 +4,6 @@ return [
     'setup'=> 'Setup',
     'update_successfully' => 'Update successfully',
     'un_successfully' => 'Unsuccessfully',
-<<<<<<< HEAD
     'manage' => 'Manage',
     'add_new_rule' => 'Add new rule',
     'set_the_rule_name' => 'Set the rule name',
@@ -16,8 +15,7 @@ return [
     'percentage' => 'Percentage',
     'fixed_amount' => 'Fixed  amount',
     'rule' => 'Rule ....',
-    'next' => 'Next'
-=======
+    'next' => 'Next',
     'find' => 'Find',
     'record' => 'record.', 
     'record_not_found' => 'Record not found.',
@@ -35,5 +33,4 @@ return [
     'help' => 'Help',
     'save' => 'Save',
     'preview'=> 'Preview',
->>>>>>> 6c3e77219daebe57cfb9589fcff2803174eb25b2
 ];
