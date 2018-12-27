@@ -15,3 +15,5 @@ export const optionsSize = [
     {label: 'Size-M, Color-Blue', value: 'Size-M, Color-Blue'},
     {label: 'Size-L, Color-Green', value: 'Size-M, Color-Green'},
 ]
+export const rangeFontSizeMin = 10;
+export const rangeFontSizeMax = 40;
