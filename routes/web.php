@@ -16,7 +16,7 @@
 //     return view('welcome');
 // });
 
-// Route::group(['middleware' => ['auth.shop', 'billable']], function () {
+Route::group(['middleware' => ['auth.shop', 'billable']], function () {
     Route::get('/', function () {
         return view('app');
     });
@@ -27,7 +27,7 @@
         return view('app');
     });
     Route::get('/home', 'SettingController@index')->name('home');
-// });
+});
 Route::match(
     ['get', 'post'],
     '/authenticate',

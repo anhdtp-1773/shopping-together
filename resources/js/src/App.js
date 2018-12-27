@@ -24,7 +24,7 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
-                        <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
                             <Link to={'/manage'}>
                                 <i className="fa fa-home"></i>
                                 <span>
