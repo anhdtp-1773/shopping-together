@@ -69,12 +69,17 @@ class Product extends Model
     {
         $data = [];
         $query = DB::table('products');
-        $total = $query->count();
-        $data['page_limit'] = ceil($total / $items_per_page);
+        $query->select('products.*', 'variants.price', 'images.src');
+        $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
+        $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
+        $query->groupBy('products.id_shopify_product');
+        $number_record = count($query->get());
+        $query->count();
+        $data['page_limit'] = ceil($number_record / $items_per_page);
         $data['current_page'] = $page_number;
         $offset = ($page_number - 1)  * $items_per_page;
         $data['items_per_page'] = $items_per_page;
-        $data['total_items'] = $total;
+        $data['total_items'] = $number_record;
         if($offset >=0 && $items_per_page){
             $data['items'] = $query->offset($offset)->limit($items_per_page)->get();
         }else{

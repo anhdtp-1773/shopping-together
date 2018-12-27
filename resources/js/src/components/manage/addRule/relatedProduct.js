@@ -2,7 +2,14 @@ import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
 import * as _ from "lodash";
 
-export default class MainProduct extends Component {
+export default class RelatedProduct extends Component {
+    constructor(){
+        super(...arguments);
+        this.state = {
+            idProducts: [],
+            mainProduct: '',
+        }
+    }
 
     handleChangeValue = (event) =>{
         this.props.handleChangeValue(event.target.name, event.target.value);
@@ -12,12 +19,30 @@ export default class MainProduct extends Component {
         this.props.onSearchProduct(event.target.value);
     }
 
-    onSelectProduct(id){
-        let product = _.filter(this.props.products, function(product) { return product.id == id; });
-        this.props.onSelectMainProduct(product);
+    onSelectRelatedProduct(id){
+        let idProducts = this.state.idProducts.concat(id);
+        this.setState({
+            idProducts: idProducts,
+        })
+        let products = _.filter(this.props.products, function(product) { return idProducts.indexOf(product.id) >= 0});
+        let mainProduct = '';
+        products.map((product) => {
+            mainProduct = product
+        })
+        this.setState({
+            mainProduct: mainProduct
+        })
+        this.props.onSelectRelatedProduct(products)
     }
-    
+
     nextStep(step){
+        if(step == 3){
+            if(!this.state.mainProduct){
+                alert(lang.please_select_at_least_a_product)
+            }else{
+                this.props.nextStep(step);
+            }
+        }
         this.props.nextStep(step);
     }
     render() {
@@ -53,7 +78,7 @@ export default class MainProduct extends Component {
                     ?
                         <div className="row">
                             {products.map((product)=>(
-                                <span className="col-sm-6 col-md-3" onClick={this.onSelectProduct.bind(this, product.id)}>
+                                <span className="col-sm-6 col-md-3" onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
                                     <div className="thumbnail">
                                         <img src={product.src} alt="..." />
                                         <div className="caption">
@@ -81,7 +106,8 @@ export default class MainProduct extends Component {
                             pageRangeDisplayed={5}
                             onChange={this.props.handlePageChange}
                         />
-                        <button onClick={this.nextStep.bind(this, 2)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                        <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                        <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
                     </Fragment> 
                 }
             </div>

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import MainProduct from './mainProduct';
 import api from './../../../api';
+import RelatedProduct from './relatedProduct';
 export default class AddRule extends Component {
     constructor(){
         super(...arguments);
@@ -15,7 +16,9 @@ export default class AddRule extends Component {
             isFetching: true,
             isSearchProduct: false,
             msg: '',
-            cartProduct: [],
+            mainProduct: {},
+            step: 1,
+            cartProducts: [],
         }
     }
 
@@ -85,22 +88,44 @@ export default class AddRule extends Component {
         
     }
 
-    onSelectProduct = (products) => {
-        let mainProduct = '';
+    onSelectMainProduct = (products) => {
+        let mainProduct = [];
         products.map((product) => {
             mainProduct = product;
         })
         this.setState({
-            cartProduct: mainProduct
+            mainProduct: mainProduct,
         })
+        
     } 
+    
+    onSelectRelatedProduct = (products) => {
+        let cartProducts = [];
+        cartProducts.push(this.state.mainProduct);
+        products.map((product) => {
+            if((_.findIndex(cartProducts, function(o) { return o.id== product.id; })) == -1){
+                cartProducts.push(product);
+            }
+        })
+        this.setState({
+            cartProducts: cartProducts,
+        })
+        
+    }
 
     componentDidMount() {
         this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
     }
 
+    nextStep(step){
+        this.setState({
+            step: step
+        })
+    }
+
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, cartProduct} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, cartProducts, step} = this.state;
+        console.log(cartProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -111,18 +136,46 @@ export default class AddRule extends Component {
             return (
                 <Fragment>
                     <div>
-                        <MainProduct
-                            products = {form.products}
-                            currentPage = {currentPage}
-                            itemsPerPage = {itemsPerPage}
-                            totalItems = {totalItems}
-                            handlePageChange = {this.handlePageChange}
-                            handleChangeValue = {this.handleChangeValue}
-                            onSearchProduct = {this.onSearchProduct.bind(this)}
-                            isSearchProduct = {isSearchProduct}
-                            msg = {msg}
-                            onSelectProduct = {this.onSelectProduct}
-                        />
+                        {
+                            step == 1
+                            ?
+                                <MainProduct
+                                    products = {form.products}
+                                    currentPage = {currentPage}
+                                    itemsPerPage = {itemsPerPage}
+                                    totalItems = {totalItems}
+                                    handlePageChange = {this.handlePageChange}
+                                    handleChangeValue = {this.handleChangeValue}
+                                    onSearchProduct = {this.onSearchProduct.bind(this)}
+                                    isSearchProduct = {isSearchProduct}
+                                    msg = {msg}
+                                    onSelectMainProduct = {this.onSelectMainProduct}
+                                    nextStep = {this.nextStep.bind(this)}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div>
+                        {
+                            step == 2
+                            ?
+                                <RelatedProduct 
+                                    products = {form.products}
+                                    currentPage = {currentPage}
+                                    itemsPerPage = {itemsPerPage}
+                                    totalItems = {totalItems}
+                                    handlePageChange = {this.handlePageChange}
+                                    handleChangeValue = {this.handleChangeValue}
+                                    onSearchProduct = {this.onSearchProduct.bind(this)}
+                                    isSearchProduct = {isSearchProduct}
+                                    msg = {msg}
+                                    onSelectRelatedProduct = {this.onSelectRelatedProduct}
+                                    nextStep = {this.nextStep.bind(this)}
+                                />
+                            :
+                                null
+                        }
                     </div>
                 </Fragment>
             );

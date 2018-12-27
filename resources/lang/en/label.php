@@ -33,4 +33,6 @@ return [
     'help' => 'Help',
     'save' => 'Save',
     'preview'=> 'Preview',
+    'back' => 'Back',
+    'please_select_at_least_a_product' => 'Please select at least a product',
 ];
