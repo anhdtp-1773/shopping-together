@@ -15,6 +15,7 @@ export default class AddRule extends Component {
             isFetching: true,
             isSearchProduct: false,
             msg: '',
+            cartProduct: [],
         }
     }
 
@@ -55,34 +56,51 @@ export default class AddRule extends Component {
     }   
     
     async onSearchProduct(keyWord){
-        const response = await api.searchProduct(keyWord);
-        const result = JSON.parse(response.text);
-        this.setState({
-            isSearchProduct: true,
-        })
-        if(result.status){
+        if(keyWord != ''){
+            const response = await api.searchProduct(keyWord);
+            const result = JSON.parse(response.text);
             this.setState({
-                form: Object.assign({}, this.state.form, {
-                    products: result.data.products
-                }),
-            });
-            // this.getListProduct();
+                isSearchProduct: true,
+            })
+            if(result.status){
+                this.setState({
+                    form: Object.assign({}, this.state.form, {
+                        products: result.data.products
+                    }),
+                });
+            }else{
+                this.setState({
+                    msg: result.message,
+                    form: Object.assign({}, this.state.form, {
+                        products: ''
+                    }),
+                })
+            }
         }else{
+            this.getListProduct('');
             this.setState({
-                msg: result.message,
-                form: Object.assign({}, this.state.form, {
-                    products: ''
-                }),
+                isSearchProduct: false,
             })
         }
+        
     }
+
+    onSelectProduct = (products) => {
+        let mainProduct = '';
+        products.map((product) => {
+            mainProduct = product;
+        })
+        this.setState({
+            cartProduct: mainProduct
+        })
+    } 
 
     componentDidMount() {
         this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, cartProduct} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -103,6 +121,7 @@ export default class AddRule extends Component {
                             onSearchProduct = {this.onSearchProduct.bind(this)}
                             isSearchProduct = {isSearchProduct}
                             msg = {msg}
+                            onSelectProduct = {this.onSelectProduct}
                         />
                     </div>
                 </Fragment>

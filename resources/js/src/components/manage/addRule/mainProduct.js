@@ -3,12 +3,6 @@ import Pagination from "react-js-pagination";
 import * as _ from "lodash";
 
 export default class MainProduct extends Component {
-    constructor(){
-        super(...arguments);
-        this.state = {
-
-        }
-    }
 
     handleChangeValue = (event) =>{
         this.props.handleChangeValue(event.target.name, event.target.value);
@@ -16,6 +10,11 @@ export default class MainProduct extends Component {
     
     onSearchProduct = (event) => {
         this.props.onSearchProduct(event.target.value);
+    }
+
+    onSelectProduct(id){
+        let product = _.filter(this.props.products, function(product) { return product.id == id; });
+        this.props.onSelectProduct(product);
     }
 
     render() {
@@ -51,16 +50,15 @@ export default class MainProduct extends Component {
                     ?
                         <div className="row">
                             {products.map((product)=>(
-                                <div className="col-sm-6 col-md-3">
+                                <span className="col-sm-6 col-md-3" onClick={this.onSelectProduct.bind(this, product.id)}>
                                     <div className="thumbnail">
                                         <img src="https://cdn.shopify.com/s/files/1/0014/9988/9775/products/10446026_348247681989429_3852309148307758203_o.jpg?v=1545359213" alt="..." />
-                                        <input type="checkbox" defaultValue />
                                         <div className="caption">
                                         <h3>{product.title}</h3>
                                         <p>$30</p>
                                         </div>
                                     </div>
-                                </div>
+                                </span>
                             ))}
                         </div>
                     :
@@ -70,7 +68,7 @@ export default class MainProduct extends Component {
                 {
                     isSearchProduct
                     ?
-                    ''
+                    null
                     :
                     <Fragment>
                         <Pagination
