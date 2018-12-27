@@ -82,4 +82,14 @@ class Product extends Model
         }
         return $data;
     }
+    
+    public static function search($key_word){
+        return DB::table('products')
+        ->select('products.*', 'variants.price', 'images.src')
+        ->join('variants', 'variants.id_product', '=', 'products.id_shopify_product')
+        ->join('images', 'images.id_product', '=', 'products.id_shopify_product')
+        ->where('products.title', 'like', '%'.$key_word.'%')
+        ->groupBy('products.id_shopify_product')
+        ->get()->toArray();
+    }
 }
