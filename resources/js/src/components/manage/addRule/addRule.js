@@ -13,6 +13,8 @@ export default class AddRule extends Component {
             itemsPerPage: '',
             totalItems: '',
             isFetching: true,
+            isSearchProduct: false,
+            msg: '',
         }
     }
 
@@ -53,12 +55,34 @@ export default class AddRule extends Component {
     }   
     
     async onSearchProduct(keyWord){
-        console.log(keyWord);
+        const response = await api.searchProduct(keyWord);
+        const result = JSON.parse(response.text);
+        this.setState({
+            isSearchProduct: true,
+        })
+        if(result.status){
+            this.setState({
+                form: Object.assign({}, this.state.form, {
+                    products: result.data.products
+                }),
+            });
+            // this.getListProduct();
+        }else{
+            this.setState({
+                msg: result.message,
+                form: Object.assign({}, this.state.form, {
+                    products: ''
+                }),
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems} = this.state;
-        console.log(form);
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -76,7 +100,9 @@ export default class AddRule extends Component {
                             totalItems = {totalItems}
                             handlePageChange = {this.handlePageChange}
                             handleChangeValue = {this.handleChangeValue}
-                            onSearchProduct = {this.onSearchProduct}
+                            onSearchProduct = {this.onSearchProduct.bind(this)}
+                            isSearchProduct = {isSearchProduct}
+                            msg = {msg}
                         />
                     </div>
                 </Fragment>

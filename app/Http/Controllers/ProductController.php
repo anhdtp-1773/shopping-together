@@ -109,17 +109,20 @@ class ProductController extends Controller
     public function search(Request $request){
         $msg = '';
         $data = array();
+        $status = true;
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
         if(!empty($key_word)){
             $products = Product::search($key_word);
+            $status = $products ? true : false;
             $data = [
                 'products' => $products,
             ];
-            $msg = $products ? trans('label.find').count($products).trans('label.record') : trans('label.record_not_found') ;
+            $msg = $products ? trans('label.find').' '.count($products).' '.trans('label.record') : trans('label.record_not_found') ;
         }
         return response()->json([
                 'message'=> $msg,
-                'data' => $data
+                'data' => $data,
+                'status' => $status,
         ], 200);
     }
 }
