@@ -120,7 +120,6 @@ export default class AddRule extends Component {
 
     render() {
         const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step} = this.state;
-        console.log(this.state.relatedProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
