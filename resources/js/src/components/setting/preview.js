@@ -25,7 +25,6 @@ export default class Preview extends Component {
             isChecked: this.props.isChecked,
             product: result.data,
         });
-        console.log (result)
 	    if(result.data){
             this.setState({
                 form: Object.assign({}, this.state.form, {
@@ -55,7 +54,6 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
-        console.log(this.state.form)
         return (
             <div className="full-width display-block">
                 <div className="form-group">
