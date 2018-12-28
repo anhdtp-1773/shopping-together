@@ -32,13 +32,13 @@ export default class RelatedProduct extends Component {
     }
 
     nextStep (step) {
-        if(step == 3){
-            if(!this.state.relatedProduct){
-                alert(lang.please_select_at_least_one_product)
-            }else{
-                this.props.nextStep(step);
-            }
-        }
+        // if(step == 3){
+        //     if(!this.state.relatedProduct){
+        //         alert(lang.please_select_at_least_one_product)
+        //     }else{
+        //         this.props.nextStep(step);
+        //     }
+        // }
         this.props.nextStep(step);
     }
 

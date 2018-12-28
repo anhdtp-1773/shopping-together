@@ -35,4 +35,9 @@ return [
     'preview'=> 'Preview',
     'back' => 'Back',
     'please_select_at_least_one_product' => 'Please select at least one product',
+    'image' => 'Image',
+    'name' => 'Name',
+    'original_price' => 'Original Price',
+    'discount' => 'Discount',
+    'sale_price' => 'Sale price'
 ];

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
+import Discount from './discount';
 export default class AddRule extends Component {
     constructor(){
         super(...arguments);
@@ -120,7 +121,6 @@ export default class AddRule extends Component {
 
     render() {
         const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step} = this.state;
-        console.log(this.state.relatedProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -167,6 +167,17 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div>
+                        {
+                            step == 3
+                            ?
+                                <Discount 
+
                                 />
                             :
                                 null
