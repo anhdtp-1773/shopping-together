@@ -13,7 +13,7 @@ export default class Title extends Component {
 
     handleClick(event){
         switch(event.target.name) {
-            case 'fontColor':
+            case 'titleFontColor':
                 this.setState({
                     displayFontColor: !this.state.displayFontColor,
                 });
@@ -21,6 +21,12 @@ export default class Title extends Component {
             default:    
                 return;
         }
+    }
+
+    handleClose(){
+        this.setState({ 
+            displayFontColor: false,
+        })
     }
 
     changeHandlerColor = (name, colors) => {
@@ -36,7 +42,7 @@ export default class Title extends Component {
     };
 
     render(){
-        const {titleFontFamily,titleFontStyle,titleFontSize,titleFontColor} = this.props;
+        const {titleFontFamily,titleFontStyle,titleFontSize,titleFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
@@ -79,8 +85,8 @@ export default class Title extends Component {
                         value={titleFontColor} 
                         onChange={this.handleChangeColor.bind(this)} 
                         onClick={this.handleClick.bind(this)}
-                        name="fontColor"
-
+                        name="titleFontColor"
+                        // className={classNames('form-control', validates.titleFontColor)}
                     />
                     {
                         displayFontColor 

@@ -9,6 +9,10 @@ import Cart from './cart';
 import Translation from './translation';
 import Display from './display';
 import api from '../../api';
+import ClassNames from 'classnames'
+import * as Validate from "../../models/validate.model"; 
+import Lodash from 'lodash';
+import Notification from '../notification';
 
 export default class Setting extends Component {
     constructor(props) {
@@ -23,22 +27,27 @@ export default class Setting extends Component {
                 titleFontSize: 25,
                 titleFontColor: '#2296F3',
             },
+            validates: {},
+            message: '',
+            display: true, 
         };
     }
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
+        // console.log(result)
         this.setState({ 
             isChecked: this.props.isChecked,
             setting: result.data.setting,
         });
 	    if(result.data.setting){
+            console.log(result.data.setting)
             this.setState({
                 form: Object.assign({}, this.state.form, { 
-                    title_font_family: result.data.setting.titleFontFamily,
-                    title_font_style: result.data.setting.titleFontStyle,
-                    title_font_size: result.data.setting.titleFontSize,
-                    title_font_color: result.data.setting.titleFontColor,
+                    titleFontFamily: result.data.setting.title_font_family,
+                    titleFontStyle: result.data.setting.title_font_style,
+                    titleFontSize: result.data.setting.title_font_size,
+                    titleFontColor: result.data.setting.title_font_color,
                 }),
                 isFetching: false,
             })
@@ -49,11 +58,19 @@ export default class Setting extends Component {
         }
     }
     
-    changeHandlerColor = (name, colors) => {
+    handleChangeColor(name, value){
+        let {validates} = this.state;
+        switch(name){
+            case 'titleFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+                
+        }
         this.setState({ 
             form: Object.assign({}, this.state.form, {
-                [name]: colors.color
+                [name]: value
             }), 
+            validates: Lodash.assign({}, this.state.validates, validates),
         });
     };
 
@@ -65,14 +82,14 @@ export default class Setting extends Component {
         });
     };
 
-    handleChangeColor(name, value){
+    changeHandlerColor= (name, colors) => {
         this.setState({ 
             form: Object.assign({}, this.state.form, {
-                [name]: value
+                [name]: colors.color
             }),
-            validates: Lodash.assign({}, this.state.validates, validates),
         });
     }
+
     async onSubmit(){
         this.setState({
             isFetching: true
@@ -91,7 +108,9 @@ export default class Setting extends Component {
         }
     }   
     render() {
-        const{form,} = this.state;
+        const{form, validates, display, message} = this.state;
+        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'}) ? true :false;
+        // console.log(form)
         return (
             <div className="home-container">
                 <div className="left-container">
@@ -104,6 +123,7 @@ export default class Setting extends Component {
                             changeHandlerColor = {this.changeHandlerColor.bind(this)}
                             handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                    
                         <ProductName 
@@ -129,13 +149,31 @@ export default class Setting extends Component {
                         
                     </Fragment>
                     <p>{lang.design_and_support_by_hamsa_technology}</p>
-                    <p>{lang.user_guide}</p>
-                    <p>{lang.help}</p>
-                    <button>{lang.save}</button>
+                    <a>{lang.user_guide}</a>
+                    <p
+                    >
+                        {lang.help}
+                    </p>
+                    <button
+                        href="javascript:void(0);" 
+                        onClick ={this.onSubmit.bind(this)} 
+                        className={ClassNames({'pos-button': true}, {'disabled-form' : !display}, {'disabled-form': !disabledOnClick})}
+                    >
+                        {lang.save}
+                    </button>
                 </div>
                 <div className="right-container">
                     <Preview />
                 </div>
+                {
+                message 
+                ?
+                <Notification 
+                    content = {message}
+                />
+                :
+                null
+            }
            </div>
         );
     }
