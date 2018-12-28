@@ -4,11 +4,11 @@ import * as _ from "lodash";
 
 export default class MainProduct extends Component {
 
-    handleChangeValue = (event) =>{
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
     
-    onSearchProduct = (event) => {
+    onSearchProduct (event) {
         this.props.onSearchProduct(event.target.value);
     }
 
@@ -20,6 +20,7 @@ export default class MainProduct extends Component {
     nextStep(step){
         this.props.nextStep(step);
     }
+
     render() {
         const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg} = this.props;
         return (
@@ -34,18 +35,18 @@ export default class MainProduct extends Component {
                             name="ruleName" 
                             className="form-control" 
                             placeholder={lang.rule} 
-                            onChange={this.handleChangeValue}
+                            onChange={this.handleChangeValue.bind(this)}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="formGroupExampleInput">{lang.choose_a_main_product}</label>
+                    <label htmlFor="formGroupExampleInput">{lang.select_a_main_product}</label>
                     <input 
                         type="text" 
                         className="form-control" 
                         placeholder={lang.search} 
-                        onChange={this.onSearchProduct}
+                        onChange={this.onSearchProduct.bind(this)}
                     />
                 </div>
                 {

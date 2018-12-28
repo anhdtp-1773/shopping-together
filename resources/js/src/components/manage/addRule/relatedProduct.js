@@ -7,44 +7,41 @@ export default class RelatedProduct extends Component {
         super(...arguments);
         this.state = {
             idProducts: [],
-            mainProduct: '',
+            relatedProduct: '',
         }
     }
 
-    handleChangeValue = (event) =>{
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
     
-    onSearchProduct = (event) => {
+    onSearchProduct (event) {
         this.props.onSearchProduct(event.target.value);
     }
 
-    onSelectRelatedProduct(id){
+    onSelectRelatedProduct (id) {
         let idProducts = this.state.idProducts.concat(id);
         this.setState({
             idProducts: idProducts,
         })
         let products = _.filter(this.props.products, function(product) { return idProducts.indexOf(product.id) >= 0});
-        let mainProduct = '';
-        products.map((product) => {
-            mainProduct = product
-        })
         this.setState({
-            mainProduct: mainProduct
+            relatedProduct: _.head(products),
         })
         this.props.onSelectRelatedProduct(products)
     }
 
-    nextStep(step){
+    nextStep (step) {
         if(step == 3){
-            if(!this.state.mainProduct){
-                alert(lang.please_select_at_least_a_product)
+            if(!this.state.relatedProduct){
+                alert(lang.please_select_at_least_one_product)
             }else{
                 this.props.nextStep(step);
             }
         }
         this.props.nextStep(step);
     }
+
     render() {
         const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg} = this.props;
         return (
@@ -59,18 +56,18 @@ export default class RelatedProduct extends Component {
                             name="ruleName" 
                             className="form-control" 
                             placeholder={lang.rule} 
-                            onChange={this.handleChangeValue}
+                            onChange={this.handleChangeValue.bind(this)}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="formGroupExampleInput">{lang.choose_a_main_product}</label>
+                    <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                     <input 
                         type="text" 
                         className="form-control" 
                         placeholder={lang.search} 
-                        onChange={this.onSearchProduct}
+                        onChange={this.onSearchProduct.bind(this)}
                     />
                 </div>
                 {

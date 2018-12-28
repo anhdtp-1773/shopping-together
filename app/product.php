@@ -74,7 +74,6 @@ class Product extends Model
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
-        $query->count();
         $data['page_limit'] = ceil($number_record / $items_per_page);
         $data['current_page'] = $page_number;
         $offset = ($page_number - 1)  * $items_per_page;

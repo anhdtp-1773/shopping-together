@@ -18,15 +18,15 @@ export default class AddRule extends Component {
             msg: '',
             mainProduct: {},
             step: 1,
-            cartProducts: [],
+            relatedProducts: [],
         }
     }
 
-    async componentWillMount(){
+    async componentWillMount () {
         this.getListProduct(this.state.currentPage);
     }
 
-    handlePageChange = (currentPage) => {
+    handlePageChange (currentPage) {
         this.setState({
             currentPage: currentPage,
             isFetching: true,
@@ -34,7 +34,7 @@ export default class AddRule extends Component {
         this.getListProduct(currentPage);
     }
 
-    async getListProduct(currentPage){
+    async getListProduct (currentPage) {
         const response = await api.getProducts(currentPage);
         const result = JSON.parse(response.text);
         if(result.status){
@@ -50,7 +50,7 @@ export default class AddRule extends Component {
         }
     }
 
-    handleChangeValue = (name, value) => {
+    handleChangeValue (name, value) {
         this.setState({
             form: Object.assign({}, this.state.form, {
                 [name]: value
@@ -58,7 +58,7 @@ export default class AddRule extends Component {
         })
     }   
     
-    async onSearchProduct(keyWord){
+    async onSearchProduct (keyWord) {
         if(keyWord != ''){
             const response = await api.searchProduct(keyWord);
             const result = JSON.parse(response.text);
@@ -88,43 +88,39 @@ export default class AddRule extends Component {
         
     }
 
-    onSelectMainProduct = (products) => {
-        let mainProduct = [];
-        products.map((product) => {
-            mainProduct = product;
-        })
+    onSelectMainProduct (products) {
         this.setState({
-            mainProduct: mainProduct,
+            mainProduct: _.head(products),
         })
-        
     } 
     
-    onSelectRelatedProduct = (products) => {
-        let cartProducts = [];
-        cartProducts.push(this.state.mainProduct);
+    onSelectRelatedProduct (products) {
+        let relatedProducts = [];
+        relatedProducts.push(this.state.mainProduct);
         products.map((product) => {
-            if((_.findIndex(cartProducts, function(o) { return o.id== product.id; })) == -1){
-                cartProducts.push(product);
+            if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
+                relatedProducts.push(product);
             }
         })
         this.setState({
-            cartProducts: cartProducts,
+            relatedProducts: relatedProducts,
         })
         
     }
 
-    componentDidMount() {
+    componentDidMount () {
         this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
     }
 
-    nextStep(step){
+    nextStep (step) {
         this.setState({
             step: step
         })
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, cartProducts, step} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step} = this.state;
+        console.log(this.state.relatedProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -143,12 +139,12 @@ export default class AddRule extends Component {
                                     currentPage = {currentPage}
                                     itemsPerPage = {itemsPerPage}
                                     totalItems = {totalItems}
-                                    handlePageChange = {this.handlePageChange}
-                                    handleChangeValue = {this.handleChangeValue}
+                                    handlePageChange = {this.handlePageChange.bind(this)}
+                                    handleChangeValue = {this.handleChangeValue.bind(this)}
                                     onSearchProduct = {this.onSearchProduct.bind(this)}
                                     isSearchProduct = {isSearchProduct}
                                     msg = {msg}
-                                    onSelectMainProduct = {this.onSelectMainProduct}
+                                    onSelectMainProduct = {this.onSelectMainProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
                                 />
                             :
@@ -164,12 +160,12 @@ export default class AddRule extends Component {
                                     currentPage = {currentPage}
                                     itemsPerPage = {itemsPerPage}
                                     totalItems = {totalItems}
-                                    handlePageChange = {this.handlePageChange}
-                                    handleChangeValue = {this.handleChangeValue}
+                                    handlePageChange = {this.handlePageChange.bind(this)}
+                                    handleChangeValue = {this.handleChangeValue.bind(this)}
                                     onSearchProduct = {this.onSearchProduct.bind(this)}
                                     isSearchProduct = {isSearchProduct}
                                     msg = {msg}
-                                    onSelectRelatedProduct = {this.onSelectRelatedProduct}
+                                    onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
                                 />
                             :
