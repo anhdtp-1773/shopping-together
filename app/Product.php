@@ -86,13 +86,13 @@ class Product extends Model
         return $data;
     }
     public static function get($id_shopify_product){
-        $query = DB::table('products')->where('id_shopify_product', $id_shopify_product)
+        return DB::table('products')->where('id_shopify_product', $id_shopify_product)
                     ->join('images', 'products.id_shopify_product', '=', 'images.id_product')
                     ->join('variants', 'products.id_shopify_product', '=', 'variants.id_product')
                     ->select('products.title', 'images.src', 'variants.price', 'variants.option1', 'variants.option2', 'variants.option3')
                     ->first();
-        return $query;
     }
+    
     public static function search($key_word){
         return DB::table('products')
         ->select('products.*', 'variants.price', 'images.src')
