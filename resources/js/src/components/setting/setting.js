@@ -48,11 +48,6 @@ export default class Setting extends Component {
                     titleFontSize: result.data.setting.title_font_size,
                     titleFontColor: result.data.setting.title_font_color,
                 }),
-                isFetching: false,
-            })
-        }else{
-            this.setState({
-                isFetching: false,
             })
         }
     }
