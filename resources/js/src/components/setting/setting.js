@@ -82,9 +82,6 @@ export default class Setting extends Component {
     }
 
     async onSubmit(){
-        this.setState({
-            isFetching: true
-        });
         try{
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
