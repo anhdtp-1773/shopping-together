@@ -24,10 +24,9 @@ return [
     'talk_about_your_business' => 'Talk about your business',
     'newsletter' => 'Newsletter',
     'add_bundle_to_cart' => 'Add bundle to cart',
-    'frequently_purchased_together' => 'Frequently Purchased Together',
+    'frequently_purchased_together' => 'Frequently purchased together',
     'total' => 'Total',
     'admin' => 'Admin',
-    'hello' => 'Hello',
     'size' => 'Size',
     'color' => 'Color',
 ];

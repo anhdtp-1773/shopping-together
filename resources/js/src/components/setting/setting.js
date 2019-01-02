@@ -18,8 +18,6 @@ export default class Setting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFetching: true,
-            isChecked: null,
             form: {
                 active: 1,
                 titleFontFamily: 'verdana',
@@ -37,7 +35,6 @@ export default class Setting extends Component {
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
         this.setState({ 
-            isChecked: this.props.isChecked,
             setting: result.data.setting,
         });
 	    if(result.data.setting){
@@ -48,11 +45,6 @@ export default class Setting extends Component {
                     titleFontSize: result.data.setting.title_font_size,
                     titleFontColor: result.data.setting.title_font_color,
                 }),
-                isFetching: false,
-            })
-        }else{
-            this.setState({
-                isFetching: false,
             })
         }
     }
@@ -90,15 +82,11 @@ export default class Setting extends Component {
     }
 
     async onSubmit(){
-        this.setState({
-            isFetching: true
-        });
         try{
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
             if(result.data){
                 this.setState({
-                    isFetching: false,
                     message: result.message
                 })
             }

@@ -2,7 +2,6 @@ import superagent from "superagent";
 
 export default {
     saveSetting(data){
-        console.log(data)
         return superagent.post('/api/app/setting/save').send({
             'shopify_domain': domain,
             'title_font_family': data.titleFontFamily,
@@ -13,6 +12,11 @@ export default {
     },
     getSetup(){
         return superagent.post('/api/app/setting/get').send({
+            'shopify_domain': domain,
+        });
+    },
+    getProductInfo(){
+        return superagent.post('/api/product/get').send({
             'shopify_domain': domain,
         });
     },

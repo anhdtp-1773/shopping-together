@@ -29,7 +29,10 @@ class Shop extends Model
     public function settings() {
         return $this->hasOne('App\Setting','id_shop');
     }
-
+    public function products(){
+        return $this->hasOne('App\Product','id_shop');
+    }
+    
     /**
      * @param string $domain
      * @return array
