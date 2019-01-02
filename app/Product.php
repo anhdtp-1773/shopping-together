@@ -48,7 +48,7 @@ class Product extends Model
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
      /**
-     * @param string $id_shop
+     * @param int $id_shop
      * @return array
      * <pre>
      * array (
@@ -101,7 +101,7 @@ class Product extends Model
     }
 
     /**
-     * @param int $id_shopify_product
+     * @param string $id_shopify_product
      * @return array
      * <pre>
      *  array (
