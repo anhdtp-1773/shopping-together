@@ -47,6 +47,23 @@ class Product extends Model
     public static function getProduct($id_shopify_product){
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
+     /**
+     * @param int $id_shop
+     * @return array
+     * <pre>
+     * array (
+     *  'id' => int,
+     *  'id_shopify_product' => int,
+     *  'id_shop' => varchar,
+     *  'title' => varchar,
+     *  'handle' => varchar,
+     *  'created_at' => timestamp,
+     *  'updated_at' => timestamp
+     * )
+     */
+    public static function getFirstProduct($id_shop){
+        return DB::table('products')->where('id_shop', $id_shop)->first();
+    }
     
     /**
      * @param int $page_number
@@ -81,6 +98,27 @@ class Product extends Model
             $data['items'] = $query->get();
         }
         return $data;
+    }
+
+    /**
+     * @param string $id_shopify_product
+     * @return array
+     * <pre>
+     *  array (
+     *  'title' => string,
+     *  'src' => varchar,
+     *  'price' => varchar,
+     *  'option1' => varchar,
+     *  'option1' => varchar,
+     *  'option1' => varchar,
+     * )    
+     */
+    public static function get($id_shopify_product){
+        return DB::table('products')->where('id_shopify_product', $id_shopify_product)
+                    ->join('images', 'products.id_shopify_product', '=', 'images.id_product')
+                    ->join('variants', 'products.id_shopify_product', '=', 'variants.id_product')
+                    ->select('products.title', 'images.src', 'variants.price', 'variants.option1', 'variants.option2', 'variants.option3')
+                    ->first();
     }
     
     public static function search($key_word){

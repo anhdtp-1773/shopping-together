@@ -15,13 +15,14 @@ export default class Setting extends Component {
         this.state = {
         };
     }
-
+   
     render() {
         return (
             <div className="home-container">
                 <div className="left-container">
                     <Fragment>
                         <Title 
+                            
                         />
                    
                         <ProductName 
@@ -47,9 +48,16 @@ export default class Setting extends Component {
                         
                     </Fragment>
                     <p>{lang.design_and_support_by_hamsa_technology}</p>
-                    <p>{lang.user_guide}</p>
-                    <p>{lang.help}</p>
-                    <button>{lang.save}</button>
+                    <a>{lang.user_guide}</a>
+                    <p
+                    >
+                        {lang.help}
+                    </p>
+                    <button
+                        href="javascript:void(0);" 
+                    >
+                        {lang.save}
+                    </button>
                 </div>
                 <div className="right-container">
                     <Preview />

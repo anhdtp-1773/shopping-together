@@ -9,7 +9,7 @@ export default class Cart extends Component {
     render(){
         return (
             <div className="full-width display-block">
-                <p> {lang.add_to_cart}</p>
+                <p> {lang.add_to_cart_button}</p>
             </div>
         );
     }
