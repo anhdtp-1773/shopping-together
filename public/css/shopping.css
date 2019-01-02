@@ -28,3 +28,7 @@ html, body, #manage {
     height: calc(3.25rem + 2px) ;
     font-size: 1.25rem;
 }
+
+.img-active {
+    border-color: green;
+}

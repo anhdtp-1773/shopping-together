@@ -14,7 +14,7 @@ export default class RelatedProduct extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
-    
+
     onSearchProduct (event) {
         this.props.onSearchProduct(event.target.value);
     }
@@ -32,18 +32,16 @@ export default class RelatedProduct extends Component {
     }
 
     nextStep (step) {
-        if(step == 3){
-            if(!this.state.relatedProduct){
-                alert(lang.please_select_at_least_one_product)
-            }else{
-                this.props.nextStep(step);
-            }
+        if(!this.state.relatedProduct){
+            alert(lang.please_select_at_least_one_product)
+        }else{
+            this.props.nextStep(step);
         }
-        this.props.nextStep(step);
     }
 
     render() {
         const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg} = this.props;
+        const {idProducts} = this.state;
         return (
             <div className="container">
                 <div className="form-inline">
@@ -60,7 +58,7 @@ export default class RelatedProduct extends Component {
                         />
                     </div>
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                     <input 
@@ -75,11 +73,12 @@ export default class RelatedProduct extends Component {
                     ?
                         <div className="row">
                             {products.map((product)=>(
-                                <span className="col-sm-6 col-md-3" onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                <span className="col-sm-6 col-md-2" onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
                                     <div className="thumbnail">
                                         <img src={product.src} alt="..." />
+                                        <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
                                         <div className="caption">
-                                        <h3>{product.title}</h3>
+                                        <h5>{product.title}</h5>
                                         <p>{product.price}</p>
                                         </div>
                                     </div>
