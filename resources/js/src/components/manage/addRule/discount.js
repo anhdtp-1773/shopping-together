@@ -7,15 +7,19 @@ export default class Discount extends Component {
         this.state = {
 
         }
-
     }
-    
+
+    handleChangeValue (event) {
+        this.props.handleChangeValue(event.target.name, event.target.value);
+    }
+
     render(){
+        console.log(this.props);
         return(
             <Fragment>
                 <p>{lang.discount_type}</p>
                 <div className="form-group col-md-4">
-                    <select name="" className='form-control input-sm'>
+                    <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
                         {optionsDiscountType.map((type)=>(
                             <option value={type.value}>{type.label}</option>
                         ))}
@@ -38,7 +42,7 @@ export default class Discount extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>John</td>
+                                <td>Doe</td>
                                 <td>Doe</td>
                                 <td>john@example.com</td>
                                 <td>Doe</td>
@@ -61,7 +65,6 @@ export default class Discount extends Component {
                         </tbody>
                     </table>
                 </div>
-
             </Fragment>
         )
     }

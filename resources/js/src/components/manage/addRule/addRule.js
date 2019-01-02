@@ -20,6 +20,7 @@ export default class AddRule extends Component {
             mainProduct: {},
             step: 1,
             relatedProducts: [],
+            discountType: 'percentage',
         }
     }
 
@@ -120,7 +121,7 @@ export default class AddRule extends Component {
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step, mainProduct, relatedProducts} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -177,7 +178,9 @@ export default class AddRule extends Component {
                             step == 3
                             ?
                                 <Discount 
-
+                                    mainProduct = {mainProduct}
+                                    relatedProducts = {relatedProducts}
+                                    handleChangeValue = {this.handleChangeValue.bind(this)}
                                 />
                             :
                                 null
