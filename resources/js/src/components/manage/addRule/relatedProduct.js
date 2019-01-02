@@ -22,11 +22,7 @@ export default class RelatedProduct extends Component {
     onSelectRelatedProduct (id) {
         let index = this.state.idProducts.indexOf(id);
         let idProducts = this.state.idProducts;
-        if(index >= 0){
-            idProducts.splice(index, 1);
-        }else{
-            idProducts.push(id);
-        }
+        index >= 0 ? idProducts.splice(index, 1) : idProducts.push(id);
         this.setState({
             idProducts: idProducts,
         })
