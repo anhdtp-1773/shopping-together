@@ -30,6 +30,7 @@ export default class Setting extends Component {
             validates: {},
             message: '',
             display: true, 
+            displayFontColor: false,
         };
     }
     async componentWillMount(){
@@ -40,7 +41,6 @@ export default class Setting extends Component {
             setting: result.data.setting,
         });
 	    if(result.data.setting){
-            console.log(result.data.setting)
             this.setState({
                 form: Object.assign({}, this.state.form, { 
                     titleFontFamily: result.data.setting.title_font_family,
@@ -56,7 +56,7 @@ export default class Setting extends Component {
             })
         }
     }
-    
+
     handleChangeColor(name, value){
         let {validates} = this.state;
         switch(name){

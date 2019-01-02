@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin,rangeFontSizeMax} from "../../constants";
 import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
+import classNames from 'classnames'
 
 export default class Title extends Component {
     constructor(props) {
@@ -18,11 +19,11 @@ export default class Title extends Component {
                     displayFontColor: !this.state.displayFontColor,
                 });
                 break;
-            default:    
+            default:
                 return;
         }
     }
-
+    
     handleClose(){
         this.setState({ 
             displayFontColor: false,
@@ -97,7 +98,7 @@ export default class Title extends Component {
                                 color= {titleFontColor} 
                                 onChange={this.changeHandlerColor.bind(this, 'titleFontColor')} 
                                 mode="HSB" 
-                                onBlur={ this.handleClose.bind(this) }
+                                onBlur={this.handleClose.bind(this) }
                             />
                         </Fragment>
                         :

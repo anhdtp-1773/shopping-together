@@ -2,7 +2,7 @@ import superagent from "superagent";
 
 export default {
     saveSetting(data){
-        // console.log(data)
+        console.log(data)
         return superagent.post('/api/app/setting/save').send({
             'shopify_domain': domain,
             'title_font_family': data.titleFontFamily,
