@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {optionsSize} from "../../constants";
 import api from '../../api';
 
 export default class Preview extends Component {
