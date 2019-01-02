@@ -11,7 +11,7 @@ use App\Shop;
 class ProductController extends Controller
 {
     public $page_number = 1;
-    protected $items_per_page = 4;
+    protected $items_per_page = 12;
     
     public function renderList(Request $request){
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;

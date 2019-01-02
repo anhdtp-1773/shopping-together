@@ -3,6 +3,7 @@ import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
+
 export default class AddRule extends Component {
     constructor(){
         super(...arguments);
@@ -21,6 +22,7 @@ export default class AddRule extends Component {
             step: 1,
             relatedProducts: [],
             discountType: 'percentage',
+            idMainProduct: '',
         }
     }
 
@@ -96,9 +98,14 @@ export default class AddRule extends Component {
         })
     } 
     
+    onChangeIdMainProduct (idProduct) {
+        this.setState({
+            idMainProduct: idProduct
+        })
+    }
+
     onSelectRelatedProduct (products) {
         let relatedProducts = [];
-        relatedProducts.push(this.state.mainProduct);
         products.map((product) => {
             if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
                 relatedProducts.push(product);
@@ -121,7 +128,7 @@ export default class AddRule extends Component {
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step, mainProduct, relatedProducts} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step, idMainProduct, mainProduct, relatedProducts} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -147,6 +154,8 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectMainProduct = {this.onSelectMainProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
+                                    onChangeIdMainProduct = {this.onChangeIdMainProduct.bind(this)}
+                                    idMainProduct = {idMainProduct}
                                 />
                             :
                                 null
