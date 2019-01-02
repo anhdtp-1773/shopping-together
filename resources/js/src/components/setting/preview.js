@@ -5,8 +5,6 @@ export default class Preview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // isFetching: true,
-            // isChecked: null,
             form: {
                 title: '',
                 src: '',
@@ -21,7 +19,6 @@ export default class Preview extends Component {
         const response = await api.getProductInfo();
         const result = JSON.parse(response.text);
         this.setState({ 
-            isChecked: this.props.isChecked,
             product: result.data,
         });
 	    if(result.data){
