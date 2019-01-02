@@ -8,8 +8,6 @@ import Title from './title';
 import Cart from './cart';
 import Translation from './translation';
 import Display from './display';
-import ClassNames from 'classnames'
-import Notification from '../notification';
 
 export default class Setting extends Component {
     constructor(props) {
