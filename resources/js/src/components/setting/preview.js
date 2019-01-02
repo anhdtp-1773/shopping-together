@@ -5,8 +5,8 @@ export default class Preview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFetching: true,
-            isChecked: null,
+            // isFetching: true,
+            // isChecked: null,
             form: {
                 title: '',
                 src: '',
@@ -34,16 +34,11 @@ export default class Preview extends Component {
                     option2: result.data.option2,
                     option3: result.data.option3,
                 }),
-                isFetching: false,
-            })
-        }else{
-            this.setState({
-                isFetching: false,
             })
         }
     }
 
-    handleChangeValue  = ( name, newValue) => {
+    handleChangeValue( name, newValue) {
         this.setState(  {
             form: Object.assign({}, this.state.form, {
                 [name]: newValue

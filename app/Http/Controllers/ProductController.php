@@ -123,12 +123,12 @@ class ProductController extends Controller
         ], 200);
     }
     public function get(Request $request){
-        $get_shop = Shop::getShopByDomain($request->shopify_domain);
-        $get_product = $get_shop ? Product::getFirstProduct($get_shop->id) : null;
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        $product = $shop ? Product::getFirstProduct($shop->id) : null;
         $data = '';
         
-        if (!empty($get_product)) {
-            $data = Product::get($get_product->id_shopify_product);
+        if (!empty($product)) {
+            $data = Product::get($product->id_shopify_product);
         }
 
         return response()->json([
