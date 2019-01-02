@@ -57,8 +57,6 @@ export default class Setting extends Component {
                     </p>
                     <button
                         href="javascript:void(0);" 
-                        onClick ={this.onSubmit.bind(this)} 
-                        className={ClassNames({'pos-button': true}, {'disabled-form' : !display}, {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}
                     </button>
@@ -66,15 +64,6 @@ export default class Setting extends Component {
                 <div className="right-container">
                     <Preview />
                 </div>
-                {
-                message 
-                ?
-                <Notification 
-                    content = {message}
-                />
-                :
-                null
-            }
            </div>
         );
     }
