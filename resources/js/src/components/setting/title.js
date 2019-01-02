@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {optionsFontFamily, optionsFontStyle, rangeFontSizeMin,rangeFontSizeMax} from "../../constants";
+import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin,rangeFontSizeMax} from "../../constants";
 import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 
@@ -56,7 +56,7 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontFamily} 
                         >
-                            {optionsFontFamily.map((value) =>
+                            {fontFamilyOptions.map((value) =>
                                 <option value={value.value}>{value.label}</option>
                             )}
                         </select>
@@ -71,7 +71,7 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontStyle}
                         >
-                            {optionsFontStyle.map((value) =>
+                            {fontStyleOptions.map((value) =>
                                 <option value={value.value}>{value.label}</option>
                             )}
                         </select>
@@ -86,7 +86,7 @@ export default class Title extends Component {
                         onChange={this.handleChangeColor.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="titleFontColor"
-                        // className={classNames('form-control', validates.titleFontColor)}
+                        className={classNames('form-control', validates.titleFontColor)}
                     />
                     {
                         displayFontColor 

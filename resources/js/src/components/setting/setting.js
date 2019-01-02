@@ -35,7 +35,6 @@ export default class Setting extends Component {
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
-        // console.log(result)
         this.setState({ 
             isChecked: this.props.isChecked,
             setting: result.data.setting,
@@ -110,7 +109,6 @@ export default class Setting extends Component {
     render() {
         const{form, validates, display, message} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'}) ? true :false;
-        // console.log(form)
         return (
             <div className="home-container">
                 <div className="left-container">
