@@ -15,12 +15,12 @@ export default class AddRule extends Component {
             itemsPerPage: '',
             totalItems: '',
             isFetching: true,
-            isSearchProduct: false,
             msg: '',
             mainProduct: {},
             step: 1,
             relatedProducts: [],
             idMainProduct: '',
+            keyWord: '',
         }
     }
 
@@ -33,7 +33,11 @@ export default class AddRule extends Component {
             currentPage: currentPage,
             isFetching: true,
         })
-        this.getListProduct(currentPage);
+        if(this.state.keyWord){
+            this.onSearchProduct(this.state.keyWord, currentPage);
+        }else{
+            this.getListProduct(currentPage);
+        }   
     }
 
     async getListProduct (currentPage) {
@@ -60,18 +64,22 @@ export default class AddRule extends Component {
         })
     }   
     
-    async onSearchProduct (keyWord) {
+    async onSearchProduct (keyWord, currentPage = null) {
         if(keyWord != ''){
-            const response = await api.searchProduct(keyWord);
-            const result = JSON.parse(response.text);
             this.setState({
-                isSearchProduct: true,
+                keyWord: keyWord
             })
+            const response = await api.searchProduct(keyWord, currentPage);
+            const result = JSON.parse(response.text);
             if(result.status){
                 this.setState({
+                    currentPage: result.data.current_page,
+                    itemsPerPage: result.data.items_per_page,
+                    totalItems: result.data.total_items,
                     form: Object.assign({}, this.state.form, {
-                        products: result.data.products
+                        products: result.data.items
                     }),
+                    isFetching: false,
                 });
             }else{
                 this.setState({
@@ -83,9 +91,6 @@ export default class AddRule extends Component {
             }
         }else{
             this.getListProduct('');
-            this.setState({
-                isSearchProduct: false,
-            })
         }
         
     }
@@ -126,7 +131,7 @@ export default class AddRule extends Component {
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, isSearchProduct, msg, step, idMainProduct, mainProduct, relatedProducts} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, msg, step, idMainProduct, mainProduct, relatedProducts, keyWord} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -148,12 +153,12 @@ export default class AddRule extends Component {
                                     handlePageChange = {this.handlePageChange.bind(this)}
                                     handleChangeValue = {this.handleChangeValue.bind(this)}
                                     onSearchProduct = {this.onSearchProduct.bind(this)}
-                                    isSearchProduct = {isSearchProduct}
                                     msg = {msg}
                                     onSelectMainProduct = {this.onSelectMainProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
                                     onChangeIdMainProduct = {this.onChangeIdMainProduct.bind(this)}
                                     idMainProduct = {idMainProduct}
+                                    keyWord = {keyWord}
                                 />
                             :
                                 null
@@ -171,7 +176,6 @@ export default class AddRule extends Component {
                                     handlePageChange = {this.handlePageChange.bind(this)}
                                     handleChangeValue = {this.handleChangeValue.bind(this)}
                                     onSearchProduct = {this.onSearchProduct.bind(this)}
-                                    isSearchProduct = {isSearchProduct}
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}

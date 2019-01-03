@@ -1,15 +1,16 @@
 import superagent from "superagent";
 
 export default {
-    getProducts(page_number){
+    getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
-            'page_number': page_number,
+            'page_number': pageNumber,
         });
     },
 
-    searchProduct(keyWord){
+    searchProduct(keyWord, pageNumber){
         return superagent.post('/api/product/search').send({
             'key_word': keyWord,
+            'page_number': pageNumber
         });
     },
 }
