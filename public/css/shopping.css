@@ -28,3 +28,9 @@ html, body, #manage {
     height: calc(3.25rem + 2px) ;
     font-size: 1.25rem;
 }
+.left-container{
+  float: left;
+}
+.right-container{
+  float: right;
+}

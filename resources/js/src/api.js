@@ -12,4 +12,10 @@ export default {
             'key_word': keyWord,
         });
     },
+    
+    getProductInfo(){
+        return superagent.post('/api/product/get').send({
+            'shopify_domain': domain,
+        });
+    },
 }
