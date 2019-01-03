@@ -33,9 +33,6 @@ export default class Discount extends Component {
                         ))}
                     </select>
                 </div>
-                <br />
-                <br />
-                <br />
                 <div className="panel panel-default container">
                     <div className="panel-heading">{lang.set_discount}</div>
                     <table className="table">
