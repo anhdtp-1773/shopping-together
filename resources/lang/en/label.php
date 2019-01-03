@@ -39,5 +39,6 @@ return [
     'name' => 'Name',
     'original_price' => 'Original Price',
     'discount' => 'Discount',
-    'sale_price' => 'Sale price'
+    'sale_price' => 'Sale price',
+    'total' => 'Total'
 ];

@@ -33,7 +33,6 @@ export default class MainProduct extends Component {
         }else{
             this.props.nextStep(step);
         }
-        // this.props.nextStep(step);
     }
 
     render() {

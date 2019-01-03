@@ -13,8 +13,16 @@ export default class Discount extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
 
+    changeMainProduct (event) {
+       this.props.changeMainProduct(event);
+    }
+
+    changeRelatedProduct (index, event) {
+        this.props.changeRelatedProduct(index, event);
+    }
+
     render(){
-        console.log(this.props);
+        const {mainProduct, relatedProducts} = this.props;
         return(
             <Fragment>
                 <p>{lang.discount_type}</p>
@@ -42,24 +50,40 @@ export default class Discount extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Doe</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                                <td>Doe</td>
+                                <td><img className="img-discount-product" src={mainProduct.src} alt="..." /></td>
+                                <td>{mainProduct.title}</td>
+                                <td>{mainProduct.price}</td>
+                                <td>
+                                    <input 
+                                        type="text" 
+                                        className="col-md-3"
+                                        onBlur={this.changeMainProduct.bind(this)}
+                                        value={0}
+                                    />
+                                </td>
                                 <td>john@example.com</td>
                             </tr>
+                            {relatedProducts.map((relatedProduct, key)=>(
+                                <tr>
+                                    <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
+                                    <td>{relatedProduct.title}</td>
+                                    <td>{relatedProduct.price}</td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            className="col-md-3" 
+                                            onBlur={this.changeRelatedProduct.bind(this, key)}
+                                            value = {0}
+                                        />
+                                    </td>
+                                    <td>john@example.com</td>
+                                </tr>
+                            ))}
                             <tr>
-                                <td>Mary</td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                            </tr>
-                            <tr>
-                                <td>July</td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                                <td>Doe</td>
+                                <td>{lang.total}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>john@example.com</td>
                             </tr>
                         </tbody>

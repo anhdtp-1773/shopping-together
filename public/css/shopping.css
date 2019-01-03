@@ -32,3 +32,6 @@ html, body, #manage {
 .img-active {
     border-color: green;
 }
+.img-discount-product {
+    width: 100px;
+}

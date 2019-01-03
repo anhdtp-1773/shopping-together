@@ -117,6 +117,30 @@ export default class AddRule extends Component {
         
     }
 
+    changeMainProduct (event) {
+        let mainProduct = _.clone(this.state.mainProduct);
+        if(this.state.discountType == 'percentage'){
+            mainProduct.reductionPercent = event.target.value;
+        }else{
+            mainProduct.reduction_amount = event.target.value;
+        }
+        this.setState({
+            mainProduct: mainProduct
+        })
+    }
+
+    changeRelatedProduct (index, event) {
+        let relatedProducts = _.clone(this.state.relatedProducts);
+        if(this.state.discountType == 'percentage'){
+            relatedProducts[index].reductionPercent = event.target.value;
+        }else{
+            relatedProducts[index].reduction_amount = event.target.value;
+        }
+        this.setState({
+            relatedProducts: relatedProducts
+        })
+    }
+
     componentDidMount () {
         this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
     }
@@ -177,6 +201,7 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
+
                                 />
                             :
                                 null
@@ -190,6 +215,8 @@ export default class AddRule extends Component {
                                     mainProduct = {mainProduct}
                                     relatedProducts = {relatedProducts}
                                     handleChangeValue = {this.handleChangeValue.bind(this)}
+                                    changeMainProduct = {this.changeMainProduct.bind(this)}
+                                    changeRelatedProduct = {this.changeRelatedProduct.bind(this)}
                                 />
                             :
                                 null
