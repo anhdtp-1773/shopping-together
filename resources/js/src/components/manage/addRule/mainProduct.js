@@ -34,7 +34,7 @@ export default class MainProduct extends Component {
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, ruleName, requiredFields, validates} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, ruleName, requiredFields, validates, keyWord} = this.props;
         const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'}); 
         return (
             <div className="container">
@@ -61,6 +61,7 @@ export default class MainProduct extends Component {
                         className="form-control" 
                         placeholder={lang.search} 
                         onChange={this.onSearchProduct.bind(this)}
+                        value = {keyWord}
                     />
                 </div>
                 {
@@ -106,6 +107,16 @@ export default class MainProduct extends Component {
                         </button>
                     </Fragment> 
                 }
+                <Fragment>
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={itemsPerPage}
+                        totalItemsCount={totalItems}
+                        pageRangeDisplayed={5}
+                        onChange={this.props.handlePageChange}
+                    />
+                    <button onClick={this.nextStep.bind(this, 2)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                </Fragment> 
             </div>
         );
     }

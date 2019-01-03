@@ -23,11 +23,7 @@ export default class RelatedProduct extends Component {
     onSelectRelatedProduct (id) {
         let index = this.state.idProducts.indexOf(id);
         let idProducts = this.state.idProducts;
-        if(index >= 0){
-            idProducts.splice(index, 1);
-        }else{
-            idProducts.push(id);
-        }
+        index >= 0 ? idProducts.splice(index, 1) : idProducts.push(id);
         this.setState({
             idProducts: idProducts,
         })
@@ -51,7 +47,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, idMainProduct} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, msg, keyWord, idMainProduct} = this.props;
         const {idProducts} = this.state;
         return (
             <div className="container">
@@ -62,6 +58,7 @@ export default class RelatedProduct extends Component {
                         className="form-control" 
                         placeholder={lang.search} 
                         onChange={this.onSearchProduct.bind(this)}
+                        value = {keyWord}
                     />
                 </div>
                 {
@@ -85,23 +82,17 @@ export default class RelatedProduct extends Component {
                         <p>{msg}</p>
                 }
                 
-                {
-                    isSearchProduct
-                    ?
-                    null
-                    :
-                    <Fragment>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
-                            onChange={this.props.handlePageChange}
-                        />
-                        <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
-                        <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
-                    </Fragment> 
-                }
+                <Fragment>
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={itemsPerPage}
+                        totalItemsCount={totalItems}
+                        pageRangeDisplayed={5}
+                        onChange={this.props.handlePageChange}
+                    />
+                    <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                    <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                </Fragment> 
             </div>
         );
     }

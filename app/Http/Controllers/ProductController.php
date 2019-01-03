@@ -107,22 +107,35 @@ class ProductController extends Controller
     }
 
     public function search(Request $request){
+        $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $msg = '';
         $data = array();
         $status = true;
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
         if(!empty($key_word)){
-            $products = Product::search($key_word);
-            $status = $products ? true : false;
-            $data = [
-                'products' => $products,
-            ];
-            $msg = $products ? trans('label.find').' '.count($products).' '.trans('label.record') : trans('label.record_not_found') ;
+            $data = Product::search($key_word, $this->page_number, $this->items_per_page);
+            $status = $data['items'] ? true : false;
+            $msg = $data['items'] ? trans('label.find').' '.count($data['items']).' '.trans('label.record') : trans('label.record_not_found') ;
         }
         return response()->json([
                 'message'=> $msg,
                 'data' => $data,
                 'status' => $status,
+        ], 200);
+    }
+    
+    public function get(Request $request){
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        $product = $shop ? Product::getFirstProduct($shop->id) : null;
+        $data = '';
+        
+        if (!empty($product)) {
+            $data = Product::get($product->id_shopify_product);
+        }
+
+        return response()->json([
+            'message'=> $data ? trans('label.update_successfully') : trans('label.un_successfully'),
+            'data' => $data
         ], 200);
     }
 }
