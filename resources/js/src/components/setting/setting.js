@@ -22,12 +22,15 @@ export default class Setting extends Component {
                 active: 1,
                 titleFontFamily: 'verdana',
                 titleFontStyle: 'italic',
-                titleFontSize: 25,
+                titleFontSize: 20,
                 titleFontColor: '#2296F3',
+                productFontFamily: 'verdana',
+                productFontStyle:'italic',
+                productFontSize: 20,
+                productFontColor:'#2296F3',
             },
             validates: {},
             message: '',
-            display: true, 
             displayFontColor: false,
         };
     }
@@ -37,6 +40,7 @@ export default class Setting extends Component {
         this.setState({ 
             setting: result.data.setting,
         });
+
 	    if(result.data.setting){
             this.setState({
                 form: Object.assign({}, this.state.form, { 
@@ -44,28 +48,41 @@ export default class Setting extends Component {
                     titleFontStyle: result.data.setting.title_font_style,
                     titleFontSize: result.data.setting.title_font_size,
                     titleFontColor: result.data.setting.title_font_color,
+                    productFontFamily: result.data.setting.product_font_family,
+                    productFontStyle: result.data.setting.product_font_style,
+                    productFontSize: result.data.setting.product_font_size,
+                    productFontColor: result.data.setting.product_font_color,
                 }),
             })
         }
     }
 
-    handleChangeColor(name, value){
+    validate (name, value) {
         let {validates} = this.state;
         switch(name){
             case 'titleFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
-                
+            case 'productFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
         }
+
+        this.setState({ 
+            validates: Lodash.assign({}, this.state.validates, validates),
+        });
+    }
+
+    handleChangeColor(name, value){
+        this.validate(name, value);
         this.setState({ 
             form: Object.assign({}, this.state.form, {
                 [name]: value
             }), 
-            validates: Lodash.assign({}, this.state.validates, validates),
         });
     };
 
-    handleChangeValue  = ( name, newValue) => {
+    handleChangeValue ( name, newValue) {
         this.setState(  {
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
@@ -73,7 +90,8 @@ export default class Setting extends Component {
         });
     };
 
-    changeHandlerColor= (name, colors) => {
+    changeHandlerColor (name, colors) {
+        this.validate(name, colors.color);
         this.setState({ 
             form: Object.assign({}, this.state.form, {
                 [name]: colors.color
@@ -95,7 +113,7 @@ export default class Setting extends Component {
         }
     }   
     render() {
-        const{form, validates, display, message} = this.state;
+        const{form, validates, message} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'}) ? true :false;
         return (
             <div className="home-container">
@@ -113,6 +131,14 @@ export default class Setting extends Component {
                         />
                    
                         <ProductName 
+                            productFontFamily = {form.productFontFamily}
+                            productFontStyle = {form.productFontStyle}
+                            productFontColor = {form.productFontColor}
+                            productFontSize = {form.productFontSize}
+                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
+                            handleChangeColor = {this.handleChangeColor.bind(this)}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                     
                         <TotalAmount 
@@ -143,7 +169,7 @@ export default class Setting extends Component {
                     <button
                         href="javascript:void(0);" 
                         onClick ={this.onSubmit.bind(this)} 
-                        className={ClassNames({'pos-button': true}, {'disabled-form' : !display}, {'disabled-form': !disabledOnClick})}
+                        className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}
                     </button>
@@ -154,6 +180,10 @@ export default class Setting extends Component {
                        titleFontStyle = {form.titleFontStyle}
                        titleFontColor = {form.titleFontColor}
                        titleFontSize = {form.titleFontSize}
+                       productFontFamily = {form.productFontFamily}
+                       productFontStyle = {form.productFontStyle}
+                       productFontColor = {form.productFontColor}
+                       productFontSize = {form.productFontSize}
                     />
                 </div>
                 {

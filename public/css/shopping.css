@@ -70,3 +70,9 @@ html, body, #manage {
   background: #4CAF50;
   cursor: pointer;
 }
+.valid {
+  border-color: #4caf50;
+}
+.invalid {
+ border-color: #E64A19;
+}
