@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
 import * as _ from "lodash";
+import classNames from 'classnames'
 
 export default class RelatedProduct extends Component {
     constructor(){
@@ -50,7 +51,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, idMainProduct} = this.props;
         const {idProducts} = this.state;
         return (
             <div className="container">
@@ -68,8 +69,8 @@ export default class RelatedProduct extends Component {
                     ?
                         <div className="row">
                             {products.map((product)=>(
-                                <span className="col-sm-6 col-md-2" onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
-                                    <div className="thumbnail">
+                                <span className={classNames({'col-sm-6 col-md-2': true}, {'disabled-form': idMainProduct == product.id ? true : false})} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                    <div className={classNames({'thumbnail': true}, {'disabled-form': idMainProduct == product.id ? true : false})}>
                                         <img src={product.src} alt="..." />
                                         <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
                                         <div className="caption">

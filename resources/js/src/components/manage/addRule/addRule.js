@@ -116,12 +116,11 @@ export default class AddRule extends Component {
         try{
             const fetch = await api.saveCartRule(this.state.form);
             const result = JSON.parse(fetch.text);
-            // if(result.data){
-            //     this.setState({
-            //         isFetching: false,
-            //         message: result.message
-            //     })
-            // }
+            if(result.status){
+                this.setState({
+                    isFetching: false,
+                })
+            }
         }catch(errors){
             alert(errors.message)
         }
@@ -250,7 +249,7 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
-
+                                    idMainProduct = {idMainProduct}
                                 />
                             :
                                 null

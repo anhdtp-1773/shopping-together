@@ -12,4 +12,13 @@ export default {
             'key_word': keyWord,
         });
     },
+
+    saveCartRule(data){
+        return superagent.post('/api/cart-rule/save').send({
+            'shopify_domain': domain,
+            'name': data.ruleName,
+            'main_product': data.mainProduct,
+            'related_products': data.relatedProducts
+        });
+    }
 }
