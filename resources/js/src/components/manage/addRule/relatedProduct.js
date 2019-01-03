@@ -42,7 +42,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, msg} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, msg, keyWord} = this.props;
         const {idProducts} = this.state;
         return (
             <div className="container">
@@ -68,6 +68,7 @@ export default class RelatedProduct extends Component {
                         className="form-control" 
                         placeholder={lang.search} 
                         onChange={this.onSearchProduct.bind(this)}
+                        value = {keyWord}
                     />
                 </div>
                 {

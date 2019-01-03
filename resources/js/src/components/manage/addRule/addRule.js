@@ -117,7 +117,6 @@ export default class AddRule extends Component {
         this.setState({
             relatedProducts: relatedProducts,
         })
-        
     }
 
     componentDidMount () {
@@ -179,6 +178,7 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
+                                    keyWord = {keyWord}
                                 />
                             :
                                 null
