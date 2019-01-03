@@ -32,3 +32,9 @@ html, body, #manage {
 .img-active {
     border-color: green;
 }
+.left-container{
+  float: left;
+}
+.right-container{
+  float: right;
+}

@@ -26,5 +26,6 @@ Route::post('/app/setting/get', 'SettingController@get');
 
 Route::post('/product/search', 'ProductController@search');
 Route::post('/product/get-list', 'ProductController@renderList');
+Route::post('/product/get', 'ProductController@get');
 Route::post('/cart-rule/save', 'CartRuleController@save');
 Route::post('/product/clone', 'AuthController@cloneProducts');

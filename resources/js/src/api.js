@@ -13,4 +13,10 @@ export default {
             'page_number': pageNumber
         });
     },
+    
+    getProductInfo(){
+        return superagent.post('/api/product/get').send({
+            'shopify_domain': domain,
+        });
+    },
 }
