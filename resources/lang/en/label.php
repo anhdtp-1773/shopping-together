@@ -27,6 +27,7 @@ return [
     'frequently_purchased_together' => 'Frequently purchased together',
     'total' => 'Total',
     'admin' => 'Admin',
+    'hello' => 'Hello',
     'size' => 'Size',
     'color' => 'Color',
 ];

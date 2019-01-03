@@ -149,7 +149,12 @@ export default class Setting extends Component {
                     </button>
                 </div>
                 <div className="right-container">
-                    <Preview />
+                    <Preview
+                       titleFontFamily = {form.titleFontFamily}
+                       titleFontStyle = {form.titleFontStyle}
+                       titleFontColor = {form.titleFontColor}
+                       titleFontSize = {form.titleFontSize}
+                    />
                 </div>
                 {
                 message 

@@ -45,6 +45,15 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
+        const { titleFontFamily,titleFontColor,titleFontSize,titleFontStyle } = this.props;
+        let titleStyle={
+            color: titleFontColor,
+            fontFamily: titleFontFamily,
+            fontWeight: titleFontStyle == 'italic' ? '' : titleFontStyle,
+            fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
+            fontSize : parseInt(titleFontSize),
+        };
+        
         return (
             <div className="full-width display-block">
                 <div className="form-group">
@@ -58,7 +67,7 @@ export default class Preview extends Component {
                     </div>
                     <div className="right-container">
                         <div className="form-group">
-                            <p>{title}</p>
+                            <p>{lang.hello}</p>
                             <p>{price}</p>
                                
                             <p>{lang.size}</p>
@@ -78,12 +87,12 @@ export default class Preview extends Component {
                         </div>
                         <button>{lang.add_to_cart}</button>
                         <div className="full-width">
-                            <p>{lang.frequently_purchased_together}</p>
+                            <p style= {titleStyle}>{title}</p>
                             <input type="checkbox" />
                             <span>
                                 <img src = {src} style={{width:"30px"}} /> 
                             </span>
-                            <span>{title}<del>{price}</del>30$</span>
+                            <span> {title}><del>{price}</del>30$</span>
                             <span><input type="text"placeholder={1}/></span>
                             <span>
                                 <select>
