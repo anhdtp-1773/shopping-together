@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
 import { optionsDiscountType } from "./../../../constants";
+
 export default class Discount extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-
+            
         }
     }
 
@@ -22,7 +23,12 @@ export default class Discount extends Component {
     }
 
     render(){
-        const {mainProduct, relatedProducts} = this.props;
+        const {mainProduct, relatedProducts, discountType} = this.props;
+        let priceRelatedProduct = 0;
+        {relatedProducts.map((relatedProduct, key)=>(
+            priceRelatedProduct += parseInt(relatedProduct.price)
+        ))}
+        let total = priceRelatedProduct + parseInt(mainProduct.price);
         return(
             <Fragment>
                 <p>{lang.discount_type}</p>
@@ -55,10 +61,11 @@ export default class Discount extends Component {
                                         type="text" 
                                         className="col-md-3"
                                         onBlur={this.changeMainProduct.bind(this)}
-                                        value={0}
+                                        // value={0}
                                     />
+                                    <span>{discountType  == 'percentage' ? '%' : ''}</span>
                                 </td>
-                                <td>john@example.com</td>
+                                <td>{mainProduct.price}</td>
                             </tr>
                             {relatedProducts.map((relatedProduct, key)=>(
                                 <tr>
@@ -70,10 +77,11 @@ export default class Discount extends Component {
                                             type="text" 
                                             className="col-md-3" 
                                             onBlur={this.changeRelatedProduct.bind(this, key)}
-                                            value = {0}
+                                            // value = {0}
                                         />
+                                        <span>{discountType  == 'percentage' ? '%' : ''}</span>
                                     </td>
-                                    <td>john@example.com</td>
+                                    <td>{relatedProduct.price}</td>
                                 </tr>
                             ))}
                             <tr>
@@ -81,11 +89,19 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>john@example.com</td>
+                                <td>{total}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <button 
+                    onClick={() => this.props.onSubmit()}
+                    type="button" 
+                    class="btn btn-primary" 
+                    style={{float:"right"}}
+                >
+                    {lang.save}
+                </button>
             </Fragment>
         )
     }

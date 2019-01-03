@@ -38,8 +38,12 @@ export default class RelatedProduct extends Component {
     }
 
     nextStep (step) {
-        if(!this.state.relatedProduct){
-            alert(lang.please_select_at_least_one_product)
+        if(step == 3){
+            if(!this.state.relatedProduct){
+                alert(lang.please_select_at_least_one_product)
+            }else{
+                this.props.nextStep(step);
+            }
         }else{
             this.props.nextStep(step);
         }
@@ -50,21 +54,6 @@ export default class RelatedProduct extends Component {
         const {idProducts} = this.state;
         return (
             <div className="container">
-                <div className="form-inline">
-                    <div className="form-group mb-2">
-                        <span>{lang.set_the_rule_name}</span>
-                    </div>
-                    <div className="form-group mx-sm-3 mb-2">
-                        <input 
-                            type="text"
-                            name="ruleName" 
-                            className="form-control" 
-                            placeholder={lang.rule} 
-                            onChange={this.handleChangeValue.bind(this)}
-                        />
-                    </div>
-                </div>
-    
                 <div className="form-group">
                     <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                     <input 
