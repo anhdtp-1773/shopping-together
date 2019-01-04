@@ -69,7 +69,7 @@ export default class Setting extends Component {
         });
     };
 
-    handleChangeValue  = ( name, newValue) => {
+    handleChangeValue ( name, newValue) {
         this.setState(  {
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
@@ -77,7 +77,7 @@ export default class Setting extends Component {
         });
     };
 
-    changeHandlerColor= (name, colors) => {
+    changeHandlerColor (name, colors) {
         this.validate(name, colors.color);
         this.setState({ 
             form: Object.assign({}, this.state.form, {
