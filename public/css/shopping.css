@@ -28,6 +28,26 @@ html, body, #manage {
     height: calc(3.25rem + 2px) ;
     font-size: 1.25rem;
 }
+
+.img-active {
+    border-color: green;
+}
+.img-discount-product {
+    width: 100px;
+}
+
+.disabled-form {
+  pointer-events: none;
+  background: gray;
+}
+
+.valid {
+  border-color: #4caf50;
+}
+
+.invalid {
+  border-color: #E64A19;
+}
 .left-container{
   float: left;
 }

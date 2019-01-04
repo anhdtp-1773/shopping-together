@@ -1,24 +1,41 @@
 import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
 import * as _ from "lodash";
+import classNames from 'classnames'
 
 export default class MainProduct extends Component {
+    constructor(){
+        super(...arguments);
+        this.state = {
+            
+        }
+    }
 
-    handleChangeValue = (event) =>{
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
     
-    onSearchProduct = (event) => {
+    onSearchProduct (event) {
         this.props.onSearchProduct(event.target.value);
     }
 
     onSelectProduct(id){
         let product = _.filter(this.props.products, function(product) { return product.id == id; });
-        this.props.onSelectProduct(product);
+        this.props.onSelectMainProduct(product);
+        this.props.onChangeIdMainProduct(id);
+    }
+    
+    nextStep(step){
+        if(!this.props.idMainProduct){
+            alert(lang.please_select_at_least_one_product)
+        }else{
+            this.props.nextStep(step);
+        }
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, ruleName, requiredFields, validates, keyWord} = this.props;
+        const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'}); 
         return (
             <div className="container">
                 <div className="form-inline">
@@ -29,20 +46,22 @@ export default class MainProduct extends Component {
                         <input 
                             type="text"
                             name="ruleName" 
-                            className="form-control" 
+                            value={ruleName}
                             placeholder={lang.rule} 
-                            onChange={this.handleChangeValue}
+                            onChange={this.handleChangeValue.bind(this)}
+                            className={classNames('form-control', validates.ruleName)}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="formGroupExampleInput">{lang.choose_a_main_product}</label>
+                    <label htmlFor="formGroupExampleInput">{lang.select_a_main_product}</label>
                     <input 
                         type="text" 
                         className="form-control" 
                         placeholder={lang.search} 
-                        onChange={this.onSearchProduct}
+                        onChange={this.onSearchProduct.bind(this)}
+                        value = {keyWord}
                     />
                 </div>
                 {
@@ -50,12 +69,12 @@ export default class MainProduct extends Component {
                     ?
                         <div className="row">
                             {products.map((product)=>(
-                                <span className="col-sm-6 col-md-3" onClick={this.onSelectProduct.bind(this, product.id)}>
-                                    <div className="thumbnail">
-                                        <img src="https://cdn.shopify.com/s/files/1/0014/9988/9775/products/10446026_348247681989429_3852309148307758203_o.jpg?v=1545359213" alt="..." />
+                                <span className="col-sm-6 col-md-2" onClick={this.onSelectProduct.bind(this, product.id)}>
+                                    <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
+                                        <img className="img-main-product" src={product.src} alt="..." />
                                         <div className="caption">
-                                        <h3>{product.title}</h3>
-                                        <p>$30</p>
+                                        <h5>{product.title}</h5>
+                                        <p>{product.price}</p>
                                         </div>
                                     </div>
                                 </span>
@@ -78,9 +97,26 @@ export default class MainProduct extends Component {
                             pageRangeDisplayed={5}
                             onChange={this.props.handlePageChange}
                         />
-                        <button type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                        <button 
+                            onClick={this.nextStep.bind(this, 2)} 
+                            type="button" 
+                            className={classNames({'btn btn-primary': true}, {'disabled-form': disabledOnClick})}
+                            style={{float:"right"}}
+                        >
+                            {lang.next}
+                        </button>
                     </Fragment> 
                 }
+                <Fragment>
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={itemsPerPage}
+                        totalItemsCount={totalItems}
+                        pageRangeDisplayed={5}
+                        onChange={this.props.handlePageChange}
+                    />
+                    <button onClick={this.nextStep.bind(this, 2)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                </Fragment> 
             </div>
         );
     }

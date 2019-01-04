@@ -1,15 +1,16 @@
 import superagent from "superagent";
 
 export default {
-    getProducts(page_number){
+    getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
-            'page_number': page_number,
+            'page_number': pageNumber,
         });
     },
 
-    searchProduct(keyWord){
+    searchProduct(keyWord, pageNumber){
         return superagent.post('/api/product/search').send({
             'key_word': keyWord,
+            'page_number': pageNumber
         });
     },
     
@@ -18,4 +19,13 @@ export default {
             'shopify_domain': domain,
         });
     },
+
+    saveCartRule(data){
+        return superagent.post('/api/cart-rule/save').send({
+            'shopify_domain': domain,
+            'name': data.ruleName,
+            'main_product': data.mainProduct,
+            'related_products': data.relatedProducts
+        });
+    }
 }

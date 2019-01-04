@@ -23,7 +23,7 @@
                 height: 100vh;
                 margin: 0;
             }
-
+            
             .full-height {
                 height: 100vh;
             }
@@ -69,22 +69,29 @@
     </head>
     <body>
         <div id="root"></div>
-        @if(config('shopify-app.esdk_enabled'))
-            <script src="https://cdn.shopify.com/s/assets/external/app.js?{{ date('YmdH') }}"></script>
-            <script type="text/javascript">
-                ShopifyApp.init({
-                    apiKey: '{{ config('shopify-app.api_key') }}',
-                    shopOrigin: 'https://{{ ShopifyApp::shop()->shopify_domain }}',
-                    debug: false,
-                    forceRedirect: true
-                });
+        @if(config('shopify-app.mode'))
+            @if(config('shopify-app.esdk_enabled'))
+                <script src="https://cdn.shopify.com/s/assets/external/app.js?{{ date('YmdH') }}"></script>
+                <script type="text/javascript">
+                    ShopifyApp.init({
+                        apiKey: '{{ config('shopify-app.api_key') }}',
+                        shopOrigin: 'https://{{ ShopifyApp::shop()->shopify_domain }}',
+                        debug: false,
+                        forceRedirect: true
+                    });
+                </script>
+                @include('shopify-app::partials.flash_messages')
+            @endif 
+            <script>
+                var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
+                var lang = <?php echo $lang ?>;
             </script>
-            @include('shopify-app::partials.flash_messages')
-        @endif 
-        <script>
-            var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
-            var lang = <?php echo $lang ?>;
-        </script>
+        @else
+            <script>
+                var domain = "sptapp.myshopify.com"; 
+                var lang = <?php echo $lang ?>;
+            </script>
+        @endif
         <script src="../resources/js/dist/bundle.js"></script>
     </body>
 </html>
