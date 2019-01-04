@@ -87,12 +87,16 @@ class Product extends Model
     {
         $data = [];
         $query = DB::table('products');
-        $total = $query->count();
-        $data['page_limit'] = ceil($total / $items_per_page);
+        $query->select('products.*', 'variants.price', 'images.src');
+        $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
+        $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
+        $query->groupBy('products.id_shopify_product');
+        $number_record = count($query->get());
+        $data['page_limit'] = ceil($number_record / $items_per_page);
         $data['current_page'] = $page_number;
         $offset = ($page_number - 1)  * $items_per_page;
         $data['items_per_page'] = $items_per_page;
-        $data['total_items'] = $total;
+        $data['total_items'] = $number_record;
         if($offset >=0 && $items_per_page){
             $data['items'] = $query->offset($offset)->limit($items_per_page)->get();
         }else{
@@ -122,13 +126,25 @@ class Product extends Model
                     ->first();
     }
     
-    public static function search($key_word){
-        return DB::table('products')
-        ->select('products.*', 'variants.price', 'images.src')
-        ->join('variants', 'variants.id_product', '=', 'products.id_shopify_product')
-        ->join('images', 'images.id_product', '=', 'products.id_shopify_product')
-        ->where('products.title', 'like', '%'.$key_word.'%')
-        ->groupBy('products.id_shopify_product')
-        ->get()->toArray();
+    public static function search($key_word, $page_number, $items_per_page){
+        $data = [];
+        $query =  DB::table('products');
+        $query->select('products.*', 'variants.price', 'images.src');
+        $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
+        $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
+        $query->where('products.title', 'like', '%'.$key_word.'%');
+        $query->groupBy('products.id_shopify_product');
+        $number_record = count($query->get());
+        $data['page_limit'] = ceil($number_record / $items_per_page);
+        $data['current_page'] = $page_number;
+        $offset = ($page_number - 1)  * $items_per_page;
+        $data['items_per_page'] = $items_per_page;
+        $data['total_items'] = $number_record;
+        if($offset >=0 && $items_per_page){
+            $data['items'] = $query->offset($offset)->limit($items_per_page)->get()->toArray();
+        }else{
+            $data['items'] = $query->get()->toArray();
+        }
+        return $data;
     }
 }
