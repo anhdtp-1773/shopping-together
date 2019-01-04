@@ -33,7 +33,6 @@ export default class Setting extends Component {
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
-        // console.log(result)
         this.setState({ 
             setting: result.data.setting,
         });

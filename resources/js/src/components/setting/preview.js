@@ -63,7 +63,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img src = {src} style={{width:"280px"}}/>
+                       <img src = {src} style={{width:"250px"}}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
