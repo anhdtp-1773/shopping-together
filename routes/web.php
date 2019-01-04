@@ -15,14 +15,32 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::group(['middleware' => ['auth.shop', 'billable']], function () {
+if(config('shopify-app.mode')){
+    Route::group(['middleware' => ['auth.shop', 'billable']], function () {
+        Route::get('/', function () {
+            return view('app');
+        });
+        Route::get('/manage', function () {
+            return view('app');
+        });
+        Route::get('/cart-rule/add', function () {
+            return view('app');
+        });
+        Route::get('/home', 'SettingController@index')->name('home');
+    });
+}else{
     Route::get('/', function () {
         return view('app');
     });
-    
+    Route::get('/manage', function () {
+        return view('app');
+    });
+    Route::get('/cart-rule/add', function () {
+        return view('app');
+    });
     Route::get('/home', 'SettingController@index')->name('home');
-});
+}
+
 Route::match(
     ['get', 'post'],
     '/authenticate',

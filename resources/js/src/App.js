@@ -24,6 +24,14 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
+                        <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
+                            <Link to={'/manage'}>
+                                <i className="fa fa-home"></i>
+                                <span>
+                                    {lang.manage}
+                                </span>
+                            </Link>
+                        </li>
                    </div>
                    <p className="icon-close-menu" > <i className="fa fa-times"></i> </p>
                 </ul>
