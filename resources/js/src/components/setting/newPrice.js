@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 
 export default class NewPrice extends Component {
     constructor(props) {
@@ -9,7 +9,7 @@ export default class NewPrice extends Component {
     render(){
         return (
             <div className="full-width display-block">
-                <p> {lang.new_price}</p>
+                <p> {lang.sale_price}</p>
             </div>
         );
     }

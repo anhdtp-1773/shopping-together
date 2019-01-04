@@ -4,17 +4,17 @@
     padding: 10px 0px;
     min-height: 500px;
     background-color: #f7f8f8;
-  }
+}
   
-   .home-container .left-container {
+.home-container .left-container {
     float: left;
     width: 40%;
     display: inline-block;
     padding: 10px 20px;
     min-height: 500px;
     background-color: #f7f8f8;
-  }
-  html, body, #manage {
+}
+html, body, #manage {
     padding: 0;
     margin: 0;
     height: 100%;
@@ -22,9 +22,35 @@
     color: #333;
     font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
     font-size: 13px;
-  }
+}
   
-  .form-control {
-      height: calc(3.25rem + 2px) ;
-      font-size: 1.25rem;
-  }
+.form-control {
+    height: calc(3.25rem + 2px) ;
+    font-size: 1.25rem;
+}
+
+.img-active {
+    border-color: green;
+}
+.img-discount-product {
+    width: 100px;
+}
+
+.disabled-form {
+  pointer-events: none;
+  background: gray;
+}
+
+.valid {
+  border-color: #4caf50;
+}
+
+.invalid {
+  border-color: #E64A19;
+}
+.left-container{
+  float: left;
+}
+.right-container{
+  float: right;
+}
