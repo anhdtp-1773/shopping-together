@@ -1,14 +1,14 @@
 export const fontFamilyOptions = [
-    {label: 'Verdana', value: 'verdana'},
-    {label: 'Arial', value: 'arial'},
-    {label: 'Times New Roman', value: 'timesNewRoman'},
-    {label: 'Segoe UI', value: 'segoeUI'},
+    {label: lang.verdana, value: 'verdana'},
+    {label: lang.arial, value: 'arial'},
+    {label: lang.times_new_roman, value: 'timesNewRoman'},
+    {label: lang.segoe_ui, value: 'segoeUI'},
 ];
 
 export const fontStyleOptions = [
-    {label: 'Normal', value: 'normal'},
-    {label: 'Italic', value: 'italic'},
-    {label: 'Bold', value: 'bold'},
+    {label: lang.normal, value: 'normal'},
+    {label: lang.italic, value: 'italic'},
+    {label: lang.bold, value: 'bold'},
 ];
 
 export const rangeFontSizeMin = 10;

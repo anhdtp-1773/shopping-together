@@ -45,7 +45,7 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
-        const { titleFontFamily,titleFontColor,titleFontSize,titleFontStyle } = this.props;
+        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle } = this.props;
         let titleStyle={
             color: titleFontColor,
             fontFamily: titleFontFamily,
@@ -67,7 +67,7 @@ export default class Preview extends Component {
                     </div>
                     <div className="right-container">
                         <div className="form-group">
-                            <p>{lang.hello}</p>
+                            <p>{title}</p>
                             <p>{price}</p>
                                
                             <p>{lang.size}</p>
@@ -87,7 +87,7 @@ export default class Preview extends Component {
                         </div>
                         <button>{lang.add_to_cart}</button>
                         <div className="full-width">
-                            <p style= {titleStyle}>{title}</p>
+                            <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
                             <input type="checkbox" />
                             <span>
                                 <img src = {src} style={{width:"30px"}} /> 

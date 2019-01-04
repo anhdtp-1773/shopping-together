@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin,rangeFontSizeMax} from "../../constants";
+import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin, rangeFontSizeMax} from "../../constants";
 import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 import classNames from 'classnames'
@@ -12,7 +12,7 @@ export default class Title extends Component {
         };
     }
 
-    handleClick(event){
+    handleClick (event) {
         switch(event.target.name) {
             case 'titleFontColor':
                 this.setState({
@@ -30,20 +30,20 @@ export default class Title extends Component {
         })
     }
 
-    changeHandlerColor = (name, colors) => {
+    changeHandlerColor (name, colors) {
         this.props.changeHandlerColor(name, colors)
     };
     
-    handleChangeColor(event){
+    handleChangeColor (event) {
         this.props.handleChangeColor(event.target.name, event.target.value)
     }
 
-    handleChangeValue  = (event) => {
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
 
     render(){
-        const {titleFontFamily,titleFontStyle,titleFontSize,titleFontColor, validates} = this.props;
+        const {titleFontFamily, titleFontStyle, titleFontSize, titleFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
