@@ -63,7 +63,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img src = {src} style={{width:"400px"}}/>
+                       <img src = {src} style={{width:"280px"}}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -90,7 +90,7 @@ export default class Preview extends Component {
                             <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
                             <input type="checkbox" />
                             <span>
-                                <img src = {src} style={{width:"30px"}} /> 
+                                <img src = {src} style={{width:"25px"}} /> 
                             </span>
                             <span> {title}><del>{price}</del>30$</span>
                             <span><input type="text"placeholder={1}/></span>
