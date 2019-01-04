@@ -12,6 +12,10 @@ export default {
             'product_font_style': data.productFontStyle,
             'product_font_size': data.productFontSize,
             'product_font_color': data.productFontColor,
+            'amount_font_family': data.amountFontFamily,
+            'amount_font_style': data.amountFontStyle,
+            'amount_font_size': data.amountFontSize,
+            'amount_font_color': data.amountFontColor,
         });
     },
     getSetup(){

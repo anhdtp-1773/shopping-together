@@ -45,7 +45,8 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
-        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, productFontColor } = this.props;
+        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
+            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor } = this.props;
         let titleStyle={
             color: titleFontColor,
             fontFamily: titleFontFamily,
@@ -60,6 +61,13 @@ export default class Preview extends Component {
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
             fontSize : parseInt(productFontSize),
         };
+        let totalAmountStyle={
+            color: amountFontColor,
+            fontFamily: mountFontFamily,
+            fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
+            fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
+            fontSize : parseInt(amountFontSize),
+        };
 
         return (
             <div className="full-width display-block">
@@ -70,7 +78,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img src = {src} style={{width:"400px"}}/>
+                       <img src = {src} style={{width:"300px"}}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -97,7 +105,7 @@ export default class Preview extends Component {
                             <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
                             <input type="checkbox" />
                             <span>
-                                <img src = {src} style={{width:"30px"}} /> 
+                                <img src = {src} style={{width:"20px"}} /> 
                             </span>
                             <span style= {productNameStyle}>{title}</span>
                             <span><del>{price}</del>30$</span>
@@ -113,7 +121,7 @@ export default class Preview extends Component {
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src src = {src} style={{width:"30px"}} /> 
+                                    <img src src = {src} style={{width:"20px"}} /> 
                                 </span>
                                 <span>{title}<del>{price}</del>20$
                                     <span><input type="text" placeholder={1}/></span>
@@ -127,7 +135,7 @@ export default class Preview extends Component {
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src = {src} style={{width:"30px"}} /> 
+                                    <img src = {src} style={{width:"20px"}} /> 
                                 </span>
                                 <span>{title} 20$
                                     <span><input type="text" placeholder={1}/></span>
@@ -138,7 +146,7 @@ export default class Preview extends Component {
                                     </select>
                                 </span>
                             </p>
-                        <p>{lang.total}<span>70$</span> </p>
+                        <p>{lang.total}<span style= {totalAmountStyle}>70$</span> </p>
                         <button>{lang.add_bundle_to_cart}</button>
                         </div>
                     </div>

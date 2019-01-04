@@ -20,6 +20,7 @@ class SettingController extends Controller
         $validator = \Validator::make($request->all(), [
             'product_font_color' =>'required', 
             'title_font_color' =>'required', 
+            'amount_font_color' =>'required', 
         ]);
 
         if($validator->fails()){

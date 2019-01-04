@@ -1,4 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin, rangeFontSizeMax} from "../../constants";
+import { Panel as ColorPickerPanel } from 'rc-color-picker';
+import 'rc-color-picker/assets/index.css';
+import classNames from 'classnames'
 
 export default class TotalAmount extends Component {
     constructor(props) {
