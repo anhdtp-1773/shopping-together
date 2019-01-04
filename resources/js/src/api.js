@@ -1,7 +1,6 @@
 import superagent from "superagent";
 
 export default {
-<<<<<<< HEAD
     saveSetting(data){
         return superagent.post('/api/setting/save').send({
             'shopify_domain': domain,
@@ -20,7 +19,6 @@ export default {
             'shopify_domain': domain,
         });
     },
-=======
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
             'page_number': pageNumber,
@@ -34,7 +32,6 @@ export default {
         });
     },
     
->>>>>>> 60bffd4dfe35d3ef46b8886ff7519ffd64104c1b
     getProductInfo(){
         return superagent.post('/api/product/get').send({
             'shopify_domain': domain,
