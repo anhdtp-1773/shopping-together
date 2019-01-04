@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
+import Discount from './discount';
+import * as Validate from "../../../models/validate.model"; 
 
 export default class AddRule extends Component {
     constructor(){
@@ -9,17 +11,20 @@ export default class AddRule extends Component {
         this.state = {
             form: {
                 ruleName: '',
-                products: {}
+                products: {},
+                discountType: 'percentage',
+                relatedProducts: [],
+                mainProduct: {},
             },
             currentPage: '',
             itemsPerPage: '',
             totalItems: '',
             isFetching: true,
             msg: '',
-            mainProduct: {},
             step: 1,
-            relatedProducts: [],
             idMainProduct: '',
+            validates: {},
+            requiredFields: {},
             keyWord: '',
         }
     }
@@ -57,7 +62,21 @@ export default class AddRule extends Component {
     }
 
     handleChangeValue (name, value) {
+        let {validates, requiredFields} = this.state;
+        switch(name){
+            case 'ruleName':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                requiredFields[name] = Validate.isName(value);
+                break;
+        }
+
+        if (_.isEmpty(value)){
+			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
+		}
+    
         this.setState({
+            validates: _.assign({}, this.state.validates, validates),
+            requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
             form: Object.assign({}, this.state.form, {
                 [name]: value
             }),
@@ -95,9 +114,28 @@ export default class AddRule extends Component {
         
     }
 
+    async onSubmit () {
+        this.setState({
+            isFetching: true
+        });
+        try{
+            const fetch = await api.saveCartRule(this.state.form);
+            const result = JSON.parse(fetch.text);
+            if(result.status){
+                this.setState({
+                    isFetching: false,
+                })
+            }
+        }catch(errors){
+            alert(errors.message)
+        }
+    }
+
     onSelectMainProduct (products) {
         this.setState({
-            mainProduct: _.head(products),
+            form: Object.assign({}, this.state.form, {
+                mainProduct: _.head(products),
+            }),
         })
     } 
     
@@ -115,7 +153,37 @@ export default class AddRule extends Component {
             }
         })
         this.setState({
-            relatedProducts: relatedProducts,
+            form: Object.assign({}, this.state.form, {
+                relatedProducts: relatedProducts,
+            }),
+        })
+    }
+
+    changeMainProduct (event) {
+        let mainProduct = _.clone(this.state.form.mainProduct);
+        if(this.state.form.discountType == 'percentage'){
+            mainProduct.reductionPercent = event.target.value;
+        }else{
+            mainProduct.reductionAmount = event.target.value;
+        }
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                mainProduct: mainProduct
+            }),
+        })
+    }
+
+    changeRelatedProduct (index, event) {
+        let relatedProducts = _.clone(this.state.form.relatedProducts);
+        if(this.state.form.discountType == 'percentage'){
+            relatedProducts[index].reductionPercent = event.target.value;
+        }else{
+            relatedProducts[index].reductionAmount = event.target.value;
+        }
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                relatedProducts: relatedProducts,
+            }),
         })
     }
 
@@ -130,7 +198,7 @@ export default class AddRule extends Component {
     }
 
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, msg, step, idMainProduct, mainProduct, relatedProducts, keyWord} = this.state;
+        const {isFetching, form, currentPage, itemsPerPage, totalItems, msg, step, idMainProduct, mainProduct, relatedProducts, validates, requiredFields, keyWord} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -149,6 +217,7 @@ export default class AddRule extends Component {
                                     currentPage = {currentPage}
                                     itemsPerPage = {itemsPerPage}
                                     totalItems = {totalItems}
+                                    ruleName = {form.ruleName}
                                     handlePageChange = {this.handlePageChange.bind(this)}
                                     handleChangeValue = {this.handleChangeValue.bind(this)}
                                     onSearchProduct = {this.onSearchProduct.bind(this)}
@@ -157,6 +226,8 @@ export default class AddRule extends Component {
                                     nextStep = {this.nextStep.bind(this)}
                                     onChangeIdMainProduct = {this.onChangeIdMainProduct.bind(this)}
                                     idMainProduct = {idMainProduct}
+                                    validates = {validates}
+                                    requiredFields = {requiredFields}
                                     keyWord = {keyWord}
                                 />
                             :
@@ -178,6 +249,24 @@ export default class AddRule extends Component {
                                     msg = {msg}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
                                     nextStep = {this.nextStep.bind(this)}
+                                    idMainProduct = {idMainProduct}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div>
+                        {
+                            step == 3
+                            ?
+                                <Discount 
+                                    mainProduct = {form.mainProduct}
+                                    relatedProducts = {form.relatedProducts}
+                                    handleChangeValue = {this.handleChangeValue.bind(this)}
+                                    changeMainProduct = {this.changeMainProduct.bind(this)}
+                                    changeRelatedProduct = {this.changeRelatedProduct.bind(this)}
+                                    discountType = {form.discountType}
+                                    onSubmit = {this.onSubmit.bind(this)}
                                     keyWord = {keyWord}
                                 />
                             :

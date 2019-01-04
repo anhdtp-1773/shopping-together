@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
 import * as _ from "lodash";
+import classNames from 'classnames'
 
 export default class MainProduct extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-            idMainProduct: '',
+            
         }
     }
 
@@ -21,23 +22,20 @@ export default class MainProduct extends Component {
     onSelectProduct(id){
         let product = _.filter(this.props.products, function(product) { return product.id == id; });
         this.props.onSelectMainProduct(product);
-        this.setState({
-            idMainProduct: id,
-        })
         this.props.onChangeIdMainProduct(id);
     }
     
     nextStep(step){
-        if(!this.state.idMainProduct){
+        if(!this.props.idMainProduct){
             alert(lang.please_select_at_least_one_product)
         }else{
             this.props.nextStep(step);
         }
-        // this.props.nextStep(step);
     }
 
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, msg, keyWord} = this.props;
+        const {currentPage, itemsPerPage, totalItems, products, isSearchProduct, msg, ruleName, requiredFields, validates, keyWord} = this.props;
+        const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'}); 
         return (
             <div className="container">
                 <div className="form-inline">
@@ -48,9 +46,10 @@ export default class MainProduct extends Component {
                         <input 
                             type="text"
                             name="ruleName" 
-                            className="form-control" 
+                            value={ruleName}
                             placeholder={lang.rule} 
                             onChange={this.handleChangeValue.bind(this)}
+                            className={classNames('form-control', validates.ruleName)}
                         />
                     </div>
                 </div>
@@ -85,6 +84,29 @@ export default class MainProduct extends Component {
                         <p>{msg}</p>
                 }
                 
+                {
+                    isSearchProduct
+                    ?
+                    null
+                    :
+                    <Fragment>
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={itemsPerPage}
+                            totalItemsCount={totalItems}
+                            pageRangeDisplayed={5}
+                            onChange={this.props.handlePageChange}
+                        />
+                        <button 
+                            onClick={this.nextStep.bind(this, 2)} 
+                            type="button" 
+                            className={classNames({'btn btn-primary': true}, {'disabled-form': disabledOnClick})}
+                            style={{float:"right"}}
+                        >
+                            {lang.next}
+                        </button>
+                    </Fragment> 
+                }
                 <Fragment>
                     <Pagination
                         activePage={currentPage}
