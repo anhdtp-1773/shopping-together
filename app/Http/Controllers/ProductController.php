@@ -20,6 +20,7 @@ class ProductController extends Controller
         $msg = trans('label.successfully');
         try{
             $data = Product::getProducts($this->page_number, $this->items_per_page);
+            dd($data);
         }
         catch(\Exception $e){
             $status = false;
