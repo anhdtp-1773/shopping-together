@@ -28,6 +28,10 @@ export default class Setting extends Component {
                 productFontStyle:'italic',
                 productFontSize: 20,
                 productFontColor:'#2296F3',
+                amountFontFamily:'verdana',
+                amountFontStyle:'italic',
+                amountFontSize: 20,
+                amountFontColor:'#2296F3',
             },
             validates: {},
             message: '',
@@ -52,6 +56,10 @@ export default class Setting extends Component {
                     productFontStyle: result.data.setting.product_font_style,
                     productFontSize: result.data.setting.product_font_size,
                     productFontColor: result.data.setting.product_font_color,
+                    amountFontFamily: result.data.setting.amount_font_family,
+                    amountFontStyle: result.data.setting.amount_font_style,
+                    amountFontSize: result.data.setting.amount_font_size,
+                    amountFontColor: result.data.setting.amount_font_color,
                 }),
             })
         }
@@ -64,6 +72,9 @@ export default class Setting extends Component {
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
             case 'productFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+            case 'amountFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
         }
@@ -142,7 +153,15 @@ export default class Setting extends Component {
                         />
                     
                         <TotalAmount 
-                            />
+                            amountFontFamily = {form.amountFontFamily}
+                            amountFontStyle = {form.amountFontStyle}
+                            amountFontSize = {form.amountFontSize}
+                            amountFontColor = {form.amountFontColor}
+                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
+                            handleChangeColor = {this.handleChangeColor.bind(this)}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
+                        />
                            
                         <NewPrice 
                         />
@@ -184,6 +203,10 @@ export default class Setting extends Component {
                        productFontStyle = {form.productFontStyle}
                        productFontColor = {form.productFontColor}
                        productFontSize = {form.productFontSize}
+                       amountFontFamily = {form.amountFontFamily}
+                       amountFontStyle = {form.amountFontStyle}
+                       amountFontSize = {form.amountFontSize}
+                       amountFontColor = {form.amountFontColor}
                     />
                 </div>
                 {
