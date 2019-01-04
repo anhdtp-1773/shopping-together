@@ -13,3 +13,8 @@ export const fontStyleOptions = [
 
 export const rangeFontSizeMin = 10;
 export const rangeFontSizeMax = 40;
+
+export const optionsDiscountType = [
+    {label: lang.percentage, value: 'percentage'},
+    {label: lang.fixed_amount, value: 'fixed_amount'},
+];

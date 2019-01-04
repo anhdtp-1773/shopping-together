@@ -9,7 +9,7 @@ export default class OldPrice extends Component {
     render(){
         return (
             <div className="full-width display-block">
-                <p> {lang.old_price}</p>
+                <p> {lang.original_price}</p>
             </div>
         );
     }
