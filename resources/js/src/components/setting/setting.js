@@ -78,14 +78,8 @@ export default class Setting extends Component {
         let {validates} = this.state;
         switch(name){
             case 'titleFontColor':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
-                break;
             case 'productFontColor':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
-                break;
             case 'amountFontColor':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
-                break;
             case 'newPriceFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
