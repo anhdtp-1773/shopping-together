@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
 import * as _ from "lodash";
 import classNames from 'classnames'
+import api from './../../../api';
 
 export default class RelatedProduct extends Component {
     constructor(){
@@ -9,15 +10,37 @@ export default class RelatedProduct extends Component {
         this.state = {
             idProducts: [],
             relatedProduct: '',
+            products: [],
+            itemsPerPage: '',
+            totalItems: '',
+            isFetching: true,
+            msg: '',
         }
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
+        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);    
     }
 
-    handleChangeValue (event) {
-        this.props.handleChangeValue(event.target.name, event.target.value);
+    componentWillMount () {
+        if(this.props.keyWord){
+            this.onSearchProduct(this.props.keyWord, this.props.currentPage);
+        }else{
+            this.getListProduct(this.props.currentPage);
+        }   
     }
 
-    onSearchProduct (event) {
-        this.props.onSearchProduct(event.target.value);
+    async getListProduct (currentPage) {
+        const response = await api.getProducts(currentPage);
+        const result = JSON.parse(response.text);
+        if(result.status){
+            this.props.onChangeValue('relatedCurrentPage', result.data.current_page);
+            this.setState({ 
+                itemsPerPage: result.data.items_per_page,
+                totalItems: result.data.total_items,
+                products: result.data.items,
+                isFetching: false,
+            });
+        }
     }
 
     onSelectRelatedProduct (id) {
@@ -27,7 +50,7 @@ export default class RelatedProduct extends Component {
         this.setState({
             idProducts: idProducts,
         })
-        let products = _.filter(this.props.products, function(product) { return idProducts.indexOf(product.id) >= 0});
+        let products = _.filter(this.state.products, function(product) { return idProducts.indexOf(product.id) >= 0});
         this.setState({
             relatedProduct: _.head(products),
         })
@@ -46,54 +69,106 @@ export default class RelatedProduct extends Component {
         }
     }
 
+    handlePageChange (currentPage) {
+        this.setState({
+            isFetching: true
+        })
+        this.props.onChangeValue('relatedCurrentPage', currentPage);
+        if(this.props.keyWord){
+            this.onSearchProduct(this.props.keyWord, currentPage);
+        }else{
+            this.getListProduct(currentPage);
+        }   
+    }
+
+    onChangeKeyWord (event) {
+        this.props.onChangeValue('relatedKeyWord', event.target.value)
+        this.onSearchProduct(event.target.value);
+    }
+
+    async onSearchProduct (keyWord, currentPage = null) {
+        this.setState({
+            isFetching: true,
+        })
+        if(keyWord != ''){
+            const response = await api.searchProduct(keyWord, currentPage);
+            const result = JSON.parse(response.text);
+            if(result.status){
+                this.props.onChangeValue('relatedCurrentPage', result.data.current_page);
+                this.setState({
+                    itemsPerPage: result.data.items_per_page,
+                    totalItems: result.data.total_items,
+                    products: result.data.items,
+                    isFetching: false,
+                });
+            }else{
+                this.setState({
+                    msg: result.message,
+                    products: '',
+                    itemsPerPage: result.data.items_per_page,
+                    totalItems: result.data.total_items,
+                    isFetching: false,
+                })
+            }
+        }else{
+            this.getListProduct('');
+        }
+    }
+
     render() {
-        const {currentPage, itemsPerPage, totalItems, products, msg, keyWord, idMainProduct} = this.props;
-        const {idProducts} = this.state;
-        return (
-            <div className="container">
-                <div className="form-group">
-                    <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder={lang.search} 
-                        onChange={this.onSearchProduct.bind(this)}
-                        value = {keyWord}
-                    />
+        const {currentPage, msg, keyWord, idMainProduct} = this.props;
+        const {idProducts, products, itemsPerPage, totalItems, isFetching} = this.state;
+        if(isFetching){ return (
+            <div id="page_loading">
+                <div className="loading">
+                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom" />
                 </div>
-                {
-                    products
-                    ?
-                        <div className="row">
-                            {products.map((product)=>(
-                                <span className={classNames({'col-sm-6 col-md-2': true}, {'disabled-form': idMainProduct == product.id ? true : false})} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
-                                    <div className={classNames({'thumbnail': true}, {'disabled-form': idMainProduct == product.id ? true : false})}>
-                                        <img src={product.src} alt="..." />
-                                        <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
-                                        <div className="caption">
-                                        <h5>{product.title}</h5>
-                                        <p>{product.price}</p>
-                                        </div>
-                                    </div>
-                                </span>
-                            ))}
-                        </div>
-                    :
-                        <p>{msg}</p>
-                }
-                
-                <Fragment>
-                    <Pagination
-                        activePage={currentPage}
-                        itemsCountPerPage={itemsPerPage}
-                        totalItemsCount={totalItems}
-                        pageRangeDisplayed={5}
-                        onChange={this.props.handlePageChange}
-                    />
-                    <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
-                    <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
-                </Fragment> 
             </div>
-        );
+        )}else {
+            return (
+                <div className="container">
+                    <div className="form-group">
+                        <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder={lang.search} 
+                            onChange={this.onChangeKeyWord}
+                            value = {keyWord}
+                        />
+                    </div>
+                    {
+                        products
+                        ?
+                            <div className="row">
+                                {products.map((product, i)=>(
+                                    <span className={classNames('col-sm-6 col-md-2', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                        <div className={classNames('thumbnail', {'disabled-form': idMainProduct == product.id ? true : false})}>
+                                            <img src={product.src} alt="..." />
+                                            <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
+                                            <h5>{product.title}</h5>
+                                            <p>{product.price}</p>
+                                        </div>
+                                    </span>
+                                ))}
+                            </div>
+                        :
+                            <p>{msg}</p>
+                    }
+                    
+                    <Fragment>
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={itemsPerPage}
+                            totalItemsCount={totalItems}
+                            pageRangeDisplayed={5}
+                            onChange={this.handlePageChange}
+                        />
+                        <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                        <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                    </Fragment> 
+                </div>
+            );
+        }
     }
 }

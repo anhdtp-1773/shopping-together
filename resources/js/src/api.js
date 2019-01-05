@@ -14,11 +14,13 @@ export default {
             'product_font_color': data.productFontColor,
         });
     },
+    
     getSetup(){
         return superagent.post('/api/setting/get').send({
             'shopify_domain': domain,
         });
     },
+    
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
             'page_number': pageNumber,
