@@ -119,9 +119,9 @@ export default class MainProduct extends Component {
             </div>
         )}else {
             return (
-                <div className="container">
-                    <div className="form-inline">
-                        <div className="form-group mb-2">
+                <div className="container section-manage">
+                    <div className="form-inline rulename-wrap">
+                        <div className="form-group mb-2 title-rulename">
                             <span>{lang.set_the_rule_name}</span>
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
@@ -136,8 +136,8 @@ export default class MainProduct extends Component {
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="formGroupExampleInput">{lang.select_a_main_product}</label>
+                    <div className="form-group product-search-wrap">
+                        <label className="title-search-product" htmlFor="formGroupExampleInput">{lang.select_a_main_product}</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -151,10 +151,10 @@ export default class MainProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className="col-sm-6 col-md-2" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
+                                    <span className="product-wrap col-sm-6 col-md-3" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
-                                            <h5>{product.title}</h5>
+                                            <h5 className="split-title-product">{product.title}</h5>
                                             <p>{product.price}</p>
                                         </div>
                                     </span>
@@ -165,21 +165,23 @@ export default class MainProduct extends Component {
                     }
                     
                     <Fragment>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
-                            onChange={this.handlePageChange}
-                        />
-                        <button 
-                            onClick={this.nextStep} 
-                            type="button" 
-                            className={classNames({'btn btn-primary': true}, {'disabled-form': disabledOnClick})}
-                            style={{float:"right"}}
-                        >
-                            {lang.next}
-                        </button>
+                        <div className="pagination-wrap">
+                            <Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={itemsPerPage}
+                                totalItemsCount={totalItems}
+                                pageRangeDisplayed={5}
+                                onChange={this.handlePageChange}
+                            />
+                            <button 
+                                onClick={this.nextStep} 
+                                type="button" 
+                                className={classNames({'btn btn-primary': true}, {'disabled-form': disabledOnClick})}
+                                style={{float:"right"}}
+                            >
+                                {lang.next}
+                            </button>
+                        </div>
                     </Fragment> 
                 </div>
             );
