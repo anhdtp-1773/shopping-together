@@ -46,7 +46,15 @@ export default class Preview extends Component {
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
         const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
-            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor } = this.props;
+            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
+            newPriceFontSize, newPriceFontColor } = this.props;
+        let newPriceStyle={
+            color: newPriceFontColor,
+            fontFamily: newPriceFontFamily,
+            fontWeight: newPriceFontStyle == 'italic' ? '' : newPriceFontStyle,
+            fontStyle : newPriceFontStyle == 'italic' ? newPriceFontStyle : '',
+            fontSize : parseInt(newPriceFontSize),
+        };
         let titleStyle={
             color: titleFontColor,
             fontFamily: titleFontFamily,
@@ -100,52 +108,60 @@ export default class Preview extends Component {
 
                             </select>
                         </div>
+
                         <button>{lang.add_to_cart}</button>
+
                         <div className="full-width">
                             <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
-                            <input type="checkbox" />
-                            <span>
-                                <img src = {src} style={{width:"20px"}} /> 
-                            </span>
-                            <span style= {productNameStyle}>{title}</span>
-                            <span><del>{price}</del>30$</span>
-                            <span><input type="text"placeholder={1}/></span>
-                            <span>
-                                <select>
-                                <option>{option1}</option>
-                                <option>{option2}</option>
-                                <option>{option3}</option>
-                                    
-                                </select>
-                            </span>
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img src src = {src} style={{width:"20px"}} /> 
-                                </span>
-                                <span>{title}<del>{price}</del>20$
-                                    <span><input type="text" placeholder={1}/></span>
-                                </span>
-                                <span>
-                                    <select>
-                                        <option>{option2}</option>
-                                    </select>
-                                </span>
-                            </p>
+
                             <p>
                                 <input type="checkbox" />
                                 <span>
                                     <img src = {src} style={{width:"20px"}} /> 
                                 </span>
-                                <span>{title} 20$
-                                    <span><input type="text" placeholder={1}/></span>
+                                <span style= {productNameStyle}>{title}</span>
+                                <span><input type="text"placeholder={1}/></span>
+                                <span>
+                                    <select>
+                                    <option>{option1}</option>
+                                    <option>{option2}</option>
+                                    <option>{option3}</option>
+                                    </select>
                                 </span>
+                                <span><del>{price}</del></span>
+                                <span style= {newPriceStyle}>20$</span>
+                            </p>
+                            
+                            <p>
+                                <input type="checkbox" />
+                                <span>
+                                    <img src src = {src} style={{width:"20px"}} /> 
+                                </span>
+                                <span style= {productNameStyle}>{title}</span>
+                                <span><input type="text" placeholder={1}/></span>
                                 <span>
                                     <select>
                                         <option>{option2}</option>
                                     </select>
                                 </span>
+                                <span><del>{price}</del></span>
+                                <span style= {newPriceStyle}>20$</span>
                             </p>
+
+                            <p>
+                                <input type="checkbox" />
+                                <span>
+                                    <img src = {src} style={{width:"20px"}} /> 
+                                <span style= {productNameStyle}>{title}</span>
+                                    <span><input type="text" placeholder={1}/></span>
+                                    <select>
+                                        <option>{option2}</option>
+                                    </select>
+                                </span>
+                                <span><del>{price}</del></span>
+                                <span style= {newPriceStyle}>20$</span>
+                            </p>
+
                         <p>{lang.total}<span style= {totalAmountStyle}>70$</span> </p>
                         <button>{lang.add_bundle_to_cart}</button>
                         </div>
