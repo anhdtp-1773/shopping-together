@@ -60,4 +60,8 @@ return [
     'normal' => 'Normal',
     'times_new_roman' => 'Times New Roman',
     'segoe_ui' => 'Segoe UI',
+    'font_family' => 'Font family',
+    'font_style' => 'Font style',
+    'font_size' => 'Font size',
+    'font_color' => 'Font color',
 ];

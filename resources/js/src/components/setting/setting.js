@@ -73,16 +73,6 @@ export default class Setting extends Component {
         });
     }
 
-    // handleChangeColor(name, value){
-    //     this.validate(name, value);
-    //     this.setState({ 
-    //         form: Object.assign({}, this.state.form, {
-    //             [name]: value
-    //         }), 
-    //         validates: Lodash.assign({}, this.state.validates, validates),
-    //     });
-    // }
-
     handleChangeValue ( name, newValue) {
         this.validate(name, newValue);
         this.setState(  {
@@ -91,15 +81,6 @@ export default class Setting extends Component {
             }),
         });
     };
-
-    // changeHandlerColor (name, colors) {
-    //     this.validate(name, colors.color);
-    //     this.setState({ 
-    //         form: Object.assign({}, this.state.form, {
-    //             [name]: colors.color
-    //         }),
-    //     });
-    // }
 
     async onSubmit(){
         try{
