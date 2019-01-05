@@ -11,54 +11,30 @@ export default class AddRule extends Component {
         this.state = {
             form: {
                 ruleName: '',
-                products: {},
                 discountType: 'percentage',
                 relatedProducts: [],
                 mainProduct: {},
             },
-            currentPage: '',
-            itemsPerPage: '',
-            totalItems: '',
-            isFetching: true,
-            msg: '',
+            isFetching: false,
             step: 1,
             idMainProduct: '',
             validates: {},
             requiredFields: {},
-            keyWord: '',
+            mainKeyWord: '',
+            mainCurrentPage: '',
+            relatedKeyWord: '',
+            relatedCurrentPage: '',
         }
-    }
 
-    async componentWillMount () {
-        this.getListProduct(this.state.currentPage);
-    }
-
-    handlePageChange (currentPage) {
-        this.setState({
-            currentPage: currentPage,
-            isFetching: true,
-        })
-        if(this.state.keyWord){
-            this.onSearchProduct(this.state.keyWord, currentPage);
-        }else{
-            this.getListProduct(currentPage);
-        }   
-    }
-
-    async getListProduct (currentPage) {
-        const response = await api.getProducts(currentPage);
-        const result = JSON.parse(response.text);
-        if(result.status){
-            this.setState({ 
-                currentPage: result.data.current_page,
-                itemsPerPage: result.data.items_per_page,
-                totalItems: result.data.total_items,
-                form: Object.assign({}, this.state.form, {
-                    products: result.data.items
-                }),
-                isFetching: false,
-            });
-        }
+        this.onChangeValue = this.onChangeValue.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.onSelectMainProduct = this.onSelectMainProduct.bind(this);
+        this.nextStep = this.nextStep.bind(this);
+        this.onChangeIdMainProduct = this.onChangeIdMainProduct.bind(this);
+        this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
+        this.changeMainProduct = this.changeMainProduct.bind(this);
+        this.changeRelatedProduct = this.changeRelatedProduct.bind.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     handleChangeValue (name, value) {
@@ -82,37 +58,8 @@ export default class AddRule extends Component {
             }),
         })
     }   
+
     
-    async onSearchProduct (keyWord, currentPage = null) {
-        if(keyWord != ''){
-            this.setState({
-                keyWord: keyWord
-            })
-            const response = await api.searchProduct(keyWord, currentPage);
-            const result = JSON.parse(response.text);
-            if(result.status){
-                this.setState({
-                    currentPage: result.data.current_page,
-                    itemsPerPage: result.data.items_per_page,
-                    totalItems: result.data.total_items,
-                    form: Object.assign({}, this.state.form, {
-                        products: result.data.items
-                    }),
-                    isFetching: false,
-                });
-            }else{
-                this.setState({
-                    msg: result.message,
-                    form: Object.assign({}, this.state.form, {
-                        products: ''
-                    }),
-                })
-            }
-        }else{
-            this.getListProduct('');
-        }
-        
-    }
 
     async onSubmit () {
         this.setState({
@@ -187,94 +134,95 @@ export default class AddRule extends Component {
         })
     }
 
-    componentDidMount () {
-        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
-    }
-
     nextStep (step) {
         this.setState({
             step: step
         })
     }
 
+    onChangeKeyWord (name, keyWord) {
+        this.setState({
+            [name]: keyWord
+        })
+    }
+
+    onChangeCurrentPage (name, value) {
+        this.setState({
+            [name]: value
+        })
+    }
+
+    onChangeValue (name, value) {
+        this.setState({
+            [name]: value
+        })
+    }
+
     render() {
-        const {isFetching, form, currentPage, itemsPerPage, totalItems, msg, step, idMainProduct, mainProduct, relatedProducts, validates, requiredFields, keyWord} = this.state;
-        if(isFetching){ return (
-            <div id="page_loading">
-                <div className="loading">
-                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom" />
+        const {
+            form, step, idMainProduct,
+            validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord
+        } = this.state;
+
+        return (
+            <Fragment>
+                <div>
+                    {
+                        step == 1
+                        ?
+                            <MainProduct
+                                currentPage = {mainCurrentPage}
+                                keyWord = {mainKeyWord}
+                                ruleName = {form.ruleName}
+                                handleChangeValue = {this.handleChangeValue}
+                                onSelectMainProduct = {this.onSelectMainProduct}
+                                nextStep = {this.nextStep}
+                                onChangeIdMainProduct = {this.onChangeIdMainProduct}
+                                idMainProduct = {idMainProduct}
+                                validates = {validates}
+                                requiredFields = {requiredFields}
+                                onChangeValue = {this.onChangeValue}
+                            />
+                        :
+                            null
+                    }
                 </div>
-            </div>
-        )}else {
-            return (
-                <Fragment>
-                    <div>
-                        {
-                            step == 1
-                            ?
-                                <MainProduct
-                                    products = {form.products}
-                                    currentPage = {currentPage}
-                                    itemsPerPage = {itemsPerPage}
-                                    totalItems = {totalItems}
-                                    ruleName = {form.ruleName}
-                                    handlePageChange = {this.handlePageChange.bind(this)}
-                                    handleChangeValue = {this.handleChangeValue.bind(this)}
-                                    onSearchProduct = {this.onSearchProduct.bind(this)}
-                                    msg = {msg}
-                                    onSelectMainProduct = {this.onSelectMainProduct.bind(this)}
-                                    nextStep = {this.nextStep.bind(this)}
-                                    onChangeIdMainProduct = {this.onChangeIdMainProduct.bind(this)}
-                                    idMainProduct = {idMainProduct}
-                                    validates = {validates}
-                                    requiredFields = {requiredFields}
-                                    keyWord = {keyWord}
-                                />
-                            :
-                                null
-                        }
-                    </div>
-                    <div>
-                        {
-                            step == 2
-                            ?
-                                <RelatedProduct 
-                                    products = {form.products}
-                                    currentPage = {currentPage}
-                                    itemsPerPage = {itemsPerPage}
-                                    totalItems = {totalItems}
-                                    handlePageChange = {this.handlePageChange.bind(this)}
-                                    handleChangeValue = {this.handleChangeValue.bind(this)}
-                                    onSearchProduct = {this.onSearchProduct.bind(this)}
-                                    msg = {msg}
-                                    onSelectRelatedProduct = {this.onSelectRelatedProduct.bind(this)}
-                                    nextStep = {this.nextStep.bind(this)}
-                                    idMainProduct = {idMainProduct}
-                                />
-                            :
-                                null
-                        }
-                    </div>
-                    <div>
-                        {
-                            step == 3
-                            ?
-                                <Discount 
-                                    mainProduct = {form.mainProduct}
-                                    relatedProducts = {form.relatedProducts}
-                                    handleChangeValue = {this.handleChangeValue.bind(this)}
-                                    changeMainProduct = {this.changeMainProduct.bind(this)}
-                                    changeRelatedProduct = {this.changeRelatedProduct.bind(this)}
-                                    discountType = {form.discountType}
-                                    onSubmit = {this.onSubmit.bind(this)}
-                                    keyWord = {keyWord}
-                                />
-                            :
-                                null
-                        }
-                    </div>
-                </Fragment>
-            );
-        }
+                <div>
+                    {
+                        step == 2
+                        ?
+                            <RelatedProduct 
+                                currentPage = {relatedCurrentPage}
+                                keyWord = {relatedKeyWord}
+                                handleChangeValue = {this.handleChangeValue}
+                                onSelectRelatedProduct = {this.onSelectRelatedProduct}
+                                nextStep = {this.nextStep}
+                                idMainProduct = {idMainProduct}
+                                onChangeValue = {this.onChangeValue}
+                            />
+                        :
+                            null
+                    }
+                </div>
+                <div>
+                    {
+                        step == 3
+                        ?
+                            <Discount 
+                                mainProduct = {form.mainProduct}
+                                relatedProducts = {form.relatedProducts}
+                                handleChangeValue = {this.handleChangeValue}
+                                changeMainProduct = {this.changeMainProduct}
+                                changeRelatedProduct = {this.changeRelatedProduct}
+                                nextStep = {this.nextStep}
+                                discountType = {form.discountType}
+                                onSubmit = {this.onSubmit}
+                            />
+                        :
+                            null
+                    }
+                </div>
+            </Fragment>
+        );
     }
 }
