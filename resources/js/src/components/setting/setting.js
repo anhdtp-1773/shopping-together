@@ -83,7 +83,7 @@ export default class Setting extends Component {
     }   
     render() {
         const{form, validates, message} = this.state;
-        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'}) ? true :false;
+        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
         return (
             <div className="home-container">
                 <div className="left-container">
