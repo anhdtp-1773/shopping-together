@@ -127,8 +127,8 @@ export default class RelatedProduct extends Component {
         )}else {
             return (
                 <div className="container">
-                    <div className="form-group">
-                        <label htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
+                    <div className="form-group product-search-wrap section-manage">
+                        <label className="title-search-product" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -142,12 +142,17 @@ export default class RelatedProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className={classNames('col-sm-6 col-md-2', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
-                                        <div className={classNames('thumbnail', {'disabled-form': idMainProduct == product.id ? true : false})}>
+                                    <span className={classNames('col-sm-6 col-md-3 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                        <div className={classNames('thumbnail', {'disabled-form  product-step2': idMainProduct == product.id ? true : false})}>
                                             <img src={product.src} alt="..." />
-                                            <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
-                                            <h5>{product.title}</h5>
-                                            <p>{product.price}</p>
+                                            <div className="check-product">
+                                                <input type="checkbox" name="vehicle3" checked = {idProducts.indexOf(product.id) >= 0} />
+                                                <span class="checkmark"></span>
+                                            </div>
+                                            <div className="caption">
+                                                <h5 className="split-title-product">{product.title}</h5>
+                                                <p>{product.price}</p>
+                                            </div>
                                         </div>
                                     </span>
                                 ))}
@@ -157,15 +162,17 @@ export default class RelatedProduct extends Component {
                     }
                     
                     <Fragment>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
-                            onChange={this.handlePageChange}
-                        />
-                        <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
-                        <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                        <div className="pagination-wrap">
+                            <Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={itemsPerPage}
+                                totalItemsCount={totalItems}
+                                pageRangeDisplayed={5}
+                                onChange={this.handlePageChange}
+                            />
+                            <button onClick={this.nextStep.bind(this, 3)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
+                            <button onClick={this.nextStep.bind(this, 1)} type="button" class="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                        </div>
                     </Fragment> 
                 </div>
             );
