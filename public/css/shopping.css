@@ -91,3 +91,7 @@ html, body, #manage {
   background: #4CAF50;
   cursor: pointer;
 }
+
+.image-setting-product{
+  width: 250px;
+}

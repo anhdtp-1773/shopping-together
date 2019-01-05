@@ -60,15 +60,6 @@ export default class Setting extends Component {
         });
     }
 
-    handleChangeColor(name, value){
-        this.validate(name, value);
-        this.setState({ 
-            form: Object.assign({}, this.state.form, {
-                [name]: value
-            }), 
-        });
-    };
-
     handleChangeValue ( name, newValue) {
         this.setState(  {
             form: Object.assign({}, this.state.form, {
@@ -76,15 +67,6 @@ export default class Setting extends Component {
             }),
         });
     };
-
-    changeHandlerColor (name, colors) {
-        this.validate(name, colors.color);
-        this.setState({ 
-            form: Object.assign({}, this.state.form, {
-                [name]: colors.color
-            }),
-        });
-    }
 
     async onSubmit(){
         try{
@@ -111,8 +93,6 @@ export default class Setting extends Component {
                             titleFontStyle = {form.titleFontStyle}
                             titleFontColor = {form.titleFontColor}
                             titleFontSize = {form.titleFontSize}
-                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
-                            handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
                         />
