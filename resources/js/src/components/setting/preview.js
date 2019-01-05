@@ -102,7 +102,7 @@ export default class Preview extends Component {
                     <div className="right-container">
                         <div className="form-group">
                             <p>{title}</p>
-                            <p style= {oldPriceStyle}>{price}</p>
+                            <p>{price}</p>
                                
                             <p>{lang.size}</p>
                             <select 
