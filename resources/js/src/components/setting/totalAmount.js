@@ -24,19 +24,15 @@ export default class TotalAmount extends Component {
         }
     }
     
-    handleClose(){
+    handleClose (){
         this.setState({ 
             displayFontColor: false,
         })
     }
 
     changeHandlerColor (name, colors) {
-        this.props.changeHandlerColor(name, colors)
+        this.props.handleChangeValue(name, colors.color)
     };
-    
-    handleChangeColor(event){
-        this.props.handleChangeColor(event.target.name, event.target.value)
-    }
 
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
@@ -51,13 +47,13 @@ export default class TotalAmount extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}</p>
                         <select 
-                            name = "amountFontFamily"
+                            name="amountFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
-                            value =  {amountFontFamily} 
+                            onChange={this.handleChangeValue.bind(this)}
+                            value={amountFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -66,13 +62,13 @@ export default class TotalAmount extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                         <select 
-                            name = "amountFontStyle"
+                            name="amountFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
-                            value =  {amountFontStyle}
+                            onChange={this.handleChangeValue.bind(this)}
+                            value={amountFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -83,7 +79,7 @@ export default class TotalAmount extends Component {
                         type="text" 
                         style={{ backgroundColor: amountFontColor }} 
                         value={amountFontColor} 
-                        onChange={this.handleChangeColor.bind(this)} 
+                        onChange={this.handleChangeValue.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="amountFontColor"
                         className={classNames('form-control', validates.amountFontColor)}
@@ -94,7 +90,7 @@ export default class TotalAmount extends Component {
                         <Fragment>
                             <ColorPickerPanel 
                                 alpha={80}
-                                color= {amountFontColor} 
+                                color={amountFontColor} 
                                 onChange={this.changeHandlerColor.bind(this, 'amountFontColor')} 
                                 mode="HSB" 
                                 onBlur={this.handleClose.bind(this) }
@@ -109,10 +105,10 @@ export default class TotalAmount extends Component {
                     <input 
                         className="slidecontainer" 
                         type="range" 
-                        name = "amountFontSize"
+                        name="amountFontSize"
                         value={amountFontSize} 
-                        min = {rangeFontSizeMin}
-                        max = {rangeFontSizeMax}
+                        min={rangeFontSizeMin}
+                        max={rangeFontSizeMax}
                         onChange={this.handleChangeValue.bind(this)} 
                     />
                 </div>

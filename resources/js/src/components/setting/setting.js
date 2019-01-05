@@ -45,7 +45,6 @@ export default class Setting extends Component {
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
-        console.log(result)
         this.setState({ 
             setting: result.data.setting,
         });
@@ -90,16 +89,8 @@ export default class Setting extends Component {
         });
     }
 
-    handleChangeColor(name, value){
-        this.validate(name, value);
-        this.setState({ 
-            form: Object.assign({}, this.state.form, {
-                [name]: value
-            }), 
-        });
-    };
-
-    handleChangeValue ( name, newValue) {
+    handleChangeValue (name, newValue) {
+        this.validate(name, newValue);
         this.setState(  {
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
@@ -107,16 +98,7 @@ export default class Setting extends Component {
         });
     };
 
-    changeHandlerColor (name, colors) {
-        this.validate(name, colors.color);
-        this.setState({ 
-            form: Object.assign({}, this.state.form, {
-                [name]: colors.color
-            }),
-        });
-    }
-
-    async onSubmit(){
+    async onSubmit (){
         try{
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
@@ -131,7 +113,7 @@ export default class Setting extends Component {
     }   
     render() {
         const{form, validates, message} = this.state;
-        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'}) ? true :false;
+        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
         return (
             <div className="home-container">
                 <div className="left-container">
@@ -141,8 +123,6 @@ export default class Setting extends Component {
                             titleFontStyle = {form.titleFontStyle}
                             titleFontColor = {form.titleFontColor}
                             titleFontSize = {form.titleFontSize}
-                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
-                            handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
                         />
@@ -152,8 +132,6 @@ export default class Setting extends Component {
                             productFontStyle = {form.productFontStyle}
                             productFontColor = {form.productFontColor}
                             productFontSize = {form.productFontSize}
-                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
-                            handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
                         />
@@ -163,8 +141,6 @@ export default class Setting extends Component {
                             amountFontStyle = {form.amountFontStyle}
                             amountFontSize = {form.amountFontSize}
                             amountFontColor = {form.amountFontColor}
-                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
-                            handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
                             />
@@ -174,8 +150,6 @@ export default class Setting extends Component {
                             newPriceFontStyle = {form.newPriceFontStyle}
                             newPriceFontSize = {form.newPriceFontSize}
                             newPriceFontColor = {form.newPriceFontColor}
-                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
-                            handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
                         />
@@ -201,7 +175,7 @@ export default class Setting extends Component {
                     </p>
                     <button
                         href="javascript:void(0);" 
-                        onClick ={this.onSubmit.bind(this)} 
+                        onClick={this.onSubmit.bind(this)} 
                         className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}

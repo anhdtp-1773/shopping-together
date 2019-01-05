@@ -90,7 +90,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img src = {src} style={{width:"300px"}}/>
+                       <img className="image-setting-product" src = {src}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -99,13 +99,13 @@ export default class Preview extends Component {
                                
                             <p>{lang.size}</p>
                             <select 
-                                name = "size"
+                                name="size"
                                 className="form-control">
                                 <option> {option1} </option>
                             </select>
                             <p>{lang.color}</p>
                             <select 
-                                name = "color"
+                                name="color"
                                 className="form-control" >
                                 <option> {option3} </option>
                                 <option> {option2} </option>
@@ -116,14 +116,13 @@ export default class Preview extends Component {
                         <button>{lang.add_to_cart}</button>
 
                         <div className="full-width">
-                            <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
-
+                            <p style={titleStyle}>{lang.frequently_purchased_together}</p>
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src = {src} style={{width:"20px"}} /> 
+                                    <img src={src} style={{width:"25px"}} /> 
                                 </span>
-                                <span style= {productNameStyle}>{title}</span>
+                                <span style={productNameStyle}> {title}></span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
@@ -135,38 +134,7 @@ export default class Preview extends Component {
                                 <span><del>{price}</del></span>
                                 <span style= {newPriceStyle}>20$</span>
                             </p>
-                            
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img src src = {src} style={{width:"20px"}} /> 
-                                </span>
-                                <span style= {productNameStyle}>{title}</span>
-                                <span><input type="text" placeholder={1}/></span>
-                                <span>
-                                    <select>
-                                        <option>{option2}</option>
-                                    </select>
-                                </span>
-                                <span><del>{price}</del></span>
-                                <span style= {newPriceStyle}>20$</span>
-                            </p>
-
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img src = {src} style={{width:"20px"}} /> 
-                                <span style= {productNameStyle}>{title}</span>
-                                    <span><input type="text" placeholder={1}/></span>
-                                    <select>
-                                        <option>{option2}</option>
-                                    </select>
-                                </span>
-                                <span><del>{price}</del></span>
-                                <span style= {newPriceStyle}>20$</span>
-                            </p>
-
-                        <p>{lang.total}<span style= {totalAmountStyle}>70$</span> </p>
+                        <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
                         <button>{lang.add_bundle_to_cart}</button>
                         </div>
                     </div>
