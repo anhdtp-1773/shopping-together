@@ -68,8 +68,8 @@ export default class MainProduct extends Component {
                     products
                     ?
                         <div className="row">
-                            {products.map((product)=>(
-                                <span className="col-sm-6 col-md-2" onClick={this.onSelectProduct.bind(this, product.id)}>
+                            {products.map((product, i)=>(
+                                <span className="col-sm-6 col-md-2" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
                                     <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                         <img className="img-main-product" src={product.src} alt="..." />
                                         <div className="caption">
