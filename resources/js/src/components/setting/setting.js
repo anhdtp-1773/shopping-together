@@ -69,6 +69,10 @@ export default class Setting extends Component {
                     newPriceFontStyle: result.data.setting.new_price_font_style,
                     newPriceFontSize: result.data.setting.new_price_font_size,
                     newPriceFontColor: result.data.setting.new_price_font_color,
+                    oldPriceFontFamily: result.data.setting.old_price_font_family,
+                    oldPriceFontStyle: result.data.setting.old_price_font_style,
+                    oldPriceFontSize: result.data.setting.old_price_font_size,
+                    oldPriceFontColor: result.data.setting.old_price_font_color,
                 }),
             })
         }
@@ -87,6 +91,9 @@ export default class Setting extends Component {
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
             case 'newPriceFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+            case 'oldPriceFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
         }
@@ -184,9 +191,17 @@ export default class Setting extends Component {
                             handleChangeColor = {this.handleChangeColor.bind(this)}
                             handleChangeValue = {this.handleChangeValue.bind(this)}
                             validates = {validates}
-                        />
+                            />
                     
                         <OldPrice 
+                            oldPriceFontFamily = {form.oldPriceFontFamily}
+                            oldPriceFontStyle = {form.oldPriceFontStyle}
+                            oldPriceFontSize = {form.oldPriceFontSize}
+                            oldPriceFontColor = {form.oldPriceFontColor}
+                            changeHandlerColor = {this.changeHandlerColor.bind(this)}
+                            handleChangeColor = {this.handleChangeColor.bind(this)}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                     
                         <Cart 
@@ -215,22 +230,26 @@ export default class Setting extends Component {
                 </div>
                 <div className="right-container">
                     <Preview
-                       titleFontFamily = {form.titleFontFamily}
-                       titleFontStyle = {form.titleFontStyle}
-                       titleFontColor = {form.titleFontColor}
-                       titleFontSize = {form.titleFontSize}
-                       productFontFamily = {form.productFontFamily}
-                       productFontStyle = {form.productFontStyle}
-                       productFontColor = {form.productFontColor}
-                       productFontSize = {form.productFontSize}
-                       amountFontFamily = {form.amountFontFamily}
-                       amountFontStyle = {form.amountFontStyle}
-                       amountFontSize = {form.amountFontSize}
-                       amountFontColor = {form.amountFontColor}
-                       newPriceFontFamily = {form.newPriceFontFamily}
-                       newPriceFontStyle = {form.newPriceFontStyle}
-                       newPriceFontSize = {form.newPriceFontSize}
-                       newPriceFontColor = {form.newPriceFontColor}
+                        titleFontFamily = {form.titleFontFamily}
+                        titleFontStyle = {form.titleFontStyle}
+                        titleFontColor = {form.titleFontColor}
+                        titleFontSize = {form.titleFontSize}
+                        productFontFamily = {form.productFontFamily}
+                        productFontStyle = {form.productFontStyle}
+                        productFontColor = {form.productFontColor}
+                        productFontSize = {form.productFontSize}
+                        amountFontFamily = {form.amountFontFamily}
+                        amountFontStyle = {form.amountFontStyle}
+                        amountFontSize = {form.amountFontSize}
+                        amountFontColor = {form.amountFontColor}
+                        newPriceFontFamily = {form.newPriceFontFamily}
+                        newPriceFontStyle = {form.newPriceFontStyle}
+                        newPriceFontSize = {form.newPriceFontSize}
+                        newPriceFontColor = {form.newPriceFontColor}
+                        oldPriceFontFamily = {form.oldPriceFontFamily}
+                        oldPriceFontStyle = {form.oldPriceFontStyle}
+                        oldPriceFontSize = {form.oldPriceFontSize}
+                        oldPriceFontColor = {form.oldPriceFontColor}
                     />
                 </div>
                 {

@@ -2,7 +2,6 @@ import superagent from "superagent";
 
 export default {
     saveSetting(data){
-        console.log(data)
         return superagent.post('/api/setting/save').send({
             'shopify_domain': domain,
             'title_font_family': data.titleFontFamily,
@@ -21,6 +20,10 @@ export default {
             'new_price_font_style': data.newPriceFontStyle,
             'new_price_font_size': data.newPriceFontSize,
             'new_price_font_color': data.newPriceFontColor,
+            'old_price_font_family': data.oldPriceFontFamily,
+            'old_price_font_style': data.oldPriceFontStyle,
+            'old_price_font_size': data.oldPriceFontSize,
+            'old_price_font_color': data.oldPriceFontColor,
         }); 
     },
     getSetup(){
