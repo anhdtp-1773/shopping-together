@@ -48,6 +48,7 @@ export default class Preview extends Component {
         const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
             newPriceFontSize, newPriceFontColor } = this.props;
+
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -55,6 +56,7 @@ export default class Preview extends Component {
             fontStyle : newPriceFontStyle == 'italic' ? newPriceFontStyle : '',
             fontSize : parseInt(newPriceFontSize),
         };
+
         let titleStyle={
             color: titleFontColor,
             fontFamily: titleFontFamily,
@@ -62,6 +64,7 @@ export default class Preview extends Component {
             fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
             fontSize : parseInt(titleFontSize),
         };
+
         let productNameStyle={
             color: productFontColor,
             fontFamily: productFontFamily,
@@ -69,6 +72,7 @@ export default class Preview extends Component {
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
             fontSize : parseInt(productFontSize),
         };
+        
         let totalAmountStyle={
             color: amountFontColor,
             fontFamily: mountFontFamily,
