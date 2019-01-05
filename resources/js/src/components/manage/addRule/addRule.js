@@ -199,6 +199,7 @@ export default class AddRule extends Component {
                                 nextStep = {this.nextStep}
                                 idMainProduct = {idMainProduct}
                                 onChangeValue = {this.onChangeValue}
+                                relatedProducts = {form.relatedProducts}
                             />
                         :
                             null

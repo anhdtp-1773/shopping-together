@@ -22,6 +22,9 @@ export default class Discount extends Component {
         this.props.changeRelatedProduct(index, event);
     }
 
+    nextStep (step) {
+        this.props.nextStep(step);
+    }
     render(){
         const {mainProduct, relatedProducts, discountType} = this.props;
         let priceRelatedProduct = 0;
@@ -37,8 +40,8 @@ export default class Discount extends Component {
                     <div className="title-discount">{lang.discount_type}</div>
                     <div className="form-group select-discount-type">
                         <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
-                            {optionsDiscountType.map((type)=>(
-                                <option value={type.value}>{type.label}</option>
+                            {optionsDiscountType.map((type, i)=>(
+                                <option key={i} value={type.value}>{type.label}</option>
                             ))}
                         </select>
                     </div>
@@ -75,7 +78,7 @@ export default class Discount extends Component {
                                 <td className="price-product">{mainProduct.price}</td>
                             </tr>
                             {relatedProducts.map((relatedProduct, key)=>(
-                                <tr>
+                                <tr key={key}>
                                     <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
                                     <td>{relatedProduct.title}</td>
                                     <td>{relatedProduct.price}</td>
@@ -102,16 +105,16 @@ export default class Discount extends Component {
                     </table>
                 </div>
                 <div className="container">
-                  <button
-                      onClick={() => this.props.onSubmit()}
-                      type="button"
-                      class="btn btn-primary"
-                      style={{float:"right"}}
-                  >
-                      {lang.save}
-                  </button>
+                    <button
+                        onClick={() => this.props.onSubmit()}
+                        type="button"
+                        className="btn btn-primary"
+                        style={{float:"right"}}
+                    >
+                        {lang.save}
+                    </button>
+                    <button onClick={this.nextStep.bind(this, 2)} type="button" className="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
                 </div>
-
             </Fragment>
         )
     }
