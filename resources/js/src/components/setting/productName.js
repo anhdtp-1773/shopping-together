@@ -30,13 +30,9 @@ export default class ProductName extends Component {
     }
 
     changeHandlerColor (name, colors) {
-        this.props.changeHandlerColor(name, colors)
+        this.props.handleChangeValue(name, colors.color)
     };
     
-    handleChangeColor(event){
-        this.props.handleChangeColor(event.target.name, event.target.value)
-    }
-
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
@@ -55,8 +51,8 @@ export default class ProductName extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {productFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -70,8 +66,8 @@ export default class ProductName extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {productFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -82,7 +78,7 @@ export default class ProductName extends Component {
                         type="text" 
                         style={{ backgroundColor: productFontColor }} 
                         value={productFontColor} 
-                        onChange={this.handleChangeColor.bind(this)} 
+                        onChange={this.handleChangeValue.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="productFontColor"
                         className={classNames('form-control', validates.productFontColor)}

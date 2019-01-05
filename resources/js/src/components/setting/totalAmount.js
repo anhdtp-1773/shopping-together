@@ -24,7 +24,7 @@ export default class TotalAmount extends Component {
         }
     }
     
-    handleClose(){
+    handleClose (){
         this.setState({ 
             displayFontColor: false,
         })
@@ -47,10 +47,10 @@ export default class TotalAmount extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}</p>
                         <select 
-                            name = "amountFontFamily"
+                            name="amountFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
-                            value =  {amountFontFamily} 
+                            onChange={this.handleChangeValue.bind(this)}
+                            value={amountFontFamily} 
                         >
                             {fontFamilyOptions.map((value) =>
                                 <option value={value.value}>{value.label}</option>
@@ -62,10 +62,10 @@ export default class TotalAmount extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                         <select 
-                            name = "amountFontStyle"
+                            name="amountFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
-                            value =  {amountFontStyle}
+                            onChange={this.handleChangeValue.bind(this)}
+                            value={amountFontStyle}
                         >
                             {fontStyleOptions.map((value) =>
                                 <option value={value.value}>{value.label}</option>
@@ -90,7 +90,7 @@ export default class TotalAmount extends Component {
                         <Fragment>
                             <ColorPickerPanel 
                                 alpha={80}
-                                color= {amountFontColor} 
+                                color={amountFontColor} 
                                 onChange={this.changeHandlerColor.bind(this, 'amountFontColor')} 
                                 mode="HSB" 
                                 onBlur={this.handleClose.bind(this) }
@@ -105,10 +105,10 @@ export default class TotalAmount extends Component {
                     <input 
                         className="slidecontainer" 
                         type="range" 
-                        name = "amountFontSize"
+                        name="amountFontSize"
                         value={amountFontSize} 
-                        min = {rangeFontSizeMin}
-                        max = {rangeFontSizeMax}
+                        min={rangeFontSizeMin}
+                        max={rangeFontSizeMax}
                         onChange={this.handleChangeValue.bind(this)} 
                     />
                 </div>
