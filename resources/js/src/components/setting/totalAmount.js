@@ -52,8 +52,8 @@ export default class TotalAmount extends Component {
                             onChange={this.handleChangeValue.bind(this)}
                             value={amountFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -67,8 +67,8 @@ export default class TotalAmount extends Component {
                             onChange={this.handleChangeValue.bind(this)}
                             value={amountFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
