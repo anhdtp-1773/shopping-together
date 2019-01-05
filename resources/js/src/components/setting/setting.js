@@ -28,6 +28,10 @@ export default class Setting extends Component {
                 productFontStyle:'italic',
                 productFontSize: 20,
                 productFontColor:'#2296F3',
+                amountFontFamily:'verdana',
+                amountFontStyle:'italic',
+                amountFontSize: 20,
+                amountFontColor:'#2296F3',
             },
             validates: {},
             message: '',
@@ -52,6 +56,10 @@ export default class Setting extends Component {
                     productFontStyle: result.data.setting.product_font_style,
                     productFontSize: result.data.setting.product_font_size,
                     productFontColor: result.data.setting.product_font_color,
+                    amountFontFamily: result.data.setting.amount_font_family,
+                    amountFontStyle: result.data.setting.amount_font_style,
+                    amountFontSize: result.data.setting.amount_font_size,
+                    amountFontColor: result.data.setting.amount_font_color,
                 }),
             })
         }
@@ -66,6 +74,9 @@ export default class Setting extends Component {
             case 'productFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
+            case 'amountFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
         }
 
         this.setState({ 
@@ -73,7 +84,7 @@ export default class Setting extends Component {
         });
     }
 
-    handleChangeValue ( name, newValue) {
+    handleChangeValue (name, newValue) {
         this.validate(name, newValue);
         this.setState(  {
             form: Object.assign({}, this.state.form, {
@@ -82,7 +93,7 @@ export default class Setting extends Component {
         });
     };
 
-    async onSubmit(){
+    async onSubmit (){
         try{
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
@@ -121,7 +132,13 @@ export default class Setting extends Component {
                         />
                     
                         <TotalAmount 
-                            />
+                            amountFontFamily = {form.amountFontFamily}
+                            amountFontStyle = {form.amountFontStyle}
+                            amountFontSize = {form.amountFontSize}
+                            amountFontColor = {form.amountFontColor}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
+                        />
                            
                         <NewPrice 
                         />
@@ -147,7 +164,7 @@ export default class Setting extends Component {
                     </p>
                     <button
                         href="javascript:void(0);" 
-                        onClick ={this.onSubmit.bind(this)} 
+                        onClick={this.onSubmit.bind(this)} 
                         className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}
@@ -163,6 +180,10 @@ export default class Setting extends Component {
                        productFontStyle = {form.productFontStyle}
                        productFontColor = {form.productFontColor}
                        productFontSize = {form.productFontSize}
+                       amountFontFamily = {form.amountFontFamily}
+                       amountFontStyle = {form.amountFontStyle}
+                       amountFontSize = {form.amountFontSize}
+                       amountFontColor = {form.amountFontColor}
                     />
                 </div>
                 {

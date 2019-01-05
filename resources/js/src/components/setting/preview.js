@@ -46,7 +46,7 @@ export default class Preview extends Component {
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
         const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
-            productFontColor } = this.props;
+            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor } = this.props;
         
         let titleStyle={
             color: titleFontColor,
@@ -55,12 +55,21 @@ export default class Preview extends Component {
             fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
             fontSize : parseInt(titleFontSize),
         };
+
         let productNameStyle={
             color: productFontColor,
             fontFamily: productFontFamily,
             fontWeight: productFontStyle == 'italic' ? '' : productFontStyle,
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
             fontSize : parseInt(productFontSize),
+        };
+        
+        let totalAmountStyle={
+            color: amountFontColor,
+            fontFamily: mountFontFamily,
+            fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
+            fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
+            fontSize : parseInt(amountFontSize),
         };
 
         return (
@@ -81,13 +90,13 @@ export default class Preview extends Component {
                                
                             <p>{lang.size}</p>
                             <select 
-                                name = "size"
+                                name="size"
                                 className="form-control">
                                 <option> {option1} </option>
                             </select>
                             <p>{lang.color}</p>
                             <select 
-                                name = "color"
+                                name="color"
                                 className="form-control" >
                                 <option> {option3} </option>
                                 <option> {option2} </option>
@@ -96,13 +105,13 @@ export default class Preview extends Component {
                         </div>
                         <button>{lang.add_to_cart}</button>
                         <div className="full-width">
-                            <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
+                            <p style={titleStyle}>{lang.frequently_purchased_together}</p>
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src = {src} style={{width:"25px"}} /> 
+                                    <img src={src} style={{width:"25px"}} /> 
                                 </span>
-                                <span style= {productNameStyle}> {title}></span>
+                                <span style={productNameStyle}> {title}></span>
                                 <span><del>{price}</del>30$</span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
@@ -113,8 +122,7 @@ export default class Preview extends Component {
                                     </select>
                                 </span>
                             </p>
-
-                        <p>{lang.total}<span>70$</span> </p>
+                        <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
                         <button>{lang.add_bundle_to_cart}</button>
                         </div>
                     </div>
