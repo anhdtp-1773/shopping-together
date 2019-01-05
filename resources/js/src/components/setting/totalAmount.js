@@ -31,12 +31,8 @@ export default class TotalAmount extends Component {
     }
 
     changeHandlerColor (name, colors) {
-        this.props.changeHandlerColor(name, colors)
+        this.props.handleChangeValue(name, colors.color)
     };
-    
-    handleChangeColor(event){
-        this.props.handleChangeColor(event.target.name, event.target.value)
-    }
 
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
@@ -83,7 +79,7 @@ export default class TotalAmount extends Component {
                         type="text" 
                         style={{ backgroundColor: amountFontColor }} 
                         value={amountFontColor} 
-                        onChange={this.handleChangeColor.bind(this)} 
+                        onChange={this.handleChangeValue.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="amountFontColor"
                         className={classNames('form-control', validates.amountFontColor)}
