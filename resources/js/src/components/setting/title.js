@@ -12,7 +12,7 @@ export default class Title extends Component {
         };
     }
 
-    handleClick(event){
+    handleClick (event) {
         switch(event.target.name) {
             case 'titleFontColor':
                 this.setState({
@@ -31,12 +31,8 @@ export default class Title extends Component {
     }
 
     changeHandlerColor (name, colors) {
-        this.props.changeHandlerColor(name, colors)
+        this.props.handleChangeValue(name, colors.color)
     };
-    
-    handleChangeColor(event){
-        this.props.handleChangeColor(event.target.name, event.target.value)
-    }
 
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
@@ -57,8 +53,8 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -72,8 +68,8 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -84,7 +80,7 @@ export default class Title extends Component {
                         type="text" 
                         style={{ backgroundColor: titleFontColor }} 
                         value={titleFontColor} 
-                        onChange={this.handleChangeColor.bind(this)} 
+                        onChange={this.handleChangeValue.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="titleFontColor"
                         className={classNames('form-control', validates.titleFontColor)}

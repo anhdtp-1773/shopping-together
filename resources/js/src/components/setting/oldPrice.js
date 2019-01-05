@@ -30,16 +30,13 @@ export default class OldPrice extends Component {
     }
 
     changeHandlerColor (name, colors) {
-        this.props.changeHandlerColor(name, colors)
+        this.props.handleChangeValue(name, colors.color)
     };
-    
-    handleChangeColor(event){
-        this.props.handleChangeColor(event.target.name, event.target.value)
-    }
 
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
+
     render(){
         const {oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
@@ -55,8 +52,8 @@ export default class OldPrice extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {oldPriceFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -70,8 +67,8 @@ export default class OldPrice extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {oldPriceFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -82,7 +79,7 @@ export default class OldPrice extends Component {
                         type="text" 
                         style={{ backgroundColor: oldPriceFontColor }} 
                         value={oldPriceFontColor} 
-                        onChange={this.handleChangeColor.bind(this)} 
+                        onChange={this.handleChangeValue.bind(this)} 
                         onClick={this.handleClick.bind(this)}
                         name="oldPriceFontColor"
                         className={classNames('form-control', validates.oldPriceFontColor)}
@@ -109,7 +106,7 @@ export default class OldPrice extends Component {
                         className="slidecontainer" 
                         type="range" 
                         name = "oldPriceFontSize"
-                        value={oldPriceFontSize} 
+                        value ={oldPriceFontSize} 
                         min = {rangeFontSizeMin}
                         max = {rangeFontSizeMax}
                         onChange={this.handleChangeValue.bind(this)} 

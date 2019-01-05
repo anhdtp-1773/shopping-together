@@ -26,11 +26,13 @@ export default {
             'old_price_font_color': data.oldPriceFontColor,
         }); 
     },
+    
     getSetup(){
         return superagent.post('/api/setting/get').send({
             'shopify_domain': domain,
         });
     },
+    
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
             'page_number': pageNumber,
