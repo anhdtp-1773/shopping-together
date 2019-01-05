@@ -53,8 +53,8 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontFamily} 
                         >
-                            {fontFamilyOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontFamilyOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>
@@ -68,8 +68,8 @@ export default class Title extends Component {
                             onChange = {this.handleChangeValue.bind(this)}
                             value =  {titleFontStyle}
                         >
-                            {fontStyleOptions.map((value) =>
-                                <option value={value.value}>{value.label}</option>
+                            {fontStyleOptions.map((value, i) =>
+                                <option key={i} value={value.value}>{value.label}</option>
                             )}
                         </select>
                     </div>

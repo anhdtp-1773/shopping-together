@@ -8,6 +8,10 @@ export default {
             'title_font_style': data.titleFontStyle,
             'title_font_size': data.titleFontSize,
             'title_font_color': data.titleFontColor,
+            'product_font_family': data.productFontFamily,
+            'product_font_style': data.productFontStyle,
+            'product_font_size': data.productFontSize,
+            'product_font_color': data.productFontColor,
         });
     },
     
@@ -16,7 +20,7 @@ export default {
             'shopify_domain': domain,
         });
     },
-
+    
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
             'page_number': pageNumber,

@@ -92,6 +92,14 @@ html, body, #manage {
   cursor: pointer;
 }
 
+.valid {
+  border-color: #4caf50;
+}
+
+.invalid {
+ border-color: #E64A19;
+}
+
 .image-setting-product{
   width: 250px;
 }

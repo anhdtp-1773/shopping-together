@@ -45,7 +45,9 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
-        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle } = this.props;
+        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
+            productFontColor } = this.props;
+        
         let titleStyle={
             color: titleFontColor,
             fontFamily: titleFontFamily,
@@ -53,7 +55,14 @@ export default class Preview extends Component {
             fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
             fontSize : parseInt(titleFontSize),
         };
-        
+        let productNameStyle={
+            color: productFontColor,
+            fontFamily: productFontFamily,
+            fontWeight: productFontStyle == 'italic' ? '' : productFontStyle,
+            fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
+            fontSize : parseInt(productFontSize),
+        };
+
         return (
             <div className="full-width display-block">
                 <div className="form-group">
@@ -93,43 +102,14 @@ export default class Preview extends Component {
                                 <span>
                                     <img src = {src} style={{width:"25px"}} /> 
                                 </span>
-                                <span> {title}><del>{price}</del>30$</span>
+                                <span style= {productNameStyle}> {title}></span>
+                                <span><del>{price}</del>30$</span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
                                     <option>{option1}</option>
                                     <option>{option2}</option>
                                     <option>{option3}</option>
-                                    </select>
-                                </span>
-                            </p>
-
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img src = {src} style={{width:"30px"}} /> 
-                                </span>
-                                <span>{title}<del>{price}</del>20$
-                                    <span><input type="text" placeholder={1}/></span>
-                                </span>
-                                <span>
-                                    <select>
-                                        <option>{option2}</option>
-                                    </select>
-                                </span>
-                            </p>
-
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img src = {src} style={{width:"30px"}} /> 
-                                </span>
-                                <span>{title} 20$
-                                    <span><input type="text" placeholder={1}/></span>
-                                </span>
-                                <span>
-                                    <select>
-                                        <option>{option2}</option>
                                     </select>
                                 </span>
                             </p>

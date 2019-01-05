@@ -22,8 +22,12 @@ export default class Setting extends Component {
                 active: 1,
                 titleFontFamily: 'verdana',
                 titleFontStyle: 'italic',
-                titleFontSize: 25,
+                titleFontSize: 20,
                 titleFontColor: '#2296F3',
+                productFontFamily: 'verdana',
+                productFontStyle:'italic',
+                productFontSize: 20,
+                productFontColor:'#2296F3',
             },
             validates: {},
             message: '',
@@ -36,6 +40,7 @@ export default class Setting extends Component {
         this.setState({ 
             setting: result.data.setting,
         });
+
 	    if(result.data.setting){
             this.setState({
                 form: Object.assign({}, this.state.form, { 
@@ -43,6 +48,10 @@ export default class Setting extends Component {
                     titleFontStyle: result.data.setting.title_font_style,
                     titleFontSize: result.data.setting.title_font_size,
                     titleFontColor: result.data.setting.title_font_color,
+                    productFontFamily: result.data.setting.product_font_family,
+                    productFontStyle: result.data.setting.product_font_style,
+                    productFontSize: result.data.setting.product_font_size,
+                    productFontColor: result.data.setting.product_font_color,
                 }),
             })
         }
@@ -54,13 +63,18 @@ export default class Setting extends Component {
             case 'titleFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
+            case 'productFontColor':
+                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
         }
+
         this.setState({ 
             validates: Lodash.assign({}, this.state.validates, validates),
         });
     }
 
     handleChangeValue ( name, newValue) {
+        this.validate(name, newValue);
         this.setState(  {
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
@@ -98,6 +112,12 @@ export default class Setting extends Component {
                         />
                    
                         <ProductName 
+                            productFontFamily = {form.productFontFamily}
+                            productFontStyle = {form.productFontStyle}
+                            productFontColor = {form.productFontColor}
+                            productFontSize = {form.productFontSize}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                     
                         <TotalAmount 
@@ -139,6 +159,10 @@ export default class Setting extends Component {
                        titleFontStyle = {form.titleFontStyle}
                        titleFontColor = {form.titleFontColor}
                        titleFontSize = {form.titleFontSize}
+                       productFontFamily = {form.productFontFamily}
+                       productFontStyle = {form.productFontStyle}
+                       productFontColor = {form.productFontColor}
+                       productFontSize = {form.productFontSize}
                     />
                 </div>
                 {

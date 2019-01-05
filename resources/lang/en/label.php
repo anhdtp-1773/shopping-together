@@ -23,7 +23,7 @@ return [
     'add_to_cart' => 'ADD TO CART',
     'add_to_cart_button' => 'Add to cart button',
     'title' => 'Title',
-    'product_name' => 'Product Name',
+    'product_name' => 'Product name',
     'total_amount' => 'Total Amount',
     'sale_price' => 'Sale Price',
     'original_price' => 'Original Price',
@@ -60,4 +60,8 @@ return [
     'normal' => 'Normal',
     'times_new_roman' => 'Times New Roman',
     'segoe_ui' => 'Segoe UI',
+    'font_family' => 'Font family',
+    'font_style' => 'Font style',
+    'font_size' => 'Font size',
+    'font_color' => 'Font color',
 ];
