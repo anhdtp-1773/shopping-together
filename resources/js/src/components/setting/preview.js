@@ -45,6 +45,15 @@ export default class Preview extends Component {
 
     render(){
         const{ title, src, price, option1, option2, option3} = this.state.form;
+        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle } = this.props;
+        let titleStyle={
+            color: titleFontColor,
+            fontFamily: titleFontFamily,
+            fontWeight: titleFontStyle == 'italic' ? '' : titleFontStyle,
+            fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
+            fontSize : parseInt(titleFontSize),
+        };
+        
         return (
             <div className="full-width display-block">
                 <div className="form-group">
@@ -54,7 +63,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img src = {src} style={{width:"400px"}}/>
+                       <img className="image-setting-product" src = {src}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -78,25 +87,27 @@ export default class Preview extends Component {
                         </div>
                         <button>{lang.add_to_cart}</button>
                         <div className="full-width">
-                            <p>{lang.frequently_purchased_together}</p>
-                            <input type="checkbox" />
-                            <span>
-                                <img src = {src} style={{width:"30px"}} /> 
-                            </span>
-                            <span>{title}<del>{price}</del>30$</span>
-                            <span><input type="text"placeholder={1}/></span>
-                            <span>
-                                <select>
-                                <option>{option1}</option>
-                                <option>{option2}</option>
-                                <option>{option3}</option>
-                                    
-                                </select>
-                            </span>
+                            <p style= {titleStyle}>{lang.frequently_purchased_together}</p>
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src src = {src} style={{width:"30px"}} /> 
+                                    <img src = {src} style={{width:"25px"}} /> 
+                                </span>
+                                <span> {title}><del>{price}</del>30$</span>
+                                <span><input type="text"placeholder={1}/></span>
+                                <span>
+                                    <select>
+                                    <option>{option1}</option>
+                                    <option>{option2}</option>
+                                    <option>{option3}</option>
+                                    </select>
+                                </span>
+                            </p>
+
+                            <p>
+                                <input type="checkbox" />
+                                <span>
+                                    <img src = {src} style={{width:"30px"}} /> 
                                 </span>
                                 <span>{title}<del>{price}</del>20$
                                     <span><input type="text" placeholder={1}/></span>
@@ -107,6 +118,7 @@ export default class Preview extends Component {
                                     </select>
                                 </span>
                             </p>
+
                             <p>
                                 <input type="checkbox" />
                                 <span>
@@ -121,6 +133,7 @@ export default class Preview extends Component {
                                     </select>
                                 </span>
                             </p>
+
                         <p>{lang.total}<span>70$</span> </p>
                         <button>{lang.add_bundle_to_cart}</button>
                         </div>

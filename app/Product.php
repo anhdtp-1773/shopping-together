@@ -47,7 +47,8 @@ class Product extends Model
     public static function getProduct($id_shopify_product){
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)->get();
     }
-     /**
+
+    /**
      * @param int $id_shop
      * @return array
      * <pre>
