@@ -146,12 +146,6 @@ export default class AddRule extends Component {
         })
     }
 
-    onChangeCurrentPage (name, value) {
-        this.setState({
-            [name]: value
-        })
-    }
-
     onChangeValue (name, value) {
         this.setState({
             [name]: value
