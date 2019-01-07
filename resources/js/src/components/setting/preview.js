@@ -44,11 +44,20 @@ export default class Preview extends Component {
     };
 
     render(){
-        const{ title, src, price, option1, option2, option3} = this.state.form;
-        const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
+        const{title, src, price, option1, option2, option3 } = this.state.form;
+        const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor } = this.props;
+            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartFontFamily,
+            cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
 
+        let cartStyle={
+            color: cartFontColor,
+            backgroundColor: backgroundColor,
+            fontFamily: cartFontFamily,
+            fontWeight: cartFontStyle == 'italic' ? '' : cartFontStyle,
+            fontStyle : cartFontStyle == 'italic' ? cartFontStyle : '',
+            fontSize : parseInt(cartFontSize),
+        };
         let oldPriceStyle={
             color: oldPriceFontColor,
             fontFamily: oldPriceFontFamily,
@@ -133,16 +142,16 @@ export default class Preview extends Component {
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
-                                    <option>{option1}</option>
-                                    <option>{option2}</option>
-                                    <option>{option3}</option>
+                                        <option>{option1}</option>
+                                        <option>{option2}</option>
+                                        <option>{option3}</option>
                                     </select>
                                 </span>
                                 <del><span style= {oldPriceStyle}>{price}</span></del>
                                 <span style= {newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
-                        <button>{lang.add_bundle_to_cart}</button>
+                        <button style= {cartStyle}>{lang.add_bundle_to_cart}</button>
                         </div>
                     </div>
                     <div>

@@ -36,6 +36,11 @@ export default class Setting extends Component {
                 newPriceFontStyle:'italic',
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
+                cartFontFamily:'verdana',
+                cartFontStyle: 'italic',
+                cartFontSize: 20,
+                cartFontColor: '#2296F3',
+                backgroundColor: '#2296F3',
             },
             validates: {},
             message: '',
@@ -72,6 +77,11 @@ export default class Setting extends Component {
                     oldPriceFontStyle: result.data.setting.old_price_font_style,
                     oldPriceFontSize: result.data.setting.old_price_font_size,
                     oldPriceFontColor: result.data.setting.old_price_font_color,
+                    cartFontFamily: result.data.setting.cart_font_family,
+                    cartFontStyle: result.data.setting.cart_font_style,
+                    cartFontSize: result.data.setting.cart_font_size,
+                    cartFontColor: result.data.setting.cart_font_color,
+                    backgroundColor: result.data.setting.back_ground_color,
                 }),
             })
         }
@@ -85,6 +95,8 @@ export default class Setting extends Component {
             case 'amountFontColor':
             case 'newPriceFontColor':
             case 'oldPriceFontColor':
+            case 'cartFontColor':
+            case 'backgroundColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
         }
@@ -169,6 +181,13 @@ export default class Setting extends Component {
                         />
                     
                         <Cart 
+                            cartFontFamily = {form.cartFontFamily}
+                            cartFontStyle = {form.cartFontStyle}
+                            cartFontSize = {form.cartFontSize}
+                            cartFontColor = {form.cartFontColor}
+                            backgroundColor = {form.backgroundColor}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                     
                         <Translation 
@@ -214,6 +233,11 @@ export default class Setting extends Component {
                         oldPriceFontStyle = {form.oldPriceFontStyle}
                         oldPriceFontSize = {form.oldPriceFontSize}
                         oldPriceFontColor = {form.oldPriceFontColor}
+                        cartFontFamily = {form.cartFontFamily}
+                        cartFontStyle = {form.cartFontStyle}
+                        cartFontSize = {form.cartFontSize}
+                        cartFontColor = {form.cartFontColor}
+                        backgroundColor = {form.backgroundColor}
                     />
                 </div>
                 {
