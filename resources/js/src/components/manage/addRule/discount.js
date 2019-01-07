@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
 import { optionsDiscountType } from "./../../../constants";
+import classNames from 'classnames'
 
 export default class Discount extends Component {
     constructor(){
@@ -19,33 +20,57 @@ export default class Discount extends Component {
     }
 
     changeRelatedProduct (index, event) {
-        this.props.changeRelatedProduct(index, event);
+        this.props.changeRelatedProduct(index, event.target.value);
     }
 
     nextStep (step) {
         this.props.nextStep(step);
     }
+    
     render(){
-        const {mainProduct, relatedProducts, discountType} = this.props;
-        let priceRelatedProduct = 0;
+        const {mainProduct, relatedProducts, discountType, validates} = this.props;
+        let relatedProductPrice = 0;
         {relatedProducts.map((relatedProduct, key)=>(
-            priceRelatedProduct += parseInt(relatedProduct.price)
+            discountType == 'percentage' 
+            ? 
+                relatedProduct.number 
+                ?
+                    relatedProductPrice += (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
+                :
+                    relatedProductPrice += parseInt(relatedProduct.price)
+            :   
+                relatedProduct.number
+                ?
+                    relatedProductPrice += (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
+                :   
+                    relatedProductPrice += parseInt(relatedProduct.price)
         ))}
-        let total = priceRelatedProduct + parseInt(mainProduct.price);
+        let mainProductPrice = parseInt(mainProduct.price);
+        if(discountType == 'percentage'){
+            if(mainProduct.number){
+                mainProductPrice = parseInt(mainProduct.price) - (parseInt(mainProduct.price) * parseInt(mainProduct.number)/100);
+            }
+        }else{
+            if(mainProductPrice.number){
+                mainProductPrice = parseInt(mainProduct.price) - parseInt(mainProduct.number);
+            }
+        }
+        let total = relatedProductPrice + mainProductPrice;
+        const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'}); 
         return(
             <Fragment>
                 <div className="container section-heading">
-                  <h1 className="title-heading">{lang.set_discount}</h1>
-                  <div className="discount-type-wrap">
-                    <div className="title-discount">{lang.discount_type}</div>
-                    <div className="form-group select-discount-type">
-                        <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
-                            {optionsDiscountType.map((type, i)=>(
-                                <option key={i} value={type.value}>{type.label}</option>
-                            ))}
-                        </select>
+                    <h1 className="title-heading">{lang.set_discount}</h1>
+                    <div className="discount-type-wrap">
+                        <div className="title-discount">{lang.discount_type}</div>
+                        <div className="form-group select-discount-type">
+                            <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
+                                {optionsDiscountType.map((type, i)=>(
+                                    <option key={i} value={type.value}>{type.label}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-                  </div>
                 </div>
 
                 <div className="panel panel-default container ">
@@ -65,17 +90,18 @@ export default class Discount extends Component {
                                 <td>{mainProduct.title}</td>
                                 <td>{mainProduct.price}</td>
                                 <td>
-
                                     <input
                                         type="text"
-                                        className="text-discount"
-                                        onBlur={this.changeMainProduct.bind(this)}
-                                        // value={0}
+                                        onChange={this.changeMainProduct.bind(this)}
+                                        defaultValue={mainProduct.number}
+                                        name="mainProduct"
+                                        className={classNames('text-discount', validates.mainProduct)}
                                     />
                                     <span>{discountType  == 'percentage' ? '%' : ''}</span>
-
                                 </td>
-                                <td className="price-product">{mainProduct.price}</td>
+                                <td className="price-product">
+                                    {mainProductPrice}
+                                </td>
                             </tr>
                             {relatedProducts.map((relatedProduct, key)=>(
                                 <tr key={key}>
@@ -84,14 +110,31 @@ export default class Discount extends Component {
                                     <td>{relatedProduct.price}</td>
                                     <td>
                                         <input
+                                            key={key}   
                                             type="text"
                                             className="text-discount"
-                                            onBlur={this.changeRelatedProduct.bind(this, key)}
-                                            // value = {0}
+                                            onChange={this.changeRelatedProduct.bind(this, key)}
+                                            defaultValue = {relatedProduct.number}
                                         />
                                         <span>{discountType  == 'percentage' ? '%' : ''}</span>
                                     </td>
-                                    <td className="price-product">{relatedProduct.price}</td>
+                                    <td className="price-product">
+                                        {
+                                            discountType == 'percentage' 
+                                            ? 
+                                                relatedProduct.number 
+                                                ?
+                                                    (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
+                                                :
+                                                    parseInt(relatedProduct.price)
+                                            :   
+                                                relatedProduct.number
+                                                ?
+                                                    (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
+                                                :   
+                                                    parseInt(relatedProduct.price)
+                                        }
+                                    </td>
                                 </tr>
                             ))}
                             <tr>
@@ -108,7 +151,7 @@ export default class Discount extends Component {
                     <button
                         onClick={() => this.props.onSubmit()}
                         type="button"
-                        className="btn btn-primary"
+                        className={classNames('btn btn-primary', {'disabled-form': !disabledOnClick})}
                         style={{float:"right"}}
                     >
                         {lang.save}

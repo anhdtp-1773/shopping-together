@@ -9,3 +9,8 @@ export function isName(name, ignoreNumber = true){
 	let reg = ignoreNumber ? /^[^0-9!<>,;?=+()@#"°{}_$%~:]+$/ : /^[^!<>,;?=+()@#"°{}_$%~:]+$/;
 	return (reg.test(name) || name.length == 0);
 }
+
+export function numberDiscount (value, typeDiscount) {
+    let number =  /^\d+$/.test(value);
+    console.log(number);
+}
