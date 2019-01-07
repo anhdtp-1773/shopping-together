@@ -24,7 +24,9 @@ export default {
             'old_price_font_style': data.oldPriceFontStyle,
             'old_price_font_size': data.oldPriceFontSize,
             'old_price_font_color': data.oldPriceFontColor,
-        }); 
+            'cart_text': data.cartText,
+            'product_text': data.productText,
+        });
     },
     
     getSetup(){

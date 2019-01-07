@@ -47,7 +47,8 @@ export default class Preview extends Component {
         const{ title, src, price, option1, option2, option3} = this.state.form;
         const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor } = this.props;
+            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
+            productText } = this.props;
 
         let oldPriceStyle={
             color: oldPriceFontColor,

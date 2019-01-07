@@ -36,6 +36,8 @@ export default class Setting extends Component {
                 newPriceFontStyle:'italic',
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
+                cartText:'',
+                productText:'',
             },
             validates: {},
             message: '',
@@ -72,6 +74,8 @@ export default class Setting extends Component {
                     oldPriceFontStyle: result.data.setting.old_price_font_style,
                     oldPriceFontSize: result.data.setting.old_price_font_size,
                     oldPriceFontColor: result.data.setting.old_price_font_color,
+                    cartText: result.data.setting.cart_text,
+                    productText: result.data.setting.product_text,
                 }),
             })
         }
@@ -85,6 +89,8 @@ export default class Setting extends Component {
             case 'amountFontColor':
             case 'newPriceFontColor':
             case 'oldPriceFontColor':
+            case 'cartText':
+            case 'productText':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
         }
@@ -172,6 +178,10 @@ export default class Setting extends Component {
                         />
                     
                         <Translation 
+                            cartText = {form.cartText}
+                            productText = {form.productText}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                     
                         <Display 
@@ -214,6 +224,8 @@ export default class Setting extends Component {
                         oldPriceFontStyle = {form.oldPriceFontStyle}
                         oldPriceFontSize = {form.oldPriceFontSize}
                         oldPriceFontColor = {form.oldPriceFontColor}
+                        cartText = {form.cartText}
+                        productText = {form.productText}
                     />
                 </div>
                 {
