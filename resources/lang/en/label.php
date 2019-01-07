@@ -64,4 +64,11 @@ return [
     'font_style' => 'Font style',
     'font_size' => 'Font size',
     'font_color' => 'Font color',
+    'show' => 'SHOW',
+    'height' => 'Height',
+    'width' => 'width',
+    'allow_on_pcs' => 'Allow on PCs',
+    'allow_on_mobile_devices' => 'Allow on mobile devices',
+    'product_image_size' => 'PRODUCT IMAGE SIZE',
+    'products_to_group' => 'Products to group',
 ];

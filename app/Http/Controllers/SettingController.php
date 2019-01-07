@@ -23,6 +23,8 @@ class SettingController extends Controller
             'amount_font_color' =>'required', 
             'new_price_font_color' =>'required', 
             'old_price_font_color' =>'required', 
+            'product_image_width' =>'required|integer', 
+            'product_imgae_height' =>'required|integer', 
         ]);
 
         if($validator->fails()){

@@ -36,6 +36,9 @@ export default class Setting extends Component {
                 newPriceFontStyle:'italic',
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
+                showProductQty: 3,
+                productImageWidth: 30 ,
+                productImageHeight: 30,
             },
             validates: {},
             message: '',
@@ -72,6 +75,9 @@ export default class Setting extends Component {
                     oldPriceFontStyle: result.data.setting.old_price_font_style,
                     oldPriceFontSize: result.data.setting.old_price_font_size,
                     oldPriceFontColor: result.data.setting.old_price_font_color,
+                    showProductQty: result.data.setting.show_product_qty,
+                    productImageWidth: result.data.setting.product_image_width,
+                    productImageHeight: result.data.setting.product_imgae_height,
                 }),
             })
         }
@@ -86,6 +92,10 @@ export default class Setting extends Component {
             case 'newPriceFontColor':
             case 'oldPriceFontColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+            case 'productImageWidth':
+            case 'productImageHeight':
+                validates[name] = Validate.isNumeric(value) ? 'valid' : 'invalid';
                 break;
         }
 
@@ -175,6 +185,11 @@ export default class Setting extends Component {
                         />
                     
                         <Display 
+                            showProductQty = {form.showProductQty}
+                            productImageWidth = {form.productImageWidth}
+                            productImageHeight = {form.productImageHeight}
+                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            validates = {validates}
                         />
                         
                     </Fragment>
@@ -214,6 +229,9 @@ export default class Setting extends Component {
                         oldPriceFontStyle = {form.oldPriceFontStyle}
                         oldPriceFontSize = {form.oldPriceFontSize}
                         oldPriceFontColor = {form.oldPriceFontColor}
+                        showProductQty = {form.showProductQty}
+                        productImageWidth = {form.productImageWidth}
+                        productImageHeight = {form.productImageHeight}
                     />
                 </div>
                 {
