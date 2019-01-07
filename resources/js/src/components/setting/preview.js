@@ -47,8 +47,15 @@ export default class Preview extends Component {
         const{ title, src, price, option1, option2, option3} = this.state.form;
         const { titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor } = this.props;
+            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor } = this.props;
 
+        let oldPriceStyle={
+            color: oldPriceFontColor,
+            fontFamily: oldPriceFontFamily,
+            fontWeight: oldPriceFontStyle == 'italic' ? '' : oldPriceFontStyle,
+            fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
+            fontSize : parseInt(oldPriceFontSize),
+        };
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -72,7 +79,7 @@ export default class Preview extends Component {
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
             fontSize : parseInt(productFontSize),
         };
-        
+
         let totalAmountStyle={
             color: amountFontColor,
             fontFamily: mountFontFamily,
@@ -122,7 +129,7 @@ export default class Preview extends Component {
                                 <span>
                                     <img src={src} style={{width:"25px"}} /> 
                                 </span>
-                                <span style={productNameStyle}> {title}></span>
+                                <span style={productNameStyle}> {title}</span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
@@ -131,7 +138,7 @@ export default class Preview extends Component {
                                     <option>{option3}</option>
                                     </select>
                                 </span>
-                                <span><del>{price}</del></span>
+                                <del><span style= {oldPriceStyle}>{price}</span></del>
                                 <span style= {newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>

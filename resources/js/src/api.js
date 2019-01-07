@@ -20,6 +20,10 @@ export default {
             'new_price_font_style': data.newPriceFontStyle,
             'new_price_font_size': data.newPriceFontSize,
             'new_price_font_color': data.newPriceFontColor,
+            'old_price_font_family': data.oldPriceFontFamily,
+            'old_price_font_style': data.oldPriceFontStyle,
+            'old_price_font_size': data.oldPriceFontSize,
+            'old_price_font_color': data.oldPriceFontColor,
         }); 
     },
     
