@@ -6,7 +6,7 @@ export default class Discount extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-            
+
         }
     }
 
@@ -22,6 +22,9 @@ export default class Discount extends Component {
         this.props.changeRelatedProduct(index, event);
     }
 
+    nextStep (step) {
+        this.props.nextStep(step);
+    }
     render(){
         const {mainProduct, relatedProducts, discountType} = this.props;
         let priceRelatedProduct = 0;
@@ -31,17 +34,22 @@ export default class Discount extends Component {
         let total = priceRelatedProduct + parseInt(mainProduct.price);
         return(
             <Fragment>
-                <p>{lang.discount_type}</p>
-                <div className="form-group col-md-4">
-                    <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
-                        {optionsDiscountType.map((type)=>(
-                            <option value={type.value}>{type.label}</option>
-                        ))}
-                    </select>
+                <div className="container section-heading">
+                  <h1 className="title-heading">{lang.set_discount}</h1>
+                  <div className="discount-type-wrap">
+                    <div className="title-discount">{lang.discount_type}</div>
+                    <div className="form-group select-discount-type">
+                        <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
+                            {optionsDiscountType.map((type, i)=>(
+                                <option key={i} value={type.value}>{type.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                  </div>
                 </div>
-                <div className="panel panel-default container">
-                    <div className="panel-heading">{lang.set_discount}</div>
-                    <table className="table">
+
+                <div className="panel panel-default container ">
+                    <table className="table set-discount-wrap">
                         <thead>
                             <tr>
                                 <th>{lang.image}</th>
@@ -57,31 +65,33 @@ export default class Discount extends Component {
                                 <td>{mainProduct.title}</td>
                                 <td>{mainProduct.price}</td>
                                 <td>
-                                    <input 
-                                        type="text" 
-                                        className="col-md-3"
+
+                                    <input
+                                        type="text"
+                                        className="text-discount"
                                         onBlur={this.changeMainProduct.bind(this)}
                                         // value={0}
                                     />
                                     <span>{discountType  == 'percentage' ? '%' : ''}</span>
+
                                 </td>
-                                <td>{mainProduct.price}</td>
+                                <td className="price-product">{mainProduct.price}</td>
                             </tr>
                             {relatedProducts.map((relatedProduct, key)=>(
-                                <tr>
+                                <tr key={key}>
                                     <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
                                     <td>{relatedProduct.title}</td>
                                     <td>{relatedProduct.price}</td>
                                     <td>
-                                        <input 
-                                            type="text" 
-                                            className="col-md-3" 
+                                        <input
+                                            type="text"
+                                            className="text-discount"
                                             onBlur={this.changeRelatedProduct.bind(this, key)}
                                             // value = {0}
                                         />
                                         <span>{discountType  == 'percentage' ? '%' : ''}</span>
                                     </td>
-                                    <td>{relatedProduct.price}</td>
+                                    <td className="price-product">{relatedProduct.price}</td>
                                 </tr>
                             ))}
                             <tr>
@@ -89,19 +99,22 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{total}</td>
+                                <td className="price-product">{total}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button 
-                    onClick={() => this.props.onSubmit()}
-                    type="button" 
-                    class="btn btn-primary" 
-                    style={{float:"right"}}
-                >
-                    {lang.save}
-                </button>
+                <div className="container">
+                    <button
+                        onClick={() => this.props.onSubmit()}
+                        type="button"
+                        className="btn btn-primary"
+                        style={{float:"right"}}
+                    >
+                        {lang.save}
+                    </button>
+                    <button onClick={this.nextStep.bind(this, 2)} type="button" className="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                </div>
             </Fragment>
         )
     }

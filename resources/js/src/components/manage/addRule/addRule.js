@@ -146,12 +146,6 @@ export default class AddRule extends Component {
         })
     }
 
-    onChangeCurrentPage (name, value) {
-        this.setState({
-            [name]: value
-        })
-    }
-
     onChangeValue (name, value) {
         this.setState({
             [name]: value
@@ -199,6 +193,7 @@ export default class AddRule extends Component {
                                 nextStep = {this.nextStep}
                                 idMainProduct = {idMainProduct}
                                 onChangeValue = {this.onChangeValue}
+                                relatedProducts = {form.relatedProducts}
                             />
                         :
                             null
