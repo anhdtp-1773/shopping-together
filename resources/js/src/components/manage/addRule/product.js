@@ -26,7 +26,6 @@ export default class Product extends Component {
         })
     }
     render() {
-        console.log(this.state.validates);
         const {key, relatedProduct, discountType} = this.props;
         return(
             <Fragment>

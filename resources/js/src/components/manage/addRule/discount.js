@@ -89,7 +89,7 @@ export default class Discount extends Component {
                             <tr>
                                 <td><img className="img-discount-product" src={mainProduct.src} alt="..." /></td>
                                 <td>{mainProduct.title}</td>
-                                <td>{mainProduct.price}</td>
+                                <td>{mainProduct.price +" "+ mainProduct.currency}</td>
                                 <td>
                                     <input
                                         type="text"
@@ -101,14 +101,14 @@ export default class Discount extends Component {
                                     <span>{discountType  == 'percentage' ? '%' : ''}</span>
                                 </td>
                                 <td className="price-product">
-                                    {mainProductPrice}
+                                    {mainProductPrice +" "+ mainProduct.currency}
                                 </td>
                             </tr>
                             {relatedProducts.map((relatedProduct, key)=>(
                                 <tr key={key}>
                                     <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
                                     <td>{relatedProduct.title}</td>
-                                    <td>{relatedProduct.price}</td>
+                                    <td>{relatedProduct.price +" "+ mainProduct.currency}</td>
                                     <td>
                                         <input
                                             key={key}   
@@ -128,15 +128,15 @@ export default class Discount extends Component {
                                             ? 
                                                 relatedProduct.number 
                                                 ?
-                                                    (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
+                                                    (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100) +" "+ relatedProduct.currency
                                                 :
-                                                    parseInt(relatedProduct.price)
+                                                    parseInt(relatedProduct.price) +" "+ relatedProduct.currency
                                             :   
                                                 relatedProduct.number
                                                 ?
-                                                    (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
+                                                    (parseInt(relatedProduct.price) - parseInt(relatedProduct.number)) +" "+ relatedProduct.currency
                                                 :   
-                                                    parseInt(relatedProduct.price)
+                                                    parseInt(relatedProduct.price) +" "+ relatedProduct.currency
                                         }
                                     </td>
                                 </tr>
@@ -151,7 +151,7 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td className="price-product">{total}</td>
+                                <td className="price-product">{total +" "+ mainProduct.currency}</td>
                             </tr>
                         </tbody>
                     </table>
