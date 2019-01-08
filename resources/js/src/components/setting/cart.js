@@ -83,10 +83,10 @@ export default class Cart extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}
                             <select 
-                                name = "cartFontFamily"
+                                name="cartFontFamily"
                                 className="form-control" 
-                                onChange = {this.handleChangeValue}
-                                value =  {cartFontFamily} 
+                                onChange={this.handleChangeValue}
+                                value={cartFontFamily} 
                             >
                                 {fontFamilyOptions.map((value, i) =>
                                     <option key={i} value={value.value}>{value.label}</option>
@@ -99,10 +99,10 @@ export default class Cart extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                             <select 
-                                name = "cartFontStyle"
+                                name="cartFontStyle"
                                 className="form-control" 
-                                onChange = {this.handleChangeValue}
-                                value =  {cartFontStyle}
+                                onChange={this.handleChangeValue}
+                                value= {cartFontStyle}
                             >
                                 {fontStyleOptions.map((value, i) =>
                                     <option key={i} value={value.value}>{value.label}</option>
@@ -127,7 +127,7 @@ export default class Cart extends Component {
                             <Fragment>
                                 <ColorPickerPanel 
                                     alpha={80} 
-                                    color= {cartFontColor} 
+                                    color={cartFontColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
                                     mode="HSB" 
                                     // onBlur={this.handleClose}
@@ -154,7 +154,7 @@ export default class Cart extends Component {
                             <Fragment>
                                 <ColorPickerPanel 
                                     alpha={80} 
-                                    color= {backgroundColor} 
+                                    color={backgroundColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'backgroundColor')} 
                                     // onBlur={this.handleClose}
                                     mode="HSB" 
@@ -169,10 +169,10 @@ export default class Cart extends Component {
                         <input 
                             className="slidecontainer" 
                             type="range" 
-                            name = "cartFontSize"
-                            value ={cartFontSize} 
-                            min = {rangeFontSizeMin}
-                            max = {rangeFontSizeMax}
+                            name="cartFontSize"
+                            value={cartFontSize} 
+                            min={rangeFontSizeMin}
+                            max={rangeFontSizeMax}
                             onChange={this.handleChangeValue} 
                         />
                 </div>
