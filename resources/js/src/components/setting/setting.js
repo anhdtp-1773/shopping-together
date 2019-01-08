@@ -17,6 +17,8 @@ import Notification from '../notification';
 export default class Setting extends Component {
     constructor(props) {
         super(props);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.state = {
             form: {
                 active: 1,
@@ -36,6 +38,10 @@ export default class Setting extends Component {
                 newPriceFontStyle:'italic',
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
+                oldPriceFontFamily:'verdana',
+                newPriceFontStyle:'italic',
+                oldPriceFontSize: 20,
+                oldPriceFontColor:'#2296F3',
                 cartFontFamily:'verdana',
                 cartFontStyle: 'italic',
                 cartFontSize: 20,
@@ -140,7 +146,7 @@ export default class Setting extends Component {
                             titleFontStyle = {form.titleFontStyle}
                             titleFontColor = {form.titleFontColor}
                             titleFontSize = {form.titleFontSize}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                         />
                    
@@ -149,7 +155,7 @@ export default class Setting extends Component {
                             productFontStyle = {form.productFontStyle}
                             productFontColor = {form.productFontColor}
                             productFontSize = {form.productFontSize}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                         />
                     
@@ -158,7 +164,7 @@ export default class Setting extends Component {
                             amountFontStyle = {form.amountFontStyle}
                             amountFontSize = {form.amountFontSize}
                             amountFontColor = {form.amountFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                             />
 
@@ -167,7 +173,7 @@ export default class Setting extends Component {
                             newPriceFontStyle = {form.newPriceFontStyle}
                             newPriceFontSize = {form.newPriceFontSize}
                             newPriceFontColor = {form.newPriceFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                             />
                     
@@ -176,7 +182,7 @@ export default class Setting extends Component {
                             oldPriceFontStyle = {form.oldPriceFontStyle}
                             oldPriceFontSize = {form.oldPriceFontSize}
                             oldPriceFontColor = {form.oldPriceFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                         />
                     
@@ -186,7 +192,7 @@ export default class Setting extends Component {
                             cartFontSize = {form.cartFontSize}
                             cartFontColor = {form.cartFontColor}
                             backgroundColor = {form.backgroundColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
+                            handleChangeValue = {this.handleChangeValue}
                             validates = {validates}
                         />
                     
@@ -205,7 +211,7 @@ export default class Setting extends Component {
                     </p>
                     <button
                         href="javascript:void(0);" 
-                        onClick={this.onSubmit.bind(this)} 
+                        onClick={this.onSubmit} 
                         className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}

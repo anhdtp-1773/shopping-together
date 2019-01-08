@@ -49,7 +49,7 @@ export default class Preview extends Component {
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
             newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartFontFamily,
             cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
-
+            
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,

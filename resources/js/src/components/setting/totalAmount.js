@@ -7,27 +7,35 @@ import classNames from 'classnames'
 export default class TotalAmount extends Component {
     constructor(props) {
         super(props);
+
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.changeHandlerColor = this.changeHandlerColor.bind(this, 'amountFontColor');
+
         this.state = {
             displayFontColor: false,
         };
     }
 
-    handleClick(event){
-        switch(event.target.name) {
-            case 'amountFontColor':
-                this.setState({
-                    displayFontColor: !this.state.displayFontColor,
-                });
-                break;
-            default:
-                return;
+    handleClick()
+    {
+        if (!this.state.displayFontColor) {
+            document.addEventListener('click', this.handleOutsideClick, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
         }
-    }
-    
-    handleClose (){
-        this.setState({ 
-            displayFontColor: false,
+        this.setState({
+            displayFontColor: !this.state.displayFontColor,
         })
+    }
+
+    handleOutsideClick(e) {
+        if (this.node.contains(e.target)) {
+          return;
+        }
+        
+        this.handleClick();
     }
 
     changeHandlerColor (name, colors) {
@@ -49,7 +57,7 @@ export default class TotalAmount extends Component {
                         <select 
                             name="amountFontFamily"
                             className="form-control" 
-                            onChange={this.handleChangeValue.bind(this)}
+                            onChange={this.handleChangeValue}
                             value={amountFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
@@ -64,7 +72,7 @@ export default class TotalAmount extends Component {
                         <select 
                             name="amountFontStyle"
                             className="form-control" 
-                            onChange={this.handleChangeValue.bind(this)}
+                            onChange={this.handleChangeValue}
                             value={amountFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
@@ -73,16 +81,17 @@ export default class TotalAmount extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="full-width">
+                <div className="full-width" ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                     <input 
                         type="text" 
                         style={{ backgroundColor: amountFontColor }} 
                         value={amountFontColor} 
-                        onChange={this.handleChangeValue.bind(this)} 
-                        onClick={this.handleClick.bind(this)}
+                        onChange={this.handleChangeValue} 
+                        onClick={this.handleClick}
                         name="amountFontColor"
                         className={classNames('form-control', validates.amountFontColor)}
+                        onBlur={this.handleClose}
                     />
                     {
                         displayFontColor 
@@ -91,9 +100,9 @@ export default class TotalAmount extends Component {
                             <ColorPickerPanel 
                                 alpha={80}
                                 color={amountFontColor} 
-                                onChange={this.changeHandlerColor.bind(this, 'amountFontColor')} 
+                                onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={this.handleClose.bind(this) }
+                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :
@@ -109,7 +118,7 @@ export default class TotalAmount extends Component {
                         value={amountFontSize} 
                         min={rangeFontSizeMin}
                         max={rangeFontSizeMax}
-                        onChange={this.handleChangeValue.bind(this)} 
+                        onChange={this.handleChangeValue} 
                     />
                 </div>
             </div>

@@ -4,30 +4,38 @@ import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 import classNames from 'classnames'
 
-export default class Title extends Component {
+export default class OldPrice extends Component {
     constructor(props) {
         super(props);
+
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.changeHandlerColor = this.changeHandlerColor.bind(this, 'titleFontColor');
+
         this.state = {
             displayFontColor: false,
         };
     }
 
-    handleClick (event) {
-        switch(event.target.name) {
-            case 'titleFontColor':
-                this.setState({
-                    displayFontColor: !this.state.displayFontColor,
-                });
-                break;
-            default:
-                return;
+    handleClick()
+    {
+        if (!this.state.displayFontColor) {
+            document.addEventListener('click', this.handleOutsideClick, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
         }
-    }
-    
-    handleClose(){
-        this.setState({ 
-            displayFontColor: false,
+        this.setState({
+            displayFontColor: !this.state.displayFontColor,
         })
+    }
+
+    handleOutsideClick(e) {
+        if (this.node.contains(e.target)) {
+          return;
+        }
+        
+        this.handleClick();
     }
 
     changeHandlerColor (name, colors) {
@@ -50,7 +58,7 @@ export default class Title extends Component {
                         <select 
                             name = "titleFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
+                            onChange = {this.handleChangeValue}
                             value =  {titleFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
@@ -65,7 +73,7 @@ export default class Title extends Component {
                         <select 
                             name = "titleFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
+                            onChange = {this.handleChangeValue}
                             value =  {titleFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
@@ -74,16 +82,17 @@ export default class Title extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="full-width">
+                <div className="full-width" ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                     <input 
                         type="text" 
                         style={{ backgroundColor: titleFontColor }} 
                         value={titleFontColor} 
-                        onChange={this.handleChangeValue.bind(this)} 
-                        onClick={this.handleClick.bind(this)}
+                        onChange={this.handleChangeValue} 
+                        onClick={this.handleClick}
                         name="titleFontColor"
                         className={classNames('form-control', validates.titleFontColor)}
+                        onBlur={this.handleClose}
                     />
                     {
                         displayFontColor 
@@ -92,9 +101,9 @@ export default class Title extends Component {
                             <ColorPickerPanel 
                                 alpha={80} 
                                 color= {titleFontColor} 
-                                onChange={this.changeHandlerColor.bind(this, 'titleFontColor')} 
+                                onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={this.handleClose.bind(this) }
+                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :
@@ -110,7 +119,7 @@ export default class Title extends Component {
                         value={titleFontSize} 
                         min = {rangeFontSizeMin}
                         max = {rangeFontSizeMax}
-                        onChange={this.handleChangeValue.bind(this)} 
+                        onChange={this.handleChangeValue} 
                     />
                 </div>
             </div>
