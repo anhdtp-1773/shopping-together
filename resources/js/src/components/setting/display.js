@@ -6,11 +6,10 @@ import classNames from 'classnames'
 export default class Display extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
+        this.handleChangeValue = this.handleChangeValue.bind(this);
     }
-    handleChangeValue  = (event) => {
+
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
 
@@ -34,23 +33,23 @@ export default class Display extends Component {
                     <p>{lang.products_to_group}
                         <input 
                             type="range" 
-                            name = "showProductQty"
+                            name="showProductQty"
                             className="form-control" 
                             value={showProductQty} 
-                            min = {rangeProductQuantityMin}
-                            max = {rangeProductQuantityMax}
-                            onChange={this.handleChangeValue.bind(this)} 
+                            min={rangeProductQuantityMin}
+                            max={rangeProductQuantityMax}
+                            onChange={this.handleChangeValue} 
                         />
                     </p>
                 </div>
 
                 <div>
-                    <p>{lang.product_image_size}>
+                    <p>{lang.product_image_size}
                         <input 
                             type="text"
-                            name = "productImageWidth"
+                            name="productImageWidth"
                             value={productImageWidth} 
-                            onChange={this.handleChangeValue.bind(this)}
+                            onChange={this.handleChangeValue}
                             className={classNames('form-control', validates.productImageWidth)}
                         />
                         <span>{lang.width}</span>
@@ -60,9 +59,9 @@ export default class Display extends Component {
                 <div>
                     <input
                         type="text"
-                        name = "productImageHeight"
+                        name="productImageHeight"
                         value={productImageHeight} 
-                        onChange={this.handleChangeValue.bind(this)}
+                        onChange={this.handleChangeValue}
                         className={classNames('form-control', validates.productImageHeight)}
                     />
                     <span>{lang.height}</span>

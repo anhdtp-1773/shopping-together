@@ -7,26 +7,35 @@ import classNames from 'classnames'
 export default class NewPrice extends Component {
     constructor(props) {
         super(props);
+
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.changeHandlerColor = this.changeHandlerColor.bind(this, 'newPriceFontColor');
+
         this.state = {
             displayFontColor: false,
         };
     }
-    handleClick(event){
-        switch(event.target.name) {
-            case 'newPriceFontColor':
-                this.setState({
-                    displayFontColor: !this.state.displayFontColor,
-                });
-                break;
-            default:
-                return;
+
+    handleClick()
+    {
+        if (!this.state.displayFontColor) {
+            document.addEventListener('click', this.handleOutsideClick, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
         }
-    }
-    
-    handleClose(){
-        this.setState({ 
-            displayFontColor: false,
+        this.setState({
+            displayFontColor: !this.state.displayFontColor,
         })
+    }
+
+    handleOutsideClick(e) {
+        if (this.node.contains(e.target)) {
+          return;
+        }
+        
+        this.handleClick();
     }
 
     changeHandlerColor (name, colors) {
@@ -48,7 +57,7 @@ export default class NewPrice extends Component {
                         <select 
                             name = "newPriceFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
+                            onChange = {this.handleChangeValue}
                             value =  {newPriceFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
@@ -63,7 +72,7 @@ export default class NewPrice extends Component {
                         <select 
                             name = "newPriceFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue.bind(this)}
+                            onChange = {this.handleChangeValue}
                             value =  {newPriceFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
@@ -72,14 +81,14 @@ export default class NewPrice extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="full-width">
+                <div className="full-width"  ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                     <input 
                         type="text" 
                         style={{ backgroundColor: newPriceFontColor }} 
                         value={newPriceFontColor} 
-                        onChange={this.handleChangeValue.bind(this)} 
-                        onClick={this.handleClick.bind(this)}
+                        onChange={this.handleChangeValue} 
+                        onClick={this.handleClick}
                         name="newPriceFontColor"
                         className={classNames('form-control', validates.newPriceFontColor)}
                     />
@@ -90,9 +99,8 @@ export default class NewPrice extends Component {
                             <ColorPickerPanel 
                                 alpha={80} 
                                 color= {newPriceFontColor} 
-                                onChange={this.changeHandlerColor.bind(this, 'newPriceFontColor')} 
+                                onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={this.handleClose.bind(this) }
                             />
                         </Fragment>
                         :
@@ -108,7 +116,7 @@ export default class NewPrice extends Component {
                         value ={newPriceFontSize} 
                         min = {rangeFontSizeMin}
                         max = {rangeFontSizeMax}
-                        onChange={this.handleChangeValue.bind(this)} 
+                        onChange={this.handleChangeValue} 
                     />
                 </div>
             </div>

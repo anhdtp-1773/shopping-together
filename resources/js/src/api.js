@@ -27,6 +27,11 @@ export default {
             'show_product_qty': data.showProductQty,
             'product_image_width': data.productImageWidth,
             'product_imgae_height': data.productImageHeight,
+            'cart_font_family': data.cartFontFamily,
+            'cart_font_style': data.cartFontStyle,
+            'cart_font_color': data.cartFontColor,
+            'back_ground_color': data.backgroundColor,
+            'cart_font_size': data.cartFontSize,
         });
     },
     

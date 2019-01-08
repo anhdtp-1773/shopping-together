@@ -17,7 +17,10 @@ import Notification from '../notification';
 export default class Setting extends Component {
     constructor(props) {
         super(props);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.state = {
+            isFetching: true,
             form: {
                 active: 1,
                 titleFontFamily: 'verdana',
@@ -39,6 +42,17 @@ export default class Setting extends Component {
                 showProductQty: 3,
                 productImageWidth: 30 ,
                 productImageHeight: 30,
+                oldPriceFontFamily:'verdana',
+                newPriceFontStyle:'italic',
+                oldPriceFontSize: 20,
+                oldPriceFontColor:'#2296F3',
+                cartFontFamily:'verdana',
+                cartFontStyle: 'italic',
+                cartFontSize: 20,
+                cartFontColor: '#2296F3',
+                backgroundColor: '#2296F3',
+                productImageWidth: 20,
+                productImageHeight: 20,
             },
             validates: {},
             message: '',
@@ -48,9 +62,7 @@ export default class Setting extends Component {
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
-        this.setState({ 
-            setting: result.data.setting,
-        });
+        console.log(result)
 
         if(result.data.setting){
             this.setState({
@@ -78,7 +90,17 @@ export default class Setting extends Component {
                     showProductQty: result.data.setting.show_product_qty,
                     productImageWidth: result.data.setting.product_image_width,
                     productImageHeight: result.data.setting.product_imgae_height,
+                    cartFontFamily: result.data.setting.cart_font_family,
+                    cartFontStyle: result.data.setting.cart_font_style,
+                    cartFontSize: result.data.setting.cart_font_size,
+                    cartFontColor: result.data.setting.cart_font_color,
+                    backgroundColor: result.data.setting.back_ground_color,
                 }),
+                isFetching: false,
+            })
+        }else{
+            this.setState({
+                isFetching: false,
             })
         }
     }
@@ -91,6 +113,8 @@ export default class Setting extends Component {
             case 'amountFontColor':
             case 'newPriceFontColor':
             case 'oldPriceFontColor':
+            case 'cartFontColor':
+            case 'backgroundColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 break;
             case 'productImageWidth':
@@ -114,11 +138,15 @@ export default class Setting extends Component {
     };
 
     async onSubmit (){
+        this.setState({
+            isFetching: true
+        });
         try{
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
             if(result.data){
                 this.setState({
+                    isFetching: false,
                     message: result.message
                 })
             }
@@ -127,123 +155,143 @@ export default class Setting extends Component {
         }
     }   
     render() {
-        const{form, validates, message} = this.state;
+        const{form, validates, isFetching, message} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
-        return (
-            <div className="home-container">
-                <div className="left-container">
-                    <Fragment>
-                        <Title 
+        if(isFetching){ return (
+            <div id="page_loading">
+                <div className="loading">
+                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom" />
+                </div>
+            </div>
+        )}else {
+            return (
+                <div className="home-container">
+                    <div className="left-container">
+                        <Fragment>
+                            <Title 
+                                titleFontFamily = {form.titleFontFamily}
+                                titleFontStyle = {form.titleFontStyle}
+                                titleFontColor = {form.titleFontColor}
+                                titleFontSize = {form.titleFontSize}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                            />
+                    
+                            <ProductName 
+                                productFontFamily = {form.productFontFamily}
+                                productFontStyle = {form.productFontStyle}
+                                productFontColor = {form.productFontColor}
+                                productFontSize = {form.productFontSize}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                            />
+                        
+                            <TotalAmount 
+                                amountFontFamily = {form.amountFontFamily}
+                                amountFontStyle = {form.amountFontStyle}
+                                amountFontSize = {form.amountFontSize}
+                                amountFontColor = {form.amountFontColor}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                                />
+
+                            <NewPrice 
+                                newPriceFontFamily = {form.newPriceFontFamily}
+                                newPriceFontStyle = {form.newPriceFontStyle}
+                                newPriceFontSize = {form.newPriceFontSize}
+                                newPriceFontColor = {form.newPriceFontColor}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                                />
+                        
+                            <OldPrice 
+                                oldPriceFontFamily = {form.oldPriceFontFamily}
+                                oldPriceFontStyle = {form.oldPriceFontStyle}
+                                oldPriceFontSize = {form.oldPriceFontSize}
+                                oldPriceFontColor = {form.oldPriceFontColor}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                            />
+                        
+                            <Cart 
+                                cartFontFamily = {form.cartFontFamily}
+                                cartFontStyle = {form.cartFontStyle}
+                                cartFontSize = {form.cartFontSize}
+                                cartFontColor = {form.cartFontColor}
+                                backgroundColor = {form.backgroundColor}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
+                            />
+                        
+                            <Translation 
+                            />
+                        
+                            <Display 
+                                showProductQty = {form.showProductQty}
+                                productImageWidth = {form.productImageWidth}
+                                productImageHeight = {form.productImageHeight}
+                                handleChangeValue = {this.handleChangeValue.bind(this)}
+                                validates = {validates}
+                            />
+                            
+                        </Fragment>
+                        <p>{lang.design_and_support_by_hamsa_technology}</p>
+                        <a>{lang.user_guide}</a>
+                        <p
+                        >
+                            {lang.help}
+                        </p>
+                        <button
+                            href="javascript:void(0);" 
+                            onClick={this.onSubmit} 
+                            className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
+                        >
+                            {lang.save}
+                        </button>
+                    </div>
+                    <div className="right-container">
+                        <Preview
                             titleFontFamily = {form.titleFontFamily}
                             titleFontStyle = {form.titleFontStyle}
                             titleFontColor = {form.titleFontColor}
                             titleFontSize = {form.titleFontSize}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
-                        />
-                   
-                        <ProductName 
                             productFontFamily = {form.productFontFamily}
                             productFontStyle = {form.productFontStyle}
                             productFontColor = {form.productFontColor}
                             productFontSize = {form.productFontSize}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
-                        />
-                    
-                        <TotalAmount 
                             amountFontFamily = {form.amountFontFamily}
                             amountFontStyle = {form.amountFontStyle}
                             amountFontSize = {form.amountFontSize}
                             amountFontColor = {form.amountFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
-                            />
-
-                        <NewPrice 
                             newPriceFontFamily = {form.newPriceFontFamily}
                             newPriceFontStyle = {form.newPriceFontStyle}
                             newPriceFontSize = {form.newPriceFontSize}
                             newPriceFontColor = {form.newPriceFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
-                            />
-                    
-                        <OldPrice 
                             oldPriceFontFamily = {form.oldPriceFontFamily}
                             oldPriceFontStyle = {form.oldPriceFontStyle}
                             oldPriceFontSize = {form.oldPriceFontSize}
                             oldPriceFontColor = {form.oldPriceFontColor}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
-                        />
-                    
-                        <Cart 
-                        />
-                    
-                        <Translation 
-                        />
-                    
-                        <Display 
+                            cartFontFamily = {form.cartFontFamily}
+                            cartFontStyle = {form.cartFontStyle}
+                            cartFontSize = {form.cartFontSize}
+                            cartFontColor = {form.cartFontColor}
+                            backgroundColor = {form.backgroundColor}
                             showProductQty = {form.showProductQty}
                             productImageWidth = {form.productImageWidth}
                             productImageHeight = {form.productImageHeight}
-                            handleChangeValue = {this.handleChangeValue.bind(this)}
-                            validates = {validates}
                         />
-                        
-                    </Fragment>
-                    <p>{lang.design_and_support_by_hamsa_technology}</p>
-                    <a>{lang.user_guide}</a>
-                    <p
-                    >
-                        {lang.help}
-                    </p>
-                    <button
-                        href="javascript:void(0);" 
-                        onClick={this.onSubmit.bind(this)} 
-                        className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
-                    >
-                        {lang.save}
-                    </button>
-                </div>
-                <div className="right-container">
-                    <Preview
-                        titleFontFamily = {form.titleFontFamily}
-                        titleFontStyle = {form.titleFontStyle}
-                        titleFontColor = {form.titleFontColor}
-                        titleFontSize = {form.titleFontSize}
-                        productFontFamily = {form.productFontFamily}
-                        productFontStyle = {form.productFontStyle}
-                        productFontColor = {form.productFontColor}
-                        productFontSize = {form.productFontSize}
-                        amountFontFamily = {form.amountFontFamily}
-                        amountFontStyle = {form.amountFontStyle}
-                        amountFontSize = {form.amountFontSize}
-                        amountFontColor = {form.amountFontColor}
-                        newPriceFontFamily = {form.newPriceFontFamily}
-                        newPriceFontStyle = {form.newPriceFontStyle}
-                        newPriceFontSize = {form.newPriceFontSize}
-                        newPriceFontColor = {form.newPriceFontColor}
-                        oldPriceFontFamily = {form.oldPriceFontFamily}
-                        oldPriceFontStyle = {form.oldPriceFontStyle}
-                        oldPriceFontSize = {form.oldPriceFontSize}
-                        oldPriceFontColor = {form.oldPriceFontColor}
-                        showProductQty = {form.showProductQty}
-                        productImageWidth = {form.productImageWidth}
-                        productImageHeight = {form.productImageHeight}
+                    </div>
+                    {
+                    message 
+                    ?
+                    <Notification 
+                        content = {message}
                     />
-                </div>
-                {
-                message 
-                ?
-                <Notification 
-                    content = {message}
-                />
-                :
-                null
-            }
-           </div>
-        );
+                    :
+                    null
+                }
+            </div>
+            );
+        }
     }
 }
