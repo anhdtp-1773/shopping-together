@@ -102,7 +102,6 @@ export default class TotalAmount extends Component {
                                 color={amountFontColor} 
                                 onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :

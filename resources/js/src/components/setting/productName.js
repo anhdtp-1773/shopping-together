@@ -102,7 +102,6 @@ export default class ProductName extends Component {
                                 color= {productFontColor} 
                                 onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :

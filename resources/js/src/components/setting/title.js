@@ -103,7 +103,6 @@ export default class OldPrice extends Component {
                                 color= {titleFontColor} 
                                 onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :

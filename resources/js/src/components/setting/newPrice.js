@@ -91,7 +91,6 @@ export default class NewPrice extends Component {
                         onClick={this.handleClick}
                         name="newPriceFontColor"
                         className={classNames('form-control', validates.newPriceFontColor)}
-                        onBlur={this.handleClose}
                     />
                     {
                         displayFontColor 
@@ -102,7 +101,6 @@ export default class NewPrice extends Component {
                                 color= {newPriceFontColor} 
                                 onChange={this.changeHandlerColor} 
                                 mode="HSB" 
-                                onBlur={ this.props.closedColorPicker }
                             />
                         </Fragment>
                         :

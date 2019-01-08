@@ -13,7 +13,7 @@ export default class Cart extends Component {
         this.handleClickFontColor = this.handleClickFontColor.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleClickBackgroundColor = this.handleClickBackgroundColor.bind(this);
-
+        this.handleClose = this.handleClose.bind(this)
         this.state = {
             displayFontColor: false,
             displayBackgroundColor: false,
@@ -21,7 +21,7 @@ export default class Cart extends Component {
     }
 
     handleClickFontColor()
-    {
+    {   
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClickFontColor, false);
         } else {
@@ -31,6 +31,7 @@ export default class Cart extends Component {
             displayFontColor: !this.state.displayFontColor,
         });
     }   
+
     handleClickBackgroundColor()
     {
         if (!this.state.displayBackgroundColor) {
@@ -64,6 +65,13 @@ export default class Cart extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
+
+    handleClose(){
+        this.setState({ 
+            displayFontColor: false,
+            displayBackgroundColor: false,
+        })
+    }
 
     render(){
         const {cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, validates} = this.props;
@@ -122,7 +130,7 @@ export default class Cart extends Component {
                                     color= {cartFontColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
                                     mode="HSB" 
-                                    onClick={this.handleClickFontColor}
+                                    // onBlur={this.handleClose}
                                 />
                             </Fragment>
                             :
@@ -148,7 +156,7 @@ export default class Cart extends Component {
                                     alpha={80} 
                                     color= {backgroundColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'backgroundColor')} 
-                                    onClick={this.handleClickBackgroundColor}
+                                    // onBlur={this.handleClose}
                                     mode="HSB" 
                                 />
                             </Fragment>
