@@ -16,8 +16,8 @@ export default class Discount extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
 
-    handleChangeDisplayProduct (index, event) {
-        this.props.handleChangeDisplayProduct(index, event);
+    handleChangeDisplayProduct (idProduct, value) {
+        this.props.handleChangeDisplayProduct(idProduct, value);
     }
 
     nextStep (step) {
@@ -26,6 +26,7 @@ export default class Discount extends Component {
     
     render(){
         const {mainProduct, relatedProducts, discountType, validates, discountProducts} = this.props;
+        console.log(mainProduct);
         let total = 0;
         discountProducts.map((product) => {
             if(product.number){
@@ -80,7 +81,7 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td className="price-product">{total +" "+ mainProduct.currency}</td>
+                                <td className="price-product">{total +" "+ _.head(mainProduct).currency}</td>
                             </tr>
                         </tbody>
                     </table>

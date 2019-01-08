@@ -16,6 +16,7 @@ export default class AddRule extends Component {
                 relatedProducts: [],
                 mainProduct: [],
                 discountProducts: [],
+                isPercentage: true
             },
             isFetching: false,
             step: 1,
@@ -41,22 +42,27 @@ export default class AddRule extends Component {
 
     handleChangeValue (name, value) {
         let {validates, requiredFields} = this.state;
+        let isPercentage = _.clone(this.state.form.isPercentage);
         switch(name){
             case 'ruleName':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 requiredFields[name] = Validate.isName(value);
+                break;
+            case 'discountType':
+                isPercentage = (value == "percentage") ? true : false;
                 break;
         }
 
         if (_.isEmpty(value)){
 			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
 		}
-    
+        
         this.setState({
             validates: _.assign({}, this.state.validates, validates),
             requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
             form: Object.assign({}, this.state.form, {
-                [name]: value
+                [name]: value,
+                isPercentage
             }),
         })
     }   
@@ -110,21 +116,21 @@ export default class AddRule extends Component {
         })
     }
 
-    handleChangeDisplayProduct (index, event) {
-        // const value = event.target.value;
-        // let discountProducts = _.clone(this.state.form.discountProducts);
-        // if(this.state.form.discountType == 'percentage'){
-        //     discountProducts[index].reductionPercent = value;
-        //     discountProducts[index].number = value;
-        // }else{
-        //     discountProducts[index].reductionAmount = value;
-        //     discountProducts[index].number = value;
-        // }
-        // this.setState({
-        //     form: Object.assign({}, this.state.form, {
-        //         discountProducts
-        //     }),
-        // })
+    handleChangeDisplayProduct (idProduct, value) {
+        if(Validate.isPercentage(value)){
+            let discountProducts = _.clone(this.state.form.discountProducts);
+            discountProducts.map((product, i) => {
+                if(product.id == idProduct){
+                    discountProducts[i].numberDiscount = value;
+                }
+            })
+            this.setState({
+                form: Object.assign({}, this.state.form, {
+                    discountProducts
+                }),
+            })
+        }
+        
     }
 
     nextStep (step) {
