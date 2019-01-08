@@ -108,12 +108,12 @@ export default class AddRule extends Component {
     }
 
     changeMainProduct (event) {
-        let {validates} = this.state;
+        const {validates} = this.state;
         let mainProduct = _.clone(this.state.form.mainProduct);
-        let value = event.target.value;
+        const value = event.target.value;
         switch(event.target.name){
             case 'mainProduct':
-                validates[name] = Validate.numberDiscount(value, this.state.form.discountType) ? 'valid' : 'invalid';
+                validates[event.target.name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
                 break;
         }
         if(this.state.form.discountType == 'percentage'){
@@ -131,7 +131,17 @@ export default class AddRule extends Component {
         })
     }
 
-    changeRelatedProduct (index, value) {
+    changeRelatedProduct (index, event) {
+        const {validates} = this.state;
+        const value = event.target.value;
+        const name = event.target.name;
+        let validatesRelated = [];
+        // switch(name){
+        //     case 'relatedProduct':
+        //         validatesRelated[index] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+        //         validates[name] = validatesRelated;
+        //         break;
+        // }
         let relatedProducts = _.clone(this.state.form.relatedProducts);
         if(this.state.form.discountType == 'percentage'){
             relatedProducts[index].reductionPercent = value;
@@ -141,6 +151,7 @@ export default class AddRule extends Component {
             relatedProducts[index].number = value;
         }
         this.setState({
+            // validates: _.assign({}, this.state.validates, validates),
             form: Object.assign({}, this.state.form, {
                 relatedProducts: relatedProducts,
             }),
@@ -164,7 +175,6 @@ export default class AddRule extends Component {
             form, step, idMainProduct,
             validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
-
         return (
             <Fragment>
                 <div>

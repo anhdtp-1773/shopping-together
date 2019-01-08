@@ -10,7 +10,6 @@ export function isName(name, ignoreNumber = true){
 	return (reg.test(name) || name.length == 0);
 }
 
-export function numberDiscount (value, typeDiscount) {
-    let number =  /^\d+$/.test(value);
-    console.log(number);
+export function isPercentage(discount){
+    return (/^([0-9]([0-9])?|00)(\.\d{1,2}){0,1}$/.test(discount) || /^100(\.0{1,2})?$/.test(discount));
 }
