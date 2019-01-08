@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
-import { optionsDiscountType } from "./../../../constants";
 import classNames from 'classnames'
 import * as Validate from "../../../models/validate.model"; 
 

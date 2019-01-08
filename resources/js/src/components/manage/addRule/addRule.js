@@ -197,7 +197,6 @@ export default class AddRule extends Component {
                         ?
                             <Discount 
                                 mainProduct = {form.mainProduct}
-                                relatedProducts = {form.relatedProducts}
                                 handleChangeValue = {this.handleChangeValue}
                                 nextStep = {this.nextStep}
                                 discountType = {form.discountType}

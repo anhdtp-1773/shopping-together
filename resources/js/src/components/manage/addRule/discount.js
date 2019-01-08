@@ -25,8 +25,7 @@ export default class Discount extends Component {
     }
     
     render(){
-        const {mainProduct, relatedProducts, discountType, validates, discountProducts} = this.props;
-        console.log(mainProduct);
+        const {mainProduct, discountType, validates, discountProducts} = this.props;
         let total = 0;
         discountProducts.map((product) => {
             if(product.number){
