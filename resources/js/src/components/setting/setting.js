@@ -21,7 +21,6 @@ export default class Setting extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
             isFetching: true,
-            isChecked: null,
             form: {
                 active: 1,
                 titleFontFamily: 'verdana',
@@ -58,7 +57,6 @@ export default class Setting extends Component {
     async componentWillMount(){
         const response = await api.getSetup();
         const result = JSON.parse(response.text);
-        this.setState( { isChecked: this.props.isChecked } );
 
         if(result.data.setting){
             this.setState({
