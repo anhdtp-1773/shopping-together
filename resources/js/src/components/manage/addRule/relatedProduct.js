@@ -55,7 +55,7 @@ export default class RelatedProduct extends Component {
 
     nextStep (step) {
         if(step == 3){
-            if(this.state.idProducts.length == 0){
+            if(this.props.relatedProducts.length == 0){
                 alert(lang.please_select_at_least_one_product)
             }else{
                 this.props.nextStep(step);

@@ -24,6 +24,9 @@ class SettingController extends Controller
             'new_price_font_color' =>'required', 
             'cart_text' =>'required', 
             'product_text' =>'required', 
+            'old_price_font_color' =>'required', 
+            'cart_font_color' =>'required', 
+            'back_ground_color' =>'required', 
         ]);
 
         if($validator->fails()){
