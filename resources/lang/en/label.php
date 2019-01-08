@@ -25,8 +25,8 @@ return [
     'title' => 'Title',
     'product_name' => 'Product name',
     'total_amount' => 'Total Amount',
-    'sale_price' => 'Sale Price',
-    'original_price' => 'Original Price',
+    'sale_price' => 'Sale price',
+    'original_price' => 'Original price',
     'translation' => 'Translation',
     'display' => 'Display',
     'design_and_support_by_hamsa_technology' => 'Design and support by Hamsa Technology',
@@ -38,9 +38,7 @@ return [
     'please_select_at_least_one_product' => 'Please select at least one product',
     'image' => 'Image',
     'name' => 'Name',
-    'original_price' => 'Original Price',
     'discount' => 'Discount',
-    'sale_price' => 'Sale price',
     'total' => 'Total',
     'home' => 'Home',
     'catalog' => 'Catalog',
@@ -64,4 +62,5 @@ return [
     'font_style' => 'Font style',
     'font_size' => 'Font size',
     'font_color' => 'Font color',
+    'back_ground_color' => 'Background color'
 ];

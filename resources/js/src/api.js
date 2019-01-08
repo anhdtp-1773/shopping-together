@@ -24,7 +24,12 @@ export default {
             'old_price_font_style': data.oldPriceFontStyle,
             'old_price_font_size': data.oldPriceFontSize,
             'old_price_font_color': data.oldPriceFontColor,
-        }); 
+            'cart_font_family': data.cartFontFamily,
+            'cart_font_style': data.cartFontStyle,
+            'cart_font_color': data.cartFontColor,
+            'back_ground_color': data.backgroundColor,
+            'cart_font_size': data.cartFontSize,
+        });
     },
     
     getSetup(){
