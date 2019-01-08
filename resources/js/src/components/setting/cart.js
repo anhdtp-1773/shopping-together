@@ -130,7 +130,6 @@ export default class Cart extends Component {
                                     color={cartFontColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
                                     mode="HSB" 
-                                    // onBlur={this.handleClose}
                                 />
                             </Fragment>
                             :
@@ -156,7 +155,6 @@ export default class Cart extends Component {
                                     alpha={80} 
                                     color={backgroundColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'backgroundColor')} 
-                                    // onBlur={this.handleClose}
                                     mode="HSB" 
                                 />
                             </Fragment>
