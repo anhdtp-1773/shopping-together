@@ -40,12 +40,14 @@ export default {
     
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
+            'shopify_domain': domain,
             'page_number': pageNumber,
         });
     },
 
     searchProduct(keyWord, pageNumber){
         return superagent.post('/api/product/search').send({
+            'shopify_domain': domain,
             'key_word': keyWord,
             'page_number': pageNumber
         });

@@ -83,7 +83,7 @@ class Product extends Model
      *  )
      * )
      */
-    public static function getProducts($page_number, $items_per_page)
+    public static function getProducts($page_number, $items_per_page, $id_shop)
     {
         $data = [];
         $query = DB::table('products');
@@ -91,6 +91,7 @@ class Product extends Model
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
+        $query->where('products.id_shop', $id_shop);
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
         $data['page_limit'] = ceil($number_record / $items_per_page);
@@ -127,13 +128,14 @@ class Product extends Model
                     ->first();
     }
     
-    public static function search($key_word, $page_number, $items_per_page){
+    public static function search($key_word, $page_number, $items_per_page, $id_shop){
         $data = [];
         $query =  DB::table('products');
         $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
+        $query->where('products.id_shop', $id_shop);
         $query->where('products.title', 'like', '%'.$key_word.'%');
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
