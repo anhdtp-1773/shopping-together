@@ -8,9 +8,11 @@ export default class Cart extends Component {
     constructor(props) {
         super(props);
 
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleOutsideClickFontColor = this.handleOutsideClickFontColor.bind(this);
+        this.handleOutsideClickBackgroundColor = this.handleOutsideClickBackgroundColor.bind(this);
+        this.handleClickFontColor = this.handleClickFontColor.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.handleClickBackgroundColor = this.handleClickBackgroundColor.bind(this);
 
         this.state = {
             displayFontColor: false,
@@ -18,51 +20,41 @@ export default class Cart extends Component {
         };
     }
 
-    handleClick(name)
+    handleClickFontColor()
     {
-        console.log(name)
-        switch(name) {
-            case "cartFontColor":
-                if (!this.state.displayFontColor) {
-                    document.addEventListener('click', this.handleOutsideClick.bind(this, name), false);
-                } else {
-                    document.removeEventListener('click', this.handleOutsideClick, false);
-                }
-                this.setState({
-                    displayFontColor: !this.state.displayFontColor,
-                });
-                break;
-            case "backgroundColor":
-                if (!this.state.displayBackgroundColor) {
-                    document.addEventListener('click', this.handleOutsideClick.bind(this, name), false);
-                } else {
-                    document.removeEventListener('click', this.handleOutsideClick, false);
-                }
-                this.setState({
-                    displayBackgroundColor: !this.state.displayBackgroundColor,
-                });
-                break;
-            default:
-              // code block
-          } 
+        if (!this.state.displayFontColor) {
+            document.addEventListener('click', this.handleOutsideClickFontColor, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClickFontColor, false);
+        }
+        this.setState({
+            displayFontColor: !this.state.displayFontColor,
+        });
+    }   
+    handleClickBackgroundColor()
+    {
+        if (!this.state.displayBackgroundColor) {
+            document.addEventListener('click', this.handleOutsideClickBackgroundColor, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClickBackgroundColor, false);
+        }
+        this.setState({
+            displayBackgroundColor: !this.state.displayBackgroundColor,
+        });
     }   
     
-    handleOutsideClick(name, e) {
-        switch(name) {
-            case "cartFontColor":
-            if (this.node.contains(e.target)) {
-                return;
-            }
-            case "backgroundColor":
-            if (this.node.contains(e.target)) {
-                return;
-            }
+    handleOutsideClickFontColor(e) {
+        if (this.node.contains(e.target)) {
+            return;
         }
-            this.handleClick(name);
+        this.handleClickFontColor();
     }
 
-    test (event) {
-        this.handleClick(event.target.name)
+    handleOutsideClickBackgroundColor(e) {
+        if (this.node.contains(e.target)) {
+            return;
+        }
+        this.handleClickBackgroundColor();
     }
 
     changeHandlerColor (name, colors) {
@@ -110,16 +102,16 @@ export default class Cart extends Component {
                             </select>
                     </div>
                 </div>
-                <div className="full-width" ref={node => { this.node = node; }}>
+                <div className="full-width"  ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                         <input 
                             type="text" 
                             style={{ backgroundColor: cartFontColor }} 
                             value={cartFontColor} 
                             onChange={this.handleChangeValue} 
-                            onClick={this.test.bind(this)}
                             name="cartFontColor"
                             className={classNames('form-control', validates.cartFontColor)}
+                            onClick={this.handleClickFontColor}
                         />
                         {
                             displayFontColor 
@@ -130,23 +122,23 @@ export default class Cart extends Component {
                                     color= {cartFontColor} 
                                     onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
                                     mode="HSB" 
-                                    onClick={this.handleClick}
+                                    onClick={this.handleClickFontColor}
                                 />
                             </Fragment>
                             :
                             null
                         }
                 </div>
-                <div className="full-width" ref={node => { this.node = node; }}>
+                <div className="full-width"  ref={node => { this.node = node; }}>
                     <p>{lang.back_ground_color}</p>
                         <input 
                             type="text" 
                             style={{ backgroundColor: backgroundColor }} 
                             value={backgroundColor} 
                             onChange={this.handleChangeValue} 
-                            onClick={this.test.bind(this)}
                             name="backgroundColor"
                             className={classNames('form-control', validates.backgroundColor)}
+                            onClick={this.handleClickBackgroundColor}
                         />
                         {
                             displayBackgroundColor 
@@ -155,9 +147,9 @@ export default class Cart extends Component {
                                 <ColorPickerPanel 
                                     alpha={80} 
                                     color= {backgroundColor} 
-                                    onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
+                                    onChange={this.changeHandlerColor.bind(this, 'backgroundColor')} 
+                                    onClick={this.handleClickBackgroundColor}
                                     mode="HSB" 
-                                    onClick={this.handleClick}
                                 />
                             </Fragment>
                             :
