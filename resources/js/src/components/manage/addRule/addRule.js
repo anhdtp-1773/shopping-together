@@ -4,6 +4,7 @@ import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
 import * as Validate from "../../../models/validate.model"; 
+import Notification from '../../notification';
 
 export default class AddRule extends Component {
     constructor(){
@@ -24,6 +25,7 @@ export default class AddRule extends Component {
             mainCurrentPage: '',
             relatedKeyWord: '',
             relatedCurrentPage: '',
+            message: '',
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);
@@ -33,7 +35,7 @@ export default class AddRule extends Component {
         this.onChangeIdMainProduct = this.onChangeIdMainProduct.bind(this);
         this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
         this.changeMainProduct = this.changeMainProduct.bind(this);
-        this.changeRelatedProduct = this.changeRelatedProduct.bind.bind(this);
+        this.changeRelatedProduct = this.changeRelatedProduct.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -58,9 +60,7 @@ export default class AddRule extends Component {
             }),
         })
     }   
-
     
-
     async onSubmit () {
         this.setState({
             isFetching: true
@@ -71,6 +71,7 @@ export default class AddRule extends Component {
             if(result.status){
                 this.setState({
                     isFetching: false,
+                    message: result.message
                 })
             }
         }catch(errors){
@@ -107,13 +108,23 @@ export default class AddRule extends Component {
     }
 
     changeMainProduct (event) {
+        const {validates} = this.state;
         let mainProduct = _.clone(this.state.form.mainProduct);
+        const value = event.target.value;
+        switch(event.target.name){
+            case 'mainProduct':
+                validates[event.target.name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+                break;
+        }
         if(this.state.form.discountType == 'percentage'){
-            mainProduct.reductionPercent = event.target.value;
+            mainProduct.reductionPercent = value;
+            mainProduct.number = value;
         }else{
-            mainProduct.reductionAmount = event.target.value;
+            mainProduct.reductionAmount = value;
+            mainProduct.number = value;
         }
         this.setState({
+            validates: _.assign({}, this.state.validates, validates),
             form: Object.assign({}, this.state.form, {
                 mainProduct: mainProduct
             }),
@@ -121,13 +132,26 @@ export default class AddRule extends Component {
     }
 
     changeRelatedProduct (index, event) {
+        const {validates} = this.state;
+        const value = event.target.value;
+        const name = event.target.name;
+        let validatesRelated = [];
+        // switch(name){
+        //     case 'relatedProduct':
+        //         validatesRelated[index] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+        //         validates[name] = validatesRelated;
+        //         break;
+        // }
         let relatedProducts = _.clone(this.state.form.relatedProducts);
         if(this.state.form.discountType == 'percentage'){
-            relatedProducts[index].reductionPercent = event.target.value;
+            relatedProducts[index].reductionPercent = value;
+            relatedProducts[index].number = value;
         }else{
-            relatedProducts[index].reductionAmount = event.target.value;
+            relatedProducts[index].reductionAmount = value;
+            relatedProducts[index].number = value;
         }
         this.setState({
+            // validates: _.assign({}, this.state.validates, validates),
             form: Object.assign({}, this.state.form, {
                 relatedProducts: relatedProducts,
             }),
@@ -140,12 +164,6 @@ export default class AddRule extends Component {
         })
     }
 
-    onChangeKeyWord (name, keyWord) {
-        this.setState({
-            [name]: keyWord
-        })
-    }
-
     onChangeValue (name, value) {
         this.setState({
             [name]: value
@@ -155,9 +173,8 @@ export default class AddRule extends Component {
     render() {
         const {
             form, step, idMainProduct,
-            validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord
+            validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
-
         return (
             <Fragment>
                 <div>
@@ -212,11 +229,21 @@ export default class AddRule extends Component {
                                 nextStep = {this.nextStep}
                                 discountType = {form.discountType}
                                 onSubmit = {this.onSubmit}
+                                validates = {validates}
                             />
                         :
                             null
                     }
                 </div>
+                {
+                    message 
+                    ?
+                    <Notification 
+                        content = {message}
+                    />
+                    :
+                    null
+                }
             </Fragment>
         );
     }
