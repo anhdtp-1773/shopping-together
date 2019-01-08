@@ -28,11 +28,11 @@ export default class Discount extends Component {
         const {mainProduct, discountType, validates, discountProducts} = this.props;
         let total = 0;
         discountProducts.map((product) => {
-            if(product.number){
+            if(product.numberDiscount){
                 if(discountType == 'percentage'){
-                    total += (parseInt(product.price) - (parseInt(product.price) * parseInt(product.number))/100);
+                    total += (parseInt(product.price) - (parseInt(product.price) * parseInt(product.numberDiscount))/100);
                 }else{
-                    total += (parseInt(product.price) - parseInt(product.number));
+                    total += (parseInt(product.price) - parseInt(product.numberDiscount));
                 }
             }else{
                 total += parseInt(product.price);
