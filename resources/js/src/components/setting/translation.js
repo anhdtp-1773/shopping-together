@@ -4,11 +4,10 @@ import classNames from 'classnames'
 export default class Translation extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
-    handleChangeValue  = (event) => {
+    handleChangeValue(event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
     render() {
@@ -22,7 +21,7 @@ export default class Translation extends Component {
                         <input 
                             type="text" 
                             value={cartText} 
-                            onChange={ this.handleChangeValue.bind(this) } 
+                            onChange={this.handleChangeValue} 
                             name="cartText"
                             className={classNames('form-control', validates.cartText)}
                             placeholder={lang.add_bundle_to_cart}
@@ -34,7 +33,7 @@ export default class Translation extends Component {
                         <input 
                             type="text" 
                             value={productText} 
-                            onChange={ this.handleChangeValue.bind(this) } 
+                            onChange={this.handleChangeValue} 
                             name="productText"
                             className={classNames('form-control', validates.productText)}
                             placeholder={lang.frequentle_purchased_products}

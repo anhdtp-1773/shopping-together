@@ -124,7 +124,7 @@ export default class Preview extends Component {
                         <button>{lang.add_to_cart}</button>
 
                         <div className="full-width">
-                            <p style={titleStyle}>{lang.frequently_purchased_together}</p>
+                            <p style={titleStyle}>{productText}</p>
                             <p>
                                 <input type="checkbox" />
                                 <span>
@@ -143,7 +143,7 @@ export default class Preview extends Component {
                                 <span style= {newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
-                        <button>{lang.add_bundle_to_cart}</button>
+                        <button>{cartText}</button>
                         </div>
                     </div>
                     <div>
