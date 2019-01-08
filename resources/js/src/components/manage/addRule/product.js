@@ -7,12 +7,12 @@ import * as Validate from "../../../models/validate.model";
 export default class Product extends Component {
     constructor(){
         super(...arguments);
-        const { relatedProduct } = this.props;
         this.state = {
             validates: {},
         }
     }
-    test(event){
+
+    handleChangeDisplayProduct (key, event) {
         const name = event.target.name;
         const value = event.target.value;
         const {validates} = this.state;
@@ -24,43 +24,41 @@ export default class Product extends Component {
         this.setState({
             validates: _.assign({}, this.state.validates, validates),
         })
+        this.props.handleChangeDisplayProduct(key, event);
     }
+
     render() {
-        const {key, relatedProduct, discountType} = this.props;
+        const {key, product, discountType} = this.props;
+        console.log(key);
+        const {validates} = this.state;
+        let price = parseFloat(product.price);
+        if(product.number){
+            if(discountType == 'percentage'){
+                price = (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.number))/100);
+            }else{
+                (parseFloat(product.price) - parseFloat(product.number));
+            }
+        }
+        
         return(
             <Fragment>
                 <tr key={key}>
-                    <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
-                    <td>{relatedProduct.title}</td>
-                    <td>{relatedProduct.price}</td>
+                    <td><img className="img-discount-product" src={product.src} alt="..." /></td>
+                    <td>{product.title}</td>
+                    <td>{product.price +" "+ product.currency}</td>
                     <td>
                         <input
                             key={key}   
                             type="text"
-                            className={classNames('text-discount')}
-                            className="text-discount"
-                            onChange={this.test.bind(this)}
-                            defaultValue = {relatedProduct.number}
+                            className={classNames('text-discount', validates.relatedProduct)}
+                            onChange={this.handleChangeDisplayProduct.bind(this, key)}
+                            defaultValue = {product.number}
                             name="relatedProduct"
                         />
                         <span>{discountType  == 'percentage' ? '%' : ''}</span>
                     </td>
                     <td className="price-product">
-                        {
-                            discountType == 'percentage' 
-                            ? 
-                                relatedProduct.number 
-                                ?
-                                    (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
-                                :
-                                    parseInt(relatedProduct.price)
-                            :   
-                                relatedProduct.number
-                                ?
-                                    (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
-                                :   
-                                    parseInt(relatedProduct.price)
-                        }
+                        {price +" "+ product.currency}
                     </td>
                 </tr>
             </Fragment>

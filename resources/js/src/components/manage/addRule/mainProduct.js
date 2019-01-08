@@ -49,6 +49,7 @@ export default class MainProduct extends Component {
     
     onSelectProduct(id){
         let product = _.filter(this.state.products, function(product) { return product.id == id; });
+        _.head(product).isMainProduct = true;
         this.props.onSelectMainProduct(product);
         this.props.onChangeIdMainProduct(id);
     }
