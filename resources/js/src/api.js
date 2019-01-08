@@ -61,8 +61,8 @@ export default {
         return superagent.post('/api/cart-rule/save').send({
             'shopify_domain': domain,
             'name': data.ruleName,
-            'main_product': data.mainProduct,
-            'related_products': data.relatedProducts
+            'products': data.discountProducts,
+            'is_percentage': data.isPercentage
         });
     }
 }

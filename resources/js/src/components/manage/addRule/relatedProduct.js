@@ -150,7 +150,7 @@ export default class RelatedProduct extends Component {
                                             </div>
                                             <div className="caption">
                                                 <h5 className="split-title-product">{product.title}</h5>
-                                                <p>{product.price}</p>
+                                                <p>{product.price+ " " + product.currency}</p>
                                             </div>
                                         </div>
                                     </span>

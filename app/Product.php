@@ -87,8 +87,9 @@ class Product extends Model
     {
         $data = [];
         $query = DB::table('products');
-        $query->select('products.*', 'variants.price', 'images.src');
+        $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
+        $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
@@ -129,9 +130,10 @@ class Product extends Model
     public static function search($key_word, $page_number, $items_per_page){
         $data = [];
         $query =  DB::table('products');
-        $query->select('products.*', 'variants.price', 'images.src');
+        $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
+        $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->where('products.title', 'like', '%'.$key_word.'%');
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
