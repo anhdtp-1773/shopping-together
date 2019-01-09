@@ -229,7 +229,7 @@ export default class Setting extends Component {
                                 showProductQty = {form.showProductQty}
                                 productImageWidth = {form.productImageWidth}
                                 productImageHeight = {form.productImageHeight}
-                                handleChangeValue = {this.handleChangeValue.bind(this)}
+                                handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
                             />
                             
