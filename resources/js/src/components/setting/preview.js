@@ -48,8 +48,7 @@ export default class Preview extends Component {
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
             newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
-            productText, cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor  } = this.props;
-            
+            productText, cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,
@@ -106,7 +105,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img className="image-setting-product" src = {src}/>
+                       <img className="image-setting-product" src={src}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -147,8 +146,8 @@ export default class Preview extends Component {
                                         <option>{option3}</option>
                                     </select>
                                 </span>
-                                <del><span style= {oldPriceStyle}>{price}</span></del>
-                                <span style= {newPriceStyle}>20$</span>
+                                <del><span style={oldPriceStyle}>{price}</span></del>
+                                <span style={newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
                         <button style= {cartStyle}>{cartText}</button>

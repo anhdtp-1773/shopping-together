@@ -122,8 +122,8 @@ export default class Setting extends Component {
     }
 
     handleChangeValue (name, newValue) {
-        this.validate(name, newValue);
-        this.setState(  {
+        this.validate (name, newValue);
+        this.setState ({
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
             }),
@@ -147,7 +147,7 @@ export default class Setting extends Component {
             alert(errors.message)
         }
     }   
-    render() {
+    render () {
         const{form, validates, isFetching, message} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
         if(isFetching){ return (
