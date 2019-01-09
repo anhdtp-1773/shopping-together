@@ -49,6 +49,7 @@ export default class MainProduct extends Component {
     
     onSelectProduct(id){
         let product = _.filter(this.state.products, function(product) { return product.id == id; });
+        _.head(product).isMainProduct = true;
         this.props.onSelectMainProduct(product);
         this.props.onChangeIdMainProduct(id);
     }
@@ -155,7 +156,7 @@ export default class MainProduct extends Component {
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <h5 className="split-title-product">{product.title}</h5>
-                                            <p>{product.price}</p>
+                                            <p>{product.price+ " " + product.currency}</p>
                                         </div>
                                     </span>
                                 ))}

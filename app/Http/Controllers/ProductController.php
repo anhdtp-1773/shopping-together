@@ -18,8 +18,9 @@ class ProductController extends Controller
         $data = [];
         $status = true;
         $msg = trans('label.successfully');
+        $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
-            $data = Product::getProducts($this->page_number, $this->items_per_page);
+            $data = Product::getProducts($this->page_number, $this->items_per_page, $shop->id);
         }
         catch(\Exception $e){
             $status = false;
@@ -112,8 +113,9 @@ class ProductController extends Controller
         $data = array();
         $status = true;
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
+        $shop = Shop::getShopByDomain($request->shopify_domain);
         if(!empty($key_word)){
-            $data = Product::search($key_word, $this->page_number, $this->items_per_page);
+            $data = Product::search($key_word, $this->page_number, $this->items_per_page, $shop->id);
             $status = $data['items'] ? true : false;
             $msg = $data['items'] ? trans('label.find').' '.count($data['items']).' '.trans('label.record') : trans('label.record_not_found') ;
         }

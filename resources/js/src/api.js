@@ -42,12 +42,14 @@ export default {
     
     getProducts(pageNumber){
         return superagent.post('/api/product/get-list').send({
+            'shopify_domain': domain,
             'page_number': pageNumber,
         });
     },
 
     searchProduct(keyWord, pageNumber){
         return superagent.post('/api/product/search').send({
+            'shopify_domain': domain,
             'key_word': keyWord,
             'page_number': pageNumber
         });
@@ -63,8 +65,8 @@ export default {
         return superagent.post('/api/cart-rule/save').send({
             'shopify_domain': domain,
             'name': data.ruleName,
-            'main_product': data.mainProduct,
-            'related_products': data.relatedProducts
+            'products': data.discountProducts,
+            'is_percentage': data.isPercentage
         });
     }
 }
