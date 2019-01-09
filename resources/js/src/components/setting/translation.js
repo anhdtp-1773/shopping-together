@@ -7,13 +7,13 @@ export default class Translation extends Component {
         this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
-    handleChangeValue(event) {
+    handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
     render() {
         const{cartText, productText, validates} = this.props;
         return (
-            <div>
+            <div className="full-width display-block">
                 <p>{lang.translation}</p>
                 <div className="text-color full-width">
                     <div>

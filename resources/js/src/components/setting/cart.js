@@ -13,7 +13,6 @@ export default class Cart extends Component {
         this.handleClickFontColor = this.handleClickFontColor.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleClickBackgroundColor = this.handleClickBackgroundColor.bind(this);
-        this.handleClose = this.handleClose.bind(this)
         this.state = {
             displayFontColor: false,
             displayBackgroundColor: false,
@@ -65,13 +64,6 @@ export default class Cart extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
-
-    handleClose(){
-        this.setState({ 
-            displayFontColor: false,
-            displayBackgroundColor: false,
-        })
-    }
 
     render(){
         const {cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, validates} = this.props;

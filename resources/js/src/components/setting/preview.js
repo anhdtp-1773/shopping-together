@@ -35,15 +35,15 @@ export default class Preview extends Component {
         }
     }
 
-    handleChangeValue( name, newValue) {
-        this.setState(  {
+    handleChangeValue (name, newValue) {
+        this.setState ({
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
             }),
         });
     };
 
-    render(){
+    render (){
         const{title, src, price, option1, option2, option3 } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
@@ -137,7 +137,7 @@ export default class Preview extends Component {
                                 <span>
                                     <img src={src} style={{width:"25px"}} /> 
                                 </span>
-                                <span style={productNameStyle}> {title}</span>
+                                <span style={productNameStyle}>{title}</span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
@@ -150,7 +150,7 @@ export default class Preview extends Component {
                                 <span style={newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
-                        <button style= {cartStyle}>{cartText}</button>
+                        <button style={cartStyle}>{cartText}</button>
                         </div>
                     </div>
                     <div>
