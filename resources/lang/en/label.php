@@ -62,5 +62,6 @@ return [
     'font_style' => 'Font style',
     'font_size' => 'Font size',
     'font_color' => 'Font color',
-    'back_ground_color' => 'Background color'
+    'back_ground_color' => 'Background color',
+    'exceed_allowed_products_to_group' => 'Exceed allowed products to group'
 ];

@@ -8,7 +8,7 @@ export default class Discount extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-
+            validates: {}
         }
     }
 
@@ -16,26 +16,37 @@ export default class Discount extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
 
-    handleChangeDisplayProduct (idProduct, value) {
-        this.props.handleChangeDisplayProduct(idProduct, value);
+    handleChangeDisplayProduct (idProduct, price, value) {
+        this.props.handleChangeDisplayProduct(idProduct, price, value);
     }
 
     nextStep (step) {
         this.props.nextStep(step);
     }
     
+    validate (validates) {
+        this.setState({
+            validates: _.assign({}, this.state.validates, validates),
+        })
+    }
+
     render(){
-        const {mainProduct, discountType, validates, discountProducts} = this.props;
+        const {mainProduct, discountType, discountProducts} = this.props;
+        const {validates} = this.state;
         let total = 0;
         discountProducts.map((product) => {
             if(product.numberDiscount){
                 if(discountType == 'percentage'){
-                    total += (parseInt(product.price) - (parseInt(product.price) * parseInt(product.numberDiscount))/100);
+                    total += (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.numberDiscount))/100);
                 }else{
-                    total += (parseInt(product.price) - parseInt(product.numberDiscount));
+                    if(parseFloat(product.price) > parseFloat(product.numberDiscount)){
+                        total += (parseFloat(product.price) - parseFloat(product.numberDiscount));
+                    }else{
+                        total += (parseFloat(product.price));
+                    }
                 }
             }else{
-                total += parseInt(product.price);
+                total += parseFloat(product.price);
             }            
         })
         const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'});
@@ -73,6 +84,7 @@ export default class Discount extends Component {
                                     key = {key}
                                     discountType = {discountType}
                                     handleChangeDisplayProduct = {this.handleChangeDisplayProduct.bind(this)}
+                                    validate = {this.validate.bind(this)}
                                 />
                             ))}
                             <tr>
