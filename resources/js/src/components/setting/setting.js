@@ -219,7 +219,7 @@ export default class Setting extends Component {
                             <Translation 
                                 cartText = {form.cartText}
                                 productText = {form.productText}
-                                handleChangeValue = {this.handleChangeValue.bind(this)}
+                                handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
                             />
                         
