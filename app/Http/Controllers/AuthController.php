@@ -81,7 +81,7 @@ class AuthController extends Controller
         $request = $shop->api()->request('GET', '/admin/shop.json');
         $shop_owner_info = ShopOwner::getShopOwnerByDomain($request->body->shop->email);
         $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : $this->updateShop($request->body->shop);
-        self::updateCurrency($id_shop, $request->body->shop->enabled_presentment_currencies);
+        self::updateCurrency($id_shop, $request->body->shop->currency);
         $id_shop_owner ? $this->updateShopOwner($id_shop, $id_shop_owner) : '';
         // Go to homepage of app
         return redirect()->route('home');
@@ -116,10 +116,10 @@ class AuthController extends Controller
      * @param  int $id_shop
      * @param  int $id_shop_owner
      */
-    public function updateCurrency($id_shop, $currencies) {
+    public function updateCurrency($id_shop, $sign) {
         $currency = new Currency();
         $currency->id_shop = $id_shop;
-        $currency->currency = $currencies;
+        $currency->currency = $sign;
         $currency->save();
     }
 
@@ -156,6 +156,8 @@ class AuthController extends Controller
                         'id_shop' => $id_shop,
                         'title' => $product->title,
                         'handle' => $product->handle,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
                     );
                     foreach($product->variants as $value){
                         $arr_variants[] = array(
@@ -164,11 +166,14 @@ class AuthController extends Controller
                             'id_shop' => $id_shop,
                             'title' => $value->title,
                             'price' => $value->price,
+                            'product_name' => $product->title,
                             'option1' => $value->option1,
                             'option2' => $value->option2,
                             'option3' => $value->option3,
                             'quantity' => $value->inventory_quantity,
-                            'id_image' => $value->image_id
+                            'id_image' => $value->image_id,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s'),
                         );
                     }
                     if($product->images){
@@ -178,6 +183,8 @@ class AuthController extends Controller
                                 'id_product' => $value->product_id,
                                 'src' => $value->src,
                                 'id_shop'=> $id_shop,
+                                'created_at' => date('Y-m-d H:i:s'),
+                                'updated_at' => date('Y-m-d H:i:s'),
                             );
                         }
                     }

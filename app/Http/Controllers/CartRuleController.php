@@ -27,21 +27,28 @@ class CartRuleController extends Controller
             try{
                 $shop_info = Shop::getShopByDomain($request->shopify_domain);
                 if($shop_info){
-                    $cart_rule = CartRule::saveCartRule(
-                        $shop_info->id,
-                        $request->name
-                    );
-                    if($cart_rule){
-                        if($request->products){
-                            $products = array();
+                    if($request->products){
+                        $products = array();
+                        $id_main_product = '';
+                        foreach($request->products as $product){
+                            if(isset($product['isMainProduct'])){
+                                $id_main_product = $product['id_shopify_product'];
+                            }
+                        }
+                        $cart_rule = CartRule::saveCartRule(
+                            $shop_info->id,
+                            $request->name,
+                            $id_main_product
+                        );
+                        if($cart_rule){
                             foreach($request->products as $product){
                                 $products[] = array(
                                     'id_cart_rule' => $cart_rule->id,
                                     'id_shop' => $shop_info->id,
-                                    'id_related_product' => isset($product['isMainProduct']) ? 0 : $product['id_shopify_product'],
-                                    'id_main_product' => isset($product['isMainProduct']) ? $product['id_shopify_product'] : 0,
+                                    'id_product' => $product['id_shopify_product'],
                                     'reduction_percent' => $request->is_percentage ? $product['numberDiscount'] : 0,
                                     'reduction_amount' => $request->is_percentage ? 0 : $product['numberDiscount'],
+                                    'is_main_product' => $product['isMainProduct'],
                                     'created_at' => date('Y-m-d H:i:s'),
                                     'updated_at' => date('Y-m-d H:i:s'),
                                 );
@@ -60,6 +67,25 @@ class CartRuleController extends Controller
         return response()->json([
             'message' => $msg,
             'status' => $status,
+        ], 200); 
+    }
+
+    public function get (Request $request) {
+        $id_products = ["2050359885888","2049573421120","2049573584960"];
+        $coms = [];
+        $domain = $request->shopify_domain;
+        $id_product = $request->id_product;
+        $shop = Shop::getShopByDomain($domain);
+        $data = CartRule::getCartRule($shop->id, $id_product);
+        foreach($id_products as $id_product){
+            foreach($data as $value){
+                if($value->id_product == $id_product){
+                    $coms[$id_product][] = $value;
+                }
+            }
+        }
+        return response()->json([
+            'data' => $coms,
         ], 200); 
     }
 }

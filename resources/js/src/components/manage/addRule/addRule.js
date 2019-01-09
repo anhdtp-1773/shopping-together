@@ -18,7 +18,7 @@ export default class AddRule extends Component {
                 discountProducts: [],
                 isPercentage: true
             },
-            isFetching: false,
+            isFetching: true,
             step: 1,
             idMainProduct: '',
             validates: {},
@@ -28,6 +28,7 @@ export default class AddRule extends Component {
             relatedKeyWord: '',
             relatedCurrentPage: '',
             message: '',
+            showProductQty: 0,
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);
@@ -38,6 +39,17 @@ export default class AddRule extends Component {
         this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.handleChangeDisplayProduct = this.handleChangeDisplayProduct.bind(this);
+    }
+
+    async componentWillMount () {
+        const response = await api.getSetup();
+        const result = JSON.parse(response.text);
+        if(result.data.setting){
+            this.setState({
+                showProductQty: result.data.setting.show_product_qty,
+                isFetching: false,
+            })
+        }
     }
 
     handleChangeValue (name, value) {
@@ -103,8 +115,10 @@ export default class AddRule extends Component {
     onSelectRelatedProduct (products) {
         let relatedProducts = [];
         let discountProducts = _.clone(this.state.form.mainProduct);
-        products.map((product) => {
+        products.map((product, key) => {
             if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
+                products[key].isMainProduct = false;
+                products[key].numberDiscount = 0;
                 relatedProducts.push(product);
             }
         })
@@ -116,8 +130,8 @@ export default class AddRule extends Component {
         })
     }
 
-    handleChangeDisplayProduct (idProduct, value) {
-        if(Validate.isPercentage(value)){
+    handleChangeDisplayProduct (idProduct, price, value) {
+        if(Validate.isPercentage(value, price, this.state.form.discountType)){
             let discountProducts = _.clone(this.state.form.discountProducts);
             discountProducts.map((product, i) => {
                 if(product.id == idProduct){
@@ -147,78 +161,87 @@ export default class AddRule extends Component {
 
     render() {
         const {
-            form, step, idMainProduct,
+            form, step, idMainProduct, isFetching, showProductQty,
             validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
-        return (
-            <Fragment>
-                <div>
-                    {
-                        step == 1
-                        ?
-                            <MainProduct
-                                currentPage = {mainCurrentPage}
-                                keyWord = {mainKeyWord}
-                                ruleName = {form.ruleName}
-                                handleChangeValue = {this.handleChangeValue}
-                                onSelectMainProduct = {this.onSelectMainProduct}
-                                nextStep = {this.nextStep}
-                                onChangeIdMainProduct = {this.onChangeIdMainProduct}
-                                idMainProduct = {idMainProduct}
-                                validates = {validates}
-                                requiredFields = {requiredFields}
-                                onChangeValue = {this.onChangeValue}
-                            />
-                        :
-                            null
-                    }
+        if(isFetching){ return (
+            <div id="page_loading">
+                <div className="loading">
+                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom" />
                 </div>
-                <div>
+            </div>
+        )}else {
+            return (
+                <Fragment>
+                    <div>
+                        {
+                            step == 1
+                            ?
+                                <MainProduct
+                                    currentPage = {mainCurrentPage}
+                                    keyWord = {mainKeyWord}
+                                    ruleName = {form.ruleName}
+                                    handleChangeValue = {this.handleChangeValue}
+                                    onSelectMainProduct = {this.onSelectMainProduct}
+                                    nextStep = {this.nextStep}
+                                    onChangeIdMainProduct = {this.onChangeIdMainProduct}
+                                    idMainProduct = {idMainProduct}
+                                    validates = {validates}
+                                    requiredFields = {requiredFields}
+                                    onChangeValue = {this.onChangeValue}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div>
+                        {
+                            step == 2
+                            ?
+                                <RelatedProduct 
+                                    currentPage = {relatedCurrentPage}
+                                    keyWord = {relatedKeyWord}
+                                    handleChangeValue = {this.handleChangeValue}
+                                    onSelectRelatedProduct = {this.onSelectRelatedProduct}
+                                    nextStep = {this.nextStep}
+                                    idMainProduct = {idMainProduct}
+                                    onChangeValue = {this.onChangeValue}
+                                    relatedProducts = {form.relatedProducts}
+                                    showProductQty = {showProductQty}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div>
+                        {
+                            step == 3
+                            ?
+                                <Discount 
+                                    mainProduct = {form.mainProduct}
+                                    handleChangeValue = {this.handleChangeValue}
+                                    nextStep = {this.nextStep}
+                                    discountType = {form.discountType}
+                                    onSubmit = {this.onSubmit}
+                                    validates = {validates}
+                                    discountProducts = {form.discountProducts}
+                                    handleChangeDisplayProduct = {this.handleChangeDisplayProduct}
+                                />
+                            :
+                                null
+                        }
+                    </div>
                     {
-                        step == 2
+                        message 
                         ?
-                            <RelatedProduct 
-                                currentPage = {relatedCurrentPage}
-                                keyWord = {relatedKeyWord}
-                                handleChangeValue = {this.handleChangeValue}
-                                onSelectRelatedProduct = {this.onSelectRelatedProduct}
-                                nextStep = {this.nextStep}
-                                idMainProduct = {idMainProduct}
-                                onChangeValue = {this.onChangeValue}
-                                relatedProducts = {form.relatedProducts}
-                            />
+                        <Notification 
+                            content = {message}
+                        />
                         :
-                            null
+                        null
                     }
-                </div>
-                <div>
-                    {
-                        step == 3
-                        ?
-                            <Discount 
-                                mainProduct = {form.mainProduct}
-                                handleChangeValue = {this.handleChangeValue}
-                                nextStep = {this.nextStep}
-                                discountType = {form.discountType}
-                                onSubmit = {this.onSubmit}
-                                validates = {validates}
-                                discountProducts = {form.discountProducts}
-                                handleChangeDisplayProduct = {this.handleChangeDisplayProduct}
-                            />
-                        :
-                            null
-                    }
-                </div>
-                {
-                    message 
-                    ?
-                    <Notification 
-                        content = {message}
-                    />
-                    :
-                    null
-                }
-            </Fragment>
-        );
+                </Fragment>
+            );
+        }
     }
 }
