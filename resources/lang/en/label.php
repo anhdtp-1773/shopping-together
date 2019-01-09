@@ -47,7 +47,6 @@ return [
     'newsletter' => 'Newsletter',
     'add_bundle_to_cart' => 'Add bundle to cart',
     'frequentle_purchased_products' => 'Frequently purchased products',
-    'frequently_purchased_together' => 'Frequently purchased together',
     'total' => 'Total',
     'admin' => 'Admin',
     'size' => 'Size',
