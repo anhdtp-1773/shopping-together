@@ -16,12 +16,8 @@ export default class Discount extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
 
-    changeMainProduct (event) {
-       this.props.changeMainProduct(event);
-    }
-
-    changeRelatedProduct (index, event) {
-        this.props.changeRelatedProduct(index, event);
+    handleChangeDisplayProduct (idProduct, value) {
+        this.props.handleChangeDisplayProduct(idProduct, value);
     }
 
     nextStep (step) {
@@ -29,34 +25,19 @@ export default class Discount extends Component {
     }
     
     render(){
-        const {mainProduct, relatedProducts, discountType, validates} = this.props;
-        let relatedProductPrice = 0;
-        {relatedProducts.map((relatedProduct, key)=>(
-            discountType == 'percentage' 
-            ? 
-                relatedProduct.number 
-                ?
-                    relatedProductPrice += (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
-                :
-                    relatedProductPrice += parseInt(relatedProduct.price)
-            :   
-                relatedProduct.number
-                ?
-                    relatedProductPrice += (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
-                :   
-                    relatedProductPrice += parseInt(relatedProduct.price)
-        ))}
-        let mainProductPrice = parseInt(mainProduct.price);
-        if(discountType == 'percentage'){
-            if(mainProduct.number){
-                mainProductPrice = parseInt(mainProduct.price) - (parseInt(mainProduct.price) * parseInt(mainProduct.number)/100);
-            }
-        }else{
-            if(mainProduct.number){
-                mainProductPrice = parseInt(mainProduct.price) - parseInt(mainProduct.number);
-            }
-        }
-        let total = relatedProductPrice + mainProductPrice;
+        const {mainProduct, discountType, validates, discountProducts} = this.props;
+        let total = 0;
+        discountProducts.map((product) => {
+            if(product.numberDiscount){
+                if(discountType == 'percentage'){
+                    total += (parseInt(product.price) - (parseInt(product.price) * parseInt(product.numberDiscount))/100);
+                }else{
+                    total += (parseInt(product.price) - parseInt(product.numberDiscount));
+                }
+            }else{
+                total += parseInt(product.price);
+            }            
+        })
         const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'});
         return(
             <Fragment>
@@ -86,72 +67,20 @@ export default class Discount extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><img className="img-discount-product" src={mainProduct.src} alt="..." /></td>
-                                <td>{mainProduct.title}</td>
-                                <td>{mainProduct.price}</td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        onChange={this.changeMainProduct.bind(this)}
-                                        defaultValue={mainProduct.number}
-                                        name="mainProduct"
-                                        className={classNames('text-discount', validates.mainProduct)}
-                                    />
-                                    <span>{discountType  == 'percentage' ? '%' : ''}</span>
-                                </td>
-                                <td className="price-product">
-                                    {mainProductPrice}
-                                </td>
-                            </tr>
-                            {relatedProducts.map((relatedProduct, key)=>(
-                                <tr key={key}>
-                                    <td><img className="img-discount-product" src={relatedProduct.src} alt="..." /></td>
-                                    <td>{relatedProduct.title}</td>
-                                    <td>{relatedProduct.price}</td>
-                                    <td>
-                                        <input
-                                            key={key}   
-                                            type="text"
-                                            className={classNames('text-discount', validates.relatedProduct)}
-                                            // className={`text-discount ${validates.relatedProduct ? validates.relatedProduct[key]: validates.relatedProduct}`}
-                                            className={`text-discount`}
-                                            onChange={this.changeRelatedProduct.bind(this, key)}
-                                            defaultValue = {relatedProduct.number}
-                                            name="relatedProduct"
-                                        />
-                                        <span>{discountType  == 'percentage' ? '%' : ''}</span>
-                                    </td>
-                                    <td className="price-product">
-                                        {
-                                            discountType == 'percentage' 
-                                            ? 
-                                                relatedProduct.number 
-                                                ?
-                                                    (parseInt(relatedProduct.price) - (parseInt(relatedProduct.price) * parseInt(relatedProduct.number))/100)
-                                                :
-                                                    parseInt(relatedProduct.price)
-                                            :   
-                                                relatedProduct.number
-                                                ?
-                                                    (parseInt(relatedProduct.price) - parseInt(relatedProduct.number))
-                                                :   
-                                                    parseInt(relatedProduct.price)
-                                        }
-                                    </td>
-                                </tr>
-                                // <Product 
-                                //     relatedProduct = {relatedProduct}
-                                //     key = {key}
-                                //     discountType = {discountType}
-                                // />
+                            {discountProducts.map((product, key)=>(
+                                <Product 
+                                    product = {product}
+                                    key = {key}
+                                    discountType = {discountType}
+                                    handleChangeDisplayProduct = {this.handleChangeDisplayProduct.bind(this)}
+                                />
                             ))}
                             <tr>
                                 <td>{lang.total}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td className="price-product">{total}</td>
+                                <td className="price-product">{total +" "+ _.head(mainProduct).currency}</td>
                             </tr>
                         </tbody>
                     </table>

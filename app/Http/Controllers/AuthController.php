@@ -10,6 +10,7 @@ use App\Shop;
 use App\Product;
 use App\Variant;
 use App\Image;
+use App\Currency;
 use Illuminate\Http\Request;
 use OhMyBrew\ShopifyApp\Traits\AuthControllerTrait;
 use DB;
@@ -80,6 +81,7 @@ class AuthController extends Controller
         $request = $shop->api()->request('GET', '/admin/shop.json');
         $shop_owner_info = ShopOwner::getShopOwnerByDomain($request->body->shop->email);
         $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : $this->updateShop($request->body->shop);
+        self::updateCurrency($id_shop, $request->body->shop->enabled_presentment_currencies);
         $id_shop_owner ? $this->updateShopOwner($id_shop, $id_shop_owner) : '';
         // Go to homepage of app
         return redirect()->route('home');
@@ -108,6 +110,17 @@ class AuthController extends Controller
         $shop = Shop::find($id_shop);
         $shop->id_shop_owner = $id_shop_owner;
         $shop->save();
+    }
+
+    /**
+     * @param  int $id_shop
+     * @param  int $id_shop_owner
+     */
+    public function updateCurrency($id_shop, $currencies) {
+        $currency = new Currency();
+        $currency->id_shop = $id_shop;
+        $currency->currency = $currencies;
+        $currency->save();
     }
 
     public function uninstall(Request $request) {

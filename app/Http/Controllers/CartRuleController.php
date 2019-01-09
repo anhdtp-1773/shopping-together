@@ -32,29 +32,21 @@ class CartRuleController extends Controller
                         $request->name
                     );
                     if($cart_rule){
-                        $related_products = array();
-                        if($request->related_products){
-                            foreach($request->related_products as $product){
-                                $related_products[] = array(
+                        if($request->products){
+                            $products = array();
+                            foreach($request->products as $product){
+                                $products[] = array(
                                     'id_cart_rule' => $cart_rule->id,
                                     'id_shop' => $shop_info->id,
-                                    'id_related_product' => $product['id_shopify_product'],
-                                    'reduction_percent' => isset($product['reductionPercent']) ? (float)$product['reductionPercent'] : 0,
-                                    'reduction_amount' => isset($product['reductionAmount']) ? (float)$product['reductionAmount'] : 0,
+                                    'id_related_product' => isset($product['isMainProduct']) ? 0 : $product['id_shopify_product'],
+                                    'id_main_product' => isset($product['isMainProduct']) ? $product['id_shopify_product'] : 0,
+                                    'reduction_percent' => $request->is_percentage ? $product['numberDiscount'] : 0,
+                                    'reduction_amount' => $request->is_percentage ? 0 : $product['numberDiscount'],
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s'),
                                 );
                             }
-                            CartRule::saveCartRuleDetail($related_products);
-                        }
-                        $main_product = array();
-                        if($request->main_product){
-                            $main_product = array(
-                                'id_cart_rule' => $cart_rule->id,
-                                'id_shop' => $shop_info->id,
-                                'id_main_product' => $request->main_product['id_shopify_product'],
-                                'reduction_percent' => isset($request->main_product['reductionPercent']) ? (float)$request->main_product['reductionPercent'] : 0,
-                                'reduction_amount' => isset($request->main_product['reductionAmount']) ? (float)$request->main_product['reductionAmount'] : 0,
-                            );
-                            CartRule::saveCartRuleDetail($main_product);
+                            CartRule::saveCartRuleDetail($products);
                         }
                     }
                 }
@@ -63,7 +55,6 @@ class CartRuleController extends Controller
                 $status = false;
                 $msg = $e->getMessage();
             }
-            
         }
 
         return response()->json([
