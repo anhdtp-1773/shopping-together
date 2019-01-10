@@ -47,9 +47,14 @@ export default class Preview extends Component {
         const{title, src, price, option1, option2, option3 } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartFontFamily,
-            cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
-            
+            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, showProductQty, 
+            productImageWidth, productImageHeight,cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
+
+        let displayStyle= {
+            height : parseInt(productImageHeight),
+            width : parseInt(productImageWidth),
+        };
+
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,
@@ -65,6 +70,7 @@ export default class Preview extends Component {
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
             fontSize : parseInt(oldPriceFontSize),
         };
+
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -136,7 +142,7 @@ export default class Preview extends Component {
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src={src} style={{width:"25px"}} /> 
+                                    <img style={displayStyle} src={src}/> 
                                 </span>
                                 <span style={productNameStyle}> {title}</span>
                                 <span><input type="text"placeholder={1}/></span>
