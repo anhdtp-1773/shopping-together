@@ -39,17 +39,20 @@ export default class Setting extends Component {
                 newPriceFontStyle:'italic',
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
-                cartText:'',
-                productText:'',
                 oldPriceFontFamily:'verdana',
-                newPriceFontStyle:'italic',
+                oldPriceFontStyle:'italic',
                 oldPriceFontSize: 20,
                 oldPriceFontColor:'#2296F3',
                 cartFontFamily:'verdana',
                 cartFontStyle: 'italic',
                 cartFontSize: 20,
                 cartFontColor: '#2296F3',
-                backgroundColor: '#2296F3',
+                backgroundColor: '##ff0000',
+                cartText:'',
+                productText:'',
+                showProductQty: 3,
+                productImageWidth: 30 ,
+                productImageHeight: 30,
             },
             validates: {},
             message: '',
@@ -85,6 +88,9 @@ export default class Setting extends Component {
                     oldPriceFontColor: result.data.setting.old_price_font_color,
                     cartText: result.data.setting.cart_text,
                     productText: result.data.setting.product_text,
+                    showProductQty: result.data.setting.show_product_qty,
+                    productImageWidth: result.data.setting.product_image_width,
+                    productImageHeight: result.data.setting.product_imgae_height,
                     cartFontFamily: result.data.setting.cart_font_family,
                     cartFontStyle: result.data.setting.cart_font_style,
                     cartFontSize: result.data.setting.cart_font_size,
@@ -113,6 +119,10 @@ export default class Setting extends Component {
             case 'cartFontColor':
             case 'backgroundColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+            case 'productImageWidth':
+            case 'productImageHeight':
+                validates[name] = Validate.isNumeric(value) ? 'valid' : 'invalid';
                 break;
         }
 
@@ -224,6 +234,11 @@ export default class Setting extends Component {
                             />
                         
                             <Display 
+                                showProductQty = {form.showProductQty}
+                                productImageWidth = {form.productImageWidth}
+                                productImageHeight = {form.productImageHeight}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
                             />
                             
                         </Fragment>
@@ -270,6 +285,9 @@ export default class Setting extends Component {
                             backgroundColor = {form.backgroundColor}
                             cartText = {form.cartText}
                             productText = {form.productText}
+                            showProductQty = {form.showProductQty}
+                            productImageWidth = {form.productImageWidth}
+                            productImageHeight = {form.productImageHeight}
                         />
                     </div>
                     {

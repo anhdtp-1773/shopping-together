@@ -33,7 +33,6 @@ return [
     'user_guide' => 'User guide',
     'help' => 'Help',
     'save' => 'Save',
-    'preview'=> 'Preview',
     'back' => 'Back',
     'please_select_at_least_one_product' => 'Please select at least one product',
     'image' => 'Image',
@@ -62,6 +61,13 @@ return [
     'font_style' => 'Font style',
     'font_size' => 'Font size',
     'font_color' => 'Font color',
+    'show' => 'SHOW',
+    'height' => 'Height',
+    'width' => 'Width',
+    'allow_on_pcs' => 'Allow on PCs',
+    'allow_on_mobile_devices' => 'Allow on mobile devices',
+    'product_image_size' => 'PRODUCT IMAGE SIZE',
+    'products_to_group' => 'Products to group',
     'back_ground_color' => 'Background color',
     'exceed_allowed_products_to_group' => 'Exceed allowed products to group'
 ];
