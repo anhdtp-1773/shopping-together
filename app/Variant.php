@@ -12,7 +12,7 @@ class Variant extends Model
      * @var string
      */
     protected $table = 'variants';
-    protected $fillable=['id_variant','id_product','id_shop','title','created_at','updated_at','price','option1','option2','option3','currency_code','quantity', 'id_image'];
+    protected $fillable=['id_variant','id_product','id_shop','product_name','title','created_at','updated_at','price','option1','option2','option3','currency_code','quantity', 'id_image'];
     
     /**
      * @param
