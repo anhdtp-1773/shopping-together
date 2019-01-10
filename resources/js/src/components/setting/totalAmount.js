@@ -12,6 +12,7 @@ export default class TotalAmount extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.changeHandlerColor = this.changeHandlerColor.bind(this, 'amountFontColor');
+        this.toggle = this.toggle.bind(this);
 
         this.state = {
             displayFontColor: false,
@@ -44,80 +45,86 @@ export default class TotalAmount extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
     
+    toggle(event){
+        this.props.handleChangeToggle(event.target.dataset.index);
+    }
+    
     render(){
-        const {amountFontFamily, amountFontStyle, amountFontSize, amountFontColor, validates} = this.props;
+        const {amountFontFamily, amountFontStyle, amountFontSize, amountFontColor, validates, totalAmount} = this.props;
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p> {lang.total_amount}</p>
-                <div className="full-width display-block">
-                    <div className="form-group">
-                        <p>{lang.font_family}</p>
-                        <select 
-                            name="amountFontFamily"
-                            className="form-control" 
-                            onChange={this.handleChangeValue}
-                            value={amountFontFamily} 
-                        >
-                            {fontFamilyOptions.map((value, i) =>
-                                <option key={i} value={value.value}>{value.label}</option>
-                            )}
-                        </select>
+                <p data-index="totalAmount" className="btn btn-block" onClick={this.toggle}> {lang.total_amount}</p>
+                <div className={(totalAmount ? '' : 'collapse')}> 
+                    <div className="full-width display-block">
+                        <div className="form-group">
+                            <p>{lang.font_family}</p>
+                            <select 
+                                name="amountFontFamily"
+                                className="form-control" 
+                                onChange={this.handleChangeValue}
+                                value={amountFontFamily} 
+                            >
+                                {fontFamilyOptions.map((value, i) =>
+                                    <option key={i} value={value.value}>{value.label}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className="full-width display-block">
-                    <div className="form-group">
-                        <p>{lang.font_style}</p>
-                        <select 
-                            name="amountFontStyle"
-                            className="form-control" 
-                            onChange={this.handleChangeValue}
-                            value={amountFontStyle}
-                        >
-                            {fontStyleOptions.map((value, i) =>
-                                <option key={i} value={value.value}>{value.label}</option>
-                            )}
-                        </select>
+                    <div className="full-width display-block">
+                        <div className="form-group">
+                            <p>{lang.font_style}</p>
+                            <select 
+                                name="amountFontStyle"
+                                className="form-control" 
+                                onChange={this.handleChangeValue}
+                                value={amountFontStyle}
+                            >
+                                {fontStyleOptions.map((value, i) =>
+                                    <option key={i} value={value.value}>{value.label}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className="full-width" ref={node => { this.node = node; }}>
-                    <p>{lang.font_color}</p>
-                    <input 
-                        type="text" 
-                        style={{ backgroundColor: amountFontColor }} 
-                        value={amountFontColor} 
-                        onChange={this.handleChangeValue} 
-                        onClick={this.handleClick}
-                        name="amountFontColor"
-                        className={classNames('form-control', validates.amountFontColor)}
-                        onBlur={this.handleClose}
-                    />
-                    {
-                        displayFontColor 
-                        ?
-                        <Fragment>
-                            <ColorPickerPanel 
-                                alpha={80}
-                                color={amountFontColor} 
-                                onChange={this.changeHandlerColor} 
-                                mode="HSB" 
-                            />
-                        </Fragment>
-                        :
-                        null
-                    }
-                </div>
-                <div className="full-width">
-                    <p>{lang.font_size}</p>
-                    <input 
-                        className="slidecontainer" 
-                        type="range" 
-                        name="amountFontSize"
-                        value={amountFontSize} 
-                        min={rangeFontSizeMin}
-                        max={rangeFontSizeMax}
-                        onChange={this.handleChangeValue} 
-                    />
+                    <div className="full-width" ref={node => { this.node = node; }}>
+                        <p>{lang.font_color}</p>
+                        <input 
+                            type="text" 
+                            style={{ backgroundColor: amountFontColor }} 
+                            value={amountFontColor} 
+                            onChange={this.handleChangeValue} 
+                            onClick={this.handleClick}
+                            name="amountFontColor"
+                            className={classNames('form-control', validates.amountFontColor)}
+                            onBlur={this.handleClose}
+                        />
+                        {
+                            displayFontColor 
+                            ?
+                            <Fragment>
+                                <ColorPickerPanel 
+                                    alpha={80}
+                                    color={amountFontColor} 
+                                    onChange={this.changeHandlerColor} 
+                                    mode="HSB" 
+                                />
+                            </Fragment>
+                            :
+                            null
+                        }
+                    </div>
+                    <div className="full-width">
+                        <p>{lang.font_size}</p>
+                        <input 
+                            className="slidecontainer" 
+                            type="range" 
+                            name="amountFontSize"
+                            value={amountFontSize} 
+                            min={rangeFontSizeMin}
+                            max={rangeFontSizeMax}
+                            onChange={this.handleChangeValue} 
+                        />
+                    </div>
                 </div>
             </div>
         );

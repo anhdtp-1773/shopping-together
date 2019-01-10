@@ -18,6 +18,7 @@ export default class Setting extends Component {
     constructor(props) {
         super(props);
         this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.handleChangeToggle = this.handleChangeToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
             isFetching: true,
@@ -56,7 +57,14 @@ export default class Setting extends Component {
             },
             validates: {},
             message: '',
-            displayFontColor: false,
+            title: false,
+            productName: false,
+            totalAmount: false,
+            newPrice: false,
+            oldPrice: false,
+            cart: false,
+            translation: false,
+            display: false,
         };
     }
     async componentWillMount(){
@@ -157,10 +165,115 @@ export default class Setting extends Component {
             alert(errors.message)
         }
     }   
+
+    handleChangeToggle (name) {
+        switch(name) {
+            case 'title':
+                this.setState({
+                    title: !this.state.title,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: false,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'productName':
+                this.setState({
+                    title: false,
+                    productName: !this.state.productName,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: false,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'totalAmount':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: !this.state.totalAmount,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: false,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'newPrice':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: !this.state.newPrice,
+                    oldPrice: false,
+                    cart: false,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'oldPrice':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: !this.state.oldPrice,
+                    cart: false,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'cart':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: !this.state.cart,
+                    translation: false,
+                    display: false,
+                });
+                break;
+            case 'translation':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: false,
+                    translation: !this.state.translation,
+                    display: false,
+                });
+                break;
+            case 'display':
+                this.setState({
+                    title: false,
+                    productName: false,
+                    totalAmount: false,
+                    newPrice: false,
+                    oldPrice: false,
+                    cart: false,
+                    translation: false,
+                    display: !this.state.display,
+                });
+                break;
+            default:    
+                return;
+        }
+    }
+
     render () {
-        const{form, validates, isFetching, message} = this.state;
+        const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
-        if(isFetching){ return (
+        if(isFetching){ 
+            return (
             <div id="page_loading">
                 <div className="loading">
                     <i className="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom" />
@@ -178,6 +291,8 @@ export default class Setting extends Component {
                                 titleFontSize = {form.titleFontSize}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                title = {title}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                     
                             <ProductName 
@@ -187,6 +302,8 @@ export default class Setting extends Component {
                                 productFontSize = {form.productFontSize}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                productName = {productName}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                         
                             <TotalAmount 
@@ -196,6 +313,8 @@ export default class Setting extends Component {
                                 amountFontColor = {form.amountFontColor}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                totalAmount = {totalAmount}
+                                handleChangeToggle = {this.handleChangeToggle}
                                 />
 
                             <NewPrice 
@@ -205,6 +324,8 @@ export default class Setting extends Component {
                                 newPriceFontColor = {form.newPriceFontColor}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                newPrice = {newPrice}
+                                handleChangeToggle = {this.handleChangeToggle}
                                 />
                         
                             <OldPrice 
@@ -214,6 +335,8 @@ export default class Setting extends Component {
                                 oldPriceFontColor = {form.oldPriceFontColor}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                oldPrice = {oldPrice}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                         
                             <Cart 
@@ -224,6 +347,8 @@ export default class Setting extends Component {
                                 backgroundColor = {form.backgroundColor}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                cart = {cart}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                         
                             <Translation 
@@ -231,6 +356,8 @@ export default class Setting extends Component {
                                 productText = {form.productText}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                translation = {translation}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                         
                             <Display 
@@ -239,15 +366,14 @@ export default class Setting extends Component {
                                 productImageHeight = {form.productImageHeight}
                                 handleChangeValue = {this.handleChangeValue}
                                 validates = {validates}
+                                display = {display}
+                                handleChangeToggle = {this.handleChangeToggle}
                             />
                             
                         </Fragment>
                         <p>{lang.design_and_support_by_hamsa_technology}</p>
                         <a>{lang.user_guide}</a>
-                        <p
-                        >
-                            {lang.help}
-                        </p>
+                        <p>{lang.help}</p>
                         <button
                             href="javascript:void(0);" 
                             onClick={this.onSubmit} 
