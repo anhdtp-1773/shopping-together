@@ -12,7 +12,7 @@ class CartRule extends Model
      * @var string
      */
     protected $table = 'cart_rule';
-    protected $fillable=['id_shop','name','status','updated_at','created_at'];
+    protected $fillable=['id_shop','name','id_product','status','updated_at','created_at'];
 
      /**
      * @param int $id_shop
@@ -28,10 +28,11 @@ class CartRule extends Model
      *  'updated_at' => timestamp
      * )
      */
-    public static function saveCartRule($id_shop, $name){
+    public static function saveCartRule($id_shop, $name, $id_product){
         $cart_rule = new CartRule();
         $cart_rule->id_shop = $id_shop;
         $cart_rule->name = $name;
+        $cart_rule->id_product = $id_product;
         $cart_rule->save();
         return $cart_rule;
     }
@@ -51,6 +52,20 @@ class CartRule extends Model
     public static function saveCartRuleDetail($array_products)
     {
         DB::table('cart_rule_detail')->insert($array_products);
+    }
+
+
+
+    public static function getCartRule($id_shop, $id_product)
+    {
+        $sql = DB::table('cart_rule');
+        $sql->select('variants.product_name','variants.id_variant', 'variants.id_image', 'variants.title', 'variants.price', 'cart_rule_detail.reduction_percent',
+             'cart_rule_detail.reduction_amount', 'cart_rule_detail.id_product');
+        $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
+        $sql->join('variants', 'variants.id_product', '=', 'cart_rule_detail.id_product');
+        $sql->where('cart_rule.id_shop', $id_shop);
+        $sql->where('cart_rule.id_product', $id_product);
+        return $sql->get()->toArray();
     }
 
 }

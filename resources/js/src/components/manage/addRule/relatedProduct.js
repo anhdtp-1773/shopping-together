@@ -45,7 +45,15 @@ export default class RelatedProduct extends Component {
     onSelectRelatedProduct (id) {
         let index = this.state.idProducts.indexOf(id);
         let idProducts = this.state.idProducts;
-        index >= 0 ? idProducts.splice(index, 1) : idProducts.push(id);
+        if(index >= 0){
+            idProducts.splice(index, 1);
+        }else{
+            if(idProducts.length < (this.props.showProductQty - 1)){
+                idProducts.push(id);
+            }else{
+                alert(lang.exceed_allowed_products_to_group)
+            }
+        }
         this.setState({
             idProducts: idProducts,
         })
