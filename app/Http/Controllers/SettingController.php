@@ -22,6 +22,8 @@ class SettingController extends Controller
             'title_font_color' =>'required', 
             'amount_font_color' =>'required', 
             'new_price_font_color' =>'required', 
+            'cart_text' =>'required', 
+            'product_text' =>'required', 
             'old_price_font_color' =>'required', 
             'product_image_width' =>'required|integer', 
             'product_imgae_height' =>'required|integer', 

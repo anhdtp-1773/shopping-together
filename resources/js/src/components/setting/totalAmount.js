@@ -18,8 +18,7 @@ export default class TotalAmount extends Component {
         };
     }
 
-    handleClick()
-    {
+    handleClick () {
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClick, false);
         } else {
@@ -30,12 +29,11 @@ export default class TotalAmount extends Component {
         })
     }
 
-    handleOutsideClick(e) {
+    handleOutsideClick (e) {
         if (this.node.contains(e.target)) {
           return;
         }
-        
-        this.handleClick();
+        this.handleClick ();
     }
 
     changeHandlerColor (name, colors) {
@@ -45,6 +43,7 @@ export default class TotalAmount extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
+    
     render(){
         const {amountFontFamily, amountFontStyle, amountFontSize, amountFontColor, validates} = this.props;
         const {displayFontColor} = this.state;

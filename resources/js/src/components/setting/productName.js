@@ -18,8 +18,7 @@ export default class ProductName extends Component {
         };
     }
 
-    handleClick()
-    {
+    handleClick () {
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClick, false);
         } else {
@@ -30,11 +29,10 @@ export default class ProductName extends Component {
         })
     }
 
-    handleOutsideClick(e) {
+    handleOutsideClick (e) {
         if (this.node.contains(e.target)) {
           return;
         }
-        
         this.handleClick();
     }
 
@@ -45,7 +43,8 @@ export default class ProductName extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
-    render(){
+
+    render (){
         const {productFontFamily,productFontStyle,productFontSize,productFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
         return (
@@ -55,10 +54,10 @@ export default class ProductName extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}</p>
                         <select 
-                            name = "productFontFamily"
+                            name="productFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {productFontFamily} 
+                            onChange={this.handleChangeValue}
+                            value={productFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -70,10 +69,10 @@ export default class ProductName extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                         <select 
-                            name = "productFontStyle"
+                            name="productFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {productFontStyle}
+                            onChange={this.handleChangeValue}
+                            value={productFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -81,7 +80,7 @@ export default class ProductName extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="full-width"  ref={node => { this.node = node; }}>
+                <div className="full-width" ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                     <input 
                         type="text" 
@@ -115,8 +114,8 @@ export default class ProductName extends Component {
                         type="range" 
                         name = "productFontSize"
                         value={productFontSize} 
-                        min = {rangeFontSizeMin}
-                        max = {rangeFontSizeMax}
+                        min={rangeFontSizeMin}
+                        max={rangeFontSizeMax}
                         onChange={this.handleChangeValue} 
                     />
                 </div>

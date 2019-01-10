@@ -18,8 +18,7 @@ export default class NewPrice extends Component {
         };
     }
 
-    handleClick()
-    {
+    handleClick () {
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClick, false);
         } else {
@@ -30,11 +29,10 @@ export default class NewPrice extends Component {
         })
     }
 
-    handleOutsideClick(e) {
+    handleOutsideClick (e) {
         if (this.node.contains(e.target)) {
           return;
         }
-        
         this.handleClick();
     }
 
@@ -45,7 +43,7 @@ export default class NewPrice extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
-    render(){
+    render (){
         const {newPriceFontFamily, newPriceFontStyle, newPriceFontSize, newPriceFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
         return (
@@ -55,10 +53,10 @@ export default class NewPrice extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}</p>
                         <select 
-                            name = "newPriceFontFamily"
+                            name="newPriceFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {newPriceFontFamily} 
+                            onChange={this.handleChangeValue}
+                            value={newPriceFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -70,10 +68,10 @@ export default class NewPrice extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                         <select 
-                            name = "newPriceFontStyle"
+                            name="newPriceFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {newPriceFontStyle}
+                            onChange={this.handleChangeValue}
+                            value={newPriceFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -81,7 +79,7 @@ export default class NewPrice extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="full-width"  ref={node => { this.node = node; }}>
+                <div className="full-width" ref={node => { this.node = node; }}>
                     <p>{lang.font_color}</p>
                     <input 
                         type="text" 
@@ -98,7 +96,7 @@ export default class NewPrice extends Component {
                         <Fragment>
                             <ColorPickerPanel 
                                 alpha={80} 
-                                color= {newPriceFontColor} 
+                                color={newPriceFontColor} 
                                 onChange={this.changeHandlerColor} 
                                 mode="HSB" 
                             />
@@ -112,10 +110,10 @@ export default class NewPrice extends Component {
                     <input 
                         className="slidecontainer" 
                         type="range" 
-                        name = "newPriceFontSize"
-                        value ={newPriceFontSize} 
-                        min = {rangeFontSizeMin}
-                        max = {rangeFontSizeMax}
+                        name="newPriceFontSize"
+                        value={newPriceFontSize} 
+                        min={rangeFontSizeMin}
+                        max={rangeFontSizeMax}
                         onChange={this.handleChangeValue} 
                     />
                 </div>
