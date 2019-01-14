@@ -9,3 +9,11 @@
 .product-variant {
     width: 30%;
 }
+
+.spt-add-to-cart {
+    margin-top: 10px;
+}
+
+.spt-total-price {
+    padding-left: 75%;
+}

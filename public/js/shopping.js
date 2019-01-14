@@ -5,7 +5,7 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
-$('head').append('<link rel="stylesheet" type="text/css" href="https://shoppingtogether.hamsa.site/public/css/sptapp.css" />');
+$('head').append('<link rel="stylesheet" type="text/css" href="https://3e782224.ngrok.io/public/css/sptapp.css" />');
 if(isProductPage){
     Shopping = new Object({});
     Shopping.getSettings = function() {
@@ -54,7 +54,11 @@ function getCartRule (settings) {
 }
 
 function renderCartRule (settings, cartRule) {
+    var setting = settings.data.setting;
+    console.log(settings);
     $("form[action='/cart/add']").after("<div class='cart-rule'></div>");
+    $(".cart-rule").append("<h3>"+setting.product_text+"</h3>")
+    let total = 0;
     cartRule.data.forEach(function(product, key) {
         let optionVariants = ''
         product.variants.forEach(function(variant){
@@ -67,6 +71,7 @@ function renderCartRule (settings, cartRule) {
         if(parseFloat(product.reduction_percent) > 0){
             newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.reduction_amount)*parseFloat(product.reduction_percent))/100;
         }
+        total += newPrice;
         var checked = product.is_main_product == 1 ? 'checked' : '';
         var html= 
         "<div class='related-products'>"
@@ -82,20 +87,9 @@ function renderCartRule (settings, cartRule) {
         +"</div>"
         $(".cart-rule").append(html);
     });
-    $(".cart-rule").after("<input id='submit' type='submit' name='vehicle1' value='submit' >")
-
-    $('#submit').click(function() {
-        var tr = $(".cart-rule").find('.combination');
-        var combinations = [];          
-        tr.each(function() {
-            let obj = {};
-            $(this).find('input').each (function() {
-                obj['qty'] = $(this).attr('value');
-            });             
-            combinations.push(obj);
-        });
-        console.log(combinations)
-    });
+    $(".cart-rule").append("<div class='spt-total'><span>Total</span><span class='spt-total-price'>"+total+currency+"</span></div>")
+    $(".cart-rule").append("<button class='spt-add-to-cart' type='button'>"+setting.cart_text+"</button>")
+    
 }
 
 function onChangeSelect(key) {
@@ -110,9 +104,8 @@ function onChangeSelect(key) {
     if(parseFloat(cartRule.reduction_percent) > 0){
         newPrice = parseFloat(variant.price) - (parseFloat(cartRule.reduction_amount)*parseFloat(cartRule.reduction_percent))/100;
     }
-    $("#old-price-"+key+"").html("<del>"+variant.price+"</del>");
-    $("#new-price-"+key+"").html(newPrice);
-    
+    $("#old-price-"+key+"").html("<del>"+variant.price+currency+"</del>");
+    $("#new-price-"+key+"").html(newPrice+currency);
 }
 
 function submit(products) {
@@ -150,3 +143,16 @@ var getUrlParameter = function(param) {
         }
     }
 }
+
+$('#submit').click(function() {
+    var tr = $(".cart-rule").find('.combination');
+    var combinations = [];          
+    tr.each(function() {
+        let obj = {};
+        $(this).find('input').each (function() {
+            obj['qty'] = $(this).attr('value');
+        });             
+        combinations.push(obj);
+    });
+    console.log(combinations)
+});
