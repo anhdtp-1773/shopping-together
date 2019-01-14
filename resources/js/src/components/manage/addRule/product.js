@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
 import classNames from 'classnames'
-import * as Validate from "../../../models/validate.model"; 
+import * as Validate from "../../../models/validate.model";
 
 export default class Product extends Component {
     constructor(){
@@ -9,7 +9,7 @@ export default class Product extends Component {
         this.state = {
             validates: {},
         }
-        this.handleChangeDisplayProduct =  _.debounce(this.handleChangeDisplayProduct, 500);    
+        this.handleChangeDisplayProduct =  _.debounce(this.handleChangeDisplayProduct, 500);
     }
 
     handleChangeValue (idProduct, price, event) {
@@ -49,8 +49,8 @@ export default class Product extends Component {
         }
         return(
             <Fragment>
-                <tr >
-                    <td><img className="img-discount-product" src={product.src} alt="..." /></td>
+                <tr className="info-product">
+                    <td><img className="set-discount__img" src={product.src} alt="..." /></td>
                     <td>{product.title}</td>
                     <td>{product.price +" "+ product.currency}</td>
                     <td>
@@ -63,7 +63,7 @@ export default class Product extends Component {
                         />
                         <span>{discountType  == 'percentage' ? '%' : ''}</span>
                     </td>
-                    <td className="price-product">
+                    <td className="set-discount__sale-price">
                         {price +" "+ product.currency}
                     </td>
                 </tr>

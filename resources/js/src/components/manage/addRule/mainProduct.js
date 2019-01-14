@@ -16,7 +16,7 @@ export default class MainProduct extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
-        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);      
+        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.nextStep = this.nextStep.bind(this, 2);
     }
@@ -26,7 +26,7 @@ export default class MainProduct extends Component {
             this.onSearchProduct(this.props.keyWord, this.props.currentPage);
         }else{
             this.getListProduct(this.props.currentPage);
-        }   
+        }
     }
 
     async getListProduct (currentPage) {
@@ -34,7 +34,7 @@ export default class MainProduct extends Component {
         const result = JSON.parse(response.text);
         if(result.status){
             this.props.onChangeValue('mainCurrentPage', result.data.current_page);
-            this.setState({ 
+            this.setState({
                 itemsPerPage: result.data.items_per_page,
                 totalItems: result.data.total_items,
                 products: result.data.items,
@@ -46,7 +46,7 @@ export default class MainProduct extends Component {
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
     }
-    
+
     onSelectProduct(id){
         let product = _.filter(this.state.products, function(product) { return product.id == id; });
         _.head(product).isMainProduct = true;
@@ -54,7 +54,7 @@ export default class MainProduct extends Component {
         this.props.onSelectMainProduct(product);
         this.props.onChangeIdMainProduct(id);
     }
-    
+
     nextStep(step){
         if(!this.props.idMainProduct){
             alert(lang.please_select_at_least_one_product)
@@ -72,7 +72,7 @@ export default class MainProduct extends Component {
             this.onSearchProduct(this.props.keyWord, currentPage);
         }else{
             this.getListProduct(currentPage);
-        }   
+        }
     }
 
     onChangeKeyWord (event) {
@@ -112,7 +112,7 @@ export default class MainProduct extends Component {
     render() {
         const {products, itemsPerPage, totalItems, isFetching, msg} = this.state;
         const {currentPage,  ruleName, requiredFields, validates, keyWord} = this.props;
-        const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'}); 
+        const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -127,11 +127,11 @@ export default class MainProduct extends Component {
                             <span>{lang.set_the_rule_name}</span>
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
-                            <input 
+                            <input
                                 type="text"
-                                name="ruleName" 
+                                name="ruleName"
                                 value={ruleName}
-                                placeholder={lang.rule} 
+                                placeholder={lang.rule}
                                 onChange={this.handleChangeValue}
                                 className={classNames('form-control', validates.ruleName)}
                             />
@@ -140,10 +140,10 @@ export default class MainProduct extends Component {
 
                     <div className="form-group product-search-wrap">
                         <label className="title-search-product" htmlFor="formGroupExampleInput">{lang.select_a_main_product}</label>
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            placeholder={lang.search} 
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder={lang.search}
                             onChange={this.onChangeKeyWord}
                             value = {keyWord}
                         />
@@ -153,7 +153,7 @@ export default class MainProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className="product-wrap col-sm-6 col-md-3" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
+                                    <span className="product-wrap col-sm-6 col-md-2" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <h5 className="split-title-product">{product.title}</h5>
@@ -165,7 +165,7 @@ export default class MainProduct extends Component {
                         :
                             <p>{msg}</p>
                     }
-                    
+
                     <Fragment>
                         <div className="pagination-wrap">
                             <Pagination
@@ -175,16 +175,15 @@ export default class MainProduct extends Component {
                                 pageRangeDisplayed={5}
                                 onChange={this.handlePageChange}
                             />
-                            <button 
-                                onClick={this.nextStep} 
-                                type="button" 
-                                className={classNames({'btn btn-primary': true}, {'disabled-form': disabledOnClick})}
-                                style={{float:"right"}}
+                            <button
+                                onClick={this.nextStep}
+                                type="button"
+                                className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
                             >
                                 {lang.next}
                             </button>
                         </div>
-                    </Fragment> 
+                    </Fragment>
                 </div>
             );
         }
