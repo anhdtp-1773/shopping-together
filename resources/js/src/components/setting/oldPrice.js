@@ -12,6 +12,7 @@ export default class OldPrice extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.changeHandlerColor = this.changeHandlerColor.bind(this, 'oldPriceFontColor');
+        this.toggle = this.toggle.bind(this);
 
         this.state = {
             displayFontColor: false,
@@ -45,80 +46,86 @@ export default class OldPrice extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
 
-    render(){
-        const {oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, validates} = this.props;
+    toggle (event) {
+        this.props.handleChangeToggle(event.target.dataset.index);
+    }
+
+    render () {
+        const {oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, validates, oldPrice} = this.props;
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p> {lang.original_price}</p>
-                <div className="full-width display-block">
-                    <div className="form-group">
-                        <p>{lang.font_family}</p>
-                        <select 
-                            name="oldPriceFontFamily"
-                            className="form-control" 
-                            onChange={this.handleChangeValue}
-                            value={oldPriceFontFamily} 
-                        >
-                            {fontFamilyOptions.map((value, i) =>
-                                <option key={i} value={value.value}>{value.label}</option>
-                            )}
-                        </select>
+                <p data-index="oldPrice" className="btn btn-block" onClick={this.toggle}>{lang.original_price}</p>
+                <div className={(oldPrice ? '' : 'collapse')}> 
+                    <div className="full-width display-block">
+                        <div className="form-group">
+                            <p>{lang.font_family}</p>
+                            <select 
+                                name="oldPriceFontFamily"
+                                className="form-control" 
+                                onChange={this.handleChangeValue}
+                                value={oldPriceFontFamily} 
+                            >
+                                {fontFamilyOptions.map((value, i) =>
+                                    <option key={i} value={value.value}>{value.label}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className="full-width display-block">
-                    <div className="form-group">
-                        <p>{lang.font_style}</p>
-                        <select 
-                            name="oldPriceFontStyle"
-                            className="form-control" 
-                            onChange={this.handleChangeValue}
-                            value={oldPriceFontStyle}
-                        >
-                            {fontStyleOptions.map((value, i) =>
-                                <option key={i} value={value.value}>{value.label}</option>
-                            )}
-                        </select>
+                    <div className="full-width display-block">
+                        <div className="form-group">
+                            <p>{lang.font_style}</p>
+                            <select 
+                                name="oldPriceFontStyle"
+                                className="form-control" 
+                                onChange={this.handleChangeValue}
+                                value={oldPriceFontStyle}
+                            >
+                                {fontStyleOptions.map((value, i) =>
+                                    <option key={i} value={value.value}>{value.label}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className="full-width" ref={node => { this.node = node; }}>
-                    <p>{lang.font_color}</p>
-                    <input 
-                        type="text" 
-                        style={{ backgroundColor: oldPriceFontColor }} 
-                        value={oldPriceFontColor} 
-                        onChange={this.handleChangeValue} 
-                        onClick={this.handleClick}
-                        name="oldPriceFontColor"
-                        className={classNames('form-control', validates.oldPriceFontColor)}
-                    />
-                    {
-                        displayFontColor 
-                        ?
-                        <Fragment>
-                            <ColorPickerPanel 
-                                alpha={80} 
-                                color={oldPriceFontColor} 
-                                onChange={this.changeHandlerColor} 
-                                mode="HSB" 
-                                onClick={this.handleClick}
-                            />
-                        </Fragment>
-                        :
-                        null
-                    }
-                </div>
-                <div className="full-width">
-                    <p>{lang.font_size}</p>
-                    <input 
-                        className="slidecontainer" 
-                        type="range" 
-                        name="oldPriceFontSize"
-                        value={oldPriceFontSize} 
-                        min={rangeFontSizeMin}
-                        max={rangeFontSizeMax}
-                        onChange={this.handleChangeValue} 
-                    />
+                    <div className="full-width" ref={node => { this.node = node; }}>
+                        <p>{lang.font_color}</p>
+                        <input 
+                            type="text" 
+                            style={{ backgroundColor: oldPriceFontColor }} 
+                            value={oldPriceFontColor} 
+                            onChange={this.handleChangeValue} 
+                            onClick={this.handleClick}
+                            name="oldPriceFontColor"
+                            className={classNames('form-control', validates.oldPriceFontColor)}
+                        />
+                        {
+                            displayFontColor 
+                            ?
+                            <Fragment>
+                                <ColorPickerPanel 
+                                    alpha={80} 
+                                    color={oldPriceFontColor} 
+                                    onChange={this.changeHandlerColor} 
+                                    mode="HSB" 
+                                    onClick={this.handleClick}
+                                />
+                            </Fragment>
+                            :
+                            null
+                        }
+                    </div>
+                    <div className="full-width">
+                        <p>{lang.font_size}</p>
+                        <input 
+                            className="slidecontainer" 
+                            type="range" 
+                            name="oldPriceFontSize"
+                            value={oldPriceFontSize} 
+                            min={rangeFontSizeMin}
+                            max={rangeFontSizeMax}
+                            onChange={this.handleChangeValue} 
+                        />
+                    </div>
                 </div>
             </div>
         );
