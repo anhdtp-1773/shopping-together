@@ -8,6 +8,9 @@ use App\CartRule;
 
 class CartRuleController extends Controller
 {
+    public $page_number = 1;
+    protected $items_per_page = 5;
+
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -87,5 +90,29 @@ class CartRuleController extends Controller
         return response()->json([
             'data' => $coms,
         ], 200); 
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getRulesList(Request $request){
+        $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
+        $data = [];
+        $status = true;
+        $msg = trans('label.successfully');
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        try{
+            $data = CartRule::getRules($this->page_number, $this->items_per_page, $shop->id);
+        }
+        catch(\Exception $e){
+            $status = false;
+            $msg = $e->getMessage();
+        }
+        return response()->json([
+                'status' => $status,
+                'message'=> $msg,
+                'data' => $data
+        ], 200);
     }
 }

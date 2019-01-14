@@ -68,4 +68,37 @@ class CartRule extends Model
         return $sql->get()->toArray();
     }
 
+    /**
+     * @param int $id_shop
+     * @param int $name
+     * @return array
+     * <pre>
+     * array (
+     *  'id' => int,
+     *  'id_shop' => int,
+     *  'name' => string,
+     *  'status' => tinyint,
+     *  'created_at' => timestamp,
+     *  'updated_at' => timestamp
+     * )
+     */
+    public static function getRules($page_number, $items_per_page, $id_shop)
+    {
+        $data = [];
+        $query = DB::table('cart_rule');
+        $query->select('cart_rule.name', 'cart_rule.status');
+        $query->where('cart_rule.id_shop', $id_shop);
+        $number_record = count($query->get());
+        $data['page_limit'] = ceil($number_record / $items_per_page);
+        $data['current_page'] = $page_number;
+        $offset = ($page_number - 1)  * $items_per_page;
+        $data['items_per_page'] = $items_per_page;
+        $data['total_items'] = $number_record;
+        if($offset >=0 && $items_per_page){
+            $data['items'] = $query->offset($offset)->limit($items_per_page)->get();
+        }else{
+            $data['items'] = $query->get();
+        }
+        return $data;
+    }
 }
