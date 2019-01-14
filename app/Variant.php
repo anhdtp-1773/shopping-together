@@ -52,4 +52,13 @@ class Variant extends Model
     public static function updatedVariant($id_variants, $array_variants){
         DB::table('variants')->whereIn('id_variant', $id_variants)->update($array_variants);
     }       
+
+    public static function getVariant($id_product) {
+        $sql = DB::table('variants');
+        $sql->select('products.handle','variants.product_name', 'variants.title', 'variants.price','variants.id_variant', 'variants.id_image', 'images.src');
+        $sql->join('products', 'products.id_shopify_product', '=', 'variants.id_product');
+        $sql->join('images', 'images.id_image', '=', 'variants.id_image');
+        $sql->where('variants.id_product', $id_product);
+        return $sql->get()->toArray();
+    }
 }

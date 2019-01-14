@@ -1,3 +1,11 @@
 .left {
     margin-left: 5px;
 }
+
+.product-qty {
+    width: 50px;
+}
+
+.product-variant {
+    width: 30%;
+}

@@ -171,7 +171,7 @@ class AuthController extends Controller
                             'option2' => $value->option2,
                             'option3' => $value->option3,
                             'quantity' => $value->inventory_quantity,
-                            'id_image' => $value->image_id,
+                            'id_image' => !empty($value->image_id) ? $value->image_id : $product->image->id,
                             'created_at' => date('Y-m-d H:i:s'),
                             'updated_at' => date('Y-m-d H:i:s'),
                         );

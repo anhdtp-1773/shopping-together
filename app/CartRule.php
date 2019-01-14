@@ -54,18 +54,28 @@ class CartRule extends Model
         DB::table('cart_rule_detail')->insert($array_products);
     }
 
-
-
-    public static function getCartRule($id_shop, $id_product)
-    {
+    public static function getCartRule($id_shop, $id_product) {
         $sql = DB::table('cart_rule');
-        $sql->select('variants.product_name','variants.id_variant', 'variants.id_image', 'variants.title', 'variants.price', 'cart_rule_detail.reduction_percent',
-             'cart_rule_detail.reduction_amount', 'cart_rule_detail.id_product');
+        $sql->select('cart_rule_detail.reduction_percent', 'cart_rule_detail.reduction_amount', 'cart_rule_detail.id_product', 'cart_rule_detail.is_main_product');
         $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
-        $sql->join('variants', 'variants.id_product', '=', 'cart_rule_detail.id_product');
         $sql->where('cart_rule.id_shop', $id_shop);
         $sql->where('cart_rule.id_product', $id_product);
         return $sql->get()->toArray();
     }
+    
+    /**
+     * Relationship: Varians
+     * @return Collection Varians
+     */
+    public function varians() {
+        return $this->hasMany('App\Variant','id_product', 'id_product');
+    }
 
+    public function getRuleDetail($id_cart_rule) {
+        $sql = DB::table('cart_rule');
+        $sql->join('images', 'images.id_image', '=', 'cart_rule.id');
+        $sql->where('cart_rule.id_shop', $id_shop);
+        $sql->where('cart_rule.id_product', $id_product);
+        return $sql->first();
+    }
 }
