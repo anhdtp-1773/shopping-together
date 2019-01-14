@@ -35,21 +35,27 @@ export default class Preview extends Component {
         }
     }
 
-    handleChangeValue( name, newValue) {
-        this.setState(  {
+    handleChangeValue (name, newValue) {
+        this.setState ({
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
             }),
         });
     };
 
-    render(){
+    render (){
         const{title, src, price, option1, option2, option3 } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartFontFamily,
-            cartFontStyle, cartFontSize, cartFontColor, backgroundColor } = this.props;
-            
+            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
+            productText, cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, showProductQty, productImageWidth, 
+            productImageHeight } = this.props;
+
+        let displayStyle= {
+            height : parseInt(productImageHeight),
+            width : parseInt(productImageWidth),
+        };
+
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,
@@ -65,6 +71,7 @@ export default class Preview extends Component {
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
             fontSize : parseInt(oldPriceFontSize),
         };
+
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -106,7 +113,7 @@ export default class Preview extends Component {
                         <span>{lang.catalog}</span>
                     </div>
                     <div className="left-container">
-                       <img className="image-setting-product" src = {src}/>
+                       <img className="image-setting-product" src={src}/>
                     </div>
                     <div className="right-container">
                         <div className="form-group">
@@ -132,13 +139,13 @@ export default class Preview extends Component {
                         <button>{lang.add_to_cart}</button>
 
                         <div className="full-width">
-                            <p style={titleStyle}>{lang.frequently_purchased_together}</p>
+                            <p style={titleStyle}>{productText}</p>
                             <p>
                                 <input type="checkbox" />
                                 <span>
-                                    <img src={src} style={{width:"25px"}} /> 
+                                    <img style={displayStyle} src={src}/> 
                                 </span>
-                                <span style={productNameStyle}> {title}</span>
+                                <span style={productNameStyle}>{title}</span>
                                 <span><input type="text"placeholder={1}/></span>
                                 <span>
                                     <select>
@@ -147,11 +154,11 @@ export default class Preview extends Component {
                                         <option>{option3}</option>
                                     </select>
                                 </span>
-                                <del><span style= {oldPriceStyle}>{price}</span></del>
-                                <span style= {newPriceStyle}>20$</span>
+                                <del><span style={oldPriceStyle}>{price}</span></del>
+                                <span style={newPriceStyle}>20$</span>
                             </p>
                         <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
-                        <button style= {cartStyle}>{lang.add_bundle_to_cart}</button>
+                        <button style={cartStyle}>{cartText}</button>
                         </div>
                     </div>
                     <div>

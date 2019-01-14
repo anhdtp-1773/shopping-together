@@ -18,8 +18,7 @@ export default class OldPrice extends Component {
         };
     }
 
-    handleClick()
-    {
+    handleClick () {
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClick, false);
         } else {
@@ -30,12 +29,11 @@ export default class OldPrice extends Component {
         })
     }
 
-    handleOutsideClick(e) {
+    handleOutsideClick (e) {
         if (this.node.contains(e.target)) {
           return;
         }
-        
-        this.handleClick();
+        this.handleClick ();
     }
 
     changeHandlerColor (name, colors) {
@@ -46,7 +44,7 @@ export default class OldPrice extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
 
-    render(){
+    render (){
         const {titleFontFamily, titleFontStyle, titleFontSize, titleFontColor, validates} = this.props;
         const {displayFontColor} = this.state;
         return (
@@ -56,10 +54,10 @@ export default class OldPrice extends Component {
                     <div className="form-group">
                         <p>{lang.font_family}</p>
                         <select 
-                            name = "titleFontFamily"
+                            name="titleFontFamily"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {titleFontFamily} 
+                            onChange={this.handleChangeValue}
+                            value={titleFontFamily} 
                         >
                             {fontFamilyOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -71,10 +69,10 @@ export default class OldPrice extends Component {
                     <div className="form-group">
                         <p>{lang.font_style}</p>
                         <select 
-                            name = "titleFontStyle"
+                            name="titleFontStyle"
                             className="form-control" 
-                            onChange = {this.handleChangeValue}
-                            value =  {titleFontStyle}
+                            onChange={this.handleChangeValue}
+                            value={titleFontStyle}
                         >
                             {fontStyleOptions.map((value, i) =>
                                 <option key={i} value={value.value}>{value.label}</option>
@@ -114,10 +112,10 @@ export default class OldPrice extends Component {
                     <input 
                         className="slidecontainer" 
                         type="range" 
-                        name = "titleFontSize"
+                        name="titleFontSize"
                         value={titleFontSize} 
-                        min = {rangeFontSizeMin}
-                        max = {rangeFontSizeMax}
+                        min={rangeFontSizeMin}
+                        max={rangeFontSizeMax}
                         onChange={this.handleChangeValue} 
                     />
                 </div>

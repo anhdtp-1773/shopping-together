@@ -40,14 +40,19 @@ export default class Setting extends Component {
                 newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
                 oldPriceFontFamily:'verdana',
-                newPriceFontStyle:'italic',
+                oldPriceFontStyle:'italic',
                 oldPriceFontSize: 20,
                 oldPriceFontColor:'#2296F3',
                 cartFontFamily:'verdana',
                 cartFontStyle: 'italic',
                 cartFontSize: 20,
                 cartFontColor: '#2296F3',
-                backgroundColor: '#2296F3',
+                backgroundColor: '##ff0000',
+                cartText:'',
+                productText:'',
+                showProductQty: 3,
+                productImageWidth: 30 ,
+                productImageHeight: 30,
             },
             validates: {},
             message: '',
@@ -81,6 +86,11 @@ export default class Setting extends Component {
                     oldPriceFontStyle: result.data.setting.old_price_font_style,
                     oldPriceFontSize: result.data.setting.old_price_font_size,
                     oldPriceFontColor: result.data.setting.old_price_font_color,
+                    cartText: result.data.setting.cart_text,
+                    productText: result.data.setting.product_text,
+                    showProductQty: result.data.setting.show_product_qty,
+                    productImageWidth: result.data.setting.product_image_width,
+                    productImageHeight: result.data.setting.product_imgae_height,
                     cartFontFamily: result.data.setting.cart_font_family,
                     cartFontStyle: result.data.setting.cart_font_style,
                     cartFontSize: result.data.setting.cart_font_size,
@@ -104,9 +114,15 @@ export default class Setting extends Component {
             case 'amountFontColor':
             case 'newPriceFontColor':
             case 'oldPriceFontColor':
+            case 'cartText':
+            case 'productText':
             case 'cartFontColor':
             case 'backgroundColor':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                break;
+            case 'productImageWidth':
+            case 'productImageHeight':
+                validates[name] = Validate.isNumeric(value) ? 'valid' : 'invalid';
                 break;
         }
 
@@ -116,8 +132,8 @@ export default class Setting extends Component {
     }
 
     handleChangeValue (name, newValue) {
-        this.validate(name, newValue);
-        this.setState(  {
+        this.validate (name, newValue);
+        this.setState ({
             form: Object.assign({}, this.state.form, {
                 [name]: newValue
             }),
@@ -141,7 +157,7 @@ export default class Setting extends Component {
             alert(errors.message)
         }
     }   
-    render() {
+    render () {
         const{form, validates, isFetching, message} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
         if(isFetching){ return (
@@ -211,9 +227,18 @@ export default class Setting extends Component {
                             />
                         
                             <Translation 
+                                cartText = {form.cartText}
+                                productText = {form.productText}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
                             />
                         
                             <Display 
+                                showProductQty = {form.showProductQty}
+                                productImageWidth = {form.productImageWidth}
+                                productImageHeight = {form.productImageHeight}
+                                handleChangeValue = {this.handleChangeValue}
+                                validates = {validates}
                             />
                             
                         </Fragment>
@@ -258,6 +283,11 @@ export default class Setting extends Component {
                             cartFontSize = {form.cartFontSize}
                             cartFontColor = {form.cartFontColor}
                             backgroundColor = {form.backgroundColor}
+                            cartText = {form.cartText}
+                            productText = {form.productText}
+                            showProductQty = {form.showProductQty}
+                            productImageWidth = {form.productImageWidth}
+                            productImageHeight = {form.productImageHeight}
                         />
                     </div>
                     {
