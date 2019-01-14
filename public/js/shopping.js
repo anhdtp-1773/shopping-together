@@ -5,8 +5,7 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
-$('head').append('<link rel="stylesheet" type="text/css" href="https://18acf9b0.ngrok.io/public/css/sptapp.css" />');
-// $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.amd.min.js" type="text/javascript"></script>');
+$('head').append('<link rel="stylesheet" type="text/css" href="https://shoppingtogether.hamsa.site/public/css/sptapp.css" />');
 if(isProductPage){
     Shopping = new Object({});
     Shopping.getSettings = function() {
@@ -46,8 +45,10 @@ function getCartRule (settings) {
         url: url+"api/cart-rule/get",
         data: data,
         success: function(cartRule){
-            window.cartRules = cartRule.data
-            renderCartRule(settings, cartRule)
+            if((cartRule.data.length > 0)){
+                window.cartRules = cartRule.data
+                renderCartRule(settings, cartRule)
+            }   
         },
     });
 }
@@ -128,8 +129,7 @@ function submit(products) {
         dataType: 'json',
         data: data,
         success: function(result){
-            console.log(result);
-            // window.location.replace('/cart');
+            window.location.replace('/cart');
         },
         error: function (error) {
             console.log(error);
