@@ -5,8 +5,8 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
-$('head').append('<link rel="stylesheet" type="text/css" href="https://874a8a9b.ngrok.io/public/css/sptapp.css" />');
-$('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.amd.min.js" type="text/javascript"></script>');
+$('head').append('<link rel="stylesheet" type="text/css" href="https://18acf9b0.ngrok.io/public/css/sptapp.css" />');
+// $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.amd.min.js" type="text/javascript"></script>');
 if(isProductPage){
     Shopping = new Object({});
     Shopping.getSettings = function() {

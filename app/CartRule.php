@@ -63,14 +63,6 @@ class CartRule extends Model
         return $sql->get()->toArray();
     }
     
-    /**
-     * Relationship: Varians
-     * @return Collection Varians
-     */
-    public function varians() {
-        return $this->hasMany('App\Variant','id_product', 'id_product');
-    }
-
     public function getRuleDetail($id_cart_rule) {
         $sql = DB::table('cart_rule');
         $sql->join('images', 'images.id_image', '=', 'cart_rule.id');
