@@ -32,7 +32,7 @@ class CartRuleController extends Controller
                         $products = array();
                         $id_main_product = '';
                         foreach($request->products as $product){
-                            if(isset($product['isMainProduct'])){
+                            if(($product['isMainProduct']) == true){
                                 $id_main_product = $product['id_shopify_product'];
                             }
                         }
