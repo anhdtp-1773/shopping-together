@@ -51,12 +51,12 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Request-Method: POST');
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Request-Method: POST');
 $response->send();
 
 $kernel->terminate($request, $response);

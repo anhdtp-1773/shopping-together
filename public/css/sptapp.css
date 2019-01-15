@@ -1,3 +1,31 @@
 .left {
     margin-left: 5px;
 }
+
+.product-qty {
+    width: 50px;
+}
+
+.product-variant {
+    width: 30%;
+}
+
+.spt-add-to-cart {
+    margin-top: 10px;
+}
+
+.spt-total-price {
+    padding-left: 75%;
+}
+
+.inactive {
+    border-color: red;
+}
+
+.active {
+    border-color: #0c8837;
+}
+
+.old-price {
+    text-decoration: line-through;
+}
