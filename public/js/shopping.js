@@ -5,7 +5,7 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
-$('head').append('<link rel="stylesheet" type="text/css" href="https://bc77611b.ngrok.io/public/css/sptapp.css" />');
+$('head').append('<link rel="stylesheet" type="text/css" href="https://shoppingtogether.hamsa.site/public/css/sptapp.css" />');
 if(isProductPage){
     Shopping = new Object({});
     Shopping.getSettings = function() {
