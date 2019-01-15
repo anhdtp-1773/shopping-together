@@ -17,3 +17,15 @@
 .spt-total-price {
     padding-left: 75%;
 }
+
+.inactive {
+    border-color: red;
+}
+
+.active {
+    border-color: #0c8837;
+}
+
+.old-price {
+    text-decoration: line-through;
+}
