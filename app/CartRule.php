@@ -101,4 +101,24 @@ class CartRule extends Model
         }
         return $data;
     }
+
+    public static function search($key_word, $page_number, $items_per_page, $id_shop){
+        $data = [];
+        $query =  DB::table('cart_rule');
+        $query->select('cart_rule.name', 'cart_rule.status');
+        $query->where('cart_rule.id_shop', $id_shop); 
+        $query->where('cart_rule.name', 'like', '%'.$key_word.'%'); 
+        $number_record = count($query->get());
+        $data['page_limit'] = ceil($number_record / $items_per_page);
+        $data['current_page'] = $page_number;
+        $offset = ($page_number - 1)  * $items_per_page;
+        $data['items_per_page'] = $items_per_page;
+        $data['total_items'] = $number_record;
+        if($offset >=0 && $items_per_page){
+            $data['items'] = $query->offset($offset)->limit($items_per_page)->get()->toArray();
+        }else{
+            $data['items'] = $query->get()->toArray();
+        }
+        return $data;
+    }
 }

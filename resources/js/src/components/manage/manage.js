@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import api from './../../api';
+import * as _ from "lodash";
 import Pagination from "react-js-pagination";
 import { Link } from 'react-router-dom';
 
@@ -12,12 +13,21 @@ export default class Manage extends Component {
             totalItems: '',
             currentPage: '',
             isFetching: true,
+            msg: '',
+            keyWord: '',
+
         }
-        this.handlePageChange = this.handlePageChange.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this); 
+        this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
+        this.onSearchRule =  _.debounce(this.onSearchRule, 500);
     }
 
     componentWillMount () {
+        if(this.state.keyWord){
+            this.onSearchRule(this.state.keyWord, this.state.currentPage);
+        }else{
         this.getRulesList(this.state.currentPage);
+        }
     }
 
     async getRulesList (currentPage) {
@@ -38,11 +48,52 @@ export default class Manage extends Component {
         this.setState({
             isFetching: true
         })
-        this.getRulesList(currentPage);
+        if(this.state.keyWord){
+            this.onSearchRule(this.state.keyWord, currentPage);
+        }else{
+            this.getRulesList(currentPage);
+        }   
+    }
+
+    onChangeKeyWord (event) {
+        this.setState({
+            keyWord: event.target.value,
+        })
+        this.onSearchRule(event.target.value);
+    }
+
+    async onSearchRule (keyWord, currentPage = null) {
+        this.setState({
+            isFetching: true,
+        })
+        if(keyWord != ''){
+            const response = await api.searchRule(keyWord, currentPage);
+            const result = JSON.parse(response.text);
+            if(result.status){
+                this.setState({
+                    itemsPerPage: result.data.items_per_page,
+                    totalItems: result.data.total_items,
+                    rules: result.data.items,
+                    currentPage: result.data.current_page,
+                    isFetching: false,
+                });
+            }else{
+                this.setState({
+                    msg: result.message,
+                    rules: '',
+                    itemsPerPage: result.data.items_per_page,
+                    totalItems: result.data.total_items,
+                    currentPage: result.data.current_page,
+                    isFetching: false,
+                })
+            }
+        }else{
+            this.getRulesList('');
+        }
     }
 
     render() {
-        const {rules, itemsPerPage, totalItems, isFetching, currentPage} = this.state;
+        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -69,42 +120,60 @@ export default class Manage extends Component {
                             <tbody>
                                 <tr>
                                     <td></td>
-                                    <td><input/><button className="glyphicon glyphicon-search"></button></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"/></td>
-                                    <td>{lang.all}</td>
                                     <td>
-                                        <div className="switch-container">
-                                            <label>
-                                                <input ref="switch" checked={true} className="switch" type="checkbox" />
-                                                <div>
-                                                    <div></div>
-                                                </div>
-                                            </label>
+                                        <div className="form-group product-search-wrap">
+                                            <input 
+                                                type="text" 
+                                                className="form-control" 
+                                                placeholder={lang.search} 
+                                                onChange={this.onChangeKeyWord}
+                                                value = {keyWord}
+                                            />
                                         </div>
                                     </td>
-                                    <td><span className="glyphicon glyphicon-edit"></span> <span className="glyphicon glyphicon-trash"></span></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
-                                {rules.map((rule, i)=>(
-                                    <tr key={i}>
+                                {
+                                    rules
+                                    ?
+                                    <Fragment> 
+                                    <tr>
                                         <td><input type="checkbox"/></td>
-                                        <td>{rule.name}</td>
+                                        <td>{lang.all}</td>
                                         <td>
                                             <div className="switch-container">
                                                 <label>
-                                                    <input ref="switch" checked={true} className="switch" type="checkbox" />
+                                                    <input ref="switch" defaultChecked={true} className="switch" type="checkbox" />
                                                     <div>
                                                         <div></div>
                                                     </div>
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><span className="glyphicon glyphicon-edit"></span><span className="glyphicon glyphicon-trash"></span></td>
+                                        <td><span className="glyphicon glyphicon-edit"></span> <span className="glyphicon glyphicon-trash"></span></td>
                                     </tr>
-                                ))}
+                                    {rules.map((rule, i)=>(
+                                        <tr key={i}>
+                                            <td><input type="checkbox"/></td>
+                                            <td>{rule.name}</td>
+                                            <td>
+                                                <div className="switch-container">
+                                                    <label>
+                                                        <input ref="switch" defaultChecked={true} className="switch" type="checkbox" />
+                                                        <div>
+                                                            <div></div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td><span className="glyphicon glyphicon-edit"></span><span className="glyphicon glyphicon-trash"></span></td>
+                                        </tr>
+                                    ))}
+                                    </Fragment>
+                                    :
+                                    <p>{msg}</p>
+                                }
                             </tbody>
                         </table>
 
