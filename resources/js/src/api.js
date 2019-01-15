@@ -71,5 +71,12 @@ export default {
             'products': data.discountProducts,
             'is_percentage': data.isPercentage
         });
-    }
+    },
+
+    getRules(pageNumber){
+        return superagent.post('/api/cart-rule/get-list').send({
+            'shopify_domain': domain,
+            'page_number': pageNumber,
+        });
+    },
 }

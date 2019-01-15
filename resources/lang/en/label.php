@@ -69,5 +69,10 @@ return [
     'product_image_size' => 'PRODUCT IMAGE SIZE',
     'products_to_group' => 'Products to group',
     'back_ground_color' => 'Background color',
-    'exceed_allowed_products_to_group' => 'Exceed allowed products to group'
+    'exceed_allowed_products_to_group' => 'Exceed allowed products to group',
+    'select' => 'Select',
+    'status' => 'Status',
+    'actions' => 'Actions',
+    'all' => 'All',
+
 ];
