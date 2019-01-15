@@ -71,6 +71,10 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function get (Request $request) {
         $domain = $request->shopify_domain;
         $id_product = $request->id_product;

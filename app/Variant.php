@@ -53,6 +53,20 @@ class Variant extends Model
         DB::table('variants')->whereIn('id_variant', $id_variants)->update($array_variants);
     }       
 
+    /**
+     * @param string $id_product
+     * @return array
+     * <pre>
+     *  array (
+     *  'handle' => string,
+     *  'product_name' => string,
+     *  'title' => string,
+     *  'price' => float,
+     *  'id_variant' => string,
+     *  'id_image' => string,
+     *  'src' => string,
+     * )    
+     */
     public static function getVariant($id_product) {
         $sql = DB::table('variants');
         $sql->select('products.handle','variants.product_name', 'variants.title', 'variants.price','variants.id_variant', 'variants.id_image', 'images.src');

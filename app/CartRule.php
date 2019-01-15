@@ -53,7 +53,19 @@ class CartRule extends Model
     {
         DB::table('cart_rule_detail')->insert($array_products);
     }
-
+    
+     /**
+     * @param int $id_shop
+     * @param string $id_product
+     * @return array
+     * <pre>
+     *  array (
+     *  'reduction_percent' => int,
+     *  'reduction_amount' => int,
+     *  'id_product' => varchar,
+     *  'is_main_product' => varchar,
+     * )    
+     */
     public static function getCartRule($id_shop, $id_product) {
         $sql = DB::table('cart_rule');
         $sql->select('cart_rule_detail.reduction_percent', 'cart_rule_detail.reduction_amount', 'cart_rule_detail.id_product', 'cart_rule_detail.is_main_product');
@@ -62,13 +74,5 @@ class CartRule extends Model
         $sql->where('cart_rule.id_shop', $id_shop);
         $sql->where('cart_rule.id_product', $id_product);
         return $sql->get()->toArray();
-    }
-    
-    public function getRuleDetail($id_cart_rule) {
-        $sql = DB::table('cart_rule');
-        $sql->join('images', 'images.id_image', '=', 'cart_rule.id');
-        $sql->where('cart_rule.id_shop', $id_shop);
-        $sql->where('cart_rule.id_product', $id_product);
-        return $sql->first();
     }
 }
