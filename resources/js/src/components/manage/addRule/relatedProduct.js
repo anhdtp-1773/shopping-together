@@ -8,7 +8,6 @@ export default class RelatedProduct extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-            idProducts: [],
             products: [],
             itemsPerPage: '',
             totalItems: '',
@@ -43,8 +42,8 @@ export default class RelatedProduct extends Component {
     }
 
     onSelectRelatedProduct (id) {
-        let index = this.state.idProducts.indexOf(id);
-        let idProducts = this.state.idProducts;
+        let index = this.props.idRelatedProducts.indexOf(id);
+        let idProducts = this.props.idRelatedProducts;
         if(index >= 0){
             idProducts.splice(index, 1);
         }else{
@@ -54,16 +53,13 @@ export default class RelatedProduct extends Component {
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        this.setState({
-            idProducts: idProducts,
-        })
         let products = _.filter(this.state.products, function(product) { return idProducts.indexOf(product.id) >= 0});
         this.props.onSelectRelatedProduct(products)
     }
 
     nextStep (step) {
         if(step == 3){
-            if(this.props.relatedProducts.length == 0){
+            if(this.props.idRelatedProducts.length == 0){
                 alert(lang.please_select_at_least_one_product)
             }else{
                 this.props.nextStep(step);
@@ -120,7 +116,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, relatedProducts} = this.props;
+        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts} = this.props;
         const {products, itemsPerPage, totalItems, isFetching} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
@@ -153,7 +149,7 @@ export default class RelatedProduct extends Component {
                                                 <input
                                                     type="checkbox"
                                                     name="vehicle3"
-                                                    checked = {(_.find(relatedProducts, function(o) { return o.id == product.id})) ? true : false} />
+                                                    checked = {(_.find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} />
                                                 <span className="checkmark"></span>
                                             </div>
                                             <div className="caption">
