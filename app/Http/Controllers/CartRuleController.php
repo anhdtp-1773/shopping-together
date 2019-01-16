@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Shop;
 use App\CartRule;
+use App\Variant;
 
 class CartRuleController extends Controller
 {
@@ -34,7 +35,7 @@ class CartRuleController extends Controller
                         $products = array();
                         $id_main_product = '';
                         foreach($request->products as $product){
-                            if(isset($product['isMainProduct'])){
+                            if(($product['isMainProduct']) == true){
                                 $id_main_product = $product['id_shopify_product'];
                             }
                         }
@@ -73,22 +74,20 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function get (Request $request) {
-        $id_products = ["2050359885888","2049573421120","2049573584960"];
-        $coms = [];
         $domain = $request->shopify_domain;
         $id_product = $request->id_product;
         $shop = Shop::getShopByDomain($domain);
-        $data = CartRule::getCartRule($shop->id, $id_product);
-        foreach($id_products as $id_product){
-            foreach($data as $value){
-                if($value->id_product == $id_product){
-                    $coms[$id_product][] = $value;
-                }
-            }
+        $cart_rules = CartRule::getCartRule($shop->id, $id_product);
+        foreach($cart_rules as $key=>$cart_rule){
+            $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
         }
         return response()->json([
-            'data' => $coms,
+            'data' => $cart_rules,
         ], 200); 
     }
 

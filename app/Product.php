@@ -128,6 +128,26 @@ class Product extends Model
                     ->first();
     }
     
+
+    /**
+     * @param int $page_number
+     * @param int $items_per_page
+     * @param string $key_word
+     * @param int $id_shop
+     * @return array
+     * <pre>
+     *  array (
+     *  'page_limit' => int,
+     *  'current_page' => int,
+     *  'items_per_page' => string,
+     *  'handle' => string,
+     *  'total_items' => string,
+     *  'items' => array(
+     *      'title' => string,
+     *       ......
+     *  )
+     * )
+     */
     public static function search($key_word, $page_number, $items_per_page, $id_shop){
         $data = [];
         $query =  DB::table('products');

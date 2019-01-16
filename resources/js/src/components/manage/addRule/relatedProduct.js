@@ -8,7 +8,6 @@ export default class RelatedProduct extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-            idProducts: [],
             products: [],
             itemsPerPage: '',
             totalItems: '',
@@ -17,7 +16,7 @@ export default class RelatedProduct extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
-        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);    
+        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);
     }
 
     componentWillMount () {
@@ -25,7 +24,7 @@ export default class RelatedProduct extends Component {
             this.onSearchProduct(this.props.keyWord, this.props.currentPage);
         }else{
             this.getListProduct(this.props.currentPage);
-        }   
+        }
     }
 
     async getListProduct (currentPage) {
@@ -33,7 +32,7 @@ export default class RelatedProduct extends Component {
         const result = JSON.parse(response.text);
         if(result.status){
             this.props.onChangeValue('relatedCurrentPage', result.data.current_page);
-            this.setState({ 
+            this.setState({
                 itemsPerPage: result.data.items_per_page,
                 totalItems: result.data.total_items,
                 products: result.data.items,
@@ -43,8 +42,8 @@ export default class RelatedProduct extends Component {
     }
 
     onSelectRelatedProduct (id) {
-        let index = this.state.idProducts.indexOf(id);
-        let idProducts = this.state.idProducts;
+        let index = this.props.idRelatedProducts.indexOf(id);
+        let idProducts = this.props.idRelatedProducts;
         if(index >= 0){
             idProducts.splice(index, 1);
         }else{
@@ -54,16 +53,13 @@ export default class RelatedProduct extends Component {
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        this.setState({
-            idProducts: idProducts,
-        })
         let products = _.filter(this.state.products, function(product) { return idProducts.indexOf(product.id) >= 0});
         this.props.onSelectRelatedProduct(products)
     }
 
     nextStep (step) {
         if(step == 3){
-            if(this.props.relatedProducts.length == 0){
+            if(this.props.idRelatedProducts.length == 0){
                 alert(lang.please_select_at_least_one_product)
             }else{
                 this.props.nextStep(step);
@@ -82,7 +78,7 @@ export default class RelatedProduct extends Component {
             this.onSearchProduct(this.props.keyWord, currentPage);
         }else{
             this.getListProduct(currentPage);
-        }   
+        }
     }
 
     onChangeKeyWord (event) {
@@ -120,7 +116,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, relatedProducts} = this.props;
+        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts} = this.props;
         const {products, itemsPerPage, totalItems, isFetching} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
@@ -130,13 +126,13 @@ export default class RelatedProduct extends Component {
             </div>
         )}else {
             return (
-                <div className="container">
-                    <div className="form-group product-search-wrap section-manage">
-                        <label className="title-search-product" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            placeholder={lang.search} 
+                <div className="container related-wrap">
+                    <div className="form-group section-manage">
+                        <label className="related-search__title" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder={lang.search}
                             onChange={this.onChangeKeyWord}
                             value = {keyWord}
                         />
@@ -146,14 +142,14 @@ export default class RelatedProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className={classNames('col-sm-6 col-md-3 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                    <span className={classNames('col-sm-6 col-md-2 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
                                         <div className={classNames('thumbnail', {'disabled-form  product-step2': idMainProduct == product.id ? true : false})}>
-                                            <img src={product.src} alt="..." />
+                                            <img className="img-main-product" src={product.src} alt="..." />
                                             <div className="check-product">
-                                                <input 
-                                                    type="checkbox" 
-                                                    name="vehicle3" 
-                                                    checked = {(_.find(relatedProducts, function(o) { return o.id == product.id})) ? true : false} />
+                                                <input
+                                                    type="checkbox"
+                                                    name="vehicle3"
+                                                    checked = {(_.find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} />
                                                 <span className="checkmark"></span>
                                             </div>
                                             <div className="caption">
@@ -167,7 +163,7 @@ export default class RelatedProduct extends Component {
                         :
                             <p>{msg}</p>
                     }
-                    
+
                     <Fragment>
                         <div className="pagination-wrap">
                             <Pagination
@@ -177,10 +173,10 @@ export default class RelatedProduct extends Component {
                                 pageRangeDisplayed={5}
                                 onChange={this.handlePageChange}
                             />
-                            <button onClick={this.nextStep.bind(this, 3)} type="button" className="btn btn-primary" style={{float:"right"}}>{lang.next}</button>
-                            <button onClick={this.nextStep.bind(this, 1)} type="button" className="btn btn-primary" style={{float:"right"}}>{lang.back}</button>
+                            <button onClick={this.nextStep.bind(this, 3)} type="button" className="btn btn-primary btn-next-step">{lang.next}</button>
+                            <button onClick={this.nextStep.bind(this, 1)} type="button" className="btn btn-primary btn-back-step">{lang.back}</button>
                         </div>
-                    </Fragment> 
+                    </Fragment>
                 </div>
             );
         }

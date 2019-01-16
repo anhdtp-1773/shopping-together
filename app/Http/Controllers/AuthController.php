@@ -152,7 +152,7 @@ class AuthController extends Controller
                 $arr_imgs= array();
                 foreach($products as $product){
                     $arr_products[] = array(
-                        'id_shopify_product' => $product->id,
+                        'id_shopify_product' => (string)$product->id,
                         'id_shop' => $id_shop,
                         'title' => $product->title,
                         'handle' => $product->handle,
@@ -161,8 +161,8 @@ class AuthController extends Controller
                     );
                     foreach($product->variants as $value){
                         $arr_variants[] = array(
-                            'id_variant' => $value->id,
-                            'id_product' => $value->product_id,
+                            'id_variant' => (string)$value->id,
+                            'id_product' => (string)$value->product_id,
                             'id_shop' => $id_shop,
                             'title' => $value->title,
                             'price' => $value->price,
@@ -171,7 +171,7 @@ class AuthController extends Controller
                             'option2' => $value->option2,
                             'option3' => $value->option3,
                             'quantity' => $value->inventory_quantity,
-                            'id_image' => $value->image_id,
+                            'id_image' => !empty((string)$value->image_id) ? (string)$value->image_id : (string)$product->image->id,
                             'created_at' => date('Y-m-d H:i:s'),
                             'updated_at' => date('Y-m-d H:i:s'),
                         );
@@ -179,8 +179,8 @@ class AuthController extends Controller
                     if($product->images){
                         foreach($product->images as $value){
                             $arr_imgs[] = array(
-                                'id_image' => $value->id,
-                                'id_product' => $value->product_id,
+                                'id_image' => (string)$value->id,
+                                'id_product' => (string)$value->product_id,
                                 'src' => $value->src,
                                 'id_shop'=> $id_shop,
                                 'created_at' => date('Y-m-d H:i:s'),
@@ -189,6 +189,7 @@ class AuthController extends Controller
                         }
                     }
                 }
+  
                 Product::saveProduct($arr_products);
                 Variant::saveVariant($arr_variants);
                 if($arr_imgs){

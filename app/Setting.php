@@ -22,4 +22,6 @@ class Setting extends Model
     public static function getSettingByShopId($shop_id){
         return DB::table('settings')->where('id_shop', $shop_id)->first();
     }
+
+
 }

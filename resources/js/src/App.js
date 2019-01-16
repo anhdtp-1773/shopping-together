@@ -9,31 +9,30 @@ export default class App extends Component {
         this.state = {
         }
     }
-    
+
     render() {
         const url = window.location.pathname;
         return (
             <div id="manage">
                 <ul>
                     <div className="side-menu-inner">
-                        <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'} >
                             <Link to={'/'}>
-                                <i className="fa fa-home"></i>
                                 <span>
                                     {lang.setup}
                                 </span>
                             </Link>
                         </li>
-                        <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/manage' || url == '/cart-rule') ? 'active treeview' : 'treeview'}>
                             <Link to={'/manage'}>
-                                <i className="fa fa-home"></i>
                                 <span>
                                     {lang.manage}
                                 </span>
                             </Link>
                         </li>
+                        <li className="icon-close-menu" > <i className="fa fa-times"></i> </li>
                    </div>
-                   <p className="icon-close-menu" > <i className="fa fa-times"></i> </p>
+
                 </ul>
                 <div className={classNames("content-manage")}>
                     <RouterPath />
@@ -42,4 +41,3 @@ export default class App extends Component {
         );
     }
 }
-
