@@ -9,6 +9,9 @@ use App\Variant;
 
 class CartRuleController extends Controller
 {
+    public $page_number = 1;
+    protected $items_per_page = 5;
+
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -32,7 +35,7 @@ class CartRuleController extends Controller
                         $products = array();
                         $id_main_product = '';
                         foreach($request->products as $product){
-                            if(isset($product['isMainProduct'])){
+                            if(($product['isMainProduct']) == true){
                                 $id_main_product = $product['id_shopify_product'];
                             }
                         }
@@ -86,5 +89,52 @@ class CartRuleController extends Controller
         return response()->json([
             'data' => $cart_rules,
         ], 200); 
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getRulesList(Request $request){
+        $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
+        $data = [];
+        $status = true;
+        $msg = trans('label.successfully');
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        try{
+            $data = CartRule::getRules($this->page_number, $this->items_per_page, $shop->id);
+        }
+        catch(\Exception $e){
+            $status = false;
+            $msg = $e->getMessage();
+        }
+        return response()->json([
+                'status' => $status,
+                'message'=> $msg,
+                'data' => $data
+        ], 200);
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request){
+        $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
+        $msg = '';
+        $data = array();
+        $status = true;
+        $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        if(!empty($key_word)){
+            $data = CartRule::search($key_word, $this->page_number, $this->items_per_page, $shop->id);
+            $status = $data['items'] ? true : false;
+            $msg = $data['items'] ? trans('label.find').' '.count($data['items']).' '.trans('label.record') : trans('label.rule_not_found') ;
+        }
+        return response()->json([
+                'message'=> $msg,
+                'data' => $data,
+                'status' => $status,
+        ], 200);
     }
 }

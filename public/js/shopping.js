@@ -101,7 +101,6 @@ function addCss(setting) {
         "font-family": setting.title_font_family,
         "font-weight": setting.title_font_style == 'italic' ? '' : setting.title_font_style,
         "font-style": (setting.title_font_style == 'italic' ? setting.title_font_style : ''),
-        "font-size": setting.title_font_size,
     });
     $(".spt-total-price").css({
         "color": setting.amount_font_color,
@@ -114,7 +113,6 @@ function addCss(setting) {
         "font-family": setting.cart_font_family,
         "font-weight": setting.cart_font_style == 'italic' ? '' : setting.cart_font_style,
         "font-style": (setting.cart_font_style == 'italic' ? setting.cart_font_style : ''),
-        "font-size": setting.cart_font_size,
         "background-color": setting.back_ground_color
     });
     $(".new-price").css({
@@ -122,21 +120,18 @@ function addCss(setting) {
         "font-family": setting.new_price_font_family,
         "font-weight": setting.new_price_font_style == 'italic' ? '' : setting.new_price_font_style,
         "font-style": (setting.new_price_font_style == 'italic' ? setting.new_price_font_style : ''),
-        "font-size": setting.new_price_font_size,
     });
     $(".old-price").css({
         "color": setting.old_price_font_color,
         "font-family": setting.old_price_font_family,
         "font-weight": setting.old_price_font_style == 'italic' ? '' : setting.old_price_font_style,
         "font-style": (setting.old_price_font_style == 'italic' ? setting.old_price_font_style : ''),
-        "font-size": setting.old_price_font_size,
     });
     $(".spt-product-name").css({
         "color": setting.product_font_color,
         "font-family": setting.product_font_family,
         "font-weight": setting.product_font_style == 'italic' ? '' : setting.product_font_style,
         "font-style": (setting.product_font_style == 'italic' ? setting.product_font_style : ''),
-        "font-size": setting.product_font_size,
     });
 }
 

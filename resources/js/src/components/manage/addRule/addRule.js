@@ -13,11 +13,11 @@ export default class AddRule extends Component {
             form: {
                 ruleName: '',
                 discountType: 'percentage',
-                relatedProducts: [],
                 mainProduct: [],
                 discountProducts: [],
                 isPercentage: true
             },
+            idRelatedProducts: [],
             isFetching: true,
             step: 1,
             idMainProduct: '',
@@ -123,19 +123,21 @@ export default class AddRule extends Component {
 
     onSelectRelatedProduct (products) {
         let relatedProducts = [];
+        let idRelatedProducts =[];
         let discountProducts = _.clone(this.state.form.mainProduct);
         products.map((product, key) => {
             if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
                 products[key].isMainProduct = false;
                 products[key].numberDiscount = 0;
                 relatedProducts.push(product);
+                idRelatedProducts.push(product.id);
             }
         })
         this.setState({
             form: Object.assign({}, this.state.form, {
-                relatedProducts: relatedProducts,
                 discountProducts: discountProducts.concat(relatedProducts)
             }),
+            idRelatedProducts,
         })
     }
 
@@ -169,7 +171,7 @@ export default class AddRule extends Component {
 
     render() {
         const {
-            form, step, idMainProduct, isFetching, showProductQty,
+            form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, 
             validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
         if(isFetching){ return (
@@ -214,8 +216,8 @@ export default class AddRule extends Component {
                                     nextStep = {this.nextStep}
                                     idMainProduct = {idMainProduct}
                                     onChangeValue = {this.onChangeValue}
-                                    relatedProducts = {form.relatedProducts}
                                     showProductQty = {showProductQty}
+                                    idRelatedProducts = {idRelatedProducts}
                                 />
                             :
                                 null
