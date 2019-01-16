@@ -54,8 +54,22 @@ class CartRule extends Model
         DB::table('cart_rule_detail')->insert($array_products);
     }
 
-
-
+    /**
+     * @param int $id_shop
+     * @param int $id_product
+     * <pre>
+     *  array (
+     *  'id_cart_rule' => int,
+     *  'id_shop' => int,
+     *  'id_variant' => int,
+     *  'product_name' => varchar,
+     *  'title' => varchar,
+     *  'price' => varchar,
+     *  'reduction_percent' => decimal,
+     *  'reduction_amount' => decimal,
+     *  'id_product' => varchar,
+     * )
+     */
     public static function getCartRule($id_shop, $id_product)
     {
         $sql = DB::table('cart_rule');
@@ -69,17 +83,20 @@ class CartRule extends Model
     }
 
     /**
-     * @param int $id_shop
-     * @param int $name
+     * @param int $page_number
+     * @param int $items_per_page 
+     * @param int $id_shop 
      * @return array
      * <pre>
      * array (
-     *  'id' => int,
-     *  'id_shop' => int,
-     *  'name' => string,
-     *  'status' => tinyint,
-     *  'created_at' => timestamp,
-     *  'updated_at' => timestamp
+     *  'page_limit' => int,
+     *  'current_page' => int,
+     *  'items_per_page' => int,
+     *  'total_items' => int,
+     *  'items' => array(
+     *       'name' => varchar,
+     *       'status' => tinyint,
+     *  )
      * )
      */
     public static function getRules($page_number, $items_per_page, $id_shop)
@@ -102,6 +119,24 @@ class CartRule extends Model
         return $data;
     }
 
+    /**
+     * @param string $key_word
+     * @param int $page_number
+     * @param int $items_per_page
+     * @param int $id_shop
+     * @return array
+     * <pre>
+     * array (
+     *  'page_limit' => int,
+     *  'current_page' => int,
+     *  'items_per_page' => int,
+     *  'total_items' => int,
+     *  'items' => array(
+     *       'name' => varchar,
+     *       'status' => tinyint,
+     *  )
+     * )
+     */
     public static function search($key_word, $page_number, $items_per_page, $id_shop){
         $data = [];
         $query =  DB::table('cart_rule');

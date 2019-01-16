@@ -73,6 +73,10 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function get (Request $request) {
         $id_products = ["2050359885888","2049573421120","2049573584960"];
         $coms = [];
@@ -116,6 +120,10 @@ class CartRuleController extends Controller
         ], 200);
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $request){
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $msg = '';
