@@ -19,6 +19,7 @@ return [
     'find' => 'Find',
     'record' => 'record.', 
     'record_not_found' => 'No product found',
+    'rule_not_found' => 'No rule found',
     'successfully' => 'Successfully',
     'add_to_cart' => 'ADD TO CART',
     'add_to_cart_button' => 'Add to cart button',

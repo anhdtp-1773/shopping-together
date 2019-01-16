@@ -73,6 +73,10 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function get (Request $request) {
         $id_products = ["2050359885888","2049573421120","2049573584960"];
         $coms = [];
@@ -113,6 +117,29 @@ class CartRuleController extends Controller
                 'status' => $status,
                 'message'=> $msg,
                 'data' => $data
+        ], 200);
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request){
+        $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
+        $msg = '';
+        $data = array();
+        $status = true;
+        $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
+        $shop = Shop::getShopByDomain($request->shopify_domain);
+        if(!empty($key_word)){
+            $data = CartRule::search($key_word, $this->page_number, $this->items_per_page, $shop->id);
+            $status = $data['items'] ? true : false;
+            $msg = $data['items'] ? trans('label.find').' '.count($data['items']).' '.trans('label.record') : trans('label.rule_not_found') ;
+        }
+        return response()->json([
+                'message'=> $msg,
+                'data' => $data,
+                'status' => $status,
         ], 200);
     }
 }

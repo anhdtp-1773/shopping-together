@@ -57,6 +57,14 @@ export default {
             'page_number': pageNumber
         });
     },
+
+    searchRule(keyWord, pageNumber){
+        return superagent.post('/api/cart-rule/search').send({
+            'shopify_domain': domain,
+            'key_word': keyWord,
+            'page_number': pageNumber
+        });
+    },
     
     getProductInfo(){
         return superagent.post('/api/product/get').send({
