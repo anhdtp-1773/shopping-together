@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Shop;
 use App\CartRule;
 use App\Variant;
+use DB;
 
 class CartRuleController extends Controller
 {
@@ -135,6 +136,28 @@ class CartRuleController extends Controller
                 'message'=> $msg,
                 'data' => $data,
                 'status' => $status,
+        ], 200);
+    }
+
+    public function deleteRule( Request $request){
+        $msg = trans('label.delete_successfully');
+        $status = true;
+        try{
+            if($request->id){
+                $query = CartRule::find($request->id);
+                $query->delete();
+            } else{
+                $query = DB::table('cart_rule')->delete();
+            }
+        }
+        catch(\Exception $e){
+            $msg = $e->getMessage();
+            $status = false;
+        }
+
+        return response()->json([
+            'message'=> $msg,
+            'status' => $status,
         ], 200);
     }
 }

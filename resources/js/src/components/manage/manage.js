@@ -19,14 +19,16 @@ export default class Manage extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this); 
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
+        this.deleteRule = this.deleteRule.bind(this);
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
     }
 
     componentWillMount () {
         if(this.state.keyWord){
             this.onSearchRule(this.state.keyWord, this.state.currentPage);
-        }else{
-        this.getRulesList(this.state.currentPage);
+        }
+        else{
+            this.getRulesList(this.state.currentPage);
         }
     }
 
@@ -41,6 +43,26 @@ export default class Manage extends Component {
                 currentPage: result.data.current_page,
                 isFetching: false,
             });
+        }
+    }
+
+    async deleteRule (id = null){
+        this.setState({
+            isFetching: true
+        });
+        try{
+            const fetch = await api.deleteRule(id);
+            const result = JSON.parse(fetch.text);
+            if(result.status){
+                window.location.replace('/manage');
+            }else{
+                this.setState({
+                    message: result.message,
+                    isFetching: false,
+                })
+            }
+        }catch(errors){
+            alert(errors.message)
         }
     }
 
@@ -151,7 +173,18 @@ export default class Manage extends Component {
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><span className="glyphicon glyphicon-edit"></span> <span className="glyphicon glyphicon-trash"></span></td>
+                                        <td>
+                                            <span className="glyphicon glyphicon-edit"></span> 
+                                            <span 
+                                                className="glyphicon glyphicon-trash"
+                                                onClick={e =>
+                                                    window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
+                                                    this.deleteRule()
+
+                                                }
+                                            >
+                                            </span>
+                                        </td>
                                     </tr>
                                     {rules.map((rule, i)=>(
                                         <tr key={i}>
@@ -167,7 +200,17 @@ export default class Manage extends Component {
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td><span className="glyphicon glyphicon-edit"></span><span className="glyphicon glyphicon-trash"></span></td>
+                                            <td>
+                                                <span className="glyphicon glyphicon-edit"></span>
+                                                <span 
+                                                    className="glyphicon glyphicon-trash"
+                                                    onClick={e =>
+                                                        window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
+                                                        this.deleteRule(rule.id)
+                                                    }
+                                                >
+                                                </span>
+                                            </td>
                                         </tr>
                                     ))}
                                     </Fragment>
