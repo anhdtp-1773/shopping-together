@@ -91,6 +91,7 @@ export default class AddRule extends Component {
                     isFetching: false,
                     message: result.message
                 })
+                window.location.replace('/manage');
             }
         }catch(errors){
             alert(errors.message)
