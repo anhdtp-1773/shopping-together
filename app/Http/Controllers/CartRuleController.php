@@ -11,7 +11,7 @@ use DB;
 class CartRuleController extends Controller
 {
     public $page_number = 1;
-    protected $items_per_page = 5;
+    protected $items_per_page = 10;
 
     /**
      * @param  Request $request

@@ -62,6 +62,15 @@ export default class AddRule extends Component {
                 break;
             case 'discountType':
                 isPercentage = (value == "percentage") ? true : false;
+                let discountProducts = _.clone(this.state.form.discountProducts);
+                discountProducts.map((product, key) => {
+                    discountProducts[key].numberDiscount = 0;
+                })
+                this.setState({
+                    form: Object.assign({}, this.state.form, {
+                        discountProducts: discountProducts
+                    }),
+                })
                 break;
         }
 
@@ -91,6 +100,7 @@ export default class AddRule extends Component {
                     isFetching: false,
                     message: result.message
                 })
+                window.location.replace('/manage');
             }
         }catch(errors){
             alert(errors.message)

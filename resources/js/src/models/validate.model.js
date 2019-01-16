@@ -15,7 +15,7 @@ export function isPercentage(discount, price, discountType){
         return (/^([0-9]([0-9])?|00)(\.\d{1,2}){0,1}$/.test(discount) || /^100(\.0{1,2})?$/.test(discount));
     }else{  
         if(/^([0-9]([0-9])?|00)(\.\d{1,2}){0,1}$/.test(discount) || /^100(\.0{1,2})?$/.test(discount)){
-            return (parseFloat(discount) < parseFloat(price));
+            return (parseFloat(discount) <= parseFloat(price));
         }else{
             return (/^([0-9]([0-9])?|00)(\.\d{1,2}){0,1}$/.test(discount) || /^100(\.0{1,2})?$/.test(discount));
         }
