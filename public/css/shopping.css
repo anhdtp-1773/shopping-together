@@ -25,6 +25,10 @@ html, body, #manage {
     font-weight: normal;
 }
 
+.no-padding{
+  padding: 0;
+}
+
 .form-control {
     height: calc(3.25rem + 2px) ;
     font-size: 1.25rem;
@@ -56,6 +60,7 @@ html, body, #manage {
 .right-container{
   float: right;
 }
+
 .slidecontainer {
   width: 100%;
 }
@@ -63,7 +68,7 @@ html, body, #manage {
 .slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 15px;
+  height: 5px;
   border-radius: 5px;
   background: #d3d3d3;
   outline: none;
@@ -79,18 +84,18 @@ html, body, #manage {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #3d4a98;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #3d4a98;
   cursor: pointer;
 }
 
@@ -167,6 +172,17 @@ Manage
 .product-wrap .thumbnail:hover{
   border-color: #3d4a98;
 }
+.product-wrap .checkmark{
+  top: 7px;
+  right: 26px;
+  height: 15px;
+  width: 15px;
+}
+.product-wrap .check-product .checkmark:after{
+  left: 5.6px;
+  top: 1.2px;
+  width: 6px;
+}
 .product-wrap .img-main-product{
   height: 150px;
   object-fit:cover;
@@ -218,7 +234,6 @@ Custom Checkboxes
 .check-product {
   display: block;
   position: relative;
-  padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
@@ -238,8 +253,7 @@ Custom Checkboxes
 
 .checkmark {
   position: absolute;
-  top: 7px;
-  right: 26px;
+  top: 0;
   height: 15px;
   width: 15px;
   background-color: #eee;
@@ -264,9 +278,9 @@ Custom Checkboxes
 }
 
 .check-product .checkmark:after {
-  left: 5.6px;
-  top: 1.2px;
-  width: 6px;
+  left: 9px;
+  top: 5px;
+  width: 5px;
   height: 10px;
   border: solid white;
   border-width: 0 3px 3px 0;
@@ -355,52 +369,6 @@ discountType
   }
 }
 
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.valid {
-  border-color: #4caf50;
-}
-
-.invalid {
- border-color: #E64A19;
-}
-
-.image-setting-product{
-  width: 250px;
-}
-
 /*==============================
 related
 ================================*/
@@ -414,7 +382,7 @@ related
 
 /*=============================
 Menu
-=============================== */
+===============================*/
 .side-menu-inner{border-bottom: 1px solid #ccc}
 .side-menu-inner .treeview a{
   color: #000;
@@ -444,4 +412,185 @@ Menu
 .content-manage .form-group input[type="text"]{
   height: 37px;
   font-size: 14px;
+}
+
+/*=============================
+settings block left
+=============================== */
+.block-setting .left-side{
+  margin-right: 70px;
+  background: #fff;
+}
+.left-side,.right-side{
+  background: #f7f8f8;
+  border: 1px solid #ccc;
+  padding: 0;
+}
+.left-side .left-side__control{
+  border-bottom: 1px solid #ccc;
+  padding: 21px 16px;
+}
+.left-side .left-side__title{
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+  padding: 16px 27px;
+  text-align: left;
+  margin-bottom: 0;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-radius: 0;
+  cursor: pointer;
+}
+.left-side .active-dropdown{
+  border-right: 4px solid #3d4a98;
+}
+.left-side .left-side__info{
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  background: #f7f8f8;
+  font-size: 14px;
+}
+.left-side .left-side__info > p:first-child{
+  border-top: 1px solid #ccc;
+  padding-top: 14px;
+}
+.left-side .btn-save{
+  margin: 20px auto 12px;
+  display: block;
+  background: #3d4a98;
+  border: 1px solid transparent;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 4px;
+}
+
+.left-side__control > div {
+    margin-bottom: 20px;
+}
+.left-side__control .check-product .checkmark{
+  left: 0;
+  top: 11px;
+  height: 16px;
+  width: 16px;
+}
+.left-side__control .check-product{
+  padding-left: 27px;
+  margin-bottom: 0;
+}
+.left-side__control .check-product .left-side__checkbox-title{
+  font-size: 14px;
+  font-weight: normal;
+}
+.left-side__control .check-product .checkmark:after{
+  left: 6px;
+  top: 3px;
+}
+.left-side__control .left-side__product-group{
+  margin-bottom: 41px;
+  margin-top: 35px;
+}
+.left-side__control .left-side__product-img-size > div{
+  display: flex;
+  margin-bottom: 8px;
+}
+.left-side__control .left-side__product-img-size p{
+  margin-bottom: 15px
+}
+.left-side__control .left-side__product-img-size input{
+  width: 48px;
+  text-align: center;
+  height: 30px;
+}
+.left-side__control .left-side__product-img-size span{
+  padding: 6px 7px;
+}
+
+/*=============================
+settings block right
+=============================== */
+.right-side .image-setting-product{
+  width: 100%;
+}
+.right-side .rihgt-side__menu{
+  padding: 17px 50px;
+  border-bottom: 1px solid #ccc;
+}
+.right-side .rihgt-side__menu .menu-title{
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 28px;
+}
+.right-side .rihgt-side__menu >div:nth-child(2){
+  padding: 10px 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.rihgt-side__menu > div:nth-child(2) span:first-child{
+  margin-right: 10px;
+}
+.right-side .right-side__form-product{
+  margin: 50px 35px;
+  font-size: 14px;
+}
+.right-side .right-side__form-product .title-product{
+  font-weight: 600;
+  font-size: 20px;
+}
+.right-side .right-side__form-product .price-product{
+  font-weight: 600;
+  font-size: 16px;
+}
+.right-side .right-side__form-product .btn-bundle{
+  border: 1px solid transparent;
+  padding: 5px 23px;
+  float: right;
+  margin-top: 19px;
+  border-radius: 5px;
+  margin-right: 28px;
+}
+.right-side .right-side__form-product .btn{
+  padding: 9px 12px;
+}
+.right-side .right-side__option-title{
+  text-align: center;
+  margin: 32px 0 14px;
+}
+.right-side .check-product .checkmark{
+  background-color: #ccc;
+}
+.right-side .check-product .checkmark:after{
+  left: 6px;
+  top: 3px;
+}
+.right-side .right-side__option > div:nth-child(n+2){
+  padding-left: 0;
+}
+.right-side .right-side__option .old-price{
+  margin-right: 23px;
+}
+.right-side .right-side__option .qty-option{
+  width: 100%;
+  text-align: center;
+}
+.right-side .right-side__option .select-option{
+  width: 100%;
+  height: 26px;
+}
+.right-side .right-side__total{
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+}
+.right-side .right-side__total .first{
+  font-weight: bold;
+  margin-left: -15px;
+  padding: 0;
+}
+.right-side .right-side__total .second{
+  font-weight: bold;
+  text-align: right;
+}
+.right-side .right-side__footer{
+  border-top: 1px solid #ccc;
+  padding: 27px 64px;
 }

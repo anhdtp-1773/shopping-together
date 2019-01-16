@@ -22,59 +22,61 @@ export default class Display extends Component {
         const{showProductQty, productImageWidth, productImageHeight, validates, display} = this.props;
         return (
             <div className="full-width display-block">
-                <p data-index="display" className="btn btn-block" onClick={this.toggle}>{lang.display}</p>
-                <div className={(display ? '' : 'collapse')}> 
-                    <div className="full-width display-block">
+                <p data-index="display" className={(display ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}>{lang.display}</p>
+                <div className={(display ? 'left-side__control' : 'collapse')}>
+                    <div>
                         <p>{lang.show}</p>
-                        <div>
-                            <input type="checkbox"/>
-                            <span>{lang.allow_on_pcs}</span>
-                        </div>
-                        <div>
-                            <input type="checkbox"/>
-                            <span>{lang.allow_on_mobile_devices}</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>{lang.products_to_group}
-                            <input 
-                                type="range" 
-                                name="showProductQty"
-                                className="form-control" 
-                                value={showProductQty} 
-                                min={rangeProductQuantityMin}
-                                max={rangeProductQuantityMax}
-                                onChange={this.handleChangeValue} 
-                            />
-                        </p>
-                    </div>
+                        <label className="check-product">
+                          <input type="checkbox" />
+                          <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
+                          <span className="checkmark"></span>
+                        </label>
 
-                    <div>
-                        <p>{lang.product_image_size}
-                            <input 
-                                type="text"
-                                name="productImageWidth"
-                                value={productImageWidth} 
-                                onChange={this.handleChangeValue}
-                                className={classNames('form-control', validates.productImageWidth)}
-                            />
-                            <span>{lang.width}</span>
-                        </p>
+                        <label className="check-product">
+                          <input type="checkbox"/>
+                          <span className="left-side__checkbox-title">{lang.allow_on_mobile_devices}</span>
+                          <span className="checkmark"></span>
+                        </label>
                     </div>
-
-                    <div>
+                    <div className="left-side__product-group">
+                        <p>{lang.products_to_group}</p>
                         <input
-                            type="text"
-                            name="productImageHeight"
-                            value={productImageHeight} 
+                            type="range"
+                            name="showProductQty"
+                            className="slider"
+                            value={showProductQty}
+                            min={rangeProductQuantityMin}
+                            max={rangeProductQuantityMax}
                             onChange={this.handleChangeValue}
-                            className={classNames('form-control', validates.productImageHeight)}
                         />
-                        <span>{lang.height}</span>
                     </div>
+
+                    <div className="left-side__product-img-size">
+                      <p>{lang.product_image_size}</p>
+                      <div>
+                        <input
+                              type="text"
+                              name="productImageWidth"
+                              value={productImageWidth}
+                              onChange={this.handleChangeValue}
+                              className={classNames('form-control', validates.productImageWidth)}
+                          />
+                          <span>{lang.width}</span>
+                      </div>
+                      <div>
+                          <input
+                              type="text"
+                              name="productImageHeight"
+                              value={productImageHeight}
+                              onChange={this.handleChangeValue}
+                              className={classNames('form-control', validates.productImageHeight)}
+                          />
+                          <span>{lang.height}</span>
+                      </div>
+                    </div>
+
                 </div>
             </div>
         );
     }
 }
-

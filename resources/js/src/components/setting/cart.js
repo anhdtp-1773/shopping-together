@@ -22,7 +22,7 @@ export default class Cart extends Component {
     }
 
     handleClickFontColor()
-    {   
+    {
         if (!this.state.displayFontColor) {
             document.addEventListener('click', this.handleOutsideClickFontColor, false);
         } else {
@@ -31,7 +31,7 @@ export default class Cart extends Component {
         this.setState({
             displayFontColor: !this.state.displayFontColor,
         });
-    }   
+    }
 
     handleClickBackgroundColor()
     {
@@ -43,8 +43,8 @@ export default class Cart extends Component {
         this.setState({
             displayBackgroundColor: !this.state.displayBackgroundColor,
         });
-    }   
-    
+    }
+
     handleOutsideClickFontColor(e) {
         if (this.node.contains(e.target)) {
             return;
@@ -76,30 +76,29 @@ export default class Cart extends Component {
         const {displayFontColor, displayBackgroundColor } = this.state;
         return (
             <div className="full-width display-block">
-                <p data-index="cart" className="btn btn-block" onClick={this.toggle}>{lang.add_to_cart_button}</p>
-                <div className={(cart ? '' : 'collapse')}> 
+                <p data-index="cart" className={(cart ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}>{lang.add_to_cart_button}</p>
+                <div className={(cart ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">
-                            <p>{lang.font_family}
-                                <select 
-                                    name="cartFontFamily"
-                                    className="form-control" 
-                                    onChange={this.handleChangeValue}
-                                    value={cartFontFamily} 
-                                >
-                                    {fontFamilyOptions.map((value, i) =>
-                                        <option key={i} value={value.value}>{value.label}</option>
-                                    )}
-                                </select>
-                            </p>
+                            <p>{lang.font_family}</p>
+                            <select
+                                name="cartFontFamily"
+                                className="form-control"
+                                onChange={this.handleChangeValue}
+                                value={cartFontFamily}
+                            >
+                                {fontFamilyOptions.map((value, i) =>
+                                    <option key={i} value={value.value}>{value.label}</option>
+                                )}
+                            </select>
                         </div>
                     </div>
                     <div className="full-width display-block">
                         <div className="form-group">
                             <p>{lang.font_style}</p>
-                                <select 
+                                <select
                                     name="cartFontStyle"
-                                    className="form-control" 
+                                    className="form-control"
                                     onChange={this.handleChangeValue}
                                     value= {cartFontStyle}
                                 >
@@ -111,24 +110,23 @@ export default class Cart extends Component {
                     </div>
                     <div className="full-width"  ref={node => { this.node = node; }}>
                         <p>{lang.font_color}</p>
-                            <input 
-                                type="text" 
-                                style={{ backgroundColor: cartFontColor }} 
-                                value={cartFontColor} 
-                                onChange={this.handleChangeValue} 
+                            <input
+                                type="text"
+                                value={cartFontColor}
+                                onChange={this.handleChangeValue}
                                 name="cartFontColor"
                                 className={classNames('form-control', validates.cartFontColor)}
                                 onClick={this.handleClickFontColor}
                             />
                             {
-                                displayFontColor 
+                                displayFontColor
                                 ?
                                 <Fragment>
-                                    <ColorPickerPanel 
-                                        alpha={80} 
-                                        color={cartFontColor} 
-                                        onChange={this.changeHandlerColor.bind(this, 'cartFontColor')} 
-                                        mode="HSB" 
+                                    <ColorPickerPanel
+                                        alpha={80}
+                                        color={cartFontColor}
+                                        onChange={this.changeHandlerColor.bind(this, 'cartFontColor')}
+                                        mode="HSB"
                                     />
                                 </Fragment>
                                 :
@@ -137,24 +135,23 @@ export default class Cart extends Component {
                     </div>
                     <div className="full-width"  ref={node => { this.node = node; }}>
                         <p>{lang.back_ground_color}</p>
-                            <input 
-                                type="text" 
-                                style={{ backgroundColor: backgroundColor }} 
-                                value={backgroundColor} 
-                                onChange={this.handleChangeValue} 
+                            <input
+                                type="text"
+                                value={backgroundColor}
+                                onChange={this.handleChangeValue}
                                 name="backgroundColor"
                                 className={classNames('form-control', validates.backgroundColor)}
                                 onClick={this.handleClickBackgroundColor}
                             />
                             {
-                                displayBackgroundColor 
+                                displayBackgroundColor
                                 ?
                                 <Fragment>
-                                    <ColorPickerPanel 
-                                        alpha={80} 
-                                        color={backgroundColor} 
-                                        onChange={this.changeHandlerColor.bind(this, 'backgroundColor')} 
-                                        mode="HSB" 
+                                    <ColorPickerPanel
+                                        alpha={80}
+                                        color={backgroundColor}
+                                        onChange={this.changeHandlerColor.bind(this, 'backgroundColor')}
+                                        mode="HSB"
                                     />
                                 </Fragment>
                                 :
@@ -163,14 +160,14 @@ export default class Cart extends Component {
                     </div>
                     <div className="full-width">
                         <p>{lang.font_size}</p>
-                            <input 
-                                className="slidecontainer" 
-                                type="range" 
+                            <input
+                                className="slider"
+                                type="range"
                                 name="cartFontSize"
-                                value={cartFontSize} 
+                                value={cartFontSize}
                                 min={rangeFontSizeMin}
                                 max={rangeFontSizeMax}
-                                onChange={this.handleChangeValue} 
+                                onChange={this.handleChangeValue}
                             />
                     </div>
                 </div>
