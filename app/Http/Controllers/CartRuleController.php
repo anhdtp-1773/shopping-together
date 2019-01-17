@@ -104,6 +104,9 @@ class CartRuleController extends Controller
         $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
             $data = CartRule::getRules($this->page_number, $this->items_per_page, $shop->id);
+            foreach($data['items'] as $key=>$cart_rule){
+                $data['items'][$key]->is_selected = false;
+            }
         }
         catch(\Exception $e){
             $status = false;
@@ -142,19 +145,15 @@ class CartRuleController extends Controller
     public function deleteRule( Request $request){
         $msg = trans('label.delete_successfully');
         $status = true;
+        $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
         try{
-            if($request->id){
-                $query = CartRule::find($request->id);
-                $query->delete();
-            } else{
-                $query = DB::table('cart_rule')->delete();
-            }
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
+            DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         }
         catch(\Exception $e){
             $msg = $e->getMessage();
             $status = false;
         }
-
         return response()->json([
             'message'=> $msg,
             'status' => $status,

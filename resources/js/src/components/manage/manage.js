@@ -15,12 +15,16 @@ export default class Manage extends Component {
             isFetching: true,
             msg: '',
             keyWord: '',
-
+            itemsChecked: false,
+            isChecked: false,
+            idCartRules: [],
         }
         this.handlePageChange = this.handlePageChange.bind(this); 
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
+        this.selectItems = this.selectItems.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillMount () {
@@ -44,14 +48,15 @@ export default class Manage extends Component {
                 isFetching: false,
             });
         }
-    }
+    }   
 
-    async deleteRule (id = null){
+    async deleteRule (id){
+        let idCartRules = id ? id : this.state.idCartRules;
         this.setState({
             isFetching: true
         });
         try{
-            const fetch = await api.deleteRule(id);
+            const fetch = await api.deleteRule(idCartRules);
             const result = JSON.parse(fetch.text);
             if(result.status){
                 window.location.replace('/manage');
@@ -113,9 +118,51 @@ export default class Manage extends Component {
             this.getRulesList('');
         }
     }
+    
+    selectItems (e) {
+        const {rules} = this.state;
+        const checked = e.target.checked;
+        let idCartRules = [];
+        rules.map((rule) => {
+            if(checked){
+                idCartRules.push(rule.id);
+            }
+            return Object.assign(rule, {
+                is_selected: !this.state.itemsChecked
+            })
+        });
+        this.setState({
+            itemsChecked: !this.state.itemsChecked,
+            idCartRules
+        })
+    }
+
+    handleClick (e) {
+        const id = parseInt(e.target.value);
+        const {rules} = this.state;
+        let idCartRules = _.clone(this.state.idCartRules);
+        let index = idCartRules.indexOf(id)
+        if(index >= 0){
+            idCartRules.splice(index, 1);
+        }else{
+            idCartRules.push(id)
+        }
+        rules.map((rule) => {
+            if(rule.id == id){
+                return Object.assign(rule, {
+                    is_selected: !rule.is_selected
+                })
+            }
+        });
+        this.setState({
+            idCartRules,
+            rules,
+            itemsChecked: false,
+        })
+    }
 
     render() {
-        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg} = this.state;
+        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg, itemsChecked} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -161,7 +208,7 @@ export default class Manage extends Component {
                                     ?
                                     <Fragment> 
                                     <tr>
-                                        <td><input type="checkbox"/></td>
+                                        <td><input type="checkbox" checked={itemsChecked} onClick={this.selectItems}/></td>
                                         <td>{lang.all}</td>
                                         <td>
                                             <div className="switch-container">
@@ -174,13 +221,11 @@ export default class Manage extends Component {
                                             </div>
                                         </td>
                                         <td>
-                                            <span className="glyphicon glyphicon-edit"></span> 
                                             <span 
                                                 className="glyphicon glyphicon-trash"
                                                 onClick={e =>
                                                     window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
                                                     this.deleteRule()
-
                                                 }
                                             >
                                             </span>
@@ -188,7 +233,7 @@ export default class Manage extends Component {
                                     </tr>
                                     {rules.map((rule, i)=>(
                                         <tr key={i}>
-                                            <td><input type="checkbox"/></td>
+                                            <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={this.handleClick}/></td>
                                             <td>{rule.name}</td>
                                             <td>
                                                 <div className="switch-container">
