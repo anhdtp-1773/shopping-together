@@ -19,6 +19,7 @@ export default class Manage extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this); 
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
     }
 
@@ -92,6 +93,36 @@ export default class Manage extends Component {
         }
     }
 
+    handleChangeValue (event) {
+        this.props.handleChangeValue(event.target.name, event.target.value);
+    }
+    
+    changehandlerValue (name,value){
+        this.setState({
+            
+        })
+    }
+
+    async changeStatusOfRule (id = null){
+        this.setState({
+            isFetching: true
+        });
+        try{
+            const fetch = await api.changeStatusOfRule(id);
+            const result = JSON.parse(fetch.text);
+            if(result.status){
+                window.location.replace('/manage');
+            }else{
+                this.setState({
+                    message: result.message,
+                    isFetching: false,
+                })
+            }
+        }catch(errors){
+            alert(errors.message)
+        }
+    }
+
     render() {
         const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg} = this.state;
         if(isFetching){ return (
@@ -160,7 +191,13 @@ export default class Manage extends Component {
                                             <td>
                                                 <div className="switch-container">
                                                     <label>
-                                                        <input ref="switch" defaultChecked={true} className="switch" type="checkbox" />
+                                                        <input 
+                                                            ref="switch" 
+                                                            value={rule.status}
+                                                            defaultChecked={rule.status == 1} 
+                                                            onChange={this.handleChangeValue}
+                                                            className="switch" type="checkbox" 
+                                                            />
                                                         <div>
                                                             <div></div>
                                                         </div>

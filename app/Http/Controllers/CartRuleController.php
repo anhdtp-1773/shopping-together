@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Shop;
 use App\CartRule;
 use App\Variant;
+use DB;
 
 class CartRuleController extends Controller
 {
@@ -135,6 +136,36 @@ class CartRuleController extends Controller
                 'message'=> $msg,
                 'data' => $data,
                 'status' => $status,
+        ], 200);
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatusOfRule( Request $request){
+        $msg = trans('label.update_successfully');
+        $status = true;
+        try{
+            if($request->id){
+                $query = CartRule::find($request->id);
+                $query->update($request->all());
+            } else{
+                // $query = DB::table('cart_rule')->where('status', $request->status);
+                // $query->update($request->all());
+                $query = CartRule::getStatus($request->status);
+                // $query->update($request->all());
+                dd($query);
+            }
+        }
+        catch(\Exception $e){
+            $msg = $e->getMessage();
+            $status = false;
+        }
+
+        return response()->json([
+            'message'=> $msg,
+            'status' => $status,
         ], 200);
     }
 }

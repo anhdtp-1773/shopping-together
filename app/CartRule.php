@@ -150,4 +150,10 @@ class CartRule extends Model
         }
         return $data;
     }
+
+    public static function getStatus($status){
+        $query = DB::table('cart_rule')
+                ->select('cart_rule.status');
+        return $query->get();
+    }
 }

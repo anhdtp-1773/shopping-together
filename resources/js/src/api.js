@@ -87,4 +87,11 @@ export default {
             'page_number': pageNumber,
         });
     },
+
+    changeStatusOfRule(id){
+        return superagent.post('/api/cart-rule/change-status').send({
+            'shopify_domain': domain,
+            'id': id,
+        });
+    },
 }
