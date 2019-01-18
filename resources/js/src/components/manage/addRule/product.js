@@ -9,7 +9,6 @@ export default class Product extends Component {
         this.state = {
             validates: {},
         }
-        this.handleChangeDisplayProduct =  _.debounce(this.handleChangeDisplayProduct, 500);
     }
 
     handleChangeValue (idProduct, price, event) {
@@ -25,11 +24,8 @@ export default class Product extends Component {
             validates: _.assign({}, this.state.validates, validates),
         })
         this.props.validate(validates);
-        this.handleChangeDisplayProduct(idProduct, price, value)
-    }
-
-    handleChangeDisplayProduct (idProduct, price, value) {
         this.props.handleChangeDisplayProduct(idProduct, price, value);
+
     }
 
     render() {
@@ -58,7 +54,7 @@ export default class Product extends Component {
                             type="text"
                             className={classNames('text-discount', validates.relatedProduct)}
                             onChange={this.handleChangeValue.bind(this, product.id, product.price)}
-                            defaultValue = {product.numberDiscount}
+                            value={product.numberDiscount}
                             name="relatedProduct"
                         />
                         <span>{discountType  == 'percentage' ? '%' : ''}</span>

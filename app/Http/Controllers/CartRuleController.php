@@ -11,7 +11,7 @@ use DB;
 class CartRuleController extends Controller
 {
     public $page_number = 1;
-    protected $items_per_page = 5;
+    protected $items_per_page = 10;
 
     /**
      * @param  Request $request
@@ -150,20 +150,40 @@ class CartRuleController extends Controller
         $msg = trans('label.update_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        // dd($id_cart_rules);
+        // var_dump($request->status);
+        // dd($request->status);
         try{
-            // DB::table('cart_rule')->whereIn('id', $id_cart_rules);
-            // dd($query);
-            // $query->status = 1 ? 0 : 1;
-            // $query->update(); 
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)
+           
+            ->update([
+                'status' => (int)$request->status,
+            ]); 
+            // DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->update([
+            //     'status' => 0,
+            // ]); 
+        }
+            catch(\Exception $e){
+                $msg = $e->getMessage();
+                $status = false;
+            }
+            return response()->json([
+                'message'=> $msg,
+                'status' => $status,
+            ], 200);
+    }
 
-            // $jquery = DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules); 
-            // foreach($jquery as $items){
-            //     $items->status = 1 ? 0 : 1;
-            // }
-            // $jquery->update();
-            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->update([
-                'status' => 1,
-            ]);; 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteRule( Request $request){
+        $msg = trans('label.delete_successfully');
+        $status = true;
+        $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        try{
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
+            DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         }
         catch(\Exception $e){
             $msg = $e->getMessage();
