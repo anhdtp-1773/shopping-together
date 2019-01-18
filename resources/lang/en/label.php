@@ -75,5 +75,6 @@ return [
     'status' => 'Status',
     'actions' => 'Actions',
     'all' => 'All',
-
+    'delete_successfully' => 'Delete successfully',
+    'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
 ];

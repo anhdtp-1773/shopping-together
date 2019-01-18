@@ -97,7 +97,6 @@ class CartRule extends Model
     {
         $data = [];
         $query = DB::table('cart_rule');
-        $query->select('cart_rule.name', 'cart_rule.status');
         $query->where('cart_rule.id_shop', $id_shop);
         $number_record = count($query->get());
         $data['page_limit'] = ceil($number_record / $items_per_page);
@@ -134,7 +133,6 @@ class CartRule extends Model
     public static function search($key_word, $page_number, $items_per_page, $id_shop){
         $data = [];
         $query =  DB::table('cart_rule');
-        $query->select('cart_rule.name', 'cart_rule.status');
         $query->where('cart_rule.id_shop', $id_shop); 
         $query->where('cart_rule.name', 'like', '%'.$key_word.'%'); 
         $number_record = count($query->get());
