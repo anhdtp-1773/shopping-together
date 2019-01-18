@@ -22,7 +22,11 @@ export default class Display extends Component {
         const{showProductQty, productImageWidth, productImageHeight, validates, display} = this.props;
         return (
             <div className="full-width display-block">
-                <p data-index="display" className={(display ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}>{lang.display}</p>
+                <div data-index="display" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.display}</span>
+                  <span><i className={(display ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(display ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
                 <div className={(display ? 'left-side__control' : 'collapse')}>
                     <div>
                         <p>{lang.show}</p>

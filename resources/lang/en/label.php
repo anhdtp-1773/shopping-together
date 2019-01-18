@@ -1,5 +1,5 @@
 <?php
-    
+
 return [
     'setup'=> 'Setup',
     'update_successfully' => 'Update successfully',
@@ -17,7 +17,7 @@ return [
     'rule' => 'Rule ....',
     'next' => 'Next',
     'find' => 'Find',
-    'record' => 'record.', 
+    'record' => 'record.',
     'record_not_found' => 'No product found',
     'successfully' => 'Successfully',
     'add_to_cart' => 'ADD TO CART',
@@ -69,5 +69,7 @@ return [
     'product_image_size' => 'PRODUCT IMAGE SIZE',
     'products_to_group' => 'Products to group',
     'back_ground_color' => 'Background color',
-    'exceed_allowed_products_to_group' => 'Exceed allowed products to group'
+    'exceed_allowed_products_to_group' => 'Exceed allowed products to group',
+    'label_footer' => '© 2019, HappyPoints Powered by Shopify',
+    'happypoint' => 'HappyPoints'
 ];

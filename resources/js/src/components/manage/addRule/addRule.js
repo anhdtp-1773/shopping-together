@@ -3,7 +3,7 @@ import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
-import * as Validate from "../../../models/validate.model"; 
+import * as Validate from "../../../models/validate.model";
 import Notification from '../../notification';
 
 export default class AddRule extends Component {
@@ -68,7 +68,7 @@ export default class AddRule extends Component {
         if (_.isEmpty(value)){
 			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
 		}
-        
+
         this.setState({
             validates: _.assign({}, this.state.validates, validates),
             requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
@@ -77,8 +77,8 @@ export default class AddRule extends Component {
                 isPercentage
             }),
         })
-    }   
-    
+    }
+
     async onSubmit () {
         this.setState({
             isFetching: true
@@ -104,8 +104,8 @@ export default class AddRule extends Component {
                 discountProducts: products
             }),
         })
-    } 
-    
+    }
+
     onChangeIdMainProduct (idProduct) {
         this.setState({
             idMainProduct: idProduct
@@ -144,7 +144,7 @@ export default class AddRule extends Component {
                 }),
             })
         }
-        
+
     }
 
     nextStep (step) {
@@ -173,7 +173,7 @@ export default class AddRule extends Component {
         )}else {
             return (
                 <Fragment>
-                    <div>
+                    <div className="steps">
                         {
                             step == 1
                             ?
@@ -194,11 +194,11 @@ export default class AddRule extends Component {
                                 null
                         }
                     </div>
-                    <div>
+                    <div className="steps">
                         {
                             step == 2
                             ?
-                                <RelatedProduct 
+                                <RelatedProduct
                                     currentPage = {relatedCurrentPage}
                                     keyWord = {relatedKeyWord}
                                     handleChangeValue = {this.handleChangeValue}
@@ -213,11 +213,11 @@ export default class AddRule extends Component {
                                 null
                         }
                     </div>
-                    <div>
+                    <div className="steps">
                         {
                             step == 3
                             ?
-                                <Discount 
+                                <Discount
                                     mainProduct = {form.mainProduct}
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
@@ -232,9 +232,9 @@ export default class AddRule extends Component {
                         }
                     </div>
                     {
-                        message 
+                        message
                         ?
-                        <Notification 
+                        <Notification
                             content = {message}
                         />
                         :

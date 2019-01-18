@@ -54,7 +54,11 @@ export default class TotalAmount extends Component {
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p data-index="totalAmount" className={(totalAmount ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}> {lang.total_amount}</p>
+                <div data-index="totalAmount" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.total_amount}</span>
+                  <span><i className={(totalAmount ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(totalAmount ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
                 <div className={(totalAmount ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">

@@ -20,7 +20,11 @@ export default class Translation extends Component {
         const{cartText, productText, validates, translation} = this.props;
         return (
             <div className="full-width display-block">
-                <p data-index="translation" className={(translation ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}>{lang.translation}</p>
+                <div data-index="translation" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.translation}</span>
+                  <span><i className={(translation ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(translation ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
                 <div className={(translation ? 'left-side__control' : 'collapse')}>
                   <div className="full-width display-block">
                       <p>{lang.add_bundle_to_cart}</p>

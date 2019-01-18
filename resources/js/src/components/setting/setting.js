@@ -282,7 +282,8 @@ export default class Setting extends Component {
         )}else {
             return (
                 <div className="container-fluid block-setting">
-                  <div className="col-md-2 left-side">
+                  <div className="col-md-3 left-side">
+                    <div className="wrap-control">
                       <Fragment>
                           <Title
                               titleFontFamily = {form.titleFontFamily}
@@ -371,18 +372,7 @@ export default class Setting extends Component {
                           />
 
                       </Fragment>
-                      <div className="left-side__info">
-                        <p>{lang.design_and_support_by_hamsa_technology}</p>
-                        <a>{lang.user_guide}</a>
-                        <p>{lang.help}</p>
                       </div>
-                      <button
-                          href="javascript:void(0);"
-                          onClick={this.onSubmit}
-                          className={ClassNames({'pos-button btn-save': true}, {'disabled-form': !disabledOnClick})}
-                      >
-                          {lang.save}
-                      </button>
                   </div>
                   <div className="col-md-9 right-side">
                       <Preview
@@ -418,6 +408,13 @@ export default class Setting extends Component {
                           productImageHeight = {form.productImageHeight}
                       />
                   </div>
+                  <button
+                      href="javascript:void(0);"
+                      onClick={this.onSubmit}
+                      className={ClassNames({'pos-button btn-save': true}, {'disabled-form': !disabledOnClick})}
+                  >
+                      {lang.save}
+                  </button>
                   {
                     message
                     ?

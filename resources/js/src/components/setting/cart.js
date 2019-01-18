@@ -76,7 +76,11 @@ export default class Cart extends Component {
         const {displayFontColor, displayBackgroundColor } = this.state;
         return (
             <div className="full-width display-block">
-                <p data-index="cart" className={(cart ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}>{lang.add_to_cart_button}</p>
+                <div data-index="cart" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.add_to_cart_button}</span>
+                  <span><i className={(cart ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(cart ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
                 <div className={(cart ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">

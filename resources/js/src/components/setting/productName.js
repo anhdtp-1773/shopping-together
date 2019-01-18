@@ -54,7 +54,11 @@ export default class ProductName extends Component {
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p  data-index="productName" className={(productName ? 'active-dropdown btn-block left-side__title' : 'btn-block left-side__title')} onClick={this.toggle}> {lang.product_name}</p>
+                <div data-index="productName" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.product_name}</span>
+                  <span><i className={(productName ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(productName ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
                 <div className={(productName ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">

@@ -105,23 +105,27 @@ export default class Preview extends Component {
         };
 
         return (
-            <div className="col-md-12">
-              <div className="row rihgt-side__menu">
-                  <div className="menu-title col-md-5">{lang.admin}</div>
-                  <div className="col-md-6">
+            <div className="col-md-12 wrap-preview">
+              <div className="row right-side__menu">
+                  <div className="menu-title col-md-4">{lang.happypoint}</div>
+                  <div className="col-md-5 col-md-offset-1">
                     <span>{lang.home}</span>
                     <span>{lang.catalog}</span>
                   </div>
+                  <div className="col-md-2 menu-icon">
+                    <span><i className="fa fa-search" aria-hidden="true"></i></span>
+                    <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                  </div>
               </div>
               <div className="row right-side__form-product">
-                <div className="col-md-5">
+                <div className="col-md-6">
                    <img className="image-setting-product" src={src}/>
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-6 unpadding-right">
                     <div className="form-group">
                         <p className="title-product">{title}</p>
                         <p className="price-product">{price} VND</p>
-                        <div className="row">
+                        <div className="col-md-12 option-product">
                           <div className="col-md-6">
                             <p>{lang.size}</p>
                             <select
@@ -144,12 +148,12 @@ export default class Preview extends Component {
 
                     <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
 
-                    <div className="col-md-12 ">
+                    <div className="col-md-12 right-side__translation">
                       <div className="row">
                         <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
                         <div className="col-md-12">
-                          <div className="row right-side__option">
-                            <div className="col-md-1">
+                          <div className="col-md-12 unpadding right-side__option">
+                            <div className="col-md-1 unpadding-left">
                               <label className="check-product">
                                 <input type="checkbox"/>
                                 <span className="checkmark"></span>
@@ -161,8 +165,8 @@ export default class Preview extends Component {
                             <div className="col-md-4">
                               <span style={productNameStyle}>{title}</span>
                             </div>
-                            <div className="col-md-3">
-                              <span className="col-md-2 no-padding"><input className="qty-option" type="text"placeholder={1}/></span>
+                            <div className="col-md-3 unpadding-right">
+                              <span className="col-md-2 unpadding"><input className="qty-option" type="text"placeholder={1}/></span>
                               <span className="col-md-10">
                                 <select className="select-option">
                                   <option>{option1}</option>
@@ -171,14 +175,14 @@ export default class Preview extends Component {
                                 </select>
                               </span>
                             </div>
-                            <div className="col-md-2">
-                            <del><span className="old-price" style={oldPriceStyle}>{price}</span></del>
-                            <span className="new-price" style={newPriceStyle}>20$</span>
+                            <div className="col-md-2 unpadding-right">
+                              <del><span className="old-price" style={oldPriceStyle}>{price}</span></del>
+                              <span className="new-price" style={newPriceStyle}>20$</span>
                             </div>
                           </div>
                       </div>
                     </div>
-                    <p className="col-md-12 right-side__total">
+                    <p className="col-md-12 right-side__total unpadding-left">
                       <div className="col-md-6 first">{lang.total}</div>
                       <div className="col-md-6 second" style={totalAmountStyle}>70$</div>
                     </p>
@@ -187,9 +191,7 @@ export default class Preview extends Component {
                 </div>
               </div>
               <div className="row right-side__footer">
-                  <span>{lang.quick_links}</span>
-                  <span>{lang.talk_about_your_business}</span>
-                  <span>{lang.newsletter}</span>
+                  <span>{lang.label_footer}</span>
               </div>
             </div>
         );

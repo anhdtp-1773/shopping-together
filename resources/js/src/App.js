@@ -23,18 +23,17 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
-                        <li className={(url == '/manage' || url == '/cart-rule') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
                             <Link to={'/manage'}>
                                 <span>
                                     {lang.manage}
                                 </span>
                             </Link>
                         </li>
-                        <li className="icon-close-menu" > <i className="fa fa-times"></i> </li>
                    </div>
 
                 </ul>
-                <div className={classNames("content-manage")}>
+                <div className={classNames("content-manage thsai")}>
                     <RouterPath />
                 </div>
             </div>
