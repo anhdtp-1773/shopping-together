@@ -57,6 +57,14 @@ export default {
             'page_number': pageNumber
         });
     },
+
+    searchRule(keyWord, pageNumber){
+        return superagent.post('/api/cart-rule/search').send({
+            'shopify_domain': domain,
+            'key_word': keyWord,
+            'page_number': pageNumber
+        });
+    },
     
     getProductInfo(){
         return superagent.post('/api/product/get').send({
@@ -70,6 +78,20 @@ export default {
             'name': data.ruleName,
             'products': data.discountProducts,
             'is_percentage': data.isPercentage
+        });
+    },
+
+    getRules(pageNumber){
+        return superagent.post('/api/cart-rule/get-list').send({
+            'shopify_domain': domain,
+            'page_number': pageNumber,
+        });
+    },
+
+    deleteRule(idCartRules){
+        return superagent.post('/api/cart-rule/delete').send({
+            'shopify_domain': domain,
+            'id_cart_rules': idCartRules,
         });
     }
 }

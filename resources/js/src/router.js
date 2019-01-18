@@ -9,6 +9,7 @@ export default class RouterPath extends Component{
         return (
             <Switch>
                 <Route exact path={'/'} component={Setting}/>
+                <Route exact path={'/home'} component={Setting}/>
                 <Route exact path={'/manage'} component={Manage}/>
                 <Route path={'/cart-rule/add'} component={AddRule}/>
             </Switch>

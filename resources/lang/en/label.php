@@ -19,6 +19,7 @@ return [
     'find' => 'Find',
     'record' => 'record.',
     'record_not_found' => 'No product found',
+    'rule_not_found' => 'No rule found',
     'successfully' => 'Successfully',
     'add_to_cart' => 'ADD TO CART',
     'add_to_cart_button' => 'Add to cart button',
@@ -71,5 +72,11 @@ return [
     'back_ground_color' => 'Background color',
     'exceed_allowed_products_to_group' => 'Exceed allowed products to group',
     'label_footer' => '© 2019, HappyPoints Powered by Shopify',
-    'happypoint' => 'HappyPoints'
+    'happypoint' => 'HappyPoints',
+    'select' => 'Select',
+    'status' => 'Status',
+    'actions' => 'Actions',
+    'all' => 'All',
+    'delete_successfully' => 'Delete successfully',
+    'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
 ];

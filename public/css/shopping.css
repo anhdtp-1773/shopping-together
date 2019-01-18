@@ -365,6 +365,53 @@ discountType
 /*==============================
 related
 ================================*/
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.valid {
+  border-color: #4caf50;
+}
+
+.invalid {
+ border-color: #E64A19;
+}
+
+.image-setting-product{
+  width: 250px;
+}
+
 .related-wrap .related-search__title{
   font-size:36px;
   font-weight: normal;
@@ -415,9 +462,7 @@ Menu
   font-size: 14px;
 }
 
-/*=============================
-settings block left
-=============================== */
+
 .block-setting{
   padding-top: 45px;
   background: #f4f6f8;
@@ -668,4 +713,96 @@ settings block right
   border-top: 1px solid #dfe3e8;
   padding: 27px 64px;
   background: #f5f5f5;
+}
+.switch-container1{
+  margin-top: 15px;
+}
+.switch-container1 .switch-container{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  margin-top: -1px;
+  position: relative;
+}
+
+input[type="checkbox"].switch {
+  position: absolute;
+  opacity: 0;
+}
+
+input[type="checkbox"].switch + div {
+  vertical-align: middle;
+  width: 40px;
+  height: 20px;
+  border-radius: 999px;
+  background-color: #e2e2e2;
+  -webkit-transition-duration: .4s;
+  transition-duration: .4s;
+  -webkit-transition-property: background-color, box-shadow;
+  transition-property: background-color, box-shadow;
+  cursor: pointer;
+}
+
+input[type="checkbox"].switch + div span {
+  position: absolute;
+  font-size: 1.6rem;
+  color: white;
+  margin-top: 12px;
+}
+
+input[type="checkbox"].switch + div span:nth-child(1) {
+  margin-left: 15px;
+}
+
+input[type="checkbox"].switch + div span:nth-child(2) {
+  margin-left: 55px;
+}
+
+input[type="checkbox"].switch:checked + div {
+  width: 50px;
+  background-position: 0 0;
+  background-color: #3b89ec;
+}
+
+input[type="checkbox"].switch + div {
+  width: 50px;
+  height: 27px;
+}
+
+input[type="checkbox"].switch:checked + div {
+  background-color: #ff6347;
+}
+
+input[type="checkbox"].switch + div > div {
+  float: left;
+  width: 26px;
+  height: 25px;
+  border-radius: inherit;
+  background: #ffffff;
+  -webkit-transition-timing-function: cubic-bezier(1, 0, 0, 1);
+  transition-timing-function: cubic-bezier(1, 0, 0, 1);
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -webkit-transition-property: transform, background-color;
+  transition-property: transform, background-color;
+  pointer-events: none;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+input[type="checkbox"].switch:checked + div > div {
+  -webkit-transform: translate3d(20px, 0, 0);
+  transform: translate3d(20px, 0, 0);
+  background-color: #ffffff;
+}
+
+input[type="checkbox"].bigswitch.switch + div > div {
+  width: 44px;
+  height: 44px;
+  margin-top: 1px;
+}
+
+input[type="checkbox"].switch:checked + div > div {
+  -webkit-transform: translate3d(22px, 0, 0);
+  transform: translate3d(22px, 0, 0);
 }
