@@ -535,3 +535,219 @@ input[type="checkbox"].switch:checked + div > div {
   -webkit-transform: translate3d(22px, 0, 0);
   transform: translate3d(22px, 0, 0);
 }
+
+
+
+/*=========DASHBOARD=============*/
+#dashboard .manage-btn {
+  display: inline-block;
+  padding: 8px;
+  background-color: #4caf50;
+  color: #FFF;
+  cursor: pointer;
+  min-width: 70px;
+  text-align: center;
+}
+
+#dashboard .container {
+padding: 10px;
+}
+
+#dashboard .order-label {
+text-transform: lowercase;
+}
+#dashboard .charts .charts-container {
+display: flex;
+  flex-wrap: wrap;
+}
+#dashboard .chart-container {
+  padding-left: 100px;
+  display: inline-block;
+  width: auto;
+}
+@media (max-width: 1480px) {
+  #dashboard .charts .charts-container,
+  #dashboard .chart-container {
+      display:inline-block;
+  }
+}
+#dashboard .charts .recharts-wrapper {
+flex: 1;
+}
+#dashboard .chart-header {
+padding-left: 50px;
+padding-bottom: 20px;
+}
+#dashboard .dashboard-header {
+text-align: right;
+padding: 10px;
+padding-right: 30px;
+background-color: rgba(204, 204, 204, 0.25);
+position: relative;
+}
+
+#dashboard .chart-header h3 {
+margin-bottom: 0;
+padding-bottom: 4px;
+text-transform: uppercase;
+}
+
+#dashboard .chart-header strong {
+padding-bottom: 4px;
+}
+
+#dashboard .dashboard-header .manage-btn {
+background-color: #ccc;
+}
+#dashboard .dashboard-header .manage-btn.active {
+background-color: #4caf50;
+}
+
+#dashboard .text-right.trends {
+  width: 80px;
+}
+
+#dashboard .dashboard-header .time-frame{
+float: right;
+padding-top: 6px;
+text-align: center;
+width: auto;
+margin-right: 20px;
+}
+#dashboard .dashboard-header .button-group::before, .button-group::after {
+  content: " ";
+  display: table;
+}
+
+#dashboard .dashboard-header .button-group::after {
+  clear: both;
+}
+#dashboard .dashboard-header .button-group::before, .button-group::after {
+  content: " ";
+  display: table;
+}
+
+#dashboard .dashboard-header ul.date-shifter:last-child {
+  margin-left: 1.25em;
+}
+#dashboard .dashboard-header .button-group {
+  display: inline-block;
+  left: 0;
+  line-height: inherit;
+  list-style: outside none none;
+  margin: 0;
+  vertical-align: middle;
+}
+
+#dashboard .dashboard-header .button-group > li:first-child {
+  margin-left: 0;
+}
+#dashboard .dashboard-header .button-group > li {
+  display: list-item;
+  float: left;
+  margin: 0;
+  padding-left: 10px;
+}
+
+#manage #dashboard .dashboard-header .button-group i.disabled {
+  opacity: 0.3 !important;
+}
+
+#dashboard .dashboard-header .button-group > li > i {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+@media (max-width: 650px) {
+#dashboard .dashboard-header {
+  height: 90px;
+}
+}
+
+@media (max-width: 1200px) {
+#dashboard .charts .charts-container {
+  display: inline-block;
+}
+
+#dashboard .text-right.trends {
+  width: 100%;
+  height: 40px;
+}
+
+#dashboard .wrap-trends {
+  float: right;
+}
+}
+#dashboard.loading {
+text-align: center;
+padding-top: 200px;
+}
+
+
+#no-more-tables table {
+border-collapse: separate;
+}
+#no-more-tables table th {
+padding: 10px;
+background: #ccc;
+}
+#no-more-tables td {
+border: none;
+border-bottom: 1px solid #eee;
+}
+@media only screen and (max-width: 1200px) {
+#no-more-tables table {
+  border: none;
+}
+  #no-more-tables table,
+  #no-more-tables thead,
+  #no-more-tables tbody,
+  #no-more-tables th,
+  #no-more-tables td,
+  #no-more-tables tr {
+    display: block;
+  }
+#no-more-tables .head {
+  background-color: #ccc;
+  text-align: center;
+}
+  #no-more-tables thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  #no-more-tables tr { border: 1px solid #ccc; }
+  #no-more-tables td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align:left;
+  }
+#no-more-tables td.head {
+  padding-left: 0px;
+}
+  #no-more-tables td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 0px;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align:left;
+    font-weight: bold;
+  }
+  #no-more-tables td:before { content: attr(data-title); }
+}
+#dashboard .table-title {
+padding-bottom: 7px;
+padding-top: 60px;
+}
+#dashboard #no-more-tables th .icon {
+padding-left: 5px;
+}
+#dashboard #no-more-tables th .icon-sort {
+color: rgba(68, 68, 68, 0.4);
+}
+/*=========END-DASHBOARD=============*/

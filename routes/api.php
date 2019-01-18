@@ -32,5 +32,5 @@ Route::post('/product/clone', 'AuthController@cloneProducts');
 Route::post('/cart-rule/get', 'CartRuleController@get');
 Route::post('/cart-rule/get-list', 'CartRuleController@getRulesList');
 Route::post('/cart-rule/search', 'CartRuleController@search');
-
+Route::post('/dashboard', 'DashBoardController@getData');
 Route::post('/get-setting', 'SettingController@getSetting');

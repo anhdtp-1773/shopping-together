@@ -87,4 +87,14 @@ export default {
             'page_number': pageNumber,
         });
     },
+
+    getDataDashBoard (range, summaryStartDate, startDate, endDate) {
+        return superagent.post('/api/dashboard').send({
+            'shopify_domain': domain,
+            "granularity": range,
+            "summary_start_date": summaryStartDate,
+            "date_from":startDate,
+            "date_to": endDate,
+        });
+    }
 }

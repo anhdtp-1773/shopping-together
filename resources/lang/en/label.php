@@ -75,5 +75,11 @@ return [
     'status' => 'Status',
     'actions' => 'Actions',
     'all' => 'All',
-
+    'stats' => 'Stats',
+    'day' => 'day',
+    'week' => 'week',
+    'month' => 'month',
+    'view' => 'View',
+    'orders' => 'Orders',
+    'revenue' => 'Revenue',
 ];
