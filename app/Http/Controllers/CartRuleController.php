@@ -104,6 +104,9 @@ class CartRuleController extends Controller
         $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
             $data = CartRule::getRules($this->page_number, $this->items_per_page, $shop->id);
+            foreach($data['items'] as $key=>$cart_rule){
+                $data['items'][$key]->is_selected = false;
+            }
         }
         catch(\Exception $e){
             $status = false;
@@ -146,23 +149,26 @@ class CartRuleController extends Controller
     public function changeStatusOfRule( Request $request){
         $msg = trans('label.update_successfully');
         $status = true;
+        $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
         try{
-            if($request->id){
-                $query = CartRule::find($request->id);
-                $query->update($request->all());
-            } else{
-                // $query = DB::table('cart_rule')->where('status', $request->status);
-                // $query->update($request->all());
-                $query = CartRule::getStatus($request->status);
-                // $query->update($request->all());
-                dd($query);
-            }
+            // DB::table('cart_rule')->whereIn('id', $id_cart_rules);
+            // dd($query);
+            // $query->status = 1 ? 0 : 1;
+            // $query->update(); 
+
+            // $jquery = DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules); 
+            // foreach($jquery as $items){
+            //     $items->status = 1 ? 0 : 1;
+            // }
+            // $jquery->update();
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->update([
+                'status' => 1,
+            ]);; 
         }
         catch(\Exception $e){
             $msg = $e->getMessage();
             $status = false;
         }
-
         return response()->json([
             'message'=> $msg,
             'status' => $status,

@@ -88,10 +88,10 @@ export default {
         });
     },
 
-    changeStatusOfRule(id){
+    changeStatusOfRule(idCartRules){
         return superagent.post('/api/cart-rule/change-status').send({
             'shopify_domain': domain,
-            'id': id,
+            'id_cart_rules': idCartRules,
         });
     },
 }
