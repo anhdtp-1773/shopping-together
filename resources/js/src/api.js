@@ -96,5 +96,12 @@ export default {
             "date_from":startDate,
             "date_to": endDate,
         });
+    },
+
+    deleteRule(idCartRules){
+        return superagent.post('/api/cart-rule/delete').send({
+            'shopify_domain': domain,
+            'id_cart_rules': idCartRules,
+        });
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Shop;
 use App\CartRule;
 use App\Variant;
+use DB;
 
 class CartRuleController extends Controller
 {
@@ -103,6 +104,9 @@ class CartRuleController extends Controller
         $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
             $data = CartRule::getRules($this->page_number, $this->items_per_page, $shop->id);
+            foreach($data['items'] as $key=>$cart_rule){
+                $data['items'][$key]->is_selected = false;
+            }
         }
         catch(\Exception $e){
             $status = false;
@@ -135,6 +139,24 @@ class CartRuleController extends Controller
                 'message'=> $msg,
                 'data' => $data,
                 'status' => $status,
+        ], 200);
+    }
+
+    public function deleteRule( Request $request){
+        $msg = trans('label.delete_successfully');
+        $status = true;
+        $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        try{
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
+            DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
+        }
+        catch(\Exception $e){
+            $msg = $e->getMessage();
+            $status = false;
+        }
+        return response()->json([
+            'message'=> $msg,
+            'status' => $status,
         ], 200);
     }
 }
