@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Lodash from 'lodash'
 import classNames from 'classnames'
 import moment from 'moment'
-// import {hasRole} from "../utility";
 import api from './../../api';
 import DashboardCharts from "./dashboardCharts"
 export default class Dashboard extends Component{
@@ -16,9 +15,8 @@ export default class Dashboard extends Component{
         let range = cookies.dashboard_range ? cookies.dashboard_range : 'day';
         this.state = {
             chartWidth: 0,
-            notification: {},
             range: range,
-            loading: false,
+            loading: true,
             timeFrameChangeType: '',
             disableNextDate: true,
             timeFrame: this.initialTimeFrame(range),
@@ -28,7 +26,8 @@ export default class Dashboard extends Component{
                 day: {},
                 week: {},
                 month: {}
-            }
+            },
+            dashboardDetail: [],
         };
 
         this.forceChartsUpdate = Lodash.debounce(this.forceChartsUpdate, 100);    
@@ -118,7 +117,6 @@ export default class Dashboard extends Component{
                 if (changeDays > 0) {
                     if (timeFrameChangeType == 'up') {
                         let endDate = this.state.startDate;          
-
                         if (moment(new Date()).isBefore(moment(this.state.startDate).day(7).add(parseInt(changeDays),'d').format())) {                  
                             doesDisableNextDate = true;
                             endDate = moment(new Date());
@@ -176,17 +174,6 @@ export default class Dashboard extends Component{
         this.setState({
             loading: true,
         })  
-        // this.props.dispatch(
-        //     getData(
-        //         this.props.jwt,
-        //       range,
-        //       moment(newStartDate).format('YYYY-MM-DD'),
-        //       this.reportStartDate(range, newStartDate),
-        //       moment(newEndDate).format('YYYY-MM-DD'),
-        //       this.onSuccess.bind(this),
-        //       this.onError.bind(this)
-        //     )
-        //   );
         this.getData(
             range,
             moment(newStartDate).format('YYYY-MM-DD'),
@@ -211,15 +198,6 @@ export default class Dashboard extends Component{
         return startDate;
     }
   
-    onSuccess(){
-        
-    }
-
-    onError(){
-        this.setState({
-            loading: false,
-        })
-    }
     onClickRange(range){
         this.setState({
             range: range
@@ -248,7 +226,7 @@ export default class Dashboard extends Component{
                 case 'month':
                     changeDays = 30;
                     break;
-                default:
+                default:    
             }
             this.setState({
                 timeFrameChangeType: type
@@ -293,11 +271,12 @@ export default class Dashboard extends Component{
         if(result.status){
             let dashboardData = Lodash.clone(this.state.dashboardData); 
             Object.assign(dashboardData, {
-                [this.state.range]: result.data
+                [this.state.range]: result.data.dashboard
             })
             this.setState({
                 dashboardData,
-                loading: false
+                loading: false,
+                dashboardDetail: result.data.detail
             })
         }
     }
@@ -320,21 +299,14 @@ export default class Dashboard extends Component{
         }
     }
     render(){
-        // if( !hasRole('dashboard', this.props.actions))           
-        //     return (
-        //         <div>
-        //             <h2>Welcome to Remyhair!</h2>
-        //         </div>
-        // )
         const {
             chartWidth,
-            notification,
             range,
             loading,
-            forceChartsUpdate,
             timeFrame,
-            disableNextDate
-            } = this.state;
+            disableNextDate,
+            dashboardDetail
+        } = this.state;
         const { dashboardData } = this.state;
         const chartHeight = chartWidth * 0.8;
         if(loading) return (
@@ -344,7 +316,6 @@ export default class Dashboard extends Component{
                 </div>
             </div>
         );
-        // const currency = dashboardData[range].currency;
         return (
             <div id="dashboard">
                 <div className="dashboard-header">
@@ -374,30 +345,13 @@ export default class Dashboard extends Component{
                         </ul>   
                     </div>
                 </div>
-                {/* {
-                    (loading || Lodash.isEmpty(dashboardData[range])) ?
-                    <div id="dashboard" className="loading">
-                        <img src={rockPOSLoading}/>
-                    </div>
-                    :
-                    <div className="container">
-                        <DashboardCharts
-                        data={dashboardData[range]}
-                        chartWidth={chartWidth}
-                        chartHeight={chartHeight}
-                        currency={currency}
-                        lang = {lang}
-                        range = {range}
-                    />
-                    </div>
-                } */}
-                    
-                    <DashboardCharts
-                        data={dashboardData[range]}
-                        chartWidth={chartWidth}
-                        chartHeight={chartHeight}
-                        range = {range}
-                    />
+                <DashboardCharts
+                    data={dashboardData[range]}
+                    chartWidth={chartWidth}
+                    chartHeight={chartHeight}
+                    range={range}
+                    dashboardDetail={dashboardDetail}
+                />
             </div>
         )
     }

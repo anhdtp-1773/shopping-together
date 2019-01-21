@@ -79,7 +79,9 @@ return [
     'day' => 'day',
     'week' => 'week',
     'month' => 'month',
-    'view' => 'View',
+    'view' => 'Views',
     'orders' => 'Orders',
     'revenue' => 'Revenue',
+    'detailed_stats' => 'Detailed stats',
+    
 ];
