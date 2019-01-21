@@ -160,14 +160,14 @@ export default class Preview extends Component {
                               </label>
                             </div>
                             <div className="col-md-2">
-                              <img style={displayStyle} src={src}/>
+                              <img className="img-option" style={displayStyle} src={src}/>
                             </div>
                             <div className="col-md-4">
                               <span style={productNameStyle}>{title}</span>
                             </div>
                             <div className="col-md-3 unpadding-right">
                               <span className="col-md-2 unpadding"><input className="qty-option" type="text"placeholder={1}/></span>
-                              <span className="col-md-10">
+                              <span className="col-md-10 unpadding-right">
                                 <select className="select-option">
                                   <option>{option1}</option>
                                   <option>{option2}</option>

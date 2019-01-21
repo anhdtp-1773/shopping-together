@@ -33,7 +33,7 @@ export default class App extends Component {
                    </div>
 
                 </ul>
-                <div className={classNames("content-manage thsai")}>
+                <div className={classNames("content-manage")}>
                     <RouterPath />
                 </div>
             </div>

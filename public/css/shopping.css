@@ -26,11 +26,11 @@ html, body, #manage {
 }
 
 .img-active {
-    border-color: #5c6ac4;
-    box-shadow: 0px 0px 6px 4px #cccccc9c;;
+  border-color: #5c6ac4;
+  box-shadow: 0px 0px 6px 4px #cccccc9c;;
 }
 .set-discount__img {
-    width: 120px;
+  width: 120px;
 }
 
 .disabled-form {
@@ -54,52 +54,6 @@ html, body, #manage {
 
 .slidecontainer {
   width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 5px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #3d4a98;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #3d4a98;
-  cursor: pointer;
-}
-
-.valid {
-  border-color: #4caf50;
-}
-
-.invalid {
- border-color: #E64A19;
-}
-
-.image-setting-product{
-  width: 250px;
 }
 
 /*=============================
@@ -153,7 +107,7 @@ Manage
   padding-right: 0;
 }
 .product-search-wrap .title-search-product{
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-size: 16px;
   font-weight: 500;
 }
@@ -286,13 +240,22 @@ Custom Checkboxes
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
+  margin: 10px 0 0px;
   text-overflow: ellipsis;
+  font-weight: 500;
+  min-height: 19px;
 }
 
 /*==============================
 discountType
 ================================  */
-.section-heading .title-heading{text-align: center;}
+.section-heading .title-heading{
+  font-size: 36px;
+  font-weight: normal;
+  display: block;
+  text-align: center;
+  margin-bottom: 33px;
+}
 .section-heading .discount-type-wrap{display: flex;margin: 50px 0px 15px;}
 .section-heading .discount-type-wrap .title-discount{min-width: 10%;padding: 10px 15px 10px 0;}
 .section-heading .discount-type-wrap .select-discount-type{width: 20%}
@@ -369,7 +332,7 @@ related
 .slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 15px;
+  height: 5px;
   border-radius: 5px;
   background: #d3d3d3;
   outline: none;
@@ -385,27 +348,19 @@ related
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #5b69c3;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #5b69c3;
   cursor: pointer;
-}
-
-.valid {
-  border-color: #4caf50;
-}
-
-.invalid {
- border-color: #E64A19;
 }
 
 .image-setting-product{
@@ -484,16 +439,17 @@ Menu
 .right-side .wrap-preview{
   -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1), 0 0 12px rgba(0,0,0,0.1);
   box-shadow: 0 0 3px rgba(0,0,0,0.1), 0 0 12px rgba(0,0,0,0.1);
-  height: 850px;
+  height: 830px;
   overflow: scroll;
 }
 .left-side .left-side__control{
   border-bottom: 1px solid #dfe3e8;
   padding: 21px 16px;
+  font-size: 14px;
 }
 .left-side span .fa{
   float: right;
-  padding-top: 5px;
+  padding-top: 9px;
   font-size: 11px;
 }
 .left-side .left-side__title{
@@ -502,7 +458,7 @@ Menu
   transition-duration: 0.3s;
   font-weight: 600;
   border-bottom: 1px solid #dfe3e8;
-  padding: 16px;
+  padding: 11px 18px;
   text-align: left;
   margin-bottom: 0;
   border-left-width: 0px;
@@ -529,10 +485,10 @@ Menu
   border: 1px solid transparent;
   color: #fff;
   z-index: 5;
-  padding: 7px 18px;
+  padding: 4px 18px;
   border-radius: 4px;
-  top: 6px;
-  right: 47px;
+  top: 7px;
+  right: 30px;
   transition-duration: 0.3s;
 }
 .block-setting .btn-save:hover{
@@ -544,7 +500,7 @@ Menu
 }
 .left-side .left-side__control p,
 .right-side__form-product .option-product .col-md-6 p{
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 }
 .left-side .left-side__control input[type="text"],
 .left-side .left-side__control select{
@@ -554,7 +510,7 @@ Menu
 }
 .left-side__control .check-product .checkmark{
   left: 0;
-  top: 11px;
+  top: 8px;
   height: 16px;
   width: 16px;
 }
@@ -606,7 +562,8 @@ settings block right
 }
 .right-side .right-side__menu .menu-title{
   font-weight: 600;
-  font-size: 24px;
+  font-size: 20px;
+  padding-top: 9px;
 }
 .right-side .right-side__menu >div:nth-child(2){
   padding: 10px 6px;
@@ -628,11 +585,14 @@ settings block right
   margin: 50px 35px;
   font-size: 14px;
 }
+.right-side .right-side__form-product .title-product{
+  margin-bottom: 10px
+}
 .right-side__form-product .option-product{
   padding: 0;
   margin-bottom: 10px;
   font-size: 16px;
-  margin-top: 22px;
+  margin-top: 27px;
 }
 .right-side__form-product .option-product > div{
   padding-right: 0;
@@ -662,13 +622,14 @@ settings block right
   margin-top: 19px;
   border-radius: 5px;
   margin-bottom: 26px;
+  font-size: 14px;
 }
 .right-side .right-side__form-product .btn{
   padding: 9px 12px;
 }
 .right-side .right-side__option-title{
   text-align: center;
-  margin: 14px 0;
+  margin: 18px 0 25px;
 }
 .right-side .check-product .checkmark{
   background-color: #ccc;
@@ -680,15 +641,23 @@ settings block right
 .right-side .right-side__option > div:nth-child(n+2){
   padding-left: 0;
 }
+.right-side .right-side__option .img-option{
+  width: 100%;
+}
 .right-side .right-side__option > div:last-child{
   text-align: right;
 }
 .right-side .right-side__option .old-price{
-  margin-right: 27px;
+  margin-right: 24px;
+  font-size: 18px;
+}
+.right-side .right-side__option .old-price{
+  font-size: 18px;
 }
 .right-side .right-side__option .qty-option{
   width: 100%;
   text-align: center;
+  height: 27px;
 }
 .right-side .right-side__option .select-option{
   width: 100%;
@@ -708,6 +677,7 @@ settings block right
   font-weight: bold;
   text-align: right;
   padding-right: 0;
+  font-size: 18px;
 }
 .right-side .right-side__footer{
   border-top: 1px solid #dfe3e8;
@@ -805,4 +775,25 @@ input[type="checkbox"].bigswitch.switch + div > div {
 input[type="checkbox"].switch:checked + div > div {
   -webkit-transform: translate3d(22px, 0, 0);
   transform: translate3d(22px, 0, 0);
+}
+
+.table-rule thead > tr > th,
+.table-rule tbody > tr > td,
+.table-rule .pagination-wrap{
+  text-align: center;
+}
+.table-rule tbody > tr > td{
+  vertical-align: middle;
+}
+.table-rule .table{
+  margin-top: 40px;
+}
+.table-rule .glyphicon{
+  padding-right: 10px;
+  cursor: pointer;
+}
+.table-rule .product-search-wrap input{
+  height: 37px;
+  margin: 12px 0;
+  font-size: 14px;
 }
