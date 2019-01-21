@@ -183,7 +183,7 @@ export default class Manage extends Component {
             if(result.status){
                 this.setState({
                     isFetching: false,
-                    rules
+                    rules,
                 });
             }else{
                 this.setState({
@@ -195,7 +195,7 @@ export default class Manage extends Component {
             alert(errors.message)
         }
     }
-    async changeStatusOfRule (id,status){
+    async changeStatusARule (id,status){
         const {rules} = this.state;
         let idCartRules = [id];
         this.setState({
@@ -204,15 +204,12 @@ export default class Manage extends Component {
         try{
             const fetch = await api.changeStatusOfRule(idCartRules,status);
             const result = JSON.parse(fetch.text);
-            console.log(result)
-
             rules.map((rule) => {
                 if (rule.id == id) {
                     return Object.assign(rule, {
                         status: !rule.status
                     })
                 }
-                
             })
 
             if(result.status){
@@ -376,7 +373,7 @@ export default class Manage extends Component {
                                                             ref="switch" 
                                                             className="switch" type="checkbox" 
                                                             onClick={e =>
-                                                                this.changeStatusOfRule(rule.id, !rule.status)
+                                                                this.changeStatusARule(rule.id, !rule.status)
                                                             } 
                                                             checked={rule.status} 
                                                             />

@@ -150,18 +150,10 @@ class CartRuleController extends Controller
         $msg = trans('label.update_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
-        // dd($id_cart_rules);
-        // var_dump($request->status);
-        // dd($request->status);
         try{
-            DB::table('cart_rule')->whereIn('id', $id_cart_rules)
-           
-            ->update([
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->update([
                 'status' => (int)$request->status,
             ]); 
-            // DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->update([
-            //     'status' => 0,
-            // ]); 
         }
             catch(\Exception $e){
                 $msg = $e->getMessage();
