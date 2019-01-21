@@ -30,6 +30,14 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
+                        <li className={(url == '/stats') ? 'active treeview' : 'treeview'}>
+                            <Link to={'/stats'}>
+                                <span>
+                                    {lang.stats}
+                                </span>
+                            </Link>
+                        </li>
+                        <li className="icon-close-menu" > <i className="fa fa-times"></i> </li>
                    </div>
 
                 </ul>
