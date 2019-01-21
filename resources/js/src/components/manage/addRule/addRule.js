@@ -3,7 +3,7 @@ import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
-import * as Validate from "../../../models/validate.model"; 
+import * as Validate from "../../../models/validate.model";
 import Notification from '../../notification';
 
 export default class AddRule extends Component {
@@ -66,7 +66,7 @@ export default class AddRule extends Component {
         if (_.isEmpty(value)){
 			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
 		}
-        
+
         this.setState({
             validates: _.assign({}, this.state.validates, validates),
             requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
@@ -74,8 +74,8 @@ export default class AddRule extends Component {
                 [name]: value,
             }),
         })
-    }   
-    
+    }
+
     async onSubmit () {
         this.setState({
             isFetching: true
@@ -174,7 +174,7 @@ export default class AddRule extends Component {
                         {
                             step == 2
                             ?
-                                <RelatedProduct 
+                                <RelatedProduct
                                     currentPage = {relatedCurrentPage}
                                     keyWord = {relatedKeyWord}
                                     handleChangeValue = {this.handleChangeValue}
@@ -195,7 +195,7 @@ export default class AddRule extends Component {
                         {
                             step == 3
                             ?
-                                <Discount 
+                                <Discount
                                     mainProduct = {form.mainProduct}
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
@@ -209,9 +209,9 @@ export default class AddRule extends Component {
                         }
                     </Fragment>
                     {
-                        message 
+                        message
                         ?
-                        <Notification 
+                        <Notification
                             content = {message}
                         />
                         :

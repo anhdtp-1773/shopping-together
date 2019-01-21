@@ -10,7 +10,7 @@ import Translation from './translation';
 import Display from './display';
 import api from '../../api';
 import ClassNames from 'classnames'
-import * as Validate from "../../models/validate.model"; 
+import * as Validate from "../../models/validate.model";
 import Lodash from 'lodash';
 import Notification from '../notification';
 
@@ -73,7 +73,7 @@ export default class Setting extends Component {
 
         if(result.data.setting){
             this.setState({
-                form: Object.assign({}, this.state.form, { 
+                form: Object.assign({}, this.state.form, {
                     titleFontFamily: result.data.setting.title_font_family,
                     titleFontStyle: result.data.setting.title_font_style,
                     titleFontSize: result.data.setting.title_font_size,
@@ -134,7 +134,7 @@ export default class Setting extends Component {
                 break;
         }
 
-        this.setState({ 
+        this.setState({
             validates: Lodash.assign({}, this.state.validates, validates),
         });
     }
@@ -156,15 +156,15 @@ export default class Setting extends Component {
             const fetch = await api.saveSetting(this.state.form);
             const result = JSON.parse(fetch.text);
             if(result.data){
-                this.setState({
-                    isFetching: false,
-                    message: result.message
-                })
+              this.setState({
+                  isFetching: false,
+                  message: result.message
+              })
             }
         }catch(errors){
             alert(errors.message)
         }
-    }   
+    }
 
     handleChangeToggle (name) {
         switch(name) {
@@ -264,7 +264,7 @@ export default class Setting extends Component {
                     display: !this.state.display,
                 });
                 break;
-            default:    
+            default:
                 return;
         }
     }
@@ -272,7 +272,7 @@ export default class Setting extends Component {
     render () {
         const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
-        if(isFetching){ 
+        if(isFetching){
             return (
             <div id="page_loading">
                 <div className="loading">
@@ -281,150 +281,149 @@ export default class Setting extends Component {
             </div>
         )}else {
             return (
-                <div className="home-container">
-                    <div className="left-container">
-                        <Fragment>
-                            <Title 
-                                titleFontFamily = {form.titleFontFamily}
-                                titleFontStyle = {form.titleFontStyle}
-                                titleFontColor = {form.titleFontColor}
-                                titleFontSize = {form.titleFontSize}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                title = {title}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                    
-                            <ProductName 
-                                productFontFamily = {form.productFontFamily}
-                                productFontStyle = {form.productFontStyle}
-                                productFontColor = {form.productFontColor}
-                                productFontSize = {form.productFontSize}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                productName = {productName}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                        
-                            <TotalAmount 
-                                amountFontFamily = {form.amountFontFamily}
-                                amountFontStyle = {form.amountFontStyle}
-                                amountFontSize = {form.amountFontSize}
-                                amountFontColor = {form.amountFontColor}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                totalAmount = {totalAmount}
-                                handleChangeToggle = {this.handleChangeToggle}
-                                />
+                <div className="container-fluid block-setting">
+                  <div className="col-md-3 left-side">
+                    <div className="wrap-control">
+                      <Fragment>
+                          <Title
+                              titleFontFamily = {form.titleFontFamily}
+                              titleFontStyle = {form.titleFontStyle}
+                              titleFontColor = {form.titleFontColor}
+                              titleFontSize = {form.titleFontSize}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              title = {title}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
 
-                            <NewPrice 
-                                newPriceFontFamily = {form.newPriceFontFamily}
-                                newPriceFontStyle = {form.newPriceFontStyle}
-                                newPriceFontSize = {form.newPriceFontSize}
-                                newPriceFontColor = {form.newPriceFontColor}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                newPrice = {newPrice}
-                                handleChangeToggle = {this.handleChangeToggle}
-                                />
-                        
-                            <OldPrice 
-                                oldPriceFontFamily = {form.oldPriceFontFamily}
-                                oldPriceFontStyle = {form.oldPriceFontStyle}
-                                oldPriceFontSize = {form.oldPriceFontSize}
-                                oldPriceFontColor = {form.oldPriceFontColor}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                oldPrice = {oldPrice}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                        
-                            <Cart 
-                                cartFontFamily = {form.cartFontFamily}
-                                cartFontStyle = {form.cartFontStyle}
-                                cartFontSize = {form.cartFontSize}
-                                cartFontColor = {form.cartFontColor}
-                                backgroundColor = {form.backgroundColor}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                cart = {cart}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                        
-                            <Translation 
-                                cartText = {form.cartText}
-                                productText = {form.productText}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                translation = {translation}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                        
-                            <Display 
-                                showProductQty = {form.showProductQty}
-                                productImageWidth = {form.productImageWidth}
-                                productImageHeight = {form.productImageHeight}
-                                handleChangeValue = {this.handleChangeValue}
-                                validates = {validates}
-                                display = {display}
-                                handleChangeToggle = {this.handleChangeToggle}
-                            />
-                            
-                        </Fragment>
-                        <p>{lang.design_and_support_by_hamsa_technology}</p>
-                        <a>{lang.user_guide}</a>
-                        <p>{lang.help}</p>
-                        <button
-                            href="javascript:void(0);" 
-                            onClick={this.onSubmit} 
-                            className={ClassNames({'pos-button': true}, {'disabled-form': !disabledOnClick})}
-                        >
-                            {lang.save}
-                        </button>
-                    </div>
-                    <div className="right-container">
-                        <Preview
-                            titleFontFamily = {form.titleFontFamily}
-                            titleFontStyle = {form.titleFontStyle}
-                            titleFontColor = {form.titleFontColor}
-                            titleFontSize = {form.titleFontSize}
-                            productFontFamily = {form.productFontFamily}
-                            productFontStyle = {form.productFontStyle}
-                            productFontColor = {form.productFontColor}
-                            productFontSize = {form.productFontSize}
-                            amountFontFamily = {form.amountFontFamily}
-                            amountFontStyle = {form.amountFontStyle}
-                            amountFontSize = {form.amountFontSize}
-                            amountFontColor = {form.amountFontColor}
-                            newPriceFontFamily = {form.newPriceFontFamily}
-                            newPriceFontStyle = {form.newPriceFontStyle}
-                            newPriceFontSize = {form.newPriceFontSize}
-                            newPriceFontColor = {form.newPriceFontColor}
-                            oldPriceFontFamily = {form.oldPriceFontFamily}
-                            oldPriceFontStyle = {form.oldPriceFontStyle}
-                            oldPriceFontSize = {form.oldPriceFontSize}
-                            oldPriceFontColor = {form.oldPriceFontColor}
-                            cartFontFamily = {form.cartFontFamily}
-                            cartFontStyle = {form.cartFontStyle}
-                            cartFontSize = {form.cartFontSize}
-                            cartFontColor = {form.cartFontColor}
-                            backgroundColor = {form.backgroundColor}
-                            cartText = {form.cartText}
-                            productText = {form.productText}
-                            showProductQty = {form.showProductQty}
-                            productImageWidth = {form.productImageWidth}
-                            productImageHeight = {form.productImageHeight}
-                        />
-                    </div>
-                    {
-                    message 
+                          <ProductName
+                              productFontFamily = {form.productFontFamily}
+                              productFontStyle = {form.productFontStyle}
+                              productFontColor = {form.productFontColor}
+                              productFontSize = {form.productFontSize}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              productName = {productName}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
+
+                          <TotalAmount
+                              amountFontFamily = {form.amountFontFamily}
+                              amountFontStyle = {form.amountFontStyle}
+                              amountFontSize = {form.amountFontSize}
+                              amountFontColor = {form.amountFontColor}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              totalAmount = {totalAmount}
+                              handleChangeToggle = {this.handleChangeToggle}
+                              />
+
+                          <NewPrice
+                              newPriceFontFamily = {form.newPriceFontFamily}
+                              newPriceFontStyle = {form.newPriceFontStyle}
+                              newPriceFontSize = {form.newPriceFontSize}
+                              newPriceFontColor = {form.newPriceFontColor}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              newPrice = {newPrice}
+                              handleChangeToggle = {this.handleChangeToggle}
+                              />
+
+                          <OldPrice
+                              oldPriceFontFamily = {form.oldPriceFontFamily}
+                              oldPriceFontStyle = {form.oldPriceFontStyle}
+                              oldPriceFontSize = {form.oldPriceFontSize}
+                              oldPriceFontColor = {form.oldPriceFontColor}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              oldPrice = {oldPrice}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
+
+                          <Cart
+                              cartFontFamily = {form.cartFontFamily}
+                              cartFontStyle = {form.cartFontStyle}
+                              cartFontSize = {form.cartFontSize}
+                              cartFontColor = {form.cartFontColor}
+                              backgroundColor = {form.backgroundColor}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              cart = {cart}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
+
+                          <Translation
+                              cartText = {form.cartText}
+                              productText = {form.productText}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              translation = {translation}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
+
+                          <Display
+                              showProductQty = {form.showProductQty}
+                              productImageWidth = {form.productImageWidth}
+                              productImageHeight = {form.productImageHeight}
+                              handleChangeValue = {this.handleChangeValue}
+                              validates = {validates}
+                              display = {display}
+                              handleChangeToggle = {this.handleChangeToggle}
+                          />
+
+                      </Fragment>
+                      </div>
+                  </div>
+                  <div className="col-md-9 right-side">
+                      <Preview
+                          titleFontFamily = {form.titleFontFamily}
+                          titleFontStyle = {form.titleFontStyle}
+                          titleFontColor = {form.titleFontColor}
+                          titleFontSize = {form.titleFontSize}
+                          productFontFamily = {form.productFontFamily}
+                          productFontStyle = {form.productFontStyle}
+                          productFontColor = {form.productFontColor}
+                          productFontSize = {form.productFontSize}
+                          amountFontFamily = {form.amountFontFamily}
+                          amountFontStyle = {form.amountFontStyle}
+                          amountFontSize = {form.amountFontSize}
+                          amountFontColor = {form.amountFontColor}
+                          newPriceFontFamily = {form.newPriceFontFamily}
+                          newPriceFontStyle = {form.newPriceFontStyle}
+                          newPriceFontSize = {form.newPriceFontSize}
+                          newPriceFontColor = {form.newPriceFontColor}
+                          oldPriceFontFamily = {form.oldPriceFontFamily}
+                          oldPriceFontStyle = {form.oldPriceFontStyle}
+                          oldPriceFontSize = {form.oldPriceFontSize}
+                          oldPriceFontColor = {form.oldPriceFontColor}
+                          cartFontFamily = {form.cartFontFamily}
+                          cartFontStyle = {form.cartFontStyle}
+                          cartFontSize = {form.cartFontSize}
+                          cartFontColor = {form.cartFontColor}
+                          backgroundColor = {form.backgroundColor}
+                          cartText = {form.cartText}
+                          productText = {form.productText}
+                          showProductQty = {form.showProductQty}
+                          productImageWidth = {form.productImageWidth}
+                          productImageHeight = {form.productImageHeight}
+                      />
+                  </div>
+                  <button
+                      href="javascript:void(0);"
+                      onClick={this.onSubmit}
+                      className={ClassNames({'pos-button btn-save': true}, {'disabled-form': !disabledOnClick})}
+                  >
+                      {lang.save}
+                  </button>
+                  {
+                    message
                     ?
-                    <Notification 
+                    <Notification
                         content = {message}
                     />
                     :
                     null
-                }
+                  }
             </div>
             );
         }
