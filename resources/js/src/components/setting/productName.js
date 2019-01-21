@@ -40,7 +40,7 @@ export default class ProductName extends Component {
     changeHandlerColor (name, colors) {
         this.props.handleChangeValue(name, colors.color)
     };
-    
+
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value)
     };
@@ -54,16 +54,20 @@ export default class ProductName extends Component {
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p  data-index="productName" className="btn btn-block" onClick={this.toggle}> {lang.product_name}</p>
-                <div className={(productName ? '' : 'collapse')}> 
+                <div data-index="productName" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.product_name}</span>
+                  <span><i className={(productName ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(productName ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
+                <div className={(productName ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">
                             <p>{lang.font_family}</p>
-                            <select 
+                            <select
                                 name="productFontFamily"
-                                className="form-control" 
+                                className="form-control"
                                 onChange={this.handleChangeValue}
-                                value={productFontFamily} 
+                                value={productFontFamily}
                             >
                                 {fontFamilyOptions.map((value, i) =>
                                     <option key={i} value={value.value}>{value.label}</option>
@@ -74,9 +78,9 @@ export default class ProductName extends Component {
                     <div className="full-width display-block">
                         <div className="form-group">
                             <p>{lang.font_style}</p>
-                            <select 
+                            <select
                                 name="productFontStyle"
-                                className="form-control" 
+                                className="form-control"
                                 onChange={this.handleChangeValue}
                                 value={productFontStyle}
                             >
@@ -88,25 +92,24 @@ export default class ProductName extends Component {
                     </div>
                     <div className="full-width" ref={node => { this.node = node; }}>
                         <p>{lang.font_color}</p>
-                        <input 
-                            type="text" 
-                            style={{ backgroundColor: productFontColor }} 
-                            value={productFontColor} 
-                            onChange={this.handleChangeValue} 
+                        <input
+                            type="text"
+                            value={productFontColor}
+                            onChange={this.handleChangeValue}
                             onClick={this.handleClick}
                             name="productFontColor"
                             className={classNames('form-control', validates.productFontColor)}
                             onBlur={this.handleClose}
                         />
                         {
-                            displayFontColor 
+                            displayFontColor
                             ?
                             <Fragment>
-                                <ColorPickerPanel 
-                                    alpha={80} 
-                                    color= {productFontColor} 
-                                    onChange={this.changeHandlerColor} 
-                                    mode="HSB" 
+                                <ColorPickerPanel
+                                    alpha={80}
+                                    color= {productFontColor}
+                                    onChange={this.changeHandlerColor}
+                                    mode="HSB"
                                 />
                             </Fragment>
                             :
@@ -115,14 +118,14 @@ export default class ProductName extends Component {
                     </div>
                     <div className="full-width">
                         <p>{lang.font_size}</p>
-                        <input 
-                            className="slidecontainer" 
-                            type="range" 
+                        <input
+                            className="slider"
+                            type="range"
                             name = "productFontSize"
-                            value={productFontSize} 
+                            value={productFontSize}
                             min={rangeFontSizeMin}
                             max={rangeFontSizeMax}
-                            onChange={this.handleChangeValue} 
+                            onChange={this.handleChangeValue}
                         />
                     </div>
                 </div>
