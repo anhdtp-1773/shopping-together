@@ -206,6 +206,7 @@ export default class AddRule extends Component {
                         }
                     </div>
                     <div>
+                        
                         {
                             step == 2
                             ?
