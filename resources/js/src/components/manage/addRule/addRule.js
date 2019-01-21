@@ -15,7 +15,7 @@ export default class AddRule extends Component {
                 discountType: 'percentage',
                 mainProduct: [],
                 discountProducts: [],
-                isPercentage: true
+                discountValue: 0,
             },
             idRelatedProducts: [],
             isFetching: true,
@@ -29,16 +29,15 @@ export default class AddRule extends Component {
             relatedCurrentPage: '',
             message: '',
             showProductQty: 0,
+            
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.onSelectMainProduct = this.onSelectMainProduct.bind(this);
         this.nextStep = this.nextStep.bind(this);
-        this.onChangeIdMainProduct = this.onChangeIdMainProduct.bind(this);
         this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.handleChangeDisplayProduct = this.handleChangeDisplayProduct.bind(this);
     }
 
     async componentWillMount () {
@@ -54,24 +53,14 @@ export default class AddRule extends Component {
 
     handleChangeValue (name, value) {
         let {validates, requiredFields} = this.state;
-        let isPercentage = _.clone(this.state.form.isPercentage);
         switch(name){
             case 'ruleName':
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 requiredFields[name] = Validate.isName(value);
                 break;
-            case 'discountType':
-                isPercentage = (value == "percentage") ? true : false;
-                let discountProducts = _.clone(this.state.form.discountProducts);
-                discountProducts.map((product, key) => {
-                    discountProducts[key].numberDiscount = 0;
-                })
-                this.setState({
-                    form: Object.assign({}, this.state.form, {
-                        discountProducts: discountProducts
-                    }),
-                })
-                break;
+            case 'discountValue':
+                validates[name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+            break;
         }
 
         if (_.isEmpty(value)){
@@ -83,7 +72,6 @@ export default class AddRule extends Component {
             requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
             form: Object.assign({}, this.state.form, {
                 [name]: value,
-                isPercentage
             }),
         })
     }   
@@ -110,26 +98,20 @@ export default class AddRule extends Component {
     onSelectMainProduct (products) {
         this.setState({
             form: Object.assign({}, this.state.form, {
-                mainProduct: (products),
-                discountProducts: products
+                mainProduct: products,
+                discountProducts: products,
             }),
+            idMainProduct: _.head(products).id
         })
     } 
     
-    onChangeIdMainProduct (idProduct) {
-        this.setState({
-            idMainProduct: idProduct
-        })
-    }
-
     onSelectRelatedProduct (products) {
         let relatedProducts = [];
-        let idRelatedProducts =[];
+        let idRelatedProducts = [];
         let discountProducts = _.clone(this.state.form.mainProduct);
         products.map((product, key) => {
             if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
                 products[key].isMainProduct = false;
-                products[key].numberDiscount = 0;
                 relatedProducts.push(product);
                 idRelatedProducts.push(product.id);
             }
@@ -140,22 +122,6 @@ export default class AddRule extends Component {
             }),
             idRelatedProducts,
         })
-    }
-
-    handleChangeDisplayProduct (idProduct, price, value) {
-        if(Validate.isPercentage(value, price, this.state.form.discountType)){
-            let discountProducts = _.clone(this.state.form.discountProducts);
-            discountProducts.map((product, i) => {
-                if(product.id == idProduct){
-                    discountProducts[i].numberDiscount = value;
-                }
-            })
-            this.setState({
-                form: Object.assign({}, this.state.form, {
-                    discountProducts
-                }),
-            })
-        }
     }
 
     nextStep (step) {
@@ -184,7 +150,7 @@ export default class AddRule extends Component {
         )}else {
             return (
                 <Fragment>
-                    <div>
+                    <Fragment>
                         {
                             step == 1
                             ?
@@ -195,7 +161,6 @@ export default class AddRule extends Component {
                                     handleChangeValue = {this.handleChangeValue}
                                     onSelectMainProduct = {this.onSelectMainProduct}
                                     nextStep = {this.nextStep}
-                                    onChangeIdMainProduct = {this.onChangeIdMainProduct}
                                     idMainProduct = {idMainProduct}
                                     validates = {validates}
                                     requiredFields = {requiredFields}
@@ -204,8 +169,8 @@ export default class AddRule extends Component {
                             :
                                 null
                         }
-                    </div>
-                    <div>
+                    </Fragment>
+                    <Fragment>
                         {
                             step == 2
                             ?
@@ -219,12 +184,14 @@ export default class AddRule extends Component {
                                     onChangeValue = {this.onChangeValue}
                                     showProductQty = {showProductQty}
                                     idRelatedProducts = {idRelatedProducts}
+                                    discountValue = {form.discountValue}
+                                    validates = {validates}
                                 />
                             :
                                 null
                         }
-                    </div>
-                    <div>
+                    </Fragment>
+                    <Fragment>
                         {
                             step == 3
                             ?
@@ -236,12 +203,11 @@ export default class AddRule extends Component {
                                     onSubmit = {this.onSubmit}
                                     validates = {validates}
                                     discountProducts = {form.discountProducts}
-                                    handleChangeDisplayProduct = {this.handleChangeDisplayProduct}
                                 />
                             :
                                 null
                         }
-                    </div>
+                    </Fragment>
                     {
                         message 
                         ?

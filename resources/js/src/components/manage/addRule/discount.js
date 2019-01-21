@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
-import { optionsDiscountType } from "./../../../constants";
 import classNames from 'classnames'
-import Product from './product';
 
 export default class Discount extends Component {
     constructor(){
@@ -10,14 +8,6 @@ export default class Discount extends Component {
         this.state = {
             validates: {}
         }
-    }
-
-    handleChangeValue (event) {
-        this.props.handleChangeValue(event.target.name, event.target.value);
-    }
-
-    handleChangeDisplayProduct (idProduct, price, value) {
-        this.props.handleChangeDisplayProduct(idProduct, price, value);
     }
 
     nextStep (step) {
@@ -53,17 +43,7 @@ export default class Discount extends Component {
         return(
             <Fragment>
                 <div className="container section-heading">
-                    <h1 className="title-heading">{lang.set_discount}</h1>
-                    <div className="discount-type-wrap">
-                        <div className="title-discount">{lang.discount_type}</div>
-                        <div className="form-group select-discount-type">
-                            <select name="discountType" onChange={this.handleChangeValue.bind(this)} className='form-control input-sm'>
-                                {optionsDiscountType.map((type, i)=>(
-                                    <option key={i} value={type.value}>{type.label}</option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
+                    <h1 className="title-heading">{lang.summary}</h1>
                 </div>
 
                 <div className="panel panel-default container ">
@@ -73,23 +53,22 @@ export default class Discount extends Component {
                                 <th className="set-discount__title-img">{lang.image}</th>
                                 <th>{lang.name}</th>
                                 <th>{lang.original_price}</th>
-                                <th>{lang.discount}</th>
                                 <th className="set-discount__title-sale">{lang.sale_price}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {discountProducts.map((product, key)=>(
-                                <Product
-                                    product = {product}
-                                    key = {key}
-                                    discountType = {discountType}
-                                    handleChangeDisplayProduct = {this.handleChangeDisplayProduct.bind(this)}
-                                    validate = {this.validate.bind(this)}
-                                />
-                            ))}
+                                <tr className="info-product" key={key}>
+                                    <td><img className="set-discount__img" src={product.src} alt="..." /></td>
+                                    <td>{product.title}</td>
+                                    <td>{product.price +" "+ product.currency}</td>
+                                    <td className="set-discount__sale-price">
+                                        {12 +" "+ product.currency}
+                                    </td>
+                                </tr>
+                            ))} 
                             <tr>
                                 <td>{lang.total}</td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td className="set-discount__sale-price">{total +" "+ _.head(mainProduct).currency}</td>
