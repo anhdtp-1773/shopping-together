@@ -103,5 +103,12 @@ export default {
             'shopify_domain': domain,
             'id_cart_rules': idCartRules,
         });
-    }
+    },
+
+    getCartRules(idProduct){
+        return superagent.post('/api/cart-rule/get').send({
+            'shopify_domain': domain,
+            'id_product': idProduct,
+        });
+    },
 }

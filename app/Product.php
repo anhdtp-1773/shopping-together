@@ -124,7 +124,9 @@ class Product extends Model
         return DB::table('products')->where('id_shopify_product', $id_shopify_product)
                     ->join('images', 'products.id_shopify_product', '=', 'images.id_product')
                     ->join('variants', 'products.id_shopify_product', '=', 'variants.id_product')
-                    ->select('products.title', 'images.src', 'variants.price', 'variants.option1', 'variants.option2', 'variants.option3')
+                    ->join('currency', 'products.id_shop', '=', 'currency.id_shop')
+                    ->select('products.title','products.id_shopify_product', 'images.src', 'variants.price', 'variants.option1', 
+                            'variants.option2', 'variants.option3', 'currency.currency')
                     ->first();
     }
     

@@ -1,19 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import api from '../../api';
+import * as _ from "lodash";
 
 export default class Preview extends Component {
     constructor(props) {
         super(props);
         this.state = {
             form: {
+                cartRules: [],
+                reductionPercent: '',
+                reductionAmount: '',
+                isMainProduct: '',
                 title: '',
                 src: '',
                 price: '',
                 option1: '',
                 option2: '',
                 option3: '',
+                idProduct: '',
+                currency: '',
            }
         };
+        this.showCartRule = this.showCartRule.bind(this);
+        this.showAlert = this.showAlert.bind(this);
     }
     async componentWillMount(){
         const response = await api.getProductInfo();
@@ -30,7 +39,28 @@ export default class Preview extends Component {
                     option1: result.data.option1,
                     option2: result.data.option2,
                     option3: result.data.option3,
+                    idProduct: result.data.id_shopify_product,
+                    currency: result.data.currency,
                 }),
+            })
+            this.showCartRule(result.data.id_shopify_product);
+        }
+    }
+
+    async showCartRule (idProduct) {
+        const response = await api.getCartRules(idProduct);
+        const result = JSON.parse(response.text);
+        this.setState({
+            cart_rules: result.data,
+        });
+        if(result.data){
+            this.setState({
+                form: Object.assign({}, this.state.form, {
+                    cartRules: result.data,
+                    reductionPercent: result.data.reduction_percent,
+                    reductionAmount: result.data.reduction_amount,
+                    isMainProduct: result.data.is_main_product,
+                })
             })
         }
     }
@@ -43,8 +73,12 @@ export default class Preview extends Component {
         });
     };
 
+    showAlert () {
+        return alert(lang.go_to_your_live_website_to_use_this_function);
+    }
+
     render (){
-        const{title, src, price, option1, option2, option3 } = this.state.form;
+        const{title, src, price, option1, option2, option3, cartRules, currency, reductionAmount, reductionPercent, isMainProduct, idProduct } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
             newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
@@ -118,7 +152,7 @@ export default class Preview extends Component {
                     <div className="right-container">
                         <div className="form-group">
                             <p>{title}</p>
-                            <p>{price}</p>
+                            <p>{price}{currency}</p>
                                
                             <p>{lang.size}</p>
                             <select 
@@ -137,29 +171,43 @@ export default class Preview extends Component {
                         </div>
 
                         <button>{lang.add_to_cart}</button>
-
                         <div className="full-width">
                             <p style={titleStyle}>{productText}</p>
-                            <p>
-                                <input type="checkbox" />
-                                <span>
-                                    <img style={displayStyle} src={src}/> 
-                                </span>
-                                <span style={productNameStyle}>{title}</span>
-                                <span><input type="text"placeholder={1}/></span>
-                                <span>
-                                    <select>
-                                        <option>{option1}</option>
-                                        <option>{option2}</option>
-                                        <option>{option3}</option>
-                                    </select>
-                                </span>
-                                <del><span style={oldPriceStyle}>{price}</span></del>
-                                <span style={newPriceStyle}>20$</span>
-                            </p>
-                        <p>{lang.total}<span style={totalAmountStyle}>70$</span> </p>
-                        <button style={cartStyle}>{cartText}</button>
-                        </div>
+                            {
+                                cartRules
+                                ?
+                                <Fragment> 
+                                    {cartRules.map((cartRule, i)=>(
+                                        <p key={i}>
+                                            <input type="checkbox" />
+                                            <span>
+                                                <img style={displayStyle} src={_.head(cartRule.variants).src}/> 
+                                            </span>
+                                            <span style={productNameStyle}>{_.head(cartRule.variants).product_name}</span>
+                                            <span>
+                                                <select name="variants">
+                                                    {
+                                                        cartRule.variants.map((variant, i) => {
+                                                            return <option key={i} value={variant.title}>{variant.title}</option>
+                                                        })
+                                                    }
+                                                </select>
+                                            </span>
+                                            <del><span style={oldPriceStyle}>{_.head(cartRule.variants).price}{currency}</span></del>
+                                            <span style={newPriceStyle}>{_.head(cartRule.variants).price}{currency}</span>
+                                        </p>
+                                    ))}
+                                </Fragment>
+                                    :
+                                    <p>{msg}</p>
+                                }
+                            </div>
+                            <p>{lang.total}<span style={totalAmountStyle}>{price}{currency}</span></p>
+                            <button 
+                                className='alert-box'
+                                style={cartStyle}
+                                onClick= {this.showAlert}
+                            >{cartText}</button>
                     </div>
                     <div>
                         <span>{lang.quick_links}</span>

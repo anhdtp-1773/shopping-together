@@ -85,4 +85,5 @@ return [
     'detailed_stats' => 'Detailed stats',
     'delete_successfully' => 'Delete successfully',
     'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
+    'go_to_your_live_website_to_use_this_function' => 'Go to your live website to use this function!',
 ];
