@@ -27,7 +27,7 @@ export default class Preview extends Component {
     async componentWillMount(){
         const response = await api.getProductInfo();
         const result = JSON.parse(response.text);
-        this.setState({ 
+        this.setState({
             product: result.data,
         });
 	    if(result.data){
@@ -77,8 +77,8 @@ export default class Preview extends Component {
         return alert(lang.go_to_your_live_website_to_use_this_function);
     }
 
-    render (){
-        const{title, src, price, option1, option2, option3, cartRules, currency, reductionAmount, reductionPercent, isMainProduct, idProduct } = this.state.form;
+    render () {
+        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
             productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
             newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
@@ -139,81 +139,105 @@ export default class Preview extends Component {
         };
 
         return (
-            <div className="full-width display-block">
-                <div className="form-group">
-                    <div>
-                        <span>{lang.admin}</span>
-                        <span>{lang.home}</span>
-                        <span>{lang.catalog}</span>
-                    </div>
-                    <div className="left-container">
-                       <img className="image-setting-product" src={src}/>
-                    </div>
-                    <div className="right-container">
-                        <div className="form-group">
-                            <p>{title}</p>
-                            <p>{price}{currency}</p>
-                               
+            <div className="col-md-12 wrap-preview">
+              <div className="row right-side__menu">
+                  <div className="menu-title col-md-4">{lang.happypoint}</div>
+                  <div className="col-md-5 col-md-offset-1">
+                    <span>{lang.home}</span>
+                    <span>{lang.catalog}</span>
+                  </div>
+                  <div className="col-md-2 menu-icon">
+                    <span><i className="fa fa-search" aria-hidden="true"></i></span>
+                    <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                  </div>
+              </div>
+              <div className="row right-side__form-product">
+                <div className="col-md-6">
+                   <img className="image-setting-product" src={src}/>
+                </div>
+                <div className="col-md-6 unpadding-right">
+                    <div className="form-group">
+                        <p className="title-product">{title}</p>
+                        <p className="price-product">{price}{currency}</p>
+                        <div className="col-md-12 option-product">
+                          <div className="col-md-6">
                             <p>{lang.size}</p>
-                            <select 
+                            <select
                                 name="size"
                                 className="form-control">
                                 <option> {option1} </option>
                             </select>
+                          </div>
+                          <div className="col-md-6">
                             <p>{lang.color}</p>
-                            <select 
+                            <select
                                 name="color"
                                 className="form-control" >
                                 <option> {option3} </option>
                                 <option> {option2} </option>
-
                             </select>
+                          </div>
                         </div>
+                    </div>
 
-                        <button>{lang.add_to_cart}</button>
-                        <div className="full-width">
-                            <p style={titleStyle}>{productText}</p>
-                            {
-                                cartRules
-                                ?
-                                <Fragment> 
-                                    {cartRules.map((cartRule, i)=>(
-                                        <p key={i}>
-                                            <input type="checkbox" />
-                                            <span>
-                                                <img style={displayStyle} src={_.head(cartRule.variants).src}/> 
-                                            </span>
-                                            <span style={productNameStyle}>{_.head(cartRule.variants).product_name}</span>
-                                            <span>
-                                                <select name="variants">
-                                                    {
-                                                        cartRule.variants.map((variant, i) => {
-                                                            return <option key={i} value={variant.title}>{variant.title}</option>
-                                                        })
-                                                    }
-                                                </select>
-                                            </span>
-                                            <del><span style={oldPriceStyle}>{_.head(cartRule.variants).price}{currency}</span></del>
-                                            <span style={newPriceStyle}>{_.head(cartRule.variants).price}{currency}</span>
-                                        </p>
-                                    ))}
-                                </Fragment>
+                        <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                        <div className="col-md-12 right-side__translation">
+                            <div className="row">
+                                <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
+                                {
+                                    cartRules
+                                    ?
+                                    <Fragment> 
+                                        {cartRules.map((cartRule, i)=>(
+                                            <div className="col-md-12">
+                                                <div key={i} className="col-md-12 unpadding right-side__option">
+                                                    <div className="col-md-1 unpadding-left">
+                                                        <label className="check-product">
+                                                        <input type="checkbox"/>
+                                                        <span className="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div className="col-md-2">
+                                                        <img className="img-option" style={displayStyle} src={_.head(cartRule.variants).src}/>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <span style={productNameStyle}>{_.head(cartRule.variants).product_name}</span>
+                                                    </div>
+                                                    <div className="col-md-3 unpadding-right">
+                                                        <span className="col-md-10 unpadding-right">
+                                                            <select className="select-option" name="variants">
+                                                                {
+                                                                    cartRule.variants.map((variant, i) => {
+                                                                        return <option key={i} value={variant.title}>{variant.title}</option>
+                                                                    })
+                                                                }
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                    <div className="col-md-2 unpadding-right">
+                                                    <del><span className="old-price" style={oldPriceStyle}>{_.head(cartRule.variants).price}{currency}</span></del>
+                                                    <span className="new-price" style={newPriceStyle}>{_.head(cartRule.variants).price}</span>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            
+                                        ))}
+                                    </Fragment>
                                     :
                                     <p>{msg}</p>
                                 }
                             </div>
-                            <p>{lang.total}<span style={totalAmountStyle}>{price}{currency}</span></p>
-                            <button 
-                                className='alert-box'
-                                style={cartStyle}
-                                onClick= {this.showAlert}
-                            >{cartText}</button>
+                            <p className="col-md-12 right-side__total unpadding-left">
+                                <div className="col-md-6 first">{lang.total}</div>
+                                <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
+                            </p>
+                            <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
+                        </div>
+                    
                     </div>
-                    <div>
-                        <span>{lang.quick_links}</span>
-                        <span>{lang.talk_about_your_business}</span>
-                        <span>{lang.newsletter}</span>
-                    </div>
+                </div>
+                <div className="row right-side__footer">
+                  <span>{lang.label_footer}</span>
                 </div>
             </div>
         );

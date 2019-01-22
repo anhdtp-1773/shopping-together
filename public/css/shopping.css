@@ -1,19 +1,3 @@
-.home-container .right-container {
-    width: 70%;
-    display: inline-block;
-    padding: 10px 0px;
-    min-height: 500px;
-    background-color: #f7f8f8;
-}
-
-.home-container .left-container {
-    float: left;
-    width: 30%;
-    display: inline-block;
-    padding: 10px 20px;
-    min-height: 500px;
-    background-color: #f7f8f8;
-}
 html, body, #manage {
     padding: 0;
     margin: 0;
@@ -23,6 +7,17 @@ html, body, #manage {
     font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
     font-size: 13px;
     font-weight: normal;
+    position: relative;
+}
+.appear{visibility: visible;}
+.unpadding{
+  padding: 0;
+}
+.unpadding-left{
+  padding-left: 0;
+}
+.unpadding-right{
+  padding-right: 0;
 }
 
 .form-control {
@@ -31,11 +26,11 @@ html, body, #manage {
 }
 
 .img-active {
-    border-color: #5c6ac4;
-    box-shadow: 0px 0px 6px 4px #cccccc9c;;
+  border-color: #5c6ac4;
+  box-shadow: 0px 0px 6px 4px #cccccc9c;;
 }
 .set-discount__img {
-    width: 120px;
+  width: 120px;
 }
 
 .disabled-form {
@@ -56,59 +51,15 @@ html, body, #manage {
 .right-container{
   float: right;
 }
+
 .slidecontainer {
   width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.valid {
-  border-color: #4caf50;
-}
-
-.invalid {
- border-color: #E64A19;
-}
-
-.image-setting-product{
-  width: 250px;
 }
 
 /*=============================
 Manage
 =============================== */
+.steps{margin-top: 80px;}
 .section-manage .rulename-wrap{
   margin-bottom: 20px;
 }
@@ -156,7 +107,7 @@ Manage
   padding-right: 0;
 }
 .product-search-wrap .title-search-product{
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-size: 16px;
   font-weight: 500;
 }
@@ -166,6 +117,17 @@ Manage
 }
 .product-wrap .thumbnail:hover{
   border-color: #3d4a98;
+}
+.product-wrap .checkmark{
+  top: 7px;
+  right: 26px;
+  height: 15px;
+  width: 15px;
+}
+.product-wrap .check-product .checkmark:after{
+  left: 5.6px;
+  top: 1.2px;
+  width: 6px;
 }
 .product-wrap .img-main-product{
   height: 150px;
@@ -198,7 +160,8 @@ Manage
   font-size: 14px;
   color: #fff;
   display: block;
-  transition-duration: 0.3s
+  transition-duration: 0.3s;
+  margin-top: 80px;
 }
 .btn-add_a_new_rule:hover{
   background: #303b7a;
@@ -218,7 +181,6 @@ Custom Checkboxes
 .check-product {
   display: block;
   position: relative;
-  padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
@@ -238,8 +200,7 @@ Custom Checkboxes
 
 .checkmark {
   position: absolute;
-  top: 7px;
-  right: 26px;
+  top: 0;
   height: 15px;
   width: 15px;
   background-color: #eee;
@@ -264,9 +225,9 @@ Custom Checkboxes
 }
 
 .check-product .checkmark:after {
-  left: 5.6px;
-  top: 1.2px;
-  width: 6px;
+  left: 9px;
+  top: 5px;
+  width: 5px;
   height: 10px;
   border: solid white;
   border-width: 0 3px 3px 0;
@@ -279,13 +240,22 @@ Custom Checkboxes
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
+  margin: 10px 0 0px;
   text-overflow: ellipsis;
+  font-weight: 500;
+  min-height: 19px;
 }
 
 /*==============================
 discountType
 ================================  */
-.section-heading .title-heading{text-align: center;}
+.section-heading .title-heading{
+  font-size: 36px;
+  font-weight: normal;
+  display: block;
+  text-align: center;
+  margin-bottom: 33px;
+}
 .section-heading .discount-type-wrap{display: flex;margin: 50px 0px 15px;}
 .section-heading .discount-type-wrap .title-discount{min-width: 10%;padding: 10px 15px 10px 0;}
 .section-heading .discount-type-wrap .select-discount-type{width: 20%}
@@ -355,10 +325,14 @@ discountType
   }
 }
 
+/*==============================
+related
+================================*/
+
 .slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 15px;
+  height: 5px;
   border-radius: 5px;
   background: #d3d3d3;
   outline: none;
@@ -374,27 +348,19 @@ discountType
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #5b69c3;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #5b69c3;
   cursor: pointer;
-}
-
-.valid {
-  border-color: #4caf50;
-}
-
-.invalid {
- border-color: #E64A19;
 }
 
 .image-setting-product{
@@ -411,8 +377,16 @@ discountType
 
 /*=============================
 Menu
-=============================== */
-.side-menu-inner{border-bottom: 1px solid #ccc}
+===============================*/
+.side-menu-inner{
+  border-bottom: 1px solid #ccc;
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  background: #fff;
+  -webkit-box-shadow: 0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15);
+  box-shadow: 0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15);
+}
 .side-menu-inner .treeview a{
   color: #000;
   font-size: 17px;
@@ -436,13 +410,280 @@ Menu
   padding: 12px 9px 8px;
   margin-left: 25px;
 }
-#manage ul{padding-left: 0;margin-bottom: 30px;}
+#manage ul{padding-left: 0;margin-bottom: 0px;}
 .btn-wrap{padding-right: 0;padding-left: 0;}
 .content-manage .form-group input[type="text"]{
   height: 37px;
   font-size: 14px;
 }
 
+
+.block-setting{
+  padding-top: 45px;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+.block-setting .left-side{
+  position: fixed;
+  top: 81px;
+}
+.block-setting .right-side{
+  float: right;
+  margin-top: 36px;
+}
+.left-side .wrap-control,
+.right-side .wrap-preview{
+  border: 1px solid #dfe3e8;
+  background: #fff;
+}
+.right-side .wrap-preview{
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1), 0 0 12px rgba(0,0,0,0.1);
+  box-shadow: 0 0 3px rgba(0,0,0,0.1), 0 0 12px rgba(0,0,0,0.1);
+  height: 830px;
+  overflow: scroll;
+}
+.left-side .left-side__control{
+  border-bottom: 1px solid #dfe3e8;
+  padding: 21px 16px;
+  font-size: 14px;
+}
+.left-side span .fa{
+  float: right;
+  padding-top: 9px;
+  font-size: 11px;
+}
+.left-side .left-side__title{
+  font-size: 15px;
+  background: #f2f2f2;
+  transition-duration: 0.3s;
+  font-weight: 600;
+  border-bottom: 1px solid #dfe3e8;
+  padding: 11px 18px;
+  text-align: left;
+  margin-bottom: 0;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-radius: 0;
+  cursor: pointer;
+}
+.left-side .left-side__title:hover{
+  background: #e9e8e8;
+}
+.left-side .left-side__info{
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  background: #f7f8f8;
+  font-size: 14px;
+}
+.left-side .left-side__info > p:first-child{
+  border-top: 1px solid #ccc;
+  padding-top: 14px;
+}
+.block-setting .btn-save{
+  background: #5b69c3;
+  position: fixed;
+  border: 1px solid transparent;
+  color: #fff;
+  z-index: 5;
+  padding: 4px 18px;
+  border-radius: 4px;
+  top: 7px;
+  right: 30px;
+  transition-duration: 0.3s;
+}
+.block-setting .btn-save:hover{
+  background: #3c4aa3;
+}
+
+.left-side__control > div {
+    margin-bottom: 20px;
+}
+.left-side .left-side__control p,
+.right-side__form-product .option-product .col-md-6 p{
+  margin-bottom: 0px;
+}
+.left-side .left-side__control input[type="text"],
+.left-side .left-side__control select{
+  height: 36px;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+.left-side__control .check-product .checkmark{
+  left: 0;
+  top: 8px;
+  height: 16px;
+  width: 16px;
+}
+.left-side__control .check-product{
+  padding-left: 27px;
+  margin-bottom: 0;
+}
+.left-side__control .check-product .left-side__checkbox-title{
+  font-size: 14px;
+  font-weight: normal;
+}
+.left-side__control .check-product .checkmark:after{
+  left: 6px;
+  top: 3px;
+}
+.left-side__control .left-side__product-group{
+  margin-bottom: 41px;
+  margin-top: 35px;
+}
+.left-side__control .left-side__product-group p{
+  margin-bottom: 12px;
+}
+.left-side__control .left-side__product-img-size > div{
+  display: flex;
+  margin-bottom: 8px;
+}
+.left-side__control .left-side__product-img-size p{
+  margin-bottom: 15px
+}
+.left-side__control .left-side__product-img-size input{
+  width: 48px;
+  text-align: center;
+  height: 30px;
+}
+.left-side__control .left-side__product-img-size span{
+  padding: 6px 7px;
+}
+
+/*=============================
+settings block right
+=============================== */
+.right-side .image-setting-product{
+  width: 100%;
+}
+.right-side .right-side__menu{
+  padding: 17px 50px;
+  border-bottom: 1px solid #dfe3e8;
+  color: #3d4246;
+}
+.right-side .right-side__menu .menu-title{
+  font-weight: 600;
+  font-size: 20px;
+  padding-top: 9px;
+}
+.right-side .right-side__menu >div:nth-child(2){
+  padding: 10px 6px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.right-side__menu > div:nth-child(2) span:first-child{
+  margin-right: 10px;
+}
+.right-side .right-side__menu .menu-icon{
+  text-align: right;
+  font-size: 19px;
+  padding: 4px 0px;
+}
+.right-side__menu .menu-icon span:first-child{
+  margin-right: 27px;
+}
+.right-side .right-side__form-product{
+  margin: 50px 35px;
+  font-size: 14px;
+}
+.right-side .right-side__form-product .title-product{
+  margin-bottom: 10px
+}
+.right-side__form-product .option-product{
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  margin-top: 27px;
+}
+.right-side__form-product .option-product > div{
+  padding-right: 0;
+  padding-left: 0;
+}
+.right-side__form-product .option-product > div:first-child{
+  padding-right: 10px;
+}
+.right-side .right-side__form-product .title-product{
+  font-weight: 600;
+  font-size: 22px;
+  color: #3d4246;
+}
+.right-side .right-side__form-product .right-side__translation{
+  background: #f5f5f5;
+  margin-top: 41px;
+}
+.right-side .right-side__form-product .price-product{
+  font-weight: 600;
+  font-size: 19px;
+  color: #69727b;
+}
+.right-side .right-side__form-product .btn-bundle{
+  border: 1px solid transparent;
+  padding: 5px 23px;
+  float: right;
+  margin-top: 19px;
+  border-radius: 5px;
+  margin-bottom: 26px;
+  font-size: 14px;
+}
+.right-side .right-side__form-product .btn{
+  padding: 9px 12px;
+}
+.right-side .right-side__option-title{
+  text-align: center;
+  margin: 18px 0 25px;
+}
+.right-side .check-product .checkmark{
+  background-color: #ccc;
+}
+.right-side .check-product .checkmark:after{
+  left: 6px;
+  top: 3px;
+}
+.right-side .right-side__option > div:nth-child(n+2){
+  padding-left: 0;
+}
+.right-side .right-side__option .img-option{
+  width: 100%;
+}
+.right-side .right-side__option > div:last-child{
+  text-align: right;
+}
+.right-side .right-side__option .old-price{
+  margin-right: 24px;
+  font-size: 18px;
+}
+.right-side .right-side__option .old-price{
+  font-size: 18px;
+}
+.right-side .right-side__option .qty-option{
+  width: 100%;
+  text-align: center;
+  height: 27px;
+}
+.right-side .right-side__option .select-option{
+  width: 100%;
+  height: 26px;
+}
+.right-side .right-side__total{
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+  padding-right: 0;
+}
+.right-side .right-side__total .first{
+  font-weight: bold;
+  padding: 0;
+}
+.right-side .right-side__total .second{
+  font-weight: bold;
+  text-align: right;
+  padding-right: 0;
+  font-size: 18px;
+}
+.right-side .right-side__footer{
+  border-top: 1px solid #dfe3e8;
+  padding: 27px 64px;
+  background: #f5f5f5;
+}
 .switch-container1{
   margin-top: 15px;
 }
@@ -535,7 +776,6 @@ input[type="checkbox"].switch:checked + div > div {
   -webkit-transform: translate3d(22px, 0, 0);
   transform: translate3d(22px, 0, 0);
 }
-
 
 
 /*=========DASHBOARD=============*/
@@ -751,3 +991,27 @@ padding-left: 5px;
 color: rgba(68, 68, 68, 0.4);
 }
 /*=========END-DASHBOARD=============*/
+
+/*================================
+table rule
+==================================*/
+.table-rule thead > tr > th,
+.table-rule tbody > tr > td,
+.table-rule .pagination-wrap{
+  text-align: center;
+}
+.table-rule tbody > tr > td{
+  vertical-align: middle;
+}
+.table-rule .table{
+  margin-top: 40px;
+}
+.table-rule .glyphicon{
+  padding-right: 10px;
+  cursor: pointer;
+}
+.table-rule .product-search-wrap input{
+  height: 37px;
+  margin: 12px 0;
+  font-size: 14px;
+}
