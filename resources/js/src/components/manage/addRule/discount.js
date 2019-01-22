@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import * as _ from "lodash";
 import classNames from 'classnames'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class Discount extends Component {
     constructor(){
@@ -9,7 +11,6 @@ export default class Discount extends Component {
             validates: {}
         }
     }
-
     nextStep (step) {
         this.props.nextStep(step);
     }
@@ -21,22 +22,12 @@ export default class Discount extends Component {
     }
 
     render(){
-        const {mainProduct, discountType, discountProducts} = this.props;
+        const {discountProducts, reductionPercent, startDate, endDate} = this.props;
         const {validates} = this.state;
         let total = 0;
         discountProducts.map((product) => {
-            if(product.numberDiscount){
-                if(discountType == 'percentage'){
-                    total += (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.numberDiscount))/100);
-                }else{
-                    if(parseFloat(product.price) > parseFloat(product.numberDiscount)){
-                        total += (parseFloat(product.price) - parseFloat(product.numberDiscount));
-                    }else{
-                        total += (parseFloat(product.price));
-                    }
-                }
-            }else{
-                total += parseFloat(product.price);
+            if(!product.isMainProduct){
+                total += (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100);
             }
         })
         const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'});
@@ -63,7 +54,13 @@ export default class Discount extends Component {
                                     <td>{product.title}</td>
                                     <td>{product.price +" "+ product.currency}</td>
                                     <td className="set-discount__sale-price">
-                                        {12 +" "+ product.currency}
+                                        {
+                                            product.isMainProduct
+                                            ? 
+                                                null
+                                            :
+                                                (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) +" "+ product.currency
+                                        }
                                     </td>
                                 </tr>
                             ))} 
@@ -71,10 +68,36 @@ export default class Discount extends Component {
                                 <td>{lang.total}</td>
                                 <td></td>
                                 <td></td>
-                                <td className="set-discount__sale-price">{total +" "+ _.head(mainProduct).currency}</td>
+                                <td className="set-discount__sale-price">{total +" "+ _.head(discountProducts).currency}</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div style={{float: 'left'}}>
+                    <div className="filter-from">
+                        <span>{lang.start_date}</span>
+                        <div className="datePicker">
+                            <DatePicker
+                                showYearDropdown
+                                selected={(startDate)}
+                                onChange={(value) => this.props.onChangeDate('startDate', value)}
+                                className="form-control"
+                                dateFormat="DD/MM/YYYY"
+                            />
+                        </div>
+                    </div>
+                    <div className="filter-to">
+                        <span>{lang.end_date}</span>
+                        <div className="datePicker">
+                            <DatePicker
+                                showYearDropdown
+                                selected={(endDate)}
+                                onChange={(value) => this.props.onChangeDate('endDate', value)}
+                                className="form-control"
+                                dateFormat="DD/MM/YYYY"
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="container btn-wrap">
                     <button

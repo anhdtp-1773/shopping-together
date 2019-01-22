@@ -103,7 +103,7 @@ export default class MainProduct extends Component {
                 })
             }
         }else{
-            this.getListProduct('');
+            this.getListProduct();
         }
     }
 

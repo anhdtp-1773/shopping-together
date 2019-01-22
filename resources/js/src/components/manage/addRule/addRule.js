@@ -12,10 +12,11 @@ export default class AddRule extends Component {
         this.state = {
             form: {
                 ruleName: '',
-                discountType: 'percentage',
                 mainProduct: [],
                 discountProducts: [],
-                discountValue: 0,
+                reductionPercent: 0,
+                startDate: new Date(),
+                endDate: new Date(),
             },
             idRelatedProducts: [],
             isFetching: true,
@@ -38,6 +39,7 @@ export default class AddRule extends Component {
         this.nextStep = this.nextStep.bind(this);
         this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
     }
 
     async componentWillMount () {
@@ -58,15 +60,11 @@ export default class AddRule extends Component {
                 validates[name] = Validate.require(value) ? 'valid' : 'invalid';
                 requiredFields[name] = Validate.isName(value);
                 break;
-            case 'discountValue':
-                validates[name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
-            break;
         }
 
         if (_.isEmpty(value)){
 			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
 		}
-
         this.setState({
             validates: _.assign({}, this.state.validates, validates),
             requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
@@ -136,6 +134,14 @@ export default class AddRule extends Component {
         })
     }
 
+    onChangeDate (name, date) {
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                [name]: date
+            })
+        });
+    }
+
     render() {
         const {
             form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, 
@@ -184,8 +190,7 @@ export default class AddRule extends Component {
                                     onChangeValue = {this.onChangeValue}
                                     showProductQty = {showProductQty}
                                     idRelatedProducts = {idRelatedProducts}
-                                    discountValue = {form.discountValue}
-                                    validates = {validates}
+                                    reductionPercent = {form.reductionPercent}
                                 />
                             :
                                 null
@@ -196,13 +201,15 @@ export default class AddRule extends Component {
                             step == 3
                             ?
                                 <Discount
-                                    mainProduct = {form.mainProduct}
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
-                                    discountType = {form.discountType}
                                     onSubmit = {this.onSubmit}
                                     validates = {validates}
                                     discountProducts = {form.discountProducts}
+                                    reductionPercent = {form.reductionPercent}
+                                    onChangeDate = {this.onChangeDate}
+                                    startDate = {form.startDate}
+                                    endDate = {form.endDate}
                                 />
                             :
                                 null

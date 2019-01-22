@@ -123,16 +123,15 @@ export default class RelatedProduct extends Component {
         const value = event.target.value;
         const {validates} = this.state;
         switch(name){
-            case 'discountValue':
+            case 'reductionPercent':
                 validates[name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
             break;
         }
         this.props.handleChangeValue(name, value);
-
     }
 
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts, discountValue} = this.props;
+        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts, reductionPercent} = this.props;
         const {products, itemsPerPage, totalItems, isFetching, validates} = this.state;
         const disabledOnClick = !_.every(_.values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
@@ -195,11 +194,11 @@ export default class RelatedProduct extends Component {
                             <p>{lang.set_discount}</p>
                             <input
                                 type="text"
-                                className={classNames('form-control', validates.discountValue)}
-                                name="discountValue"
+                                className={classNames('form-control', validates.reductionPercent)}
+                                name="reductionPercent"
                                 placeholder={lang.discount_value}
                                 onChange={this.handleChangeValue}
-                                value = {discountValue}
+                                value = {reductionPercent}
                             />
                         </div>
                         <div>
