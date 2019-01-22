@@ -77,7 +77,10 @@ export default {
             'shopify_domain': domain,
             'name': data.ruleName,
             'products': data.discountProducts,
-            'is_percentage': data.isPercentage
+            'is_percentage': data.isPercentage,
+            'reduction_percent': data.reductionPercent,
+            'start_date': data.startDate,
+            'end_date': data.endDate
         });
     },
 

@@ -88,4 +88,8 @@ return [
     'delete_successfully' => 'Delete successfully',
     'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
     'are_you_sure_you_wish_to_delete_all_of_these_rule' => 'Are you sure you wish to delete all of these rule?',
+    'discount_value' => 'Discount value',
+    'summary' => 'Summary',
+    'start_date' => 'Start date',
+    'end_date' => 'End date',
 ];
