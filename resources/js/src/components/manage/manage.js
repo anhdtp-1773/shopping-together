@@ -26,6 +26,7 @@ export default class Manage extends Component {
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleChangeStatus = this.handleChangeStatus.bind(this);
     }
 
     componentWillMount () {
@@ -45,6 +46,7 @@ export default class Manage extends Component {
                 itemsPerPage: result.data.items_per_page,
                 totalItems: result.data.total_items,
                 rules: result.data.items,
+                status: this.checkStateStatus(result.data.items),
                 currentPage: result.data.current_page,
                 isFetching: false,
             });
@@ -102,6 +104,7 @@ export default class Manage extends Component {
                     itemsPerPage: result.data.items_per_page,
                     totalItems: result.data.total_items,
                     rules: result.data.items,
+                    status: this.checkStateStatus(result.data.items),
                     currentPage: result.data.current_page,
                     isFetching: false,
                 });
@@ -109,6 +112,7 @@ export default class Manage extends Component {
                 this.setState({
                     msg: result.message,
                     rules: '',
+                    status: false,
                     itemsPerPage: result.data.items_per_page,
                     totalItems: result.data.total_items,
                     currentPage: result.data.current_page,
@@ -120,103 +124,70 @@ export default class Manage extends Component {
         }
     }
 
-    selectItems (e) {
-        const {rules} = this.state;
-        const checked = e.target.checked;
-        let idCartRules = [];
-        rules.map((rule) => {
-            if(checked){
-                idCartRules.push(rule.id);
-            }
-            return Object.assign(rule, {
-                is_selected: !this.state.itemsChecked
-            })
-        });
-        this.setState({
-            itemsChecked: !this.state.itemsChecked,
-            idCartRules
-        })
-    }
-
-    handleClick (e) {
-        const id = parseInt(e.target.value);
-        const {rules} = this.state;
-        let idCartRules = _.clone(this.state.idCartRules);
-        let index = idCartRules.indexOf(id)
-        if(index >= 0){
-            idCartRules.splice(index, 1);
-        }else{
-            idCartRules.push(id)
-        }
-        rules.map((rule) => {
-            if(rule.id == id){
-                return Object.assign(rule, {
-                    is_selected: !rule.is_selected
-                })
+    checkStateStatus (rules) {
+        debugger;
+        let checkStateStatus = true;
+        rules.map((rule, i) => {
+            if (rule.status == false){
+                checkStateStatus = false;
             }
         });
-        this.setState({
-            idCartRules,
-            rules,
-            itemsChecked: false,
-        })
+
+        return checkStateStatus;
     }
 
-    async changeStatusOfRules (){
+    async handleChangeStatus(id, status){
+ 
+        
         const {rules} = this.state;
+        let internalStatus = true;
         let ids = [];
-        rules.map((rule) => {
-            ids.push(rule.id);
-        });
-        this.setState({
-            isFetching: true,
-            status: !this.state.status
-        });
-        try{
-            const fetch = await api.changeStatusOfRule(ids, !this.state.status);
-            const result = JSON.parse(fetch.text);
-            rules.map((rule) => {
-                return Object.assign(rule, {
-                    status: this.state.status
-                })
-            })
-            if(result.status){
-                this.setState({
-                    isFetching: false,
-                    rules,
+        if (id) {
+            // rule has been clicked
+            ids = [id];
+            if (status === true) {
+                let changeStatusAll = true;
+                rules.map((rule, i) => {
+                    if (rule.id !== id){
+                        if(rule.status == false) {
+                            changeStatusAll = false;
+                        }
+                    } else {
+                        rule.status = status;
+                    }
                 });
-            }else{
-                this.setState({
-                    message: result.message,
-                    isFetching: false,
-                })
-            }
-        }catch(errors){
-            alert(errors.message)
-        }
-    }
-    async changeStatusARule (id,status){
-        const {rules} = this.state;
-        let idCartRules = [id];
-        this.setState({
-            isFetching: true,
-        });
-        try{
-            const fetch = await api.changeStatusOfRule(idCartRules,status);
-            const result = JSON.parse(fetch.text);
-            rules.map((rule) => {
-                if (rule.id == id) {
-                    return Object.assign(rule, {
-                        status: !rule.status
-                    })
+                
+                if (changeStatusAll === true ){
+                    this.state.status = true;
+                } else {
+                    this.state.status = false;
                 }
-            })
+            } else {
+                this.state.status = false;
+            }
 
+            rules.map((rule, i) => {
+                if (rule.id == id){
+                 rule.status = status;
+                }
+            });
+        } else {
+            // click all
+            this.state.status = status;
+            rules.map((rule) => {
+                rule.status = status;
+                ids.push(rule.id);
+            }); 
+        }
+        try{
+            const fetch = await api.changeRuleStatus(ids,status);
+            const result = JSON.parse(fetch.text);
+            
             if(result.status){
                 this.setState({
                     isFetching: false,
                     rules,
-                    status:false
+                    status: this.state.status ? this.state.status : false
                 });
             }else{
                 this.setState({
@@ -224,10 +195,10 @@ export default class Manage extends Component {
                     isFetching: false,
                 })
             }
-        }catch(errors){
+        } catch(errors){
             alert(errors.message)
         }
-    }
+} 
 
     selectItems (e) {
         const {rules} = this.state;
@@ -334,7 +305,7 @@ export default class Manage extends Component {
                                                         className="glyphicon glyphicon-trash"
                                                         checked = {this.state.status}
                                                         onClick={e =>
-                                                            this.changeStatusOfRules()
+                                                            this.handleChangeStatus(0, !this.state.status)
                                                         } 
                                                         className="switch" 
                                                         type="checkbox" 
@@ -373,7 +344,7 @@ export default class Manage extends Component {
                                                             ref="switch" 
                                                             className="switch" type="checkbox" 
                                                             onClick={e =>
-                                                                this.changeStatusARule(rule.id, !rule.status)
+                                                                this.handleChangeStatus(rule.id, !rule.status)
                                                             } 
                                                             checked={rule.status} 
                                                             />
