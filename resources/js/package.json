@@ -40,6 +40,7 @@
     "moment": "^2.23.0",
     "rc-color-picker": "^1.2.6",
     "react": "^16.6.0",
+    "react-datepicker": "^2.0.0",
     "react-debounce-input": "^3.2.0",
     "react-dom": "^16.6.0",
     "react-js-pagination": "^3.0.2",
