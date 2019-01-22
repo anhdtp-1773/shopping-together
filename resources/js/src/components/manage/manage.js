@@ -20,7 +20,7 @@ export default class Manage extends Component {
             idCartRules: [],
             status: true,
         }
-        this.handlePageChange = this.handlePageChange.bind(this); 
+        this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
@@ -41,7 +41,7 @@ export default class Manage extends Component {
         const response = await api.getRules(currentPage);
         const result = JSON.parse(response.text);
         if(result.status){
-            this.setState({ 
+            this.setState({
                 itemsPerPage: result.data.items_per_page,
                 totalItems: result.data.total_items,
                 rules: result.data.items,
@@ -49,7 +49,7 @@ export default class Manage extends Component {
                 isFetching: false,
             });
         }
-    }   
+    }
 
     async deleteRule (id){
         let idCartRules = id ? id : this.state.idCartRules;
@@ -80,7 +80,7 @@ export default class Manage extends Component {
             this.onSearchRule(this.state.keyWord, currentPage);
         }else{
             this.getRulesList(currentPage);
-        }   
+        }
     }
 
     onChangeKeyWord (event) {
@@ -119,7 +119,7 @@ export default class Manage extends Component {
             this.getRulesList('');
         }
     }
-    
+
     selectItems (e) {
         const {rules} = this.state;
         const checked = e.target.checked;
@@ -284,9 +284,9 @@ export default class Manage extends Component {
                 <div>
                     <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">
                         {lang.add_a_new_rule}
-                        
+
                     </Link>
-                    <div className="container">
+                    <div className="container table-rule">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -300,11 +300,11 @@ export default class Manage extends Component {
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <div className="form-group product-search-wrap">
-                                            <input 
-                                                type="text" 
-                                                className="form-control" 
-                                                placeholder={lang.search} 
+                                        <div className="product-search-wrap">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder={lang.search}
                                                 onChange={this.onChangeKeyWord}
                                                 value = {keyWord}
                                             />
@@ -316,7 +316,7 @@ export default class Manage extends Component {
                                 {
                                     rules
                                     ?
-                                    <Fragment> 
+                                    <Fragment>
                                     <tr>
                                         <td>
                                             <input 
@@ -385,7 +385,7 @@ export default class Manage extends Component {
                                             </td>
                                             <td>
                                                 <span className="glyphicon glyphicon-edit"></span>
-                                                <span 
+                                                <span
                                                     className="glyphicon glyphicon-trash"
                                                     onClick={e =>
                                                         window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
@@ -413,7 +413,7 @@ export default class Manage extends Component {
                                     onChange={this.handlePageChange}
                                 />
                             </div>
-                        </Fragment> 
+                        </Fragment>
                     </div>
                 </div>
             );

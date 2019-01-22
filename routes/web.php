@@ -20,6 +20,9 @@ if(config('shopify-app.mode')){
         Route::get('/', function () {
             return view('app');
         });
+        Route::get('/stats', function () {
+            return view('app');
+        });
         Route::get('/manage', function () {
             return view('app');
         });
@@ -30,6 +33,9 @@ if(config('shopify-app.mode')){
     });
 }else{
     Route::get('/', function () {
+        return view('app');
+    });
+    Route::get('/stats', function () {
         return view('app');
     });
     Route::get('/manage', function () {
