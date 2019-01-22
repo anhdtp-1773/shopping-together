@@ -19,7 +19,6 @@ class CartRuleController extends Controller
      */
     public function save(Request $request)
     {
-        $start_date = date_format(date_create($request->start_date),"Y-m-d H:i:s");
         $status = true;
         $msg = trans('label.update_successfully');
         $validator = \Validator::make($request->all(), [

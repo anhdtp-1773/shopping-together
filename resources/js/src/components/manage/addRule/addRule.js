@@ -156,7 +156,7 @@ export default class AddRule extends Component {
         )}else {
             return (
                 <Fragment>
-                    <Fragment>
+                    <div className="steps">
                         {
                             step == 1
                             ?
@@ -175,8 +175,8 @@ export default class AddRule extends Component {
                             :
                                 null
                         }
-                    </Fragment>
-                    <Fragment>
+                    </div>
+                    <div className="steps">
                         {
                             step == 2
                             ?
@@ -195,8 +195,8 @@ export default class AddRule extends Component {
                             :
                                 null
                         }
-                    </Fragment>
-                    <Fragment>
+                    </div>
+                    <div className="steps">
                         {
                             step == 3
                             ?
@@ -214,7 +214,7 @@ export default class AddRule extends Component {
                             :
                                 null
                         }
-                    </Fragment>
+                    </div>
                     {
                         message
                         ?
