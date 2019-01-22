@@ -48,22 +48,26 @@ export default class OldPrice extends Component {
     toggle (event) {
         this.props.handleChangeToggle(event.target.dataset.index);
     }
-    
+
     render (){
         const {titleFontFamily, titleFontStyle, titleFontSize, titleFontColor, validates, title} = this.props;
         const {displayFontColor} = this.state;
         return (
             <div className="full-width display-block">
-                <p data-index="title" className="btn btn-block" onClick={this.toggle}>{lang.title}</p>
-                <div className={(title ? '' : 'collapse')}> 
+                <div data-index="title" className='btn-block left-side__title' onClick={this.toggle}>
+                  <span>{lang.title}</span>
+                  <span><i className={(title ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                  <span><i className={(title ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                </div>
+                <div className={(title ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
                         <div className="form-group">
                             <p>{lang.font_family}</p>
-                            <select 
+                            <select
                                 name="titleFontFamily"
-                                className="form-control" 
+                                className="form-control"
                                 onChange={this.handleChangeValue}
-                                value={titleFontFamily} 
+                                value={titleFontFamily}
                             >
                                 {fontFamilyOptions.map((value, i) =>
                                     <option key={i} value={value.value}>{value.label}</option>
@@ -74,9 +78,9 @@ export default class OldPrice extends Component {
                     <div className="full-width display-block">
                         <div className="form-group">
                             <p>{lang.font_style}</p>
-                            <select 
+                            <select
                                 name="titleFontStyle"
-                                className="form-control" 
+                                className="form-control"
                                 onChange={this.handleChangeValue}
                                 value={titleFontStyle}
                             >
@@ -88,25 +92,24 @@ export default class OldPrice extends Component {
                     </div>
                     <div className="full-width" ref={node => { this.node = node; }}>
                         <p>{lang.font_color}</p>
-                        <input 
-                            type="text" 
-                            style={{ backgroundColor: titleFontColor }} 
-                            value={titleFontColor} 
-                            onChange={this.handleChangeValue} 
+                        <input
+                            type="text"
+                            value={titleFontColor}
+                            onChange={this.handleChangeValue}
                             onClick={this.handleClick}
                             name="titleFontColor"
                             className={classNames('form-control', validates.titleFontColor)}
                             onBlur={this.handleClose}
                         />
                         {
-                            displayFontColor 
+                            displayFontColor
                             ?
                             <Fragment>
-                                <ColorPickerPanel 
-                                    alpha={80} 
-                                    color= {titleFontColor} 
-                                    onChange={this.changeHandlerColor} 
-                                    mode="HSB" 
+                                <ColorPickerPanel
+                                    alpha={80}
+                                    color= {titleFontColor}
+                                    onChange={this.changeHandlerColor}
+                                    mode="HSB"
                                 />
                             </Fragment>
                             :
@@ -115,14 +118,14 @@ export default class OldPrice extends Component {
                     </div>
                     <div className="full-width">
                         <p>{lang.font_size}</p>
-                        <input 
-                            className="slidecontainer" 
-                            type="range" 
+                        <input
+                            className="slider"
+                            type="range"
                             name="titleFontSize"
-                            value={titleFontSize} 
+                            value={titleFontSize}
                             min={rangeFontSizeMin}
                             max={rangeFontSizeMax}
-                            onChange={this.handleChangeValue} 
+                            onChange={this.handleChangeValue}
                         />
                     </div>
                 </div>

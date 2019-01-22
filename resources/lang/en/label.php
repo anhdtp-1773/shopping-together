@@ -1,5 +1,5 @@
 <?php
-    
+
 return [
     'setup'=> 'Setup',
     'update_successfully' => 'Update successfully',
@@ -17,7 +17,7 @@ return [
     'rule' => 'Rule ....',
     'next' => 'Next',
     'find' => 'Find',
-    'record' => 'record.', 
+    'record' => 'record.',
     'record_not_found' => 'No product found',
     'rule_not_found' => 'No rule found',
     'successfully' => 'Successfully',
@@ -71,10 +71,20 @@ return [
     'products_to_group' => 'Products to group',
     'back_ground_color' => 'Background color',
     'exceed_allowed_products_to_group' => 'Exceed allowed products to group',
+    'label_footer' => '© 2019, HappyPoints Powered by Shopify',
+    'happypoint' => 'HappyPoints',
     'select' => 'Select',
     'status' => 'Status',
     'actions' => 'Actions',
     'all' => 'All',
+    'stats' => 'Stats',
+    'day' => 'day',
+    'week' => 'week',
+    'month' => 'month',
+    'view' => 'Views',
+    'orders' => 'Orders',
+    'revenue' => 'Revenue',
+    'detailed_stats' => 'Detailed stats',
     'delete_successfully' => 'Delete successfully',
     'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
 ];
