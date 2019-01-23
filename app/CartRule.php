@@ -12,7 +12,7 @@ class CartRule extends Model
      * @var string
      */
     protected $table = 'cart_rule';
-    protected $fillable=['id_shop','name','id_product','status','updated_at','created_at'];
+    protected $fillable=['id_shop','name','id_product','status','reduction_percent','start_date','end_date','updated_at','created_at'];
 
      /**
      * @param int $id_shop
@@ -28,11 +28,14 @@ class CartRule extends Model
      *  'updated_at' => timestamp
      * )
      */
-    public static function saveCartRule($id_shop, $name, $id_product){
+    public static function saveCartRule($id_shop, $name, $id_product, $reduction_percent, $start_date, $end_date){
         $cart_rule = new CartRule();
         $cart_rule->id_shop = $id_shop;
         $cart_rule->name = $name;
         $cart_rule->id_product = $id_product;
+        $cart_rule->reduction_percent = $reduction_percent;
+        $cart_rule->start_date = $start_date;
+        $cart_rule->end_date = $end_date;
         $cart_rule->save();
         return $cart_rule;
     }

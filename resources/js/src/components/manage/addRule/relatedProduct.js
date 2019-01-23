@@ -3,6 +3,7 @@ import Pagination from "react-js-pagination";
 import * as _ from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
+import * as Validate from "../../../models/validate.model";
 
 export default class RelatedProduct extends Component {
     constructor(){
@@ -13,10 +14,12 @@ export default class RelatedProduct extends Component {
             totalItems: '',
             isFetching: true,
             msg: '',
+            validates: {},
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
     componentWillMount () {
@@ -111,13 +114,26 @@ export default class RelatedProduct extends Component {
                 })
             }
         }else{
-            this.getListProduct('');
+            this.getListProduct();
         }
     }
 
+    handleChangeValue (event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        const {validates} = this.state;
+        switch(name){
+            case 'reductionPercent':
+                validates[name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+            break;
+        }
+        this.props.handleChangeValue(name, value);
+    }
+
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts} = this.props;
-        const {products, itemsPerPage, totalItems, isFetching} = this.state;
+        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts, reductionPercent} = this.props;
+        const {products, itemsPerPage, totalItems, isFetching, validates} = this.state;
+        const disabledOnClick = !_.every(_.values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -173,8 +189,33 @@ export default class RelatedProduct extends Component {
                                 pageRangeDisplayed={5}
                                 onChange={this.handlePageChange}
                             />
-                            <button onClick={this.nextStep.bind(this, 3)} type="button" className="btn btn-primary btn-next-step">{lang.next}</button>
-                            <button onClick={this.nextStep.bind(this, 1)} type="button" className="btn btn-primary btn-back-step">{lang.back}</button>
+                        </div>
+                        <div>
+                            <p>{lang.set_discount}</p>
+                            <input
+                                type="text"
+                                className={classNames('form-control', validates.reductionPercent)}
+                                name="reductionPercent"
+                                placeholder={lang.discount_value}
+                                onChange={this.handleChangeValue}
+                                value = {reductionPercent}
+                            />
+                        </div>
+                        <div>
+                            <button 
+                                onClick={this.nextStep.bind(this, 3)} 
+                                type="button" 
+                                className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
+                            >
+                                {lang.next}
+                            </button>
+                            <button 
+                                onClick={this.nextStep.bind(this, 1)} 
+                                type="button" 
+                                className={classNames({'btn btn-primary btn-back-step': true}, {'disabled-form': disabledOnClick})}
+                            >
+                                {lang.back}
+                            </button>
                         </div>
                     </Fragment>
                 </div>

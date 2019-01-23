@@ -26,34 +26,26 @@ export default class Setting extends Component {
                 active: 1,
                 titleFontFamily: 'verdana',
                 titleFontStyle: 'italic',
-                titleFontSize: 20,
                 titleFontColor: '#2296F3',
                 productFontFamily: 'verdana',
                 productFontStyle:'italic',
-                productFontSize: 20,
                 productFontColor:'#2296F3',
                 amountFontFamily:'verdana',
                 amountFontStyle:'italic',
-                amountFontSize: 20,
                 amountFontColor:'#2296F3',
                 newPriceFontFamily:'verdana',
                 newPriceFontStyle:'italic',
-                newPriceFontSize: 20,
                 newPriceFontColor:'#2296F3',
                 oldPriceFontFamily:'verdana',
                 oldPriceFontStyle:'italic',
-                oldPriceFontSize: 20,
                 oldPriceFontColor:'#2296F3',
                 cartFontFamily:'verdana',
                 cartFontStyle: 'italic',
-                cartFontSize: 20,
                 cartFontColor: '#2296F3',
                 backgroundColor: '##ff0000',
                 cartText:'',
                 productText:'',
                 showProductQty: 3,
-                productImageWidth: 30 ,
-                productImageHeight: 30,
             },
             validates: {},
             message: '',
@@ -76,32 +68,24 @@ export default class Setting extends Component {
                 form: Object.assign({}, this.state.form, {
                     titleFontFamily: result.data.setting.title_font_family,
                     titleFontStyle: result.data.setting.title_font_style,
-                    titleFontSize: result.data.setting.title_font_size,
                     titleFontColor: result.data.setting.title_font_color,
                     productFontFamily: result.data.setting.product_font_family,
                     productFontStyle: result.data.setting.product_font_style,
-                    productFontSize: result.data.setting.product_font_size,
                     productFontColor: result.data.setting.product_font_color,
                     amountFontFamily: result.data.setting.amount_font_family,
                     amountFontStyle: result.data.setting.amount_font_style,
-                    amountFontSize: result.data.setting.amount_font_size,
                     amountFontColor: result.data.setting.amount_font_color,
                     newPriceFontFamily: result.data.setting.new_price_font_family,
                     newPriceFontStyle: result.data.setting.new_price_font_style,
-                    newPriceFontSize: result.data.setting.new_price_font_size,
                     newPriceFontColor: result.data.setting.new_price_font_color,
                     oldPriceFontFamily: result.data.setting.old_price_font_family,
                     oldPriceFontStyle: result.data.setting.old_price_font_style,
-                    oldPriceFontSize: result.data.setting.old_price_font_size,
                     oldPriceFontColor: result.data.setting.old_price_font_color,
                     cartText: result.data.setting.cart_text,
                     productText: result.data.setting.product_text,
                     showProductQty: result.data.setting.show_product_qty,
-                    productImageWidth: result.data.setting.product_image_width,
-                    productImageHeight: result.data.setting.product_imgae_height,
                     cartFontFamily: result.data.setting.cart_font_family,
                     cartFontStyle: result.data.setting.cart_font_style,
-                    cartFontSize: result.data.setting.cart_font_size,
                     cartFontColor: result.data.setting.cart_font_color,
                     backgroundColor: result.data.setting.back_ground_color,
                 }),
@@ -289,7 +273,6 @@ export default class Setting extends Component {
                               titleFontFamily = {form.titleFontFamily}
                               titleFontStyle = {form.titleFontStyle}
                               titleFontColor = {form.titleFontColor}
-                              titleFontSize = {form.titleFontSize}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
                               title = {title}
@@ -300,7 +283,6 @@ export default class Setting extends Component {
                               productFontFamily = {form.productFontFamily}
                               productFontStyle = {form.productFontStyle}
                               productFontColor = {form.productFontColor}
-                              productFontSize = {form.productFontSize}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
                               productName = {productName}
@@ -310,7 +292,6 @@ export default class Setting extends Component {
                           <TotalAmount
                               amountFontFamily = {form.amountFontFamily}
                               amountFontStyle = {form.amountFontStyle}
-                              amountFontSize = {form.amountFontSize}
                               amountFontColor = {form.amountFontColor}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
@@ -321,7 +302,6 @@ export default class Setting extends Component {
                           <NewPrice
                               newPriceFontFamily = {form.newPriceFontFamily}
                               newPriceFontStyle = {form.newPriceFontStyle}
-                              newPriceFontSize = {form.newPriceFontSize}
                               newPriceFontColor = {form.newPriceFontColor}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
@@ -332,7 +312,6 @@ export default class Setting extends Component {
                           <OldPrice
                               oldPriceFontFamily = {form.oldPriceFontFamily}
                               oldPriceFontStyle = {form.oldPriceFontStyle}
-                              oldPriceFontSize = {form.oldPriceFontSize}
                               oldPriceFontColor = {form.oldPriceFontColor}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
@@ -343,7 +322,6 @@ export default class Setting extends Component {
                           <Cart
                               cartFontFamily = {form.cartFontFamily}
                               cartFontStyle = {form.cartFontStyle}
-                              cartFontSize = {form.cartFontSize}
                               cartFontColor = {form.cartFontColor}
                               backgroundColor = {form.backgroundColor}
                               handleChangeValue = {this.handleChangeValue}
@@ -363,8 +341,6 @@ export default class Setting extends Component {
 
                           <Display
                               showProductQty = {form.showProductQty}
-                              productImageWidth = {form.productImageWidth}
-                              productImageHeight = {form.productImageHeight}
                               handleChangeValue = {this.handleChangeValue}
                               validates = {validates}
                               display = {display}
@@ -379,26 +355,20 @@ export default class Setting extends Component {
                           titleFontFamily = {form.titleFontFamily}
                           titleFontStyle = {form.titleFontStyle}
                           titleFontColor = {form.titleFontColor}
-                          titleFontSize = {form.titleFontSize}
                           productFontFamily = {form.productFontFamily}
                           productFontStyle = {form.productFontStyle}
                           productFontColor = {form.productFontColor}
-                          productFontSize = {form.productFontSize}
                           amountFontFamily = {form.amountFontFamily}
                           amountFontStyle = {form.amountFontStyle}
-                          amountFontSize = {form.amountFontSize}
                           amountFontColor = {form.amountFontColor}
                           newPriceFontFamily = {form.newPriceFontFamily}
                           newPriceFontStyle = {form.newPriceFontStyle}
-                          newPriceFontSize = {form.newPriceFontSize}
                           newPriceFontColor = {form.newPriceFontColor}
                           oldPriceFontFamily = {form.oldPriceFontFamily}
                           oldPriceFontStyle = {form.oldPriceFontStyle}
-                          oldPriceFontSize = {form.oldPriceFontSize}
                           oldPriceFontColor = {form.oldPriceFontColor}
                           cartFontFamily = {form.cartFontFamily}
                           cartFontStyle = {form.cartFontStyle}
-                          cartFontSize = {form.cartFontSize}
                           cartFontColor = {form.cartFontColor}
                           backgroundColor = {form.backgroundColor}
                           cartText = {form.cartText}

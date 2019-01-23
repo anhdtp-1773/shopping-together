@@ -50,9 +50,7 @@ export default class MainProduct extends Component {
     onSelectProduct(id){
         let product = _.filter(this.state.products, function(product) { return product.id == id; });
         _.head(product).isMainProduct = true;
-        _.head(product).numberDiscount = 0;
         this.props.onSelectMainProduct(product);
-        this.props.onChangeIdMainProduct(id);
     }
 
     nextStep(step){
@@ -105,7 +103,7 @@ export default class MainProduct extends Component {
                 })
             }
         }else{
-            this.getListProduct('');
+            this.getListProduct();
         }
     }
 
