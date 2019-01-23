@@ -43,7 +43,10 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            $id_main_product
+                            $id_main_product,
+                            $request->reduction_percent,
+                            date_format(date_create($request->start_date),"Y-m-d H:i:s"),
+                            date_format(date_create($request->end_date),"Y-m-d H:i:s")
                         );
                         if($cart_rule){
                             foreach($request->products as $product){
@@ -51,8 +54,6 @@ class CartRuleController extends Controller
                                     'id_cart_rule' => $cart_rule->id,
                                     'id_shop' => $shop_info->id,
                                     'id_product' => $product['id_shopify_product'],
-                                    'reduction_percent' => $request->is_percentage ? $product['numberDiscount'] : 0,
-                                    'reduction_amount' => $request->is_percentage ? 0 : $product['numberDiscount'],
                                     'is_main_product' => $product['isMainProduct'],
                                     'created_at' => date('Y-m-d H:i:s'),
                                     'updated_at' => date('Y-m-d H:i:s'),
