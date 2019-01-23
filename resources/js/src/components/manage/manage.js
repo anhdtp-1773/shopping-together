@@ -125,14 +125,12 @@ export default class Manage extends Component {
     }
 
     checkStateStatus (rules) {
-        debugger;
         let checkStateStatus = true;
         rules.map((rule, i) => {
             if (rule.status == false){
                 checkStateStatus = false;
             }
         });
-
         return checkStateStatus;
     }
 
