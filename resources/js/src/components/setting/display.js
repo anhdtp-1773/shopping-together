@@ -1,17 +1,20 @@
 import React, {Component } from 'react';
 import 'rc-color-picker/assets/index.css';
 import {rangeProductQuantityMin, rangeProductQuantityMax} from "../../constants";
-import classNames from 'classnames'
 
 export default class Display extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showValue: this.props.showProductQty,
+        }
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
     handleChangeValue (event) {
-        this.props.handleChangeValue(event.target.name, event.target.value)
+        this.props.handleChangeValue(event.target.name, event.target.value);
+        this.setState({showValue: event.target.value});
     };
 
     toggle (event) {
@@ -19,7 +22,8 @@ export default class Display extends Component {
     }
 
     render () {
-        const{showProductQty, productImageWidth, productImageHeight, validates, display} = this.props;
+        const {showProductQty, display} = this.props;
+        const {showValue} = this.state;
         return (
             <div className="full-width display-block">
                 <div data-index="display" className='btn-block left-side__title' onClick={this.toggle}>
@@ -53,32 +57,8 @@ export default class Display extends Component {
                             max={rangeProductQuantityMax}
                             onChange={this.handleChangeValue}
                         />
+                        <span>{showValue}</span>
                     </div>
-
-                    <div className="left-side__product-img-size">
-                      <p>{lang.product_image_size}</p>
-                      <div>
-                        <input
-                              type="text"
-                              name="productImageWidth"
-                              value={productImageWidth}
-                              onChange={this.handleChangeValue}
-                              className={classNames('form-control', validates.productImageWidth)}
-                          />
-                          <span>{lang.width}</span>
-                      </div>
-                      <div>
-                          <input
-                              type="text"
-                              name="productImageHeight"
-                              value={productImageHeight}
-                              onChange={this.handleChangeValue}
-                              className={classNames('form-control', validates.productImageHeight)}
-                          />
-                          <span>{lang.height}</span>
-                      </div>
-                    </div>
-
                 </div>
             </div>
         );
