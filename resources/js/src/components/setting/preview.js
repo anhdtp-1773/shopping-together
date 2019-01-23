@@ -45,16 +45,9 @@ export default class Preview extends Component {
 
     render (){
         const{title, src, price, option1, option2, option3 } = this.state.form;
-        const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize,
-            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle,
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText,
-            productText, cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, showProductQty, productImageWidth,
-            productImageHeight } = this.props;
-
-        let displayStyle= {
-            height : parseInt(productImageHeight),
-            width : parseInt(productImageWidth),
-        };
+        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
+            amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
+            oldPriceFontColor, cartText,productText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
 
         let cartStyle={
             color: cartFontColor,
@@ -62,14 +55,12 @@ export default class Preview extends Component {
             fontFamily: cartFontFamily,
             fontWeight: cartFontStyle == 'italic' ? '' : cartFontStyle,
             fontStyle : cartFontStyle == 'italic' ? cartFontStyle : '',
-            fontSize : parseInt(cartFontSize),
         };
         let oldPriceStyle={
             color: oldPriceFontColor,
             fontFamily: oldPriceFontFamily,
             fontWeight: oldPriceFontStyle == 'italic' ? '' : oldPriceFontStyle,
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
-            fontSize : parseInt(oldPriceFontSize),
         };
 
         let newPriceStyle={
@@ -77,7 +68,6 @@ export default class Preview extends Component {
             fontFamily: newPriceFontFamily,
             fontWeight: newPriceFontStyle == 'italic' ? '' : newPriceFontStyle,
             fontStyle : newPriceFontStyle == 'italic' ? newPriceFontStyle : '',
-            fontSize : parseInt(newPriceFontSize),
         };
 
         let titleStyle={
@@ -85,7 +75,6 @@ export default class Preview extends Component {
             fontFamily: titleFontFamily,
             fontWeight: titleFontStyle == 'italic' ? '' : titleFontStyle,
             fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
-            fontSize : parseInt(titleFontSize),
         };
 
         let productNameStyle={
@@ -93,7 +82,6 @@ export default class Preview extends Component {
             fontFamily: productFontFamily,
             fontWeight: productFontStyle == 'italic' ? '' : productFontStyle,
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
-            fontSize : parseInt(productFontSize),
         };
 
         let totalAmountStyle={
@@ -101,7 +89,6 @@ export default class Preview extends Component {
             fontFamily: mountFontFamily,
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
-            fontSize : parseInt(amountFontSize),
         };
 
         return (
@@ -160,7 +147,7 @@ export default class Preview extends Component {
                               </label>
                             </div>
                             <div className="col-md-2">
-                              <img className="img-option" style={displayStyle} src={src}/>
+                              <img className="img-option" src={src}/>
                             </div>
                             <div className="col-md-4">
                               <span style={productNameStyle}>{title}</span>
