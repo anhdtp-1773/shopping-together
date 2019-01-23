@@ -136,14 +136,10 @@ export default class Manage extends Component {
         return checkStateStatus;
     }
 
-    async handleChangeStatus(id, status){
- 
-        
+    async handleChangeStatus (id, status) {
         const {rules} = this.state;
-        let internalStatus = true;
         let ids = [];
         if (id) {
-            // rule has been clicked
             ids = [id];
             if (status === true) {
                 let changeStatusAll = true;
@@ -156,7 +152,6 @@ export default class Manage extends Component {
                         rule.status = status;
                     }
                 });
-                
                 if (changeStatusAll === true ){
                     this.state.status = true;
                 } else {
@@ -165,25 +160,22 @@ export default class Manage extends Component {
             } else {
                 this.state.status = false;
             }
-
             rules.map((rule, i) => {
                 if (rule.id == id){
                  rule.status = status;
                 }
             });
         } else {
-            // click all
             this.state.status = status;
             rules.map((rule) => {
                 rule.status = status;
                 ids.push(rule.id);
             }); 
         }
-        try{
+        try {
             const fetch = await api.changeRuleStatus(ids,status);
             const result = JSON.parse(fetch.text);
-            
-            if(result.status){
+            if (result.status) {
                 this.setState({
                     isFetching: false,
                     rules,
@@ -198,7 +190,7 @@ export default class Manage extends Component {
         } catch(errors){
             alert(errors.message)
         }
-} 
+    } 
 
     selectItems (e) {
         const {rules} = this.state;
@@ -255,7 +247,6 @@ export default class Manage extends Component {
                 <div>
                     <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">
                         {lang.add_a_new_rule}
-
                     </Link>
                     <div className="container table-rule">
                         <table className="table">
@@ -373,7 +364,6 @@ export default class Manage extends Component {
                                 }
                             </tbody>
                         </table>
-
                         <Fragment>
                             <div className="pagination-wrap">
                                 <Pagination
