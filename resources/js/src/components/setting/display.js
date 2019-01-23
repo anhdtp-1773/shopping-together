@@ -5,16 +5,12 @@ import {rangeProductQuantityMin, rangeProductQuantityMax} from "../../constants"
 export default class Display extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showValue: this.props.showProductQty,
-        }
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
     handleChangeValue (event) {
         this.props.handleChangeValue(event.target.name, event.target.value);
-        this.setState({showValue: event.target.value});
     };
 
     toggle (event) {
@@ -23,7 +19,6 @@ export default class Display extends Component {
 
     render () {
         const {showProductQty, display} = this.props;
-        const {showValue} = this.state;
         return (
             <div className="full-width display-block">
                 <div data-index="display" className='btn-block left-side__title' onClick={this.toggle}>
@@ -57,7 +52,7 @@ export default class Display extends Component {
                             max={rangeProductQuantityMax}
                             onChange={this.handleChangeValue}
                         />
-                        <span>{showValue}</span>
+                        <span>{showProductQty}</span>
                     </div>
                 </div>
             </div>
