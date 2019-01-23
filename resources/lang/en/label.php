@@ -92,4 +92,5 @@ return [
     'summary' => 'Summary',
     'start_date' => 'Start date',
     'end_date' => 'End date',
+    'add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product' => 'Add a new rule in "Manage" page to see how it displays. Remember to select this product as the main product!',
 ];

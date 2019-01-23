@@ -13,7 +13,7 @@ export default class Manage extends Component {
             totalItems: '',
             currentPage: '',
             isFetching: true,
-            msg: '',
+            msg: lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product,
             keyWord: '',
             itemsChecked: false,
             isChecked: false,
@@ -137,6 +137,9 @@ export default class Manage extends Component {
     async handleChangeStatus (id, status) {
         const {rules} = this.state;
         let ids = [];
+        this.setState({
+            isFetching: true
+        });
         if (id) {
             ids = [id];
             if (status === true) {
@@ -274,7 +277,7 @@ export default class Manage extends Component {
                                     <td></td>
                                 </tr>
                                 {
-                                    rules
+                                    rules.length > 0
                                     ?
                                     <Fragment>
                                     <tr>
@@ -358,21 +361,27 @@ export default class Manage extends Component {
                                     ))}
                                     </Fragment>
                                     :
-                                    <p>{msg}</p>
+                                    null
                                 }
                             </tbody>
                         </table>
-                        <Fragment>
-                            <div className="pagination-wrap">
-                                <Pagination
-                                    activePage={currentPage}
-                                    itemsCountPerPage={itemsPerPage}
-                                    totalItemsCount={totalItems}
-                                    pageRangeDisplayed={5}
-                                    onChange={this.handlePageChange}
-                                />
-                            </div>
-                        </Fragment>
+                        {
+                            rules.length > 0
+                            ?
+                            <Fragment>
+                                <div className="pagination-wrap">
+                                    <Pagination
+                                        activePage={currentPage}
+                                        itemsCountPerPage={itemsPerPage}
+                                        totalItemsCount={totalItems}
+                                        pageRangeDisplayed={5}
+                                        onChange={this.handlePageChange}
+                                    />
+                                </div>
+                            </Fragment>
+                            :
+                            <p>{msg}</p>
+                        }
                     </div>
                 </div>
             );

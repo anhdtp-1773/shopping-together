@@ -34,6 +34,6 @@ Route::post('/cart-rule/get-list', 'CartRuleController@getRulesList');
 Route::post('/cart-rule/search', 'CartRuleController@search');
 Route::post('/dashboard', 'DashBoardController@getData');
 Route::post('/cart-rule/delete', 'CartRuleController@deleteRule');
-Route::post('/cart-rule/change-status', 'CartRuleController@changeStatusOfRule');
+Route::post('/cart-rule/change-status', 'CartRuleController@changeStatus');
 
 Route::post('/get-setting', 'SettingController@getSetting');

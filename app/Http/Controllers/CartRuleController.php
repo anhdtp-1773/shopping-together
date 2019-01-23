@@ -147,10 +147,10 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function changeStatusOfRule( Request $request){
+    public function changeStatus ( Request $request){
         $msg = trans('label.update_successfully');
         $status = true;
-        $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        $id_cart_rules = $request->id_cart_rules;
         try{
             DB::table('cart_rule')->whereIn('id', $id_cart_rules)->update([
                 'status' => (int)$request->status,
