@@ -64,13 +64,10 @@ function renderCartRule (settings, cartRule) {
             optionVariants += "<option  value='"+variant.id_variant+"'>"+variant.title+"</option>";
         });
         let newPrice =  parseFloat(product.variants[0].price);
-        if(parseFloat(product.reduction_amount) > 0){
-            newPrice = parseFloat(product.variants[0].price) - parseFloat(product.reduction_amount);
+        if(!product.is_main_product){
+            newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
+            total += parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
         }
-        if(parseFloat(product.reduction_percent) > 0){
-            newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.reduction_amount)*parseFloat(product.reduction_percent))/100;
-        }
-        total += newPrice;
         var checked = product.is_main_product == 1 ? 'checked' : '';
         var html= 
         "<div class='related-products'>"
@@ -84,11 +81,13 @@ function renderCartRule (settings, cartRule) {
             +"<select id='select-id-"+key+"' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                 + optionVariants   
             +"</select>"
-            +"<input type='text' id='spt-qty-"+key+"' class='left product-qty' value='1' onChange='onChangeQty("+key+")'>"
             +"<span id='old-price-"+key+"' class='left old-price'>"+product.variants[0].price+currency+"</span>"
             +"<span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+newPrice +currency+"</span>"
         +"</div>"
-        $(".cart-rule").append(html);
+        $(".cart-rule").append(html)
+        
+        
+        ;
     });
     $(".cart-rule").append("<div class='spt-total'><span>Total</span><span class='spt-total-price'>"+total+currency+"</span></div>")
     $(".cart-rule").append("<button onClick='onSubmit()' class='spt-add-to-cart' type='button'>"+setting.cart_text+"</button>")
@@ -135,38 +134,17 @@ function addCss(setting) {
     });
 }
 
-function onChangeQty(key) {
-    var qty = document.getElementById("spt-qty-"+key+"").value;
-    if(parseInt(qty) > 0){
-        $("#spt-qty-"+key+"").removeClass('inactive');
-        $("#spt-qty-"+key+"").addClass('active');
-        let total = 0;
-        $(".new-price").each(function(i){
-            if($("#spt-checkbox-"+i+"").filter(":checked").length > 0){
-                total += this.dataset.value * $("#spt-qty-"+i+"").val();
-            }
-        });
-        $(".spt-total-price").html(total+currency);
-    }else{
-        $("#spt-qty-"+key+"").removeClass('active');
-        $("#spt-qty-"+key+"").addClass('inactive');
-    }
-}
-
 function onChangeSelect(key) {
     let cartRule = cartRules[key];
     var idVariant = document.getElementById("select-id-"+key+"").value;
     var variant = cartRule.variants.find(x => x.id_variant === idVariant);
+    if(!cartRule.is_main_product){
+        let newPrice =  parseFloat(variant.price);
+        newPrice = parseFloat(variant.price) - (parseFloat(variant.price)*parseFloat(cartRule.reduction_percent))/100;
+        $("#old-price-"+key+"").html(""+variant.price+currency+"");
+        $("#new-price-"+key+"").html(newPrice+currency);
+    }
     $("#variant-img-"+key+"").attr('src', variant.src);
-    let newPrice =  parseFloat(variant.price);
-    if(parseFloat(cartRule.reduction_amount) > 0){
-        newPrice = parseFloat(variant.price) - parseFloat(cartRule.reduction_amount);
-    }
-    if(parseFloat(cartRule.reduction_percent) > 0){
-        newPrice = parseFloat(variant.price) - (parseFloat(cartRule.reduction_amount)*parseFloat(cartRule.reduction_percent))/100;
-    }
-    $("#old-price-"+key+"").html(""+variant.price+currency+"");
-    $("#new-price-"+key+"").html(newPrice+currency);
 }
 
 function onSubmit(products) {
