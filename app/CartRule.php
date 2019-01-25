@@ -3,6 +3,7 @@
 namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class CartRule extends Model
 {
@@ -28,7 +29,7 @@ class CartRule extends Model
      *  'updated_at' => timestamp
      * )
      */
-    public static function saveCartRule($id_shop, $name, $id_product, $reduction_percent, $start_date, $end_date){
+    public static function saveCartRule($id_shop, $name, $id_product, $reduction_percent, $start_date, $end_date, $id_price_rule_shopify){
         $cart_rule = new CartRule();
         $cart_rule->id_shop = $id_shop;
         $cart_rule->name = $name;
@@ -36,6 +37,7 @@ class CartRule extends Model
         $cart_rule->reduction_percent = $reduction_percent;
         $cart_rule->start_date = $start_date;
         $cart_rule->end_date = $end_date;
+        $cart_rule->id_price_rule_shopify = $id_price_rule_shopify;
         $cart_rule->save();
         return $cart_rule;
     }
@@ -150,5 +152,35 @@ class CartRule extends Model
             $data['items'] = $query->get()->toArray();
         }
         return $data;
+    }
+
+    public static function saveCartRuleOnShopify ($id_main_product, $id_related_product, $code, $value, $start_date, $end_date) {
+        $shop = ShopifyApp::shop();
+        $price_rule = $shop->api()->request('POST', '/admin/price_rules.json',
+                [
+                    "price_rule" => [
+                        "title" => $code,
+                        "value_type" => "percentage",
+                        "value" => "-$value",
+                        "customer_selection" => "all",
+                        "target_type" => "line_item",
+                        "target_selection"=> "entitled",
+                        "allocation_method"=> "each",
+                        "starts_at"=> "2019-01-25 08:35:55",
+                        "ends_at"=> "2020-07-26T15:10:12Z",
+                        "prerequisite_product_ids" => [
+                            $id_main_product
+                        ],
+                        "entitled_product_ids" => $id_related_product,
+                        "prerequisite_to_entitlement_quantity_ratio" => [
+                            "prerequisite_quantity" => 1,
+                            "entitled_quantity" => 1
+                        ],
+                        "allocation_limit"=> null
+                    ]
+                ]
+        )->body->price_rule;
+        $discount_code = $shop->api()->request('POST', '/admin/price_rules/'.$price_rule->id.'/discount_codes.json',["discount_code" => ["code" => $price_rule->title]])->body->discount_code;
+        return $discount_code;
     }
 }

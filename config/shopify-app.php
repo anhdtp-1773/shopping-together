@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_themes,read_themes,write_script_tags'),
+    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_themes,read_themes,write_script_tags,read_price_rules, write_price_rules'),
 
     /*
     |--------------------------------------------------------------------------

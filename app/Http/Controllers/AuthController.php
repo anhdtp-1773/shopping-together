@@ -128,9 +128,9 @@ class AuthController extends Controller
         $shop_info = Shop::getShopByDomain($shop_domain);
         if($shop_info){
             DB::table('shops')->where('id',  $shop_info->id)->delete();
-            DB::table('products')->where('id',  $shop_info->id)->delete();
-            DB::table('variants')->where('id',  $shop_info->id)->delete();
-            DB::table('images')->where('id',  $shop_info->id)->delete();
+            DB::table('products')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('variants')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('images')->where('id_shop',  $shop_info->id)->delete();
         }
     }
 
