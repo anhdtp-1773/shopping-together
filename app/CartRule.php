@@ -166,8 +166,8 @@ class CartRule extends Model
                         "target_type" => "line_item",
                         "target_selection"=> "entitled",
                         "allocation_method"=> "each",
-                        "starts_at"=> "2019-01-25 08:35:55",
-                        "ends_at"=> "2020-07-26T15:10:12Z",
+                        "starts_at"=> $start_date,
+                        "ends_at"=> $end_date,
                         "prerequisite_product_ids" => [
                             $id_main_product
                         ],
@@ -182,5 +182,9 @@ class CartRule extends Model
         )->body->price_rule;
         $discount_code = $shop->api()->request('POST', '/admin/price_rules/'.$price_rule->id.'/discount_codes.json',["discount_code" => ["code" => $price_rule->title]])->body->discount_code;
         return $discount_code;
+    }
+
+    public static function getRuleName ($id_shop) {
+        return DB::table('cart_rule')->select('name')->where('id_shop', $id_shop)->get()->toArray();
     }
 }

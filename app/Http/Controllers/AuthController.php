@@ -144,61 +144,17 @@ class AuthController extends Controller
         session(['shopify_domain' => $request->shopify_domain]);
         $shop = ShopifyApp::shop();
         $id_shop = $shop->id;
-        $products = $shop->api()->request('GET', '/admin/products.json')->body->products;
-        if($products){
-            try{
-                $arr_products = array();
-                $arr_variants  = array();
-                $arr_imgs= array();
-                foreach($products as $product){
-                    $arr_products[] = array(
-                        'id_shopify_product' => (string)$product->id,
-                        'id_shop' => $id_shop,
-                        'title' => $product->title,
-                        'handle' => $product->handle,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    );
-                    foreach($product->variants as $value){
-                        $arr_variants[] = array(
-                            'id_variant' => (string)$value->id,
-                            'id_product' => (string)$value->product_id,
-                            'id_shop' => $id_shop,
-                            'title' => $value->title,
-                            'price' => $value->price,
-                            'product_name' => $product->title,
-                            'option1' => $value->option1,
-                            'option2' => $value->option2,
-                            'option3' => $value->option3,
-                            'quantity' => $value->inventory_quantity,
-                            'id_image' => !empty((string)$value->image_id) ? (string)$value->image_id : (string)$product->image->id,
-                            'created_at' => date('Y-m-d H:i:s'),
-                            'updated_at' => date('Y-m-d H:i:s'),
-                        );
-                    }
-                    if($product->images){
-                        foreach($product->images as $value){
-                            $arr_imgs[] = array(
-                                'id_image' => (string)$value->id,
-                                'id_product' => (string)$value->product_id,
-                                'src' => $value->src,
-                                'id_shop'=> $id_shop,
-                                'created_at' => date('Y-m-d H:i:s'),
-                                'updated_at' => date('Y-m-d H:i:s'),
-                            );
-                        }
-                    }
+        $count = $shop->api()->request('GET', '/admin/products/count.json')->body->count;
+        if($count > 0) {
+            $pages = ceil($count / 250);
+            for ($i=0; $i<$pages; $i++) {
+                $products = $shop->api()->request("GET", "/admin/products.json?limit=250&page=".($i+1))->body->products;
+                try{
+                    Product::cloneProducts($products, $id_shop);                } 
+                catch(\Exception $e){
+                    $status = false;
+                    $msg = $e->getMessage();
                 }
-  
-                Product::saveProduct($arr_products);
-                Variant::saveVariant($arr_variants);
-                if($arr_imgs){
-                    Image::saveImage($arr_imgs);
-                }
-            } 
-            catch(\Exception $e){
-                $status = false;
-                $msg = $e->getMessage();
             }
         }
         return response()->json([

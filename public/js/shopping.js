@@ -70,10 +70,8 @@ function renderCartRule (settings, cartRule) {
             total += parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
         }
 
-        var checked = product.is_main_product == 1 ? 'checked' : '';
         var html= 
         "<div class='related-products'>"
-            +"<input id='spt-checkbox-"+key+"' class='left spt-checkbox' type='checkbox' value="+key+" "+checked+">"
             +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
                 +"<img id='variant-img-"+key+"' class='left variant-img' src="+product.variants[0].src+" alt='Smiley face' width='90' height='90'>"
             +"</a>"
@@ -149,42 +147,37 @@ function onChangeSelect(key) {
 }
 
 function onSubmit() {
-    // var variants = [];          
-    // $(".related-products").each(function(i){
-    //     let obj = {};
-    //     obj['quantity'] = 1;
-    //     obj['id'] = parseInt($("#select-id-"+i+"").val());
-    //     variants.push(obj);
-    // })
-    // console.log(variants);
-    // var deferreds = [];
-    // variants.forEach(function(e) {
-    //     // console.log(e);
-    //     deferreds.push(addToCart(e));
-    // });
-    // $.when.apply($, deferreds).done(function() { window.location.replace('/cart') })
-    this.addToCart()
+    var variants = [];          
+    $(".related-products").each(function(i){
+        let obj = {};
+        obj['quantity'] = 1;
+        obj['id'] = parseInt($("#select-id-"+i+"").val());
+        variants.push(obj);
+    })
+    var deferreds = [];
+    variants.forEach(function(e) {
+        deferreds.push(addToCart(e));
+    });
+    $.when.apply($, deferreds).done(function() { window.location.replace('/cart') })
 }
 
 function addToCart (item) {
-    var item = {
-        'quantity': 1,
-        'id': 19558430867520,
-    }
     return $.ajax({
         type: "POST",
         url: "https://"+domain+"/cart/add.js",
         dataType: 'json',
         data: item,
         success: function(result){
-            console.log(1);
-            window.location.replace('/cart')
+            console.log(result);
+            // window.location.replace('/cart')
         },
         error: function (error) {
             console.log(2);
         }
     });
 }
+
+
 var getUrlParameter = function(param) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),

@@ -30,7 +30,7 @@ export default class MainProduct extends Component {
     }
 
     async getListProduct (currentPage) {
-        const response = await api.getProducts(currentPage);
+        const response = await api.getProducts(currentPage, true);
         const result = JSON.parse(response.text);
         if(result.status){
             this.props.onChangeValue('mainCurrentPage', result.data.current_page);
@@ -83,7 +83,7 @@ export default class MainProduct extends Component {
             isFetching: true,
         })
         if(keyWord != ''){
-            const response = await api.searchProduct(keyWord, currentPage);
+            const response = await api.searchProduct(keyWord, currentPage, true);
             const result = JSON.parse(response.text);
             if(result.status){
                 this.props.onChangeValue('mainCurrentPage', result.data.current_page);
@@ -133,6 +133,7 @@ export default class MainProduct extends Component {
                                 onChange={this.handleChangeValue}
                                 className={classNames('form-control', validates.ruleName)}
                             />
+                            <span>{validates.ruleName == 'invalid' ? lang.this_name_already_exists : null}</span>
                         </div>
                     </div>
 

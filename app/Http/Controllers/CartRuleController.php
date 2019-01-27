@@ -7,6 +7,7 @@ use App\Shop;
 use App\CartRule;
 use App\Variant;
 use DB;
+use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class CartRuleController extends Controller
 {
@@ -164,7 +165,13 @@ class CartRuleController extends Controller
         $msg = trans('label.delete_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        $id_price_rules_shopify = is_array($request->id_price_rule_shopify) ? $request->id_price_rule_shopify : array($request->id_price_rule_shopify);
         try{
+            session(['shopify_domain' => $request->shopify_domain]);
+            $shop = ShopifyApp::shop();
+            foreach($id_price_rules_shopify as $value){
+                $shop->api()->request('DELETE', '/admin/price_rules/'.$value.'.json')->body;
+            }
             DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
             DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         }

@@ -91,4 +91,5 @@ return [
     'summary' => 'Summary',
     'start_date' => 'Start date',
     'end_date' => 'End date',
+    'this_name_already_exists' => 'This name already exists',
 ];

@@ -18,13 +18,13 @@ export default class Manage extends Component {
             itemsChecked: false,
             isChecked: false,
             idCartRules: [],
+            idPriceRules: [],
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillMount () {
@@ -50,13 +50,14 @@ export default class Manage extends Component {
         }
     }
 
-    async deleteRule (id){
-        let idCartRules = id ? id : this.state.idCartRules;
+    async deleteRule (id, idPriceRulesShopify){
+        const idCartRules = id ? id : this.state.idCartRules;
+        const idPriceRules = idPriceRulesShopify ? idPriceRulesShopify : this.state.idPriceRules;
         this.setState({
             isFetching: true
         });
         try{
-            const fetch = await api.deleteRule(idCartRules);
+            const fetch = await api.deleteRule(idCartRules, idPriceRules);
             const result = JSON.parse(fetch.text);
             if(result.status){
                 window.location.replace('/manage');
@@ -123,9 +124,11 @@ export default class Manage extends Component {
         const {rules} = this.state;
         const checked = e.target.checked;
         let idCartRules = [];
+        let idPriceRules = [];
         rules.map((rule) => {
             if(checked){
                 idCartRules.push(rule.id);
+                idPriceRules.push(rule.id_price_rule_shopify);
             }
             return Object.assign(rule, {
                 is_selected: !this.state.itemsChecked
@@ -133,20 +136,18 @@ export default class Manage extends Component {
         });
         this.setState({
             itemsChecked: !this.state.itemsChecked,
-            idCartRules
+            idCartRules,
+            idPriceRules
         })
     }
 
-    handleClick (e) {
+    handleClick (idPriceRule, e) {
         const id = parseInt(e.target.value);
         const {rules} = this.state;
         let idCartRules = _.clone(this.state.idCartRules);
-        let index = idCartRules.indexOf(id)
-        if(index >= 0){
-            idCartRules.splice(index, 1);
-        }else{
-            idCartRules.push(id)
-        }
+        let idPriceRules = _.clone(this.state.idPriceRules);
+        idPriceRules.indexOf(idPriceRule) >= 0 ? idPriceRules.splice(idPriceRules.indexOf(idPriceRule), 1) : idPriceRules.push(idPriceRule);
+        idCartRules.indexOf(id) >= 0 ? idCartRules.splice(idCartRules.indexOf(id), 1) : idCartRules.push(id);
         rules.map((rule) => {
             if(rule.id == id){
                 return Object.assign(rule, {
@@ -158,6 +159,7 @@ export default class Manage extends Component {
             idCartRules,
             rules,
             itemsChecked: false,
+            idPriceRules
         })
     }
 
@@ -233,7 +235,7 @@ export default class Manage extends Component {
                                     </tr>
                                     {rules.map((rule, i)=>(
                                         <tr key={i}>
-                                            <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={this.handleClick}/></td>
+                                            <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={ (event) => this.handleClick(rule.id_price_rule_shopify, event)} /></td>
                                             <td>{rule.name}</td>
                                             <td>
                                                 <div className="switch-container">
@@ -251,7 +253,7 @@ export default class Manage extends Component {
                                                     className="glyphicon glyphicon-trash"
                                                     onClick={e =>
                                                         window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
-                                                        this.deleteRule(rule.id)
+                                                        this.deleteRule(rule.id, rule.id_price_rule_shopify)
                                                     }
                                                 >
                                                 </span>

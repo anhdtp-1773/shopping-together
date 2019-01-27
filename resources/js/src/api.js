@@ -43,18 +43,20 @@ export default {
         });
     },
     
-    getProducts(pageNumber){
+    getProducts(pageNumber, isMainProduct = false){
         return superagent.post('/api/product/get-list').send({
             'shopify_domain': domain,
             'page_number': pageNumber,
+            'is_main_product': isMainProduct
         });
     },
 
-    searchProduct(keyWord, pageNumber){
+    searchProduct(keyWord, pageNumber, isMainProduct = false){
         return superagent.post('/api/product/search').send({
             'shopify_domain': domain,
             'key_word': keyWord,
-            'page_number': pageNumber
+            'page_number': pageNumber,
+            'is_main_product': isMainProduct
         });
     },
 
@@ -101,10 +103,11 @@ export default {
         });
     },
 
-    deleteRule(idCartRules){
+    deleteRule(idCartRules, idPriceRules){
         return superagent.post('/api/cart-rule/delete').send({
             'shopify_domain': domain,
             'id_cart_rules': idCartRules,
+            'id_price_rule_shopify': idPriceRules,
         });
     }
 }
