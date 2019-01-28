@@ -11,8 +11,6 @@ export const fontStyleOptions = [
     {label: lang.bold, value: 'bold'},
 ];
 
-export const rangeFontSizeMin = 10;
-export const rangeFontSizeMax = 40;
 export const rangeProductQuantityMin = 2;
 export const rangeProductQuantityMax = 10;
 

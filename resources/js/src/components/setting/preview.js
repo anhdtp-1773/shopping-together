@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import api from '../../api';
 import * as _ from "lodash";
+import RulesList from './rulesList';
 
 export default class Preview extends Component {
     constructor(props) {
@@ -19,7 +20,8 @@ export default class Preview extends Component {
                 option3: '',
                 idProduct: '',
                 currency: '',
-           }
+            },
+            key: 0,
         };
         this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
@@ -50,6 +52,7 @@ export default class Preview extends Component {
     async showCartRule (idProduct) {
         const response = await api.getCartRules(idProduct);
         const result = JSON.parse(response.text);
+        // console.log(result);
         this.setState({
             cart_rules: result.data,
         });
@@ -73,22 +76,23 @@ export default class Preview extends Component {
         });
     };
 
+    handleChange (event,key11) {
+        debugger;
+        let aaa = event.target.value;
+        const index = _.findIndex((this.state.cart_rules)[key11].variants, function(c) { return c.id_variant == event.target.value })
+       this.state.key = index;
+    }
+
     showAlert () {
         return alert(lang.go_to_your_live_website_to_use_this_function);
     }
 
-    render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
-        const {titleFontFamily, titleFontColor, titleFontSize, titleFontStyle, productFontFamily, productFontStyle, productFontSize, 
-            productFontColor, mountFontFamily, amountFontStyle, amountFontSize, amountFontColor, newPriceFontFamily, newPriceFontStyle, 
-            newPriceFontSize, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, oldPriceFontSize, oldPriceFontColor, cartText, 
-            productText, cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, showProductQty, productImageWidth, 
-            productImageHeight } = this.props;
-
-        let displayStyle= {
-            height : parseInt(productImageHeight),
-            width : parseInt(productImageWidth),
-        };
+    render (){
+        const{title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
+        const {key}=this.state;
+        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
+            amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
+            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
 
         let cartStyle={
             color: cartFontColor,
@@ -96,14 +100,13 @@ export default class Preview extends Component {
             fontFamily: cartFontFamily,
             fontWeight: cartFontStyle == 'italic' ? '' : cartFontStyle,
             fontStyle : cartFontStyle == 'italic' ? cartFontStyle : '',
-            fontSize : parseInt(cartFontSize),
         };
+
         let oldPriceStyle={
             color: oldPriceFontColor,
             fontFamily: oldPriceFontFamily,
             fontWeight: oldPriceFontStyle == 'italic' ? '' : oldPriceFontStyle,
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
-            fontSize : parseInt(oldPriceFontSize),
         };
 
         let newPriceStyle={
@@ -111,7 +114,6 @@ export default class Preview extends Component {
             fontFamily: newPriceFontFamily,
             fontWeight: newPriceFontStyle == 'italic' ? '' : newPriceFontStyle,
             fontStyle : newPriceFontStyle == 'italic' ? newPriceFontStyle : '',
-            fontSize : parseInt(newPriceFontSize),
         };
 
         let titleStyle={
@@ -119,7 +121,6 @@ export default class Preview extends Component {
             fontFamily: titleFontFamily,
             fontWeight: titleFontStyle == 'italic' ? '' : titleFontStyle,
             fontStyle : titleFontStyle == 'italic' ? titleFontStyle : '',
-            fontSize : parseInt(titleFontSize),
         };
 
         let productNameStyle={
@@ -127,7 +128,6 @@ export default class Preview extends Component {
             fontFamily: productFontFamily,
             fontWeight: productFontStyle == 'italic' ? '' : productFontStyle,
             fontStyle : productFontStyle == 'italic' ? productFontStyle : '',
-            fontSize : parseInt(productFontSize),
         };
 
         let totalAmountStyle={
@@ -135,9 +135,8 @@ export default class Preview extends Component {
             fontFamily: mountFontFamily,
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
-            fontSize : parseInt(amountFontSize),
         };
-
+        
         return (
             <div className="col-md-12 wrap-preview">
               <div className="row right-side__menu">
@@ -179,65 +178,56 @@ export default class Preview extends Component {
                           </div>
                         </div>
                     </div>
-
-                        <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
-                        <div className="col-md-12 right-side__translation">
-                            <div className="row">
-                                <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
-                                {
-                                    cartRules
-                                    ?
-                                    <Fragment> 
-                                        {cartRules.map((cartRule, i)=>(
-                                            <div className="col-md-12">
-                                                <div key={i} className="col-md-12 unpadding right-side__option">
-                                                    <div className="col-md-1 unpadding-left">
-                                                        <label className="check-product">
-                                                        <input type="checkbox"/>
-                                                        <span className="checkmark"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <img className="img-option" style={displayStyle} src={_.head(cartRule.variants).src}/>
-                                                    </div>
-                                                    <div className="col-md-4">
-                                                        <span style={productNameStyle}>{_.head(cartRule.variants).product_name}</span>
-                                                    </div>
-                                                    <div className="col-md-3 unpadding-right">
-                                                        <span className="col-md-10 unpadding-right">
-                                                            <select className="select-option" name="variants">
-                                                                {
-                                                                    cartRule.variants.map((variant, i) => {
-                                                                        return <option key={i} value={variant.title}>{variant.title}</option>
-                                                                    })
-                                                                }
-                                                            </select>
-                                                        </span>
-                                                    </div>
-                                                    <div className="col-md-2 unpadding-right">
-                                                    <del><span className="old-price" style={oldPriceStyle}>{_.head(cartRule.variants).price}{currency}</span></del>
-                                                    <span className="new-price" style={newPriceStyle}>{_.head(cartRule.variants).price}</span>
+                    <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                    <div className="col-md-12 right-side__translation">
+                        <div className="row">
+                            {
+                                cartRules
+                                ?
+                                <Fragment> 
+                                    <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
+                                    {cartRules.map((cartRule, i)=>(
+                                        <div className="col-md-12">
+                                            <div key1={i} className="col-md-12 unpadding right-side__option">
+                                                <div className="col-md-2">
+                                                    <img className="img-option" src={(cartRule.variants)[cartRule.key ? cartRule.key : 0].src}/>
                                                 </div>
+                                                <div className="col-md-4">
+                                                    <span style={productNameStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].product_name}</span>
                                                 </div>
+                                                <div className="col-md-3 unpadding-right">
+                                                    <span className="col-md-10 unpadding-right">
+                                                        {
+                                                            // <RulesList ref={cartRule}/>
+                                                            <RulesList onHandleChange={cartRule} />
+                                                        }
+                                                    </span>
+                                                </div>
+                                                
+                                                <div className="col-md-2 unpadding-right">
+                                                <del><span className="old-price" style={oldPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span></del>
+                                                <span className="new-price" style={newPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span>
                                             </div>
-                                            
-                                        ))}
-                                    </Fragment>
-                                    :
-                                    <p>{msg}</p>
-                                }
-                            </div>
-                            <p className="col-md-12 right-side__total unpadding-left">
-                                <div className="col-md-6 first">{lang.total}</div>
-                                <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
-                            </p>
+                                            </div>
+                                            key: {cartRule.key ? cartRule.key : 0}
+                                        </div>
+                                    ))}
+                                    <p className="col-md-12 right-side__total unpadding-left">
+                                        <div className="col-md-6 first">{lang.total}</div>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
+                                    </p>
+                                </Fragment>
+                                :
+                                <p>{msg}</p>
+                                // <RulesList />
+                            }
                             <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                         </div>
-                    
+                    </div>
                     </div>
                 </div>
                 <div className="row right-side__footer">
-                  <span>{lang.label_footer}</span>
+                    <span>{lang.label_footer}</span>
                 </div>
             </div>
         );

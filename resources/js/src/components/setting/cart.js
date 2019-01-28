@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {fontFamilyOptions, fontStyleOptions, rangeFontSizeMin, rangeFontSizeMax} from "../../constants";
+import {fontFamilyOptions, fontStyleOptions} from "../../constants";
 import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import 'rc-color-picker/assets/index.css';
 import classNames from 'classnames'
@@ -72,7 +72,7 @@ export default class Cart extends Component {
     }
 
     render () {
-        const {cartFontFamily, cartFontStyle, cartFontSize, cartFontColor, backgroundColor, validates, cart} = this.props;
+        const {cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, validates, cart} = this.props;
         const {displayFontColor, displayBackgroundColor } = this.state;
         return (
             <div className="full-width display-block">
@@ -161,18 +161,6 @@ export default class Cart extends Component {
                                 :
                                 null
                             }
-                    </div>
-                    <div className="full-width">
-                        <p>{lang.font_size}</p>
-                            <input
-                                className="slider"
-                                type="range"
-                                name="cartFontSize"
-                                value={cartFontSize}
-                                min={rangeFontSizeMin}
-                                max={rangeFontSizeMax}
-                                onChange={this.handleChangeValue}
-                            />
                     </div>
                 </div>
             </div>
