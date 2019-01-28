@@ -4,10 +4,18 @@ html, body, #manage {
     height: 100%;
     overflow: auto;
     color: #333;
-    font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, San Francisco, Roboto, Helvetica Neue, sans-serif;
     font-size: 13px;
     font-weight: normal;
     position: relative;
+}
+@font-face {
+  font-family: 'lora';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/lora-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: url('./fonts/lora-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/lora-v12-latin-regular.woff') format('woff'); /* Modern Browsers */
 }
 .appear{visibility: visible;}
 .unpadding{

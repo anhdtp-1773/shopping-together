@@ -2,7 +2,7 @@ export const fontFamilyOptions = [
     {label: lang.verdana, value: 'verdana'},
     {label: lang.arial, value: 'arial'},
     {label: lang.times_new_roman, value: 'timesNewRoman'},
-    {label: lang.segoe_ui, value: 'segoeUI'},
+    {label: lang.lora, value: 'lora'},
 ];
 
 export const fontStyleOptions = [
