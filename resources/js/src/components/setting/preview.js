@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import api from '../../api';
 import * as _ from "lodash";
 import RulesList from './rulesList';
@@ -22,6 +22,7 @@ export default class Preview extends Component {
                 currency: '',
             },
             key: 0,
+            msg: lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
         };
         this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
@@ -52,7 +53,6 @@ export default class Preview extends Component {
     async showCartRule (idProduct) {
         const response = await api.getCartRules(idProduct);
         const result = JSON.parse(response.text);
-        // console.log(result);
         this.setState({
             cart_rules: result.data,
         });
@@ -76,20 +76,12 @@ export default class Preview extends Component {
         });
     };
 
-    handleChange (event,key11) {
-        debugger;
-        let aaa = event.target.value;
-        const index = _.findIndex((this.state.cart_rules)[key11].variants, function(c) { return c.id_variant == event.target.value })
-       this.state.key = index;
-    }
-
     showAlert () {
         return alert(lang.go_to_your_live_website_to_use_this_function);
     }
 
-    render (){
-        const{title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
-        const {key}=this.state;
+    render () {
+        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
@@ -139,54 +131,80 @@ export default class Preview extends Component {
         
         return (
             <div className="col-md-12 wrap-preview">
-              <div className="row right-side__menu">
-                  <div className="menu-title col-md-4">{lang.happypoint}</div>
-                  <div className="col-md-5 col-md-offset-1">
-                    <span>{lang.home}</span>
-                    <span>{lang.catalog}</span>
-                  </div>
-                  <div className="col-md-2 menu-icon">
-                    <span><i className="fa fa-search" aria-hidden="true"></i></span>
-                    <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
-                  </div>
-              </div>
-              <div className="row right-side__form-product">
-                <div className="col-md-6">
-                   <img className="image-setting-product" src={src}/>
+                <div className="row right-side__menu">
+                    <div className="menu-title col-md-4">{lang.happypoint}</div>
+                    <div className="col-md-5 col-md-offset-1">
+                        <span>{lang.home}</span>
+                        <span>{lang.catalog}</span>
+                    </div>
+                    <div className="col-md-2 menu-icon">
+                        <span><i className="fa fa-search" aria-hidden="true"></i></span>
+                        <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
+                    </div>
                 </div>
-                <div className="col-md-6 unpadding-right">
-                    <div className="form-group">
-                        <p className="title-product">{title}</p>
-                        <p className="price-product">{price}{currency}</p>
-                        <div className="col-md-12 option-product">
-                          <div className="col-md-6">
-                            <p>{lang.size}</p>
-                            <select
-                                name="size"
-                                className="form-control">
-                                <option> {option1} </option>
-                            </select>
-                          </div>
-                          <div className="col-md-6">
-                            <p>{lang.color}</p>
-                            <select
-                                name="color"
-                                className="form-control" >
-                                <option> {option3} </option>
-                                <option> {option2} </option>
-                            </select>
-                          </div>
+                <div className="row right-side__form-product">
+                    <div className="col-md-6">
+                        <img className="image-setting-product" src={src}/>
+                    </div>
+                    <div className="col-md-6 unpadding-right">
+                        <div className="form-group">
+                            <p className="title-product">{title}</p>
+                            <p className="price-product">{price}{currency}</p>
+                            <div className="col-md-12 option-product">
+                            {
+                                option1
+                                ?
+                                <div className="col-md-6">
+                                    <p>{lang.option_1}</p>
+                                    <select
+                                        name="option1"
+                                        className="form-control">
+                                        <option> {option1} </option>
+                                    </select>
+                                </div>
+                                :
+                                null
+                            }
+                            {
+                                option2
+                                ?
+                                <div className="col-md-6">
+                                    <p>{lang.option_2}</p>
+                                    <select
+                                        name="option2"
+                                        className="form-control">
+                                        <option> {option2} </option>
+                                    </select>
+                                </div>
+                                :
+                                null
+                            }
+                            {
+                                option3
+                                ?
+                                <div className="col-md-6">
+                                    <p>{lang.option_3}</p>
+                                    <select
+                                        name="option3"
+                                        className="form-control">
+                                        <option> {option3} </option>
+                                    </select>
+                                </div>
+                                :
+                                null
+                            }
                         </div>
                     </div>
                     <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
                     <div className="col-md-12 right-side__translation">
                         <div className="row">
-                            <div className="col-md-12 right-side__option-title" style={titleStyle}>dang phuong nam</div>
+                            <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
                             {
                                 cartRules
                                 ?
                                     cartRules.map((cartRule, i)=>{
                                         return <RulesList 
+                                            key={i}
                                             cartRule = {cartRule}
                                             productNameStyle = {productNameStyle}
                                             titleStyle = {titleStyle}

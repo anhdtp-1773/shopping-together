@@ -49,8 +49,9 @@ return [
     'frequentle_purchased_products' => 'Frequently purchased products',
     'total' => 'Total',
     'admin' => 'Admin',
-    'size' => 'Size',
-    'color' => 'Color',
+    'option_name_1' => 'Option name 1',
+    'option_name_2' => 'Option name 2',
+    'option_name_3' => 'Option name 3',
     'verdana' => 'Verdana',
     'arial' => 'Arial',
     'italic' => 'Italic',
@@ -92,4 +93,5 @@ return [
     'summary' => 'Summary',
     'start_date' => 'Start date',
     'end_date' => 'End date',
+    'please_add_one_rule_taking_this_product_as_a_main_product_to_preview' => 'Please add one rule taking this product as a main product to preview.',
 ];

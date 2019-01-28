@@ -12,14 +12,13 @@ export default class RulesList extends Component {
 
     handleChange (event) {
         const value = event.target.value;
-        console.log(value);
         let variant = _.find(this.props.cartRule.variants, function(variant) { return variant.id_variant == value });
         this.setState({
             variant
         });
     }
 
-    render (){
+    render () {
         const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency  } = this.props;
         const { variant } = this.state;
         return (
@@ -37,7 +36,7 @@ export default class RulesList extends Component {
                                 <select className="select-option" name="variants" onChange={this.handleChange}>
                                 {
                                     cartRule.variants.map((variant, j) => {
-                                        return <option value={variant.id_variant}>{variant.title}</option>
+                                        return <option key={j} value={variant.id_variant}>{variant.title}</option>
                                     })
                                 }
                                 </select>
