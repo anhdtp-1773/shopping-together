@@ -181,46 +181,28 @@ export default class Preview extends Component {
                     <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
                     <div className="col-md-12 right-side__translation">
                         <div className="row">
+                            <div className="col-md-12 right-side__option-title" style={titleStyle}>dang phuong nam</div>
                             {
                                 cartRules
                                 ?
-                                <Fragment> 
-                                    <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
-                                    {cartRules.map((cartRule, i)=>(
-                                        <div className="col-md-12">
-                                            <div key1={i} className="col-md-12 unpadding right-side__option">
-                                                <div className="col-md-2">
-                                                    <img className="img-option" src={(cartRule.variants)[cartRule.key ? cartRule.key : 0].src}/>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <span style={productNameStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].product_name}</span>
-                                                </div>
-                                                <div className="col-md-3 unpadding-right">
-                                                    <span className="col-md-10 unpadding-right">
-                                                        {
-                                                            // <RulesList ref={cartRule}/>
-                                                            <RulesList onHandleChange={cartRule} />
-                                                        }
-                                                    </span>
-                                                </div>
-                                                
-                                                <div className="col-md-2 unpadding-right">
-                                                <del><span className="old-price" style={oldPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span></del>
-                                                <span className="new-price" style={newPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span>
-                                            </div>
-                                            </div>
-                                            key: {cartRule.key ? cartRule.key : 0}
-                                        </div>
-                                    ))}
-                                    <p className="col-md-12 right-side__total unpadding-left">
-                                        <div className="col-md-6 first">{lang.total}</div>
-                                        <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
-                                    </p>
-                                </Fragment>
+                                    cartRules.map((cartRule, i)=>{
+                                        return <RulesList 
+                                            cartRule = {cartRule}
+                                            productNameStyle = {productNameStyle}
+                                            titleStyle = {titleStyle}
+                                            oldPriceStyle = {oldPriceStyle}
+                                            newPriceStyle = {newPriceStyle}
+                                            totalAmountStyle = {totalAmountStyle}
+                                            currency = {currency}
+                                        />
+                                    })
                                 :
-                                <p>{msg}</p>
-                                // <RulesList />
+                                    <p>{msg}</p>
                             }
+                            <p className="col-md-12 right-side__total unpadding-left">
+                                <div className="col-md-6 first">{lang.total}</div>
+                                <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
+                            </p>
                             <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                         </div>
                     </div>
