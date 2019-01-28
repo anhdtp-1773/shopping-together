@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import api from '../../api';
 import * as _ from "lodash";
+import RulesList from './rulesList';
 
 export default class Preview extends Component {
     constructor(props) {
@@ -20,8 +21,7 @@ export default class Preview extends Component {
                 idProduct: '',
                 currency: '',
             },
-                key: 0,
-                msg: lang.record_not_found,
+            key: 0,
         };
         this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
@@ -80,12 +80,6 @@ export default class Preview extends Component {
         debugger;
         let aaa = event.target.value;
         const index = _.findIndex((this.state.cart_rules)[key11].variants, function(c) { return c.id_variant == event.target.value })
-        // this.setState({
-        //     // form: Object.assign({}, this.state.form, {
-        //         key: index
-        //     // }),
-        // });
-        // this.setState({key: index});
        this.state.key = index;
     }
 
@@ -95,10 +89,10 @@ export default class Preview extends Component {
 
     render (){
         const{title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
-        const{key} = this.state;
+        const {key}=this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
-            oldPriceFontColor, cartText,productText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
+            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
 
         let cartStyle={
             color: cartFontColor,
@@ -107,6 +101,7 @@ export default class Preview extends Component {
             fontWeight: cartFontStyle == 'italic' ? '' : cartFontStyle,
             fontStyle : cartFontStyle == 'italic' ? cartFontStyle : '',
         };
+
         let oldPriceStyle={
             color: oldPriceFontColor,
             fontFamily: oldPriceFontFamily,
@@ -141,6 +136,7 @@ export default class Preview extends Component {
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
+        
         return (
             <div className="col-md-12 wrap-preview">
               <div className="row right-side__menu">
@@ -194,29 +190,26 @@ export default class Preview extends Component {
                                         <div className="col-md-12">
                                             <div key1={i} className="col-md-12 unpadding right-side__option">
                                                 <div className="col-md-2">
-                                                    <img className="img-option" src={(cartRule.variants)[key].src}/>
+                                                    <img className="img-option" src={(cartRule.variants)[cartRule.key ? cartRule.key : 0].src}/>
                                                 </div>
                                                 <div className="col-md-4">
-                                                    <span style={productNameStyle}>{(cartRule.variants)[key].product_name}</span>
+                                                    <span style={productNameStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].product_name}</span>
                                                 </div>
                                                 <div className="col-md-3 unpadding-right">
                                                     <span className="col-md-10 unpadding-right">
-                                                        <select className="select-option" name="variants" onChange={(event)=>this.handleChange(event,i)}>
-                                                            {
-                                                                cartRule.variants.map((variant, j) => {
-                                                                    return <option key2={j} value={variant.id_variant}>{variant.title}</option>
-                                                                })
-                                                            }
-                                                        </select>
+                                                        {
+                                                            // <RulesList ref={cartRule}/>
+                                                            <RulesList onHandleChange={cartRule} />
+                                                        }
                                                     </span>
                                                 </div>
-                                              
+                                                
                                                 <div className="col-md-2 unpadding-right">
-                                                <del><span className="old-price" style={oldPriceStyle}>{(cartRule.variants)[key].price}{currency}</span></del>
-                                                <span className="new-price" style={newPriceStyle}>{(cartRule.variants)[key].price}{currency}</span>
+                                                <del><span className="old-price" style={oldPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span></del>
+                                                <span className="new-price" style={newPriceStyle}>{(cartRule.variants)[cartRule.key ? cartRule.key : 0].price}{currency}</span>
                                             </div>
                                             </div>
-                                            key: {key}
+                                            key: {cartRule.key ? cartRule.key : 0}
                                         </div>
                                     ))}
                                     <p className="col-md-12 right-side__total unpadding-left">
@@ -226,6 +219,7 @@ export default class Preview extends Component {
                                 </Fragment>
                                 :
                                 <p>{msg}</p>
+                                // <RulesList />
                             }
                             <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                         </div>
