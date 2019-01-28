@@ -20,14 +20,13 @@ export default class Preview extends Component {
                 option3: '',
                 idProduct: '',
                 currency: '',
+                msg: lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
             },
-            key: 0,
-            msg: lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
         };
         this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
     }
-    async componentWillMount(){
+    async componentWillMount () {
         const response = await api.getProductInfo();
         const result = JSON.parse(response.text);
         this.setState({
@@ -81,8 +80,8 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
-        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
+        const {title, src, price, option1, option2, option3, cartRules, currency, msg } = this.state.form;
+        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
 
@@ -124,7 +123,7 @@ export default class Preview extends Component {
 
         let totalAmountStyle={
             color: amountFontColor,
-            fontFamily: mountFontFamily,
+            fontFamily: amountFontFamily,
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
@@ -159,7 +158,7 @@ export default class Preview extends Component {
                                     <select
                                         name="option1"
                                         className="form-control">
-                                        <option> {option1} </option>
+                                        <option>{option1}</option>
                                     </select>
                                 </div>
                                 :
@@ -173,7 +172,7 @@ export default class Preview extends Component {
                                     <select
                                         name="option2"
                                         className="form-control">
-                                        <option> {option2} </option>
+                                        <option>{option2}</option>
                                     </select>
                                 </div>
                                 :
@@ -187,7 +186,7 @@ export default class Preview extends Component {
                                     <select
                                         name="option3"
                                         className="form-control">
-                                        <option> {option3} </option>
+                                        <option>{option3}</option>
                                     </select>
                                 </div>
                                 :
@@ -200,7 +199,7 @@ export default class Preview extends Component {
                         <div className="row">
                             <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
                             {
-                                cartRules
+                                cartRules.length > 0
                                 ?
                                     cartRules.map((cartRule, i)=>{
                                         return <RulesList 
@@ -215,7 +214,7 @@ export default class Preview extends Component {
                                         />
                                     })
                                 :
-                                    <p>{msg}</p>
+                                <p>{msg}</p>
                             }
                             <p className="col-md-12 right-side__total unpadding-left">
                                 <div className="col-md-6 first">{lang.total}</div>

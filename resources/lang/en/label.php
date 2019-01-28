@@ -58,7 +58,7 @@ return [
     'bold' => 'Bold',
     'normal' => 'Normal',
     'times_new_roman' => 'Times New Roman',
-    'segoe_ui' => 'Segoe UI',
+    'lora' => 'Lora',
     'font_family' => 'Font family',
     'font_style' => 'Font style',
     'font_size' => 'Font size',
