@@ -16,7 +16,7 @@ export default class Manage extends Component {
             isFetching: true,
             msg: lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product,
             keyWord: '',
-            status: true,
+            status: false,
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
@@ -31,7 +31,7 @@ export default class Manage extends Component {
             this.getRulesList(this.state.currentPage);
         }
     }
-
+    
     checkState (rules) {
         let checkState = true;
         rules.map((rule, i) => {
@@ -41,7 +41,6 @@ export default class Manage extends Component {
         });
         return checkState;
     }
-
     async getRulesList (currentPage) {
         const response = await api.getRules(currentPage);
         const result = JSON.parse(response.text);
@@ -136,7 +135,8 @@ export default class Manage extends Component {
                             ?
                             (
                                 <ChangeStatusRules
-                                rules = {rules}
+                                    isFetching = {isFetching}
+                                    rules = {rules}
                                 />
                             )
                             :

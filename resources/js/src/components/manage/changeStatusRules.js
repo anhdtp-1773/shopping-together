@@ -4,7 +4,6 @@ import * as _ from "lodash";
 
 export default class ChangeStatusRules extends Component {
     constructor(props){
-        // super(...arguments);
         super(props);
         this.state = {
             rules: this.props.rules,
@@ -40,11 +39,26 @@ export default class ChangeStatusRules extends Component {
         }
     }
 
+    checkState (rules) {
+        let checkState = true;
+        rules.map((rule, i) => {
+            if (rule.status == false){
+                checkState = false;
+            }
+        });
+        return checkState;
+    }
+
     async handleChange (id, status) {
         const {rules} = this.state;
         let ids = [];
         this.setState({
             isFetching: true
+        });
+        rules.map((rule, i) => {
+            if (rule.id == id){
+             rule.status = status;
+            }
         });
         if (id) {
             ids = [id];
@@ -54,7 +68,10 @@ export default class ChangeStatusRules extends Component {
                     if (rule.id !== id){
                         if(rule.status == false) {
                             changeStatusAll = false;
-                        }}
+                        }else {
+                            rule.status = status;
+                        }
+                    }
                 });
                 if (changeStatusAll === true ){
                     this.state.status = true;
@@ -64,11 +81,6 @@ export default class ChangeStatusRules extends Component {
             } else {
                 this.state.status = false;
             }
-            rules.map((rule, i) => {
-                if (rule.id == id){
-                 rule.status = status;
-                }
-            });
         } else {
             this.state.status = status;
             rules.map((rule) => {
@@ -79,6 +91,7 @@ export default class ChangeStatusRules extends Component {
         try {
             const fetch = await api.changeRuleStatus(ids,status);
             const result = JSON.parse(fetch.text);
+            console.log(result)
             if (result.status) {
                 this.setState({
                     isFetching: false,
@@ -141,7 +154,7 @@ export default class ChangeStatusRules extends Component {
     render() {
         const {rules, itemsChecked} = this.state;
         return (
-                <div className="container table-rule">
+            <div className="container table-rule">
                 <table className="table">
                     <thead>
                         <tr>
@@ -153,65 +166,27 @@ export default class ChangeStatusRules extends Component {
                     </thead>
                     <tbody>
                         <Fragment>
-                        <tr>
-                            <td>
-                                <input 
-                                    type="checkbox"
-                                    checked={itemsChecked} 
-                                    onClick={this.selectItems}
-                                />
-                            </td>
-                            <td>{lang.all}</td>
-                            <td>
-                                <div className="switch-container">
-                                    <label>
-                                        <input 
-                                            ref="switch" 
-                                            className="glyphicon glyphicon-trash"
-                                            checked = {this.state.status}
-                                            onClick={e =>
-                                                this.handleChange(0, !this.state.status)
-                                            } 
-                                            className="switch" 
-                                            type="checkbox" 
-                                            />
-                                        <div>
-                                            <div></div>
-                                        </div>
-                                    </label>
-                                </div>
-                            </td>
-                            <td>
-                            <span 
-                                className="glyphicon glyphicon-trash"
-                                onClick={e =>
-                                    window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
-                                    this.deleteRule()
-                                }
-                            />
-                            </td>
-                        </tr>
-                        {rules.map((rule, i)=>(
-                            <tr key={i}>
+                            <tr>
                                 <td>
                                     <input 
                                         type="checkbox"
-                                        checked={rule.is_selected} 
-                                        value={rule.id}
-                                        onClick={this.handleClick}
+                                        checked={itemsChecked} 
+                                        onClick={this.selectItems}
                                     />
                                 </td>
-                                <td>{rule.name}</td>
+                                <td>{lang.all}</td>
                                 <td>
                                     <div className="switch-container">
                                         <label>
                                             <input 
                                                 ref="switch" 
-                                                className="switch" type="checkbox" 
+                                                className="glyphicon glyphicon-trash"
+                                                checked = {this.state.status}
                                                 onClick={e =>
-                                                    this.handleChange(rule.id, !rule.status)
+                                                    this.handleChange(0, !this.state.status)
                                                 } 
-                                                checked={rule.status} 
+                                                className="switch" 
+                                                type="checkbox" 
                                                 />
                                             <div>
                                                 <div></div>
@@ -220,22 +195,60 @@ export default class ChangeStatusRules extends Component {
                                     </div>
                                 </td>
                                 <td>
-                                    <span className="glyphicon glyphicon-edit"></span>
-                                    <span
-                                        className="glyphicon glyphicon-trash"
-                                        onClick={e =>
-                                            window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
-                                            this.deleteRule(rule.id)
-                                        }
-                                    >
-                                    </span>
+                                <span 
+                                    className="glyphicon glyphicon-trash"
+                                    onClick={e =>
+                                        window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
+                                        this.deleteRule()
+                                    }
+                                />
                                 </td>
                             </tr>
-                        ))}
+                            {rules.map((rule, i)=>(
+                                <tr key={i}>
+                                    <td>
+                                        <input 
+                                            type="checkbox"
+                                            checked={rule.is_selected} 
+                                            value={rule.id}
+                                            onClick={this.handleClick}
+                                        />
+                                    </td>
+                                    <td>{rule.name}</td>
+                                    <td>
+                                        <div className="switch-container">
+                                            <label>
+                                                <input 
+                                                    ref="switch" 
+                                                    className="switch" type="checkbox" 
+                                                    onClick={e =>
+                                                        this.handleChange(rule.id, !rule.status)
+                                                    } 
+                                                    checked={rule.status} 
+                                                    />
+                                                <div>
+                                                    <div></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className="glyphicon glyphicon-edit"></span>
+                                        <span
+                                            className="glyphicon glyphicon-trash"
+                                            onClick={e =>
+                                                window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
+                                                this.deleteRule(rule.id)
+                                            }
+                                        >
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                         </Fragment>
                     </tbody>
-                    </table>
-                </div>
+                </table>
+            </div>
         );
     }
 }
