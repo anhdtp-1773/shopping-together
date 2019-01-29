@@ -89,9 +89,11 @@ return [
     'delete_successfully' => 'Delete successfully',
     'are_you_sure_you_wish_to_delete_this_rule' => 'Are you sure you wish to delete this rule?',
     'go_to_your_live_website_to_use_this_function' => 'Go to your live website to use this function!',
+    'are_you_sure_you_wish_to_delete_all_of_these_rule' => 'Are you sure you wish to delete all of these rule?',
     'discount_value' => 'Discount value',
     'summary' => 'Summary',
     'start_date' => 'Start date',
     'end_date' => 'End date',
     'please_add_one_rule_taking_this_product_as_a_main_product_to_preview' => 'Please add one rule taking this product as a main product to preview.',
+    'add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product' => 'Add a new rule in "Manage" page to see how it displays. Remember to select this product as the main product!',
 ];

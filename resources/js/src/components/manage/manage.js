@@ -13,11 +13,11 @@ export default class Manage extends Component {
             totalItems: '',
             currentPage: '',
             isFetching: true,
-            msg: '',
             keyWord: '',
             itemsChecked: false,
             isChecked: false,
             idCartRules: [],
+            status: true,
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
@@ -25,6 +25,7 @@ export default class Manage extends Component {
         this.onSearchRule =  _.debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleChangeStatus = this.handleChangeStatus.bind(this);
     }
 
     componentWillMount () {
@@ -44,6 +45,7 @@ export default class Manage extends Component {
                 itemsPerPage: result.data.items_per_page,
                 totalItems: result.data.total_items,
                 rules: result.data.items,
+                status: this.checkStateStatus(result.data.items),
                 currentPage: result.data.current_page,
                 isFetching: false,
             });
@@ -101,6 +103,7 @@ export default class Manage extends Component {
                     itemsPerPage: result.data.items_per_page,
                     totalItems: result.data.total_items,
                     rules: result.data.items,
+                    status: this.checkStateStatus(result.data.items),
                     currentPage: result.data.current_page,
                     isFetching: false,
                 });
@@ -108,6 +111,7 @@ export default class Manage extends Component {
                 this.setState({
                     msg: result.message,
                     rules: '',
+                    status: false,
                     itemsPerPage: result.data.items_per_page,
                     totalItems: result.data.total_items,
                     currentPage: result.data.current_page,
@@ -118,6 +122,72 @@ export default class Manage extends Component {
             this.getRulesList('');
         }
     }
+
+    checkStateStatus (rules) {
+        let checkStateStatus = true;
+        rules.map((rule, i) => {
+            if (rule.status == false){
+                checkStateStatus = false;
+            }
+        });
+        return checkStateStatus;
+    }
+
+    async handleChangeStatus (id, status) {
+        const {rules} = this.state;
+        let ids = [];
+        this.setState({
+            isFetching: true
+        });
+        if (id) {
+            ids = [id];
+            if (status === true) {
+                let changeStatusAll = true;
+                rules.map((rule, i) => {
+                    if (rule.id !== id){
+                        if(rule.status == false) {
+                            changeStatusAll = false;
+                        }}
+                });
+                if (changeStatusAll === true ){
+                    this.state.status = true;
+                } else {
+                    this.state.status = false;
+                }
+            } else {
+                this.state.status = false;
+            }
+            rules.map((rule, i) => {
+                if (rule.id == id){
+                 rule.status = status;
+                }
+            });
+        } else {
+            this.state.status = status;
+            rules.map((rule) => {
+                rule.status = status;
+                ids.push(rule.id);
+            }); 
+        }
+        try {
+            const fetch = await api.changeRuleStatus(ids,status);
+            const result = JSON.parse(fetch.text);
+            if (result.status) {
+                this.setState({
+                    isFetching: false,
+                    rules,
+                    status: this.state.status ? this.state.status : false
+                });
+            }else{
+                this.setState({
+                    message: result.message,
+                    isFetching: false,
+                })
+            }
+        } catch(errors){
+            alert(errors.message)
+        }
+    } 
 
     selectItems (e) {
         const {rules} = this.state;
@@ -162,7 +232,7 @@ export default class Manage extends Component {
     }
 
     render() {
-        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg, itemsChecked} = this.state;
+        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, itemsChecked} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -174,7 +244,6 @@ export default class Manage extends Component {
                 <div>
                     <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">
                         {lang.add_a_new_rule}
-
                     </Link>
                     <div className="container table-rule">
                         <table className="table">
@@ -204,16 +273,31 @@ export default class Manage extends Component {
                                     <td></td>
                                 </tr>
                                 {
-                                    rules
+                                    rules.length > 0
                                     ?
                                     <Fragment>
                                     <tr>
-                                        <td><input type="checkbox" checked={itemsChecked} onClick={this.selectItems}/></td>
+                                        <td>
+                                            <input 
+                                                type="checkbox"
+                                                checked={itemsChecked} 
+                                                onClick={this.selectItems}
+                                            />
+                                        </td>
                                         <td>{lang.all}</td>
                                         <td>
                                             <div className="switch-container">
                                                 <label>
-                                                    <input ref="switch" defaultChecked={true} className="switch" type="checkbox" />
+                                                    <input 
+                                                        ref="switch" 
+                                                        className="glyphicon glyphicon-trash"
+                                                        checked = {this.state.status}
+                                                        onClick={e =>
+                                                            this.handleChangeStatus(0, !this.state.status)
+                                                        } 
+                                                        className="switch" 
+                                                        type="checkbox" 
+                                                        />
                                                     <div>
                                                         <div></div>
                                                     </div>
@@ -221,24 +305,37 @@ export default class Manage extends Component {
                                             </div>
                                         </td>
                                         <td>
-                                            <span
-                                                className="glyphicon glyphicon-trash"
-                                                onClick={e =>
-                                                    window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
-                                                    this.deleteRule()
-                                                }
-                                            >
-                                            </span>
+                                        <span 
+                                            className="glyphicon glyphicon-trash"
+                                            onClick={e =>
+                                                window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
+                                                this.deleteRule()
+                                            }
+                                        />
                                         </td>
                                     </tr>
                                     {rules.map((rule, i)=>(
                                         <tr key={i}>
-                                            <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={this.handleClick}/></td>
+                                            <td>
+                                                <input 
+                                                    type="checkbox"
+                                                    checked={rule.is_selected} 
+                                                    value={rule.id}
+                                                    onClick={this.handleClick}
+                                                />
+                                            </td>
                                             <td>{rule.name}</td>
                                             <td>
                                                 <div className="switch-container">
                                                     <label>
-                                                        <input ref="switch" defaultChecked={true} className="switch" type="checkbox" />
+                                                        <input 
+                                                            ref="switch" 
+                                                            className="switch" type="checkbox" 
+                                                            onClick={e =>
+                                                                this.handleChangeStatus(rule.id, !rule.status)
+                                                            } 
+                                                            checked={rule.status} 
+                                                            />
                                                         <div>
                                                             <div></div>
                                                         </div>
@@ -260,22 +357,27 @@ export default class Manage extends Component {
                                     ))}
                                     </Fragment>
                                     :
-                                    <p>{msg}</p>
+                                    null
                                 }
                             </tbody>
                         </table>
-
-                        <Fragment>
-                            <div className="pagination-wrap">
-                                <Pagination
-                                    activePage={currentPage}
-                                    itemsCountPerPage={itemsPerPage}
-                                    totalItemsCount={totalItems}
-                                    pageRangeDisplayed={5}
-                                    onChange={this.handlePageChange}
-                                />
-                            </div>
-                        </Fragment>
+                        {
+                            rules.length > 0
+                            ?
+                            <Fragment>
+                                <div className="pagination-wrap">
+                                    <Pagination
+                                        activePage={currentPage}
+                                        itemsCountPerPage={itemsPerPage}
+                                        totalItemsCount={totalItems}
+                                        pageRangeDisplayed={5}
+                                        onChange={this.handlePageChange}
+                                    />
+                                </div>
+                            </Fragment>
+                            :
+                            lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product
+                        }
                     </div>
                 </div>
             );

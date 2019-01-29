@@ -20,7 +20,6 @@ export default class Preview extends Component {
                 option3: '',
                 idProduct: '',
                 currency: '',
-                msg: lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
             },
         };
         this.showCartRule = this.showCartRule.bind(this);
@@ -214,7 +213,7 @@ export default class Preview extends Component {
                                         />
                                     })
                                 :
-                                <p>{msg}</p>
+                                lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
                             }
                             <p className="col-md-12 right-side__total unpadding-left">
                                 <div className="col-md-6 first">{lang.total}</div>
