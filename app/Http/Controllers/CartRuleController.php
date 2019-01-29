@@ -143,6 +143,33 @@ class CartRuleController extends Controller
         ], 200);
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus ( Request $request){
+        $msg = trans('label.update_successfully');
+        $status = true;
+        $id_cart_rules = $request->id_cart_rules;
+        try{
+            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->update([
+                'status' => (int)$request->status,
+            ]); 
+        }
+            catch(\Exception $e){
+                $msg = $e->getMessage();
+                $status = false;
+            }
+            return response()->json([
+                'message'=> $msg,
+                'status' => $status,
+            ], 200);
+    }
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function deleteRule( Request $request){
         $msg = trans('label.delete_successfully');
         $status = true;
