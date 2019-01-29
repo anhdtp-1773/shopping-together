@@ -13,7 +13,6 @@ export default class Manage extends Component {
             totalItems: '',
             currentPage: '',
             isFetching: true,
-            msg: lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product,
             keyWord: '',
             itemsChecked: false,
             isChecked: false,
@@ -233,7 +232,7 @@ export default class Manage extends Component {
     }
 
     render() {
-        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, msg, itemsChecked} = this.state;
+        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, itemsChecked} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -377,7 +376,7 @@ export default class Manage extends Component {
                                 </div>
                             </Fragment>
                             :
-                            <p>{msg}</p>
+                            lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product
                         }
                     </div>
                 </div>
