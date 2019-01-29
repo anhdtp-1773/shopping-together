@@ -79,7 +79,7 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency, msg } = this.state.form;
+        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
