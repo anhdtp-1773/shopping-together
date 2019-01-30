@@ -5,7 +5,6 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
-console.log(window.localStorage);
 $('head').append('<link rel="stylesheet" type="text/css" href="https://shoppingtogether.hamsa.site/public/css/sptapp.css" />');
 if(isProductPage){
     Shopping = new Object({});
@@ -65,10 +64,11 @@ function renderCartRule (settings, cartRule) {
             optionVariants += "<option  value='"+variant.id_variant+"'>"+variant.title+"</option>";
         });
         let newPrice =  parseFloat(product.variants[0].price);
-        let price = product.variants[0];
         if(!product.is_main_product){
             newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
             total += parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
+        }else{
+            total += parseFloat(product.variants[0].price);
         }
 
         var html= 

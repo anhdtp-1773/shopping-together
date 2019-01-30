@@ -167,10 +167,6 @@ class CartRuleController extends Controller
         ], 200);
     }
 
-<<<<<<< HEAD
-    public function deleteRule ( Request $request) 
-    {
-=======
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -199,7 +195,6 @@ class CartRuleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteRule( Request $request){
->>>>>>> 45ccf0f2afe9bc383d199be13ca28560ef44f276
         $msg = trans('label.delete_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
