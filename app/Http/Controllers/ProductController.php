@@ -7,12 +7,17 @@ use App\Product;
 use App\Variant;
 use App\Image;
 use App\Shop;
+use Mail;
 
 class ProductController extends Controller
 {
     public $page_number = 1;
     protected $items_per_page = 12;
     
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+    */
     public function renderList(Request $request){
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $data = [];
@@ -20,7 +25,7 @@ class ProductController extends Controller
         $msg = trans('label.successfully');
         $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
-            $data = Product::getProducts($this->page_number, $this->items_per_page, $shop->id);
+            $data = Product::getProducts($this->page_number, $this->items_per_page, $shop->id, $request->is_main_product);
         }
         catch(\Exception $e){
             $status = false;
@@ -33,6 +38,10 @@ class ProductController extends Controller
         ], 200);
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+    */
     public function save(Request $request){
         $domain = request()->header('x-shopify-shop-domain');
         session(['shopify_domain' => $domain]);
@@ -102,11 +111,24 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+    */
     public function delete(Request $request){
-        $response = json_decode(file_get_contents('php://input'));
-        DB::table('products')->where('id_shopify_product', $response->id)->delete();
+        $response = (file_get_contents('php://input'));
+        // $domain = request()->header('x-shopify-shop-domain');
+        Mail::raw($response, function ($message) {
+            $message->to("namdv32@wru.vn");
+            $message->subject("hello a Nam");
+        });
+        // DB::table('products')->where('id_shopify_product', $response->id)->delete();
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+    */
     public function search(Request $request){
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $msg = '';
@@ -115,7 +137,7 @@ class ProductController extends Controller
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
         $shop = Shop::getShopByDomain($request->shopify_domain);
         if(!empty($key_word)){
-            $data = Product::search($key_word, $this->page_number, $this->items_per_page, $shop->id);
+            $data = Product::search($key_word, $this->page_number, $this->items_per_page, $shop->id, $request->is_main_product);
             $status = $data['items'] ? true : false;
             $msg = $data['items'] ? trans('label.find').' '.count($data['items']).' '.trans('label.record') : trans('label.record_not_found') ;
         }
@@ -125,7 +147,11 @@ class ProductController extends Controller
                 'status' => $status,
         ], 200);
     }
-    
+
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+    */
     public function get(Request $request){
         $shop = Shop::getShopByDomain($request->shopify_domain);
         $product = $shop ? Product::getFirstProduct($shop->id) : null;

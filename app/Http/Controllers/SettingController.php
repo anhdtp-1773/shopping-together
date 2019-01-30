@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Setting;
 use App\Shop;
+use App\CartRule;
 
 class SettingController extends Controller
 {   
@@ -74,17 +75,20 @@ class SettingController extends Controller
     public function get(Request $request){
         $setting_folder = './settings';
         $setting = '';
+        $rules_name = '';
         if($request->shopify_domain){
             $shop_info = Shop::getShopByDomain($request->shopify_domain);
             if($shop_info){
                 $shop_setting = Setting::getSettingByShopId($shop_info->id);
                 $setting = $shop_setting ? $shop_setting : json_decode(file_get_contents($setting_folder.'/defaultSetting.json'), true);
+                $rules_name = CartRule::getRuleName($shop_info->id);
             }
         }
         return response()->json([
             'message'=> $setting ? trans('label.update_successfully') : trans('label.un_successfully'),
             'data' => array(
-            'setting' => $setting,
+                'setting' => $setting,
+                'rules_name' => $rules_name,
             )
         ], 200);
     }
