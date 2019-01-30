@@ -5,6 +5,7 @@ var currency = window.ShopifyAnalytics.meta.currency;
 dir = document.querySelector('script[src*="shopping.js"]').getAttribute('src')
 dir = dir.replace('/' + dir.split('/').pop(), '');
 url = dir.replace("public/js", '');
+console.log(window.localStorage);
 $('head').append('<link rel="stylesheet" type="text/css" href="https://shoppingtogether.hamsa.site/public/css/sptapp.css" />');
 if(isProductPage){
     Shopping = new Object({});
@@ -147,7 +148,7 @@ function onChangeSelect(key) {
 }
 
 function onSubmit() {
-    var variants = [];          
+    var variants = [];              
     $(".related-products").each(function(i){
         let obj = {};
         obj['quantity'] = 1;
@@ -158,7 +159,13 @@ function onSubmit() {
     variants.forEach(function(e) {
         deferreds.push(addToCart(e));
     });
-    $.when.apply($, deferreds).done(function() { window.location.replace('/cart') })
+    $.when.apply($, deferreds).done(function() { 
+        $.ajax({
+            type: "GET",
+            url: "https://"+domain+"/discount/"+cartRules.shift().code+"",
+        });
+        window.location.replace('/cart')
+    })
 }
 
 function addToCart (item) {
@@ -167,16 +174,15 @@ function addToCart (item) {
         url: "https://"+domain+"/cart/add.js",
         dataType: 'json',
         data: item,
+        async:false,
         success: function(result){
-            console.log(result);
-            // window.location.replace('/cart')
+
         },
         error: function (error) {
-            console.log(2);
+
         }
     });
 }
-
 
 var getUrlParameter = function(param) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),

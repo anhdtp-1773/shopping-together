@@ -131,6 +131,11 @@ class AuthController extends Controller
             DB::table('products')->where('id_shop',  $shop_info->id)->delete();
             DB::table('variants')->where('id_shop',  $shop_info->id)->delete();
             DB::table('images')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('currency')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('settings')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('stats')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('cart_rule')->where('id_shop',  $shop_info->id)->delete();
+            DB::table('cart_rule_detail')->where('id_shop',  $shop_info->id)->delete();
         }
     }
 

@@ -13,7 +13,7 @@ class CartRule extends Model
      * @var string
      */
     protected $table = 'cart_rule';
-    protected $fillable=['id_shop','name','id_product','status','reduction_percent','start_date','end_date','updated_at','created_at'];
+    protected $fillable=['id_shop','name','code','id_product','status','reduction_percent','start_date','end_date','updated_at','created_at'];
 
      /**
      * @param int $id_shop
@@ -29,10 +29,11 @@ class CartRule extends Model
      *  'updated_at' => timestamp
      * )
      */
-    public static function saveCartRule($id_shop, $name, $id_product, $reduction_percent, $start_date, $end_date, $id_price_rule_shopify){
+    public static function saveCartRule($id_shop, $name, $code, $id_product, $reduction_percent, $start_date, $end_date, $id_price_rule_shopify){
         $cart_rule = new CartRule();
         $cart_rule->id_shop = $id_shop;
         $cart_rule->name = $name;
+        $cart_rule->code = $code;
         $cart_rule->id_product = $id_product;
         $cart_rule->reduction_percent = $reduction_percent;
         $cart_rule->start_date = $start_date;
@@ -73,7 +74,8 @@ class CartRule extends Model
      */
     public static function getCartRule($id_shop, $id_product) {
         $sql = DB::table('cart_rule');
-        $sql->select('cart_rule_detail.id_product', 'cart_rule_detail.is_main_product','cart_rule.name','cart_rule.status','cart_rule.reduction_percent','cart_rule.start_date','cart_rule.end_date');
+        $sql->select('cart_rule_detail.id_product', 'cart_rule_detail.is_main_product','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
+                    'cart_rule.start_date','cart_rule.end_date');
         $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
         $sql->where('cart_rule.status', 1);
         $sql->where('cart_rule.id_shop', $id_shop);
