@@ -67,7 +67,7 @@ class CartRuleController extends Controller
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
                             date_format(date_create($request->end_date),"Y-m-d H:i:s"),
-                            $discount->price_rule_id
+                            string($discount->price_rule_id)
                         );
                         if($cart_rule){
                             foreach($request->products as $product){
