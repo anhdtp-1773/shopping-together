@@ -19,8 +19,9 @@ export default class RulesList extends Component {
     }
 
     render () {
-        const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency  } = this.props;
+        const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency} = this.props;
         const { variant } = this.state;
+
         return (
             <Fragment> 
                 <div className="col-md-12">
@@ -44,7 +45,15 @@ export default class RulesList extends Component {
                         </div>
                         <div className="col-md-2 unpadding-right">
                         <del><span className="old-price" style={oldPriceStyle}>{variant.price}{currency}</span></del>
-                        <span className="new-price" style={newPriceStyle}>{variant.price}{currency}</span>
+                        <span className="new-price" style={newPriceStyle}>
+                            {
+                                cartRule.is_main_product
+                                ? 
+                                    variant.price + currency
+                                :
+                                salePrice = (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100) + currency
+                            }
+                        </span>
                     </div>
                     </div>
                 </div>

@@ -7,11 +7,7 @@ export default class Preview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form: {
                 cartRules: [],
-                reductionPercent: '',
-                reductionAmount: '',
-                isMainProduct: '',
                 title: '',
                 src: '',
                 price: '',
@@ -20,7 +16,6 @@ export default class Preview extends Component {
                 option3: '',
                 idProduct: '',
                 currency: '',
-            },
         };
         this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
@@ -33,16 +28,14 @@ export default class Preview extends Component {
         });
 	    if(result.data){
             this.setState({
-                form: Object.assign({}, this.state.form, {
-                    title: result.data.title,
-                    src: result.data.src,
-                    price: result.data.price,
-                    option1: result.data.option1,
-                    option2: result.data.option2,
-                    option3: result.data.option3,
-                    idProduct: result.data.id_shopify_product,
-                    currency: result.data.currency,
-                }),
+                title: result.data.title,
+                src: result.data.src,
+                price: result.data.price,
+                option1: result.data.option1,
+                option2: result.data.option2,
+                option3: result.data.option3,
+                idProduct: result.data.id_shopify_product,
+                currency: result.data.currency,
             })
             this.showCartRule(result.data.id_shopify_product);
         }
@@ -56,12 +49,7 @@ export default class Preview extends Component {
         });
         if(result.data){
             this.setState({
-                form: Object.assign({}, this.state.form, {
-                    cartRules: result.data,
-                    reductionPercent: result.data.reduction_percent,
-                    reductionAmount: result.data.reduction_amount,
-                    isMainProduct: result.data.is_main_product,
-                })
+                cartRules: result.data,
             })
         }
     }
@@ -79,7 +67,7 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency } = this.state.form;
+        const {title, src, price, option1, option2, option3, cartRules, currency} = this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
@@ -126,7 +114,15 @@ export default class Preview extends Component {
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
-        
+
+        let total = 0;
+        cartRules.map((cartRule, i) => {
+            cartRule.variants.map((variant, i) => {
+                if(!cartRule.is_main_product){
+                    total += (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100);
+                }
+            })
+        })
         return (
             <div className="col-md-12 wrap-preview">
                 <div className="row right-side__menu">
@@ -191,16 +187,16 @@ export default class Preview extends Component {
                                 :
                                 null
                             }
+                            </div>
                         </div>
-                    </div>
-                    <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
-                    <div className="col-md-12 right-side__translation">
-                        <div className="row">
-                            <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
-                            {
-                                cartRules.length > 0
-                                ?
-                                    cartRules.map((cartRule, i)=>{
+                        <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                        {
+                            cartRules.length > 0
+                            ?
+                            <div className="col-md-12 right-side__translation">
+                                <div className="row">
+                                    <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
+                                    {cartRules.map((cartRule, i)=>{
                                         return <RulesList 
                                             key={i}
                                             cartRule = {cartRule}
@@ -211,17 +207,17 @@ export default class Preview extends Component {
                                             totalAmountStyle = {totalAmountStyle}
                                             currency = {currency}
                                         />
-                                    })
-                                :
-                                lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
-                            }
-                            <p className="col-md-12 right-side__total unpadding-left">
-                                <div className="col-md-6 first">{lang.total}</div>
-                                <div className="col-md-6 second" style={totalAmountStyle}>{price}{currency}</div>
-                            </p>
-                            <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
-                        </div>
-                    </div>
+                                    })}
+                                    <p className="col-md-12 right-side__total unpadding-left">
+                                        <div className="col-md-6 first">{lang.total}</div>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{total}{currency}</div>
+                                    </p>
+                                    <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
+                                </div>
+                            </div>
+                            :
+                            lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
+                        }
                     </div>
                 </div>
                 <div className="row right-side__footer">
