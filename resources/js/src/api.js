@@ -109,5 +109,13 @@ export default {
             'id_cart_rules': idCartRules,
             'id_price_rule_shopify': idPriceRules,
         });
-    }
+    },
+
+    changeRuleStatus(idCartRules, status){
+        return superagent.post('/api/cart-rule/change-status').send({
+            'shopify_domain': domain,
+            'id_cart_rules': idCartRules,
+            'status': status,
+        });
+    },
 }

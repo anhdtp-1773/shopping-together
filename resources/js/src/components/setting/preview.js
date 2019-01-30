@@ -45,7 +45,7 @@ export default class Preview extends Component {
 
     render (){
         const{title, src, price, option1, option2, option3 } = this.state.form;
-        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, mountFontFamily, 
+        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, cartText,productText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
 
@@ -86,7 +86,7 @@ export default class Preview extends Component {
 
         let totalAmountStyle={
             color: amountFontColor,
-            fontFamily: mountFontFamily,
+            fontFamily: amountFontFamily,
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
