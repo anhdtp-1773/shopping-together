@@ -372,7 +372,7 @@ export default class Manage extends Component {
                                 </div>
                             </Fragment>
                             :
-                            lang.add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product
+                            null
                         }
                     </div>
                 </div>

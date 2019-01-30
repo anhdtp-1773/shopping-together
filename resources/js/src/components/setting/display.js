@@ -30,28 +30,30 @@ export default class Display extends Component {
                     <div>
                         <p>{lang.show}</p>
                         <label className="check-product">
-                          <input type="checkbox" />
+                          <input type="checkbox" checked/>
                           <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
                           <span className="checkmark"></span>
                         </label>
 
                         <label className="check-product">
-                          <input type="checkbox"/>
+                          <input type="checkbox" defaultChecked/>
                           <span className="left-side__checkbox-title">{lang.allow_on_mobile_devices}</span>
                           <span className="checkmark"></span>
                         </label>
                     </div>
                     <div className="left-side__product-group">
                         <p>{lang.products_to_group}</p>
-                        <input
-                            type="range"
-                            name="showProductQty"
-                            className="slider"
-                            value={showProductQty}
-                            min={rangeProductQuantityMin}
-                            max={rangeProductQuantityMax}
-                            onChange={this.handleChangeValue}
-                        />
+                        <span>
+                            <input
+                                type="range"
+                                name="showProductQty"
+                                className="slider"
+                                value={showProductQty}
+                                min={rangeProductQuantityMin}
+                                max={rangeProductQuantityMax}
+                                onChange={this.handleChangeValue}
+                            />
+                        </span>
                         <span>{showProductQty}</span>
                     </div>
                 </div>
