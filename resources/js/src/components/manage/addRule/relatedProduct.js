@@ -45,18 +45,21 @@ export default class RelatedProduct extends Component {
     }
 
     onSelectRelatedProduct (id) {
+
         let index = this.props.idRelatedProducts.indexOf(id);
         let idProducts = this.props.idRelatedProducts;
         if(index >= 0){
             idProducts.splice(index, 1);
         }else{
-            if(idProducts.length < (this.props.showProductQty - 1)){
+            if(idProducts.length < (this.props.showProductQty)){
                 idProducts.push(id);
             }else{
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        let products = _.filter(this.state.products, function(product) { return idProducts.indexOf(product.id) >= 0});
+        let products = _.filter(this.state.products, function(product) { 
+            return idProducts.indexOf(product.id) >= 0
+        });
         this.props.onSelectRelatedProduct(products)
     }
 

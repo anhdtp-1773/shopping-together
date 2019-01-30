@@ -67,27 +67,25 @@ function renderCartRule (settings, cartRule) {
         if(!product.is_main_product){
             newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
             total += parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
+        }else{
+            total += parseFloat(product.variants[0].price);
         }
-        var checked = product.is_main_product == 1 ? 'checked' : '';
+
         var html= 
         "<div class='related-products'>"
-            +"<input id='spt-checkbox-"+key+"' class='left spt-checkbox' type='checkbox' value="+key+" "+checked+">"
             +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
                 +"<img id='variant-img-"+key+"' class='left variant-img' src="+product.variants[0].src+" alt='Smiley face' width='90' height='90'>"
             +"</a>"
             +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
                 +"<span class='left spt-product-name'>hello</span>"
-            +"</a>"
+            +"</a>" 
             +"<select id='select-id-"+key+"' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                 + optionVariants   
             +"</select>"
             +"<span id='old-price-"+key+"' class='left old-price'>"+product.variants[0].price+currency+"</span>"
             +"<span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+newPrice +currency+"</span>"
         +"</div>"
-        $(".cart-rule").append(html)
-        
-        
-        ;
+        $(".cart-rule").append(html);
     });
     $(".cart-rule").append("<div class='spt-total'><span>Total</span><span class='spt-total-price'>"+total+currency+"</span></div>")
     $(".cart-rule").append("<button onClick='onSubmit()' class='spt-add-to-cart' type='button'>"+setting.cart_text+"</button>")
@@ -141,27 +139,33 @@ function onChangeSelect(key) {
     if(!cartRule.is_main_product){
         let newPrice =  parseFloat(variant.price);
         newPrice = parseFloat(variant.price) - (parseFloat(variant.price)*parseFloat(cartRule.reduction_percent))/100;
-        $("#old-price-"+key+"").html(""+variant.price+currency+"");
         $("#new-price-"+key+"").html(newPrice+currency);
+    }else{
+        $("#old-price-"+key+"").html(""+variant.price+currency+"");
+        $("#new-price-"+key+"").html(""+variant.price+currency+"");
     }
     $("#variant-img-"+key+"").attr('src', variant.src);
 }
 
-function onSubmit(products) {
-    var variants = [];          
+function onSubmit() {
+    var variants = [];              
     $(".related-products").each(function(i){
         let obj = {};
-        if($("#spt-checkbox-"+i+"").filter(":checked").length > 0){
-            obj['quantity'] = parseInt($("#spt-qty-"+i+"").val());
-            obj['id'] = parseInt($("#select-id-"+i+"").val());
-            variants.push(obj);
-        }
+        obj['quantity'] = 1;
+        obj['id'] = parseInt($("#select-id-"+i+"").val());
+        variants.push(obj);
     })
     var deferreds = [];
     variants.forEach(function(e) {
         deferreds.push(addToCart(e));
     });
-    $.when.apply($, deferreds).done(function() { window.location.replace('/cart') })
+    $.when.apply($, deferreds).done(function() { 
+        $.ajax({
+            type: "GET",
+            url: "https://"+domain+"/discount/"+cartRules.shift().code+"",
+        });
+        window.location.replace('/cart')
+    })
 }
 
 function addToCart (item) {
@@ -170,12 +174,16 @@ function addToCart (item) {
         url: "https://"+domain+"/cart/add.js",
         dataType: 'json',
         data: item,
+        async:false,
         success: function(result){
+
         },
         error: function (error) {
+
         }
     });
 }
+
 var getUrlParameter = function(param) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),

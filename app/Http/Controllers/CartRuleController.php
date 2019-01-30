@@ -7,6 +7,7 @@ use App\Shop;
 use App\CartRule;
 use App\Variant;
 use DB;
+use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class CartRuleController extends Controller
 {
@@ -17,12 +18,12 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function save(Request $request)
+    public function save (Request $request)
     {
         $status = true;
         $msg = trans('label.update_successfully');
         $validator = \Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:cart_rule,name',
         ]);
         if($validator->fails()){
             $msg = $validator->errors();
@@ -31,22 +32,42 @@ class CartRuleController extends Controller
         if($status){
             try{
                 $shop_info = Shop::getShopByDomain($request->shopify_domain);
+                session(['shopify_domain' => $request->shopify_domain]);
+                $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                $size = strlen( $chars );
+                $code = '';
+                for( $i = 0; $i < 8; $i++ ) {
+                    $code .= $chars[ rand( 0, $size - 1 ) ];
+                }
                 if($shop_info){
                     if($request->products){
                         $products = array();
                         $id_main_product = '';
+                        $id_related_product = array();
                         foreach($request->products as $product){
                             if(($product['isMainProduct']) == true){
                                 $id_main_product = $product['id_shopify_product'];
+                            }else{
+                                $id_related_product[] = $product['id_shopify_product'];
                             }
                         }
+                        $discount = CartRule::saveCartRuleOnShopify(
+                            $id_main_product,
+                            $id_related_product,
+                            $code,
+                            $request->reduction_percent,
+                            $request->start_date, 
+                            $request->end_date
+                        );
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
+                            $code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
-                            date_format(date_create($request->end_date),"Y-m-d H:i:s")
+                            date_format(date_create($request->end_date),"Y-m-d H:i:s"),
+                            $discount->price_rule_id
                         );
                         if($cart_rule){
                             foreach($request->products as $product){
@@ -80,7 +101,8 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function get (Request $request) {
+    public function get (Request $request) 
+    {
         $domain = $request->shopify_domain;
         $id_product = $request->id_product;
         $shop = Shop::getShopByDomain($domain);
@@ -97,7 +119,8 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function getRulesList(Request $request){
+    public function getRulesList (Request $request) 
+    {
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $data = [];
         $status = true;
@@ -124,7 +147,8 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request){
+    public function search (Request $request) 
+    {
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $msg = '';
         $data = array();
@@ -174,7 +198,13 @@ class CartRuleController extends Controller
         $msg = trans('label.delete_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
+        $id_price_rules_shopify = is_array($request->id_price_rule_shopify) ? $request->id_price_rule_shopify : array($request->id_price_rule_shopify);
         try{
+            session(['shopify_domain' => $request->shopify_domain]);
+            $shop = ShopifyApp::shop();
+            foreach($id_price_rules_shopify as $value){
+                $shop->api()->request('DELETE', '/admin/price_rules/'.$value.'.json')->body;
+            }
             DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
             DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         }

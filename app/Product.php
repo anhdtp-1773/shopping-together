@@ -3,6 +3,8 @@
 namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Variant;
+use App\Image;
 
 class Product extends Model
 {
@@ -14,7 +16,6 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable=['id','id_shopify_product','id_shop','title','created_at','updated_at','handle'];
     
-
     /**
      * @param
      * array(
@@ -83,7 +84,7 @@ class Product extends Model
      *  )
      * )
      */
-    public static function getProducts($page_number, $items_per_page, $id_shop)
+    public static function getProducts($page_number, $items_per_page, $id_shop, $is_main_product = false)
     {
         $data = [];
         $query = DB::table('products');
@@ -92,6 +93,11 @@ class Product extends Model
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->where('products.id_shop', $id_shop);
+        if($is_main_product){
+            $query->whereNotIn('products.id_shopify_product', function($q) use ($id_shop){
+                $q->select('id_product')->from('cart_rule')->where('id_shop', $id_shop);
+            });
+        }
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
         $data['page_limit'] = ceil($number_record / $items_per_page);
@@ -150,7 +156,7 @@ class Product extends Model
      *  )
      * )
      */
-    public static function search($key_word, $page_number, $items_per_page, $id_shop){
+    public static function search($key_word, $page_number, $items_per_page, $id_shop, $is_main_product = false){
         $data = [];
         $query =  DB::table('products');
         $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
@@ -158,6 +164,11 @@ class Product extends Model
         $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->where('products.id_shop', $id_shop);
+        if($is_main_product){
+            $query->whereNotIn('products.id_shopify_product', function($q) use ($id_shop){
+                $q->select('id_product')->from('cart_rule')->where('id_shop', $id_shop);
+            });
+        }
         $query->where('products.title', 'like', '%'.$key_word.'%');
         $query->groupBy('products.id_shopify_product');
         $number_record = count($query->get());
@@ -172,5 +183,55 @@ class Product extends Model
             $data['items'] = $query->get()->toArray();
         }
         return $data;
+    }
+
+    public static function cloneProducts ($products, $id_shop) {
+        $arr_products = array();
+        $arr_variants  = array();
+        $arr_imgs= array();
+        foreach($products as $product){
+            $arr_products[] = array(
+                'id_shopify_product' => (string)$product->id,
+                'id_shop' => $id_shop,
+                'title' => $product->title,
+                'handle' => $product->handle,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            );
+            foreach($product->variants as $value){
+                $arr_variants[] = array(
+                    'id_variant' => (string)$value->id,
+                    'id_product' => (string)$value->product_id,
+                    'id_shop' => $id_shop,
+                    'title' => $value->title,
+                    'price' => $value->price,
+                    'product_name' => $product->title,
+                    'option1' => $value->option1,
+                    'option2' => $value->option2,
+                    'option3' => $value->option3,
+                    'quantity' => $value->inventory_quantity,
+                    'id_image' => !empty((string)$value->image_id) ? (string)$value->image_id : isset($product->image) ? (string)$product->image->id : null,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                );
+            }
+            if($product->images){
+                foreach($product->images as $value){
+                    $arr_imgs[] = array(
+                        'id_image' => (string)$value->id,
+                        'id_product' => (string)$value->product_id,
+                        'src' => $value->src,
+                        'id_shop'=> $id_shop,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    );
+                }
+            }
+        }
+        Product::saveProduct($arr_products);
+        Variant::saveVariant($arr_variants);
+        if($arr_imgs){
+            Image::saveImage($arr_imgs);
+        }
     }
 }

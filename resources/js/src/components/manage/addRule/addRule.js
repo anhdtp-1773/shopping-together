@@ -30,6 +30,7 @@ export default class AddRule extends Component {
             relatedCurrentPage: '',
             message: '',
             showProductQty: 0,
+            rulesNameExist: [],
             
         }
 
@@ -48,20 +49,24 @@ export default class AddRule extends Component {
         if(result.data.setting){
             this.setState({
                 showProductQty: result.data.setting.show_product_qty,
+                rulesNameExist: result.data.rules_name,
                 isFetching: false,
             })
         }
     }
 
     handleChangeValue (name, value) {
-        let {validates, requiredFields} = this.state;
+        let {validates, requiredFields, rulesNameExist} = this.state;
         switch(name){
             case 'ruleName':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                if(rulesNameExist){
+                    validates[name] =  _.find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (Validate.require(value) ? 'valid' : 'invalid');
+                }else{
+                    validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                }
                 requiredFields[name] = Validate.isName(value);
                 break;
         }
-
         if (_.isEmpty(value)){
 			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
 		}
@@ -96,9 +101,9 @@ export default class AddRule extends Component {
     onSelectMainProduct (products) {
         this.setState({
             form: Object.assign({}, this.state.form, {
-                mainProduct: products,
-                discountProducts: products,
-            }),
+                    mainProduct: products,
+                    discountProducts: products,
+                }),
             idMainProduct: _.head(products).id
         })
     } 
@@ -108,12 +113,12 @@ export default class AddRule extends Component {
         let idRelatedProducts = [];
         let discountProducts = _.clone(this.state.form.mainProduct);
         products.map((product, key) => {
-            if((_.findIndex(relatedProducts, function(o) { return o.id== product.id; })) == -1){
+            if((_.findIndex(relatedProducts, function(o) { return o.id == product.id; })) == -1){
                 products[key].isMainProduct = false;
                 relatedProducts.push(product);
                 idRelatedProducts.push(product.id);
             }
-        })
+        })  
         this.setState({
             form: Object.assign({}, this.state.form, {
                 discountProducts: discountProducts.concat(relatedProducts)
@@ -144,7 +149,7 @@ export default class AddRule extends Component {
 
     render() {
         const {
-            form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, 
+            form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, rulesNameExist,
             validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
         if(isFetching){ return (
@@ -171,6 +176,7 @@ export default class AddRule extends Component {
                                     validates = {validates}
                                     requiredFields = {requiredFields}
                                     onChangeValue = {this.onChangeValue}
+                                    rulesNameExist = {rulesNameExist}
                                 />
                             :
                                 null
