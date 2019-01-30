@@ -62,7 +62,7 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            $code,
+                            'SPT'.$code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
