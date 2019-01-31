@@ -1,11 +1,13 @@
 import React, { Component, Fragment  } from 'react';
 import * as _ from "lodash";
+const MyContext = React.createContext()
 
 export default class RulesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             variant: _.head(this.props.cartRule.variants),
+            salePrice: 0,
         };
         this.handleChange = this.handleChange.bind(this)
     }
@@ -18,9 +20,26 @@ export default class RulesList extends Component {
         });
     }
 
+    handleChangeValue (name, newValue) {
+        this.setState ({
+            [name]: newValue
+        });
+    };
+
     render () {
         const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency} = this.props;
-        const { variant } = this.state;
+        const { variant, salePrice } = this.state;
+        
+        // let total = 0;
+        // cartRules.map((cartRule, i) => {
+        //     cartRule.variants.map((variant, i) => {
+        //         if(!cartRule.is_main_product){
+        //             total += (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100);
+        //         }
+        //     })
+        // })
+
+        
 
         return (
             <Fragment> 
@@ -51,7 +70,9 @@ export default class RulesList extends Component {
                                 ? 
                                     variant.price + currency
                                 :
-                                salePrice = (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100) + currency
+                                <MyContext.Provider value={salePrice} onChange={this.handleChangeValue.bind(this)}>
+                                    {salePrice = (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100) + currency}
+                                </MyContext.Provider>
                             }
                         </span>
                     </div>

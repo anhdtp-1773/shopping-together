@@ -68,9 +68,10 @@ export default class Preview extends Component {
 
     render () {
         const {title, src, price, option1, option2, option3, cartRules, currency} = this.state;
+        console.log(cartRules)
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
-            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
+            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, salePrice} = this.props;
 
         let cartStyle={
             color: cartFontColor,
@@ -116,13 +117,14 @@ export default class Preview extends Component {
         };
 
         let total = 0;
-        cartRules.map((cartRule, i) => {
-            cartRule.variants.map((variant, i) => {
-                if(!cartRule.is_main_product){
-                    total += (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100);
-                }
-            })
-        })
+        // cartRules.map((cartRule, i) => {
+        //     cartRule.variants.map((variant, i) => {
+        //         if(!cartRule.is_main_product){
+        //             total += (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100);
+        //         }
+        //     })
+        // })
+        
         return (
             <div className="col-md-12 wrap-preview">
                 <div className="row right-side__menu">
@@ -206,11 +208,12 @@ export default class Preview extends Component {
                                             newPriceStyle = {newPriceStyle}
                                             totalAmountStyle = {totalAmountStyle}
                                             currency = {currency}
+                                            salePrice = {salePrice}
                                         />
                                     })}
                                     <p className="col-md-12 right-side__total unpadding-left">
                                         <div className="col-md-6 first">{lang.total}</div>
-                                        <div className="col-md-6 second" style={totalAmountStyle}>{total}{currency}</div>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{total+=salePrice}{currency}</div>
                                     </p>
                                     <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                                 </div>
