@@ -109,7 +109,7 @@ class CartRuleController extends Controller
         $shop = Shop::getShopByDomain($domain);
         $cart_rules = CartRule::getCartRule($shop->id, $id_product);
         if($cart_rules){
-            Stats::addViewCartRule(array_shift($cart_rules)->id, $shop->id);
+            Stats::addViewCartRule($cart_rules[0]->id, $shop->id);
         }
         foreach($cart_rules as $key=>$cart_rule){
             $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
