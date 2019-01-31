@@ -156,6 +156,7 @@ export default class RelatedProduct extends Component {
                             onChange={this.handleChangeValue}
                             value = {reductionPercent}
                         />
+                        <span className="icon-percent"><i class="fa fa-percent" aria-hidden="true"></i></span>
                     </div>
                     <div className="form-group section-manage">
                         <label className="related-search__title" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>

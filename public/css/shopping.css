@@ -392,6 +392,7 @@ related
 
 .related-wrap .discount{
   display: flex;
+  position: relative;
 }
 .related-wrap .discount p{
   width: 84px;
@@ -402,6 +403,13 @@ related
 }
 .related-wrap .discount input{
   width: 180px;
+  padding-right: 29px;
+}
+.related-wrap .discount .icon-percent{
+  position: absolute;
+  left: 243px;
+  top: 5px;
+  color: #ccc;
 }
 
 /*=============================
