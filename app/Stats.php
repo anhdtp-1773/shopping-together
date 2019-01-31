@@ -23,7 +23,7 @@ class Stats extends Model
         $stats->where('id_shop', $id_shop);
         $stats->whereBetween('created_at', ["$curent_date 00:00:00", "$curent_date 23:59:59"]);
         $stats_nb = $stats->first();
-        if($stats){
+        if($stats_nb){
             $new_stast = Stats::find($stats_nb->id);
             $new_stast->nb_view = $stats_nb->nb_view + 1;
             $new_stast->save();
