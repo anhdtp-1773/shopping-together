@@ -25,7 +25,7 @@ export default class Preview extends Component {
             this.setState({
                 form: Object.assign({}, this.state.form, {
                     title: result.data.title,
-                    src: result.data.src,
+                    src: result.data.src_image,
                     price: result.data.price,
                     option1: result.data.option1,
                     option2: result.data.option2,
