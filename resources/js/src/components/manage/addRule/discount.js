@@ -59,7 +59,7 @@ export default class Discount extends Component {
                                         {
                                             product.isMainProduct
                                             ? 
-                                                parseFloat(product.price)
+                                                parseFloat(product.price) + product.currency
                                             :
                                                 (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) + product.currency
                                         }

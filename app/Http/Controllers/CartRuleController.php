@@ -7,6 +7,7 @@ use App\Shop;
 use App\CartRule;
 use App\Variant;
 use DB;
+use App\Stats;
 use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class CartRuleController extends Controller
@@ -107,6 +108,9 @@ class CartRuleController extends Controller
         $id_product = $request->id_product;
         $shop = Shop::getShopByDomain($domain);
         $cart_rules = CartRule::getCartRule($shop->id, $id_product);
+        if($cart_rules){
+            Stats::addViewCartRule(array_shift($cart_rules)->id, $shop->id);
+        }
         foreach($cart_rules as $key=>$cart_rule){
             $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
         }
