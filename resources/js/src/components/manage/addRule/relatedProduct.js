@@ -57,7 +57,7 @@ export default class RelatedProduct extends Component {
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        let products = _.filter(this.state.products, function(product) { 
+        let products = _.filter(this.state.products, function(product) {
             return idProducts.indexOf(product.id) >= 0
         });
         this.props.onSelectRelatedProduct(products)
@@ -146,6 +146,18 @@ export default class RelatedProduct extends Component {
         )}else {
             return (
                 <div className="container related-wrap">
+                    <div className="discount">
+                        <p>{lang.set_discount}</p>
+                        <input
+                            type="text"
+                            className={classNames('form-control', validates.reductionPercent)}
+                            name="reductionPercent"
+                            placeholder={lang.discount_value}
+                            onChange={this.handleChangeValue}
+                            value = {reductionPercent}
+                        />
+                        <span className="icon-percent"><i class="fa fa-percent" aria-hidden="true"></i></span>
+                    </div>
                     <div className="form-group section-manage">
                         <label className="related-search__title" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                         <input
@@ -161,7 +173,7 @@ export default class RelatedProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className={classNames('col-sm-6 col-md-2 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                    <span className={classNames('col-sm-6 col-md-2 col-xs-6 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
                                         <div className={classNames('thumbnail', {'disabled-form  product-step2': idMainProduct == product.id ? true : false})}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <div className="check-product">
@@ -192,29 +204,16 @@ export default class RelatedProduct extends Component {
                                 pageRangeDisplayed={5}
                                 onChange={this.handlePageChange}
                             />
-                        </div>
-                        <div>
-                            <p>{lang.set_discount}</p>
-                            <input
-                                type="text"
-                                className={classNames('form-control', validates.reductionPercent)}
-                                name="reductionPercent"
-                                placeholder={lang.discount_value}
-                                onChange={this.handleChangeValue}
-                                value = {reductionPercent}
-                            />
-                        </div>
-                        <div>
-                            <button 
-                                onClick={this.nextStep.bind(this, 3)} 
-                                type="button" 
+                            <button
+                                onClick={this.nextStep.bind(this, 3)}
+                                type="button"
                                 className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
                             >
                                 {lang.next}
                             </button>
-                            <button 
-                                onClick={this.nextStep.bind(this, 1)} 
-                                type="button" 
+                            <button
+                                onClick={this.nextStep.bind(this, 1)}
+                                type="button"
                                 className={classNames({'btn btn-primary btn-back-step': true}, {'disabled-form': disabledOnClick})}
                             >
                                 {lang.back}

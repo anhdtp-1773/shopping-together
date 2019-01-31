@@ -43,16 +43,18 @@ export default class Display extends Component {
                     </div>
                     <div className="left-side__product-group">
                         <p>{lang.products_to_group}</p>
-                        <input
-                            type="range"
-                            name="showProductQty"
-                            className="slider"
-                            value={showProductQty}
-                            min={rangeProductQuantityMin}
-                            max={rangeProductQuantityMax}
-                            onChange={this.handleChangeValue}
-                        />
-                        <span>{showProductQty}</span>
+                        <div className="range-show-product">
+                          <input
+                              type="range"
+                              name="showProductQty"
+                              className="slider"
+                              value={showProductQty}
+                              min={rangeProductQuantityMin}
+                              max={rangeProductQuantityMax}
+                              onChange={this.handleChangeValue}
+                          />
+                          <span>{showProductQty}</span>
+                        </div>
                     </div>
                 </div>
             </div>

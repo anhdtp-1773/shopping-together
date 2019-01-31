@@ -13,9 +13,9 @@ export default class App extends Component {
     render() {
         const url = window.location.pathname;
         return (
-            <div id="manage">
+            <div id="manage" className={(url == '/' || url == '/home') ? 'setting-page' : ''}>
                 <ul>
-                    <div className="side-menu-inner">
+                    <div className="side-menu-inner menu-desktop">
                         <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'} >
                             <Link to={'/'}>
                                 <span>
@@ -37,7 +37,6 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
-                        <li className="icon-close-menu" > <i className="fa fa-times"></i> </li>
                    </div>
 
                 </ul>

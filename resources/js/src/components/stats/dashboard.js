@@ -30,7 +30,7 @@ export default class Dashboard extends Component{
             dashboardDetail: [],
         };
 
-        this.forceChartsUpdate = Lodash.debounce(this.forceChartsUpdate, 100);    
+        this.forceChartsUpdate = Lodash.debounce(this.forceChartsUpdate, 100);
     }
 
     initialTimeFrame(range) {
@@ -45,21 +45,21 @@ export default class Dashboard extends Component{
             timeFrame = moment(firstDay).format('Do MMM YYYY') + ' - ' + moment(new Date()).format('Do MMM YYYY');
             break;
         default:
-            break;        
+            break;
         }
         return  timeFrame;
     }
 
     initialStartDate(range) {
         let startDate = moment(new Date()).format();
-        switch (range) {      
+        switch (range) {
         case 'week':
             startDate = moment().day(1).format();
             break;
         case 'month':
             let date = new Date(new Date()), y = date.getFullYear(), m = date.getMonth();
             let firstDay = new Date(y, m, 1);
-            startDate = moment(firstDay).format(); 
+            startDate = moment(firstDay).format();
             break;
         default:
             break;
@@ -78,11 +78,11 @@ export default class Dashboard extends Component{
 
     initialEndDate(range){
         let endDate = moment(new Date()).format();
-        switch (range) {      
+        switch (range) {
             case 'week':
                 endDate = moment(new Date()).format();
                 break;
-            case 'month':        
+            case 'month':
                 endDate = moment(new Date()).format();
                 break;
             default:
@@ -99,50 +99,50 @@ export default class Dashboard extends Component{
         switch (range) {
             case 'day':
                 if (changeDays > 0) {
-                    if (timeFrameChangeType == 'up') {            
+                    if (timeFrameChangeType == 'up') {
                         timeFrame = moment(this.state.startDate).add(changeDays,'d').format('Do MMM YYYY');
                         newStartDate = moment(this.state.startDate).add(changeDays,'d').format();
                         newEndDate = newStartDate;
                         doesDisableNextDate = moment(new Date()).isSame(moment(this.state.startDate).add(changeDays,'d').format(), 'day');
-                                    
+
                     }  else {
-                        timeFrame = moment(this.state.startDate).subtract(changeDays,'d').format('Do MMM YYYY');              
+                        timeFrame = moment(this.state.startDate).subtract(changeDays,'d').format('Do MMM YYYY');
                         newStartDate = moment(this.state.startDate).subtract(changeDays,'d').format();
                         newEndDate = newStartDate;
-                        doesDisableNextDate = false;           
+                        doesDisableNextDate = false;
                     }
-                } 
+                }
                 break;
             case 'week':
                 if (changeDays > 0) {
                     if (timeFrameChangeType == 'up') {
-                        let endDate = this.state.startDate;          
-                        if (moment(new Date()).isBefore(moment(this.state.startDate).day(7).add(parseInt(changeDays),'d').format())) {                  
+                        let endDate = this.state.startDate;
+                        if (moment(new Date()).isBefore(moment(this.state.startDate).day(7).add(parseInt(changeDays),'d').format())) {
                             doesDisableNextDate = true;
                             endDate = moment(new Date());
-                        } else {               
+                        } else {
                             doesDisableNextDate = false;
                             endDate =moment(this.state.startDate).day(7).add(changeDays,'d');
                         }
-                        timeFrame = moment(this.state.startDate).day(1).add(changeDays,'d').format('Do MMM YYYY') + ' - ' + endDate.format('Do MMM YYYY'); 
-                        newStartDate = moment(this.state.startDate).day(1).add(changeDays,'d').format();             
+                        timeFrame = moment(this.state.startDate).day(1).add(changeDays,'d').format('Do MMM YYYY') + ' - ' + endDate.format('Do MMM YYYY');
+                        newStartDate = moment(this.state.startDate).day(1).add(changeDays,'d').format();
                         newEndDate = endDate.format();
                     } else {
-                        timeFrame = moment(this.state.startDate).day(1).subtract(changeDays,'d').format('Do MMM YYYY') + ' - ' + moment(this.state.startDate).day(7).subtract(changeDays,'d').format('Do MMM YYYY');   
+                        timeFrame = moment(this.state.startDate).day(1).subtract(changeDays,'d').format('Do MMM YYYY') + ' - ' + moment(this.state.startDate).day(7).subtract(changeDays,'d').format('Do MMM YYYY');
                         newStartDate = moment(this.state.startDate).day(1).subtract(changeDays,'d').format();
                         newEndDate = moment(this.state.startDate).day(7).subtract(changeDays,'d').format();
                         doesDisableNextDate = false;
                     }
                 } else {
-                    timeFrame = moment().day(1).format('Do MMM YYYY') + ' - ' + moment(new Date()).format('Do MMM YYYY');  
-                }  
+                    timeFrame = moment().day(1).format('Do MMM YYYY') + ' - ' + moment(new Date()).format('Do MMM YYYY');
+                }
                 break;
             case 'month':
                 let date = new Date(new Date()), y = date.getFullYear(), m = date.getMonth();
                 let firstDay = new Date(y, m, 1);
                 if (changeDays > 0) {
                     if (timeFrameChangeType == 'up') {
-                        let endDate = this.state.startDate;              
+                        let endDate = this.state.startDate;
                         if (moment(new Date()).isBefore(moment(this.state.startDate).add(1,'M').endOf('month').format())) {
                             endDate = moment(new Date()).format();
                             doesDisableNextDate = true;
@@ -152,7 +152,7 @@ export default class Dashboard extends Component{
                         }
                         newStartDate = moment(this.state.startDate).add(1,'M').date(1).format();
                         newEndDate = endDate;
-                        timeFrame = moment(this.state.startDate).add(1,'M').date(1).format('Do MMM YYYY') + ' - ' + moment(endDate).format('Do MMM YYYY');             
+                        timeFrame = moment(this.state.startDate).add(1,'M').date(1).format('Do MMM YYYY') + ' - ' + moment(endDate).format('Do MMM YYYY');
                     } else {
                         timeFrame = moment(this.state.startDate).subtract(1,'M').date(1).format('Do MMM YYYY') + ' - ' + moment(this.state.startDate).subtract(1,'M').endOf('month').format('Do MMM YYYY');
                         newStartDate = moment(this.state.startDate).subtract(1,'M').date(1).format();
@@ -163,7 +163,7 @@ export default class Dashboard extends Component{
                     timeFrame = moment(firstDay).format('Do MMM YYYY') + ' - ' + moment(new Date()).format('Do MMM YYYY');
                 }
                 break;
-            default:  
+            default:
         }
         this.setState({
             startDate: newStartDate,
@@ -173,7 +173,7 @@ export default class Dashboard extends Component{
         });
         this.setState({
             loading: true,
-        })  
+        })
         this.getData(
             range,
             moment(newStartDate).format('YYYY-MM-DD'),
@@ -197,7 +197,7 @@ export default class Dashboard extends Component{
         }
         return startDate;
     }
-  
+
     onClickRange(range){
         this.setState({
             range: range
@@ -215,7 +215,7 @@ export default class Dashboard extends Component{
         }
         let disabled = type == 'down' ? false : this.state.disableNextDate;
         if (!disabled) {
-            let changeDays = 0; 
+            let changeDays = 0;
             switch (this.state.range) {
                 case 'day':
                     changeDays = 1;
@@ -226,13 +226,13 @@ export default class Dashboard extends Component{
                 case 'month':
                     changeDays = 30;
                     break;
-                default:    
+                default:
             }
             this.setState({
                 timeFrameChangeType: type
             })
             this.caculateTimeFrame(this.state.range, changeDays, type);
-        }    
+        }
     }
 
     getChartWidth(){
@@ -264,12 +264,12 @@ export default class Dashboard extends Component{
         const response = await api.getDataDashBoard(
             range ? range : this.state.range,
             summaryStartDate ? summaryStartDate : moment(this.state.startDate).format('YYYY-MM-DD'),
-            startDate ? startDate : this.reportStartDate(this.state.range, this.state.startDate), 
+            startDate ? startDate : this.reportStartDate(this.state.range, this.state.startDate),
             endDate ? endDate : moment(this.state.endDate).format('YYYY-MM-DD'),
         );
         const result = JSON.parse(response.text);
         if(result.status){
-            let dashboardData = Lodash.clone(this.state.dashboardData); 
+            let dashboardData = Lodash.clone(this.state.dashboardData);
             Object.assign(dashboardData, {
                 [this.state.range]: result.data.dashboard
             })
@@ -289,7 +289,7 @@ export default class Dashboard extends Component{
             this.getWidth = true;
         }
     }
-  
+
     componentDidUpdate(){
         if(!this.state.loading && !this.getWidth && this.getChartWidth()){
             this.setState({
@@ -317,7 +317,7 @@ export default class Dashboard extends Component{
             </div>
         );
         return (
-            <div id="dashboard">
+            <div id="dashboard" className="container-fluid">
                 <div className="dashboard-header">
                     <div
                         className={classNames("manage-btn", {active: range == 'day'})}
@@ -342,7 +342,7 @@ export default class Dashboard extends Component{
                             <li onClick={this.changeTimeFrame.bind(this, 'down')}><i className="fa fa-chevron-left"></i></li>
                             <li>{timeFrame}</li>
                             <li onClick={this.changeTimeFrame.bind(this, 'up')}><i disabled={disableNextDate} className={classNames("fa fa-chevron-right", {disabled: disableNextDate})}></i></li>
-                        </ul>   
+                        </ul>
                     </div>
                 </div>
                 <DashboardCharts
