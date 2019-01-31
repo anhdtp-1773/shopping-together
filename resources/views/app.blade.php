@@ -19,11 +19,11 @@
                 background-color: #fff;
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
-                font-weight: 200;
+                font-weight: normal;
                 height: 100vh;
                 margin: 0;
             }
-            
+
             .full-height {
                 height: 100vh;
             }
@@ -81,14 +81,14 @@
                     });
                 </script>
                 @include('shopify-app::partials.flash_messages')
-            @endif 
+            @endif
             <script>
-                var domain = "{{ ShopifyApp::shop()->shopify_domain }}"; 
+                var domain = "{{ ShopifyApp::shop()->shopify_domain }}";
                 var lang = <?php echo $lang ?>;
             </script>
         @else
             <script>
-                var domain = "sptapp.myshopify.com"; 
+                var domain = "sptapp.myshopify.com";
                 var lang = <?php echo $lang ?>;
             </script>
         @endif

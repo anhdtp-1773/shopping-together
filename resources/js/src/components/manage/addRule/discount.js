@@ -39,6 +39,33 @@ export default class Discount extends Component {
                     <h1 className="title-heading">{lang.summary}</h1>
                 </div>
 
+                <div className="section-datePicker container">
+                    <div className="filter-from">
+                        <div className="datePicker">
+                          <span className="datePicker_title">{lang.start_date}</span>
+                          <DatePicker
+                              showYearDropdown
+                              selected={(startDate)}
+                              onChange={(value) => this.props.onChangeDate('startDate', value)}
+                              className="form-control"
+                              dateFormat="DD/MM/YYYY"
+                          />
+                        </div>
+                    </div>
+                    <div className="filter-to">
+                        <div className="datePicker">
+                          <span className="datePicker_title">{lang.end_date}</span>
+                          <DatePicker
+                              showYearDropdown
+                              selected={(endDate)}
+                              onChange={(value) => this.props.onChangeDate('endDate', value)}
+                              className="form-control"
+                              dateFormat="DD/MM/YYYY"
+                          />
+                        </div>
+                    </div>
+                </div>
+
                 <div className="panel panel-default container ">
                     <table className="table set-discount-wrap">
                         <thead>
@@ -58,14 +85,14 @@ export default class Discount extends Component {
                                     <td className="set-discount__sale-price">
                                         {
                                             product.isMainProduct
-                                            ? 
+                                            ?
                                                 parseFloat(product.price)
                                             :
                                                 (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) + product.currency
                                         }
                                     </td>
                                 </tr>
-                            ))} 
+                            ))}
                             <tr>
                                 <td>{lang.total}</td>
                                 <td></td>
@@ -74,32 +101,6 @@ export default class Discount extends Component {
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div style={{float: 'left'}}>
-                    <div className="filter-from">
-                        <span>{lang.start_date}</span>
-                        <div className="datePicker">
-                            <DatePicker
-                                showYearDropdown
-                                selected={(startDate)}
-                                onChange={(value) => this.props.onChangeDate('startDate', value)}
-                                className="form-control"
-                                dateFormat="DD/MM/YYYY"
-                            />
-                        </div>
-                    </div>
-                    <div className="filter-to">
-                        <span>{lang.end_date}</span>
-                        <div className="datePicker">
-                            <DatePicker
-                                showYearDropdown
-                                selected={(endDate)}
-                                onChange={(value) => this.props.onChangeDate('endDate', value)}
-                                className="form-control"
-                                dateFormat="DD/MM/YYYY"
-                            />
-                        </div>
-                    </div>
                 </div>
                 <div className="container btn-wrap">
                     <button
