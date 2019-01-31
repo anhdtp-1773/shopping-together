@@ -85,8 +85,8 @@ export default class Discount extends Component {
                                     <td className="set-discount__sale-price">
                                         {
                                             product.isMainProduct
-                                            ?
-                                                parseFloat(product.price)
+                                            ? 
+                                                parseFloat(product.price) + product.currency
                                             :
                                                 (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) + product.currency
                                         }
