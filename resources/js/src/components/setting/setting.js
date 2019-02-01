@@ -10,7 +10,7 @@ import Translation from './translation';
 import Display from './display';
 import api from '../../api';
 import ClassNames from 'classnames'
-import * as Validate from "../../models/validate.model";
+import {require, isNumeric} from "../../models/validate.model";
 import Lodash from 'lodash';
 import Notification from '../notification';
 import { Link } from 'react-router-dom';
@@ -121,11 +121,11 @@ export default class Setting extends Component {
             case 'productText':
             case 'cartFontColor':
             case 'backgroundColor':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                validates[name] = require(value) ? 'valid' : 'invalid';
                 break;
             case 'productImageWidth':
             case 'productImageHeight':
-                validates[name] = Validate.isNumeric(value) ? 'valid' : 'invalid';
+                validates[name] = isNumeric(value) ? 'valid' : 'invalid';
                 break;
         }
 
@@ -280,8 +280,8 @@ export default class Setting extends Component {
                 <div className="container-fluid block-setting">
                   <div className="row customize-wrap">
                     <button href="javascript:void(0)" onClick={this.toggle}>
-                        <span id="btn-customize"><i class="fa fa-pencil" aria-hidden="true"></i>{lang.customize}</span>
-                        <span id="btn-preview"><i class="fa fa-eye" aria-hidden="true"></i>{lang.preview}</span>
+                        <span id="btn-customize"><i className="fa fa-pencil" aria-hidden="true"></i>{lang.customize}</span>
+                        <span id="btn-preview"><i className="fa fa-eye" aria-hidden="true"></i>{lang.preview}</span>
                     </button>
                   </div>
                   <div className="col-md-3 left-side" id="left-side">
