@@ -74,7 +74,7 @@ class CartRule extends Model
      */
     public static function getCartRule($id_shop, $id_product) {
         $sql = DB::table('cart_rule');
-        $sql->select('cart_rule.id', 'cart_rule_detail.id_product', 'cart_rule_detail.is_main_product','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
+        $sql->select('cart_rule.id','cart_rule.id_shop', 'cart_rule_detail.id_product', 'cart_rule_detail.is_main_product','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
                     'cart_rule.start_date','cart_rule.end_date');
         $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
         $sql->where('cart_rule.status', 1);

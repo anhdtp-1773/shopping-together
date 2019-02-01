@@ -7,7 +7,6 @@ use App\Setting;
 use App\Shop;
 use DB;
 use App\DashBoard;
-
 class DashBoardController extends Controller
 {   
     /**
@@ -29,6 +28,7 @@ class DashBoardController extends Controller
                     'views' => $summary_details['views'],
                     'orders' => $summary_details['orders'],
                     'revenues' => $summary_details['revenues'],
+                    'add_to_cart' => $summary_details['add_to_cart'],
                 ),
                 'detail' => DashBoard::getStastDetail($date_from, $date_to),
             );
@@ -57,6 +57,7 @@ class DashBoardController extends Controller
             'views' => array(),
             'orders' => array(),
             'revenues' => array(),
+            'add_to_cart' => array(),
         );
         $stats = DashBoard::getStast($date_from, $date_to, $granularity);
         $from = strtotime($date_from.' 00:00:00');
@@ -67,6 +68,7 @@ class DashBoardController extends Controller
                     $summary_details['views'][$date] = isset($stats[$date]['view']) ? $stats[$date]['view'] : 0;
                     $summary_details['orders'][$date] = isset($stats[$date]['order']) ? $stats[$date]['order'] : 0;
                     $summary_details['revenues'][$date] = isset($stats[$date]['sale']) ? $stats[$date]['sale'] : 0;
+                    $summary_details['add_to_cart'][$date] = isset($stats[$date]['add_to_cart']) ? $stats[$date]['add_to_cart'] : 0;
                 }
                 break;
             case 'week':
@@ -74,6 +76,7 @@ class DashBoardController extends Controller
                     $summary_details['views'][$date] = isset($stats[$date]['view']) ? $stats[$date]['view'] : 0;
                     $summary_details['orders'][$date] = isset($stats[$date]['order']) ? $stats[$date]['order'] : 0;
                     $summary_details['revenues'][$date] = isset($stats[$date]['sale']) ? $stats[$date]['sale'] : 0;
+                    $summary_details['add_to_cart'][$date] = isset($stats[$date]['add_to_cart']) ? $stats[$date]['add_to_cart'] : 0;
                 }
                 break;
             default:      
@@ -81,9 +84,18 @@ class DashBoardController extends Controller
                     $summary_details['views'][$date] = isset($stats[$date]['view']) ? $stats[$date]['view'] : 0;
                     $summary_details['orders'][$date] = isset($stats[$date]['order']) ? $stats[$date]['order'] : 0;
                     $summary_details['revenues'][$date] = isset($stats[$date]['sale']) ? $stats[$date]['sale'] : 0;
+                    $summary_details['add_to_cart'][$date] = isset($stats[$date]['add_to_cart']) ? $stats[$date]['add_to_cart'] : 0;
                 }
                 break;
         }
         return $summary_details;
+    }
+
+    public function addNumberToCart (Request $request) 
+    {
+        if($request->id_cart_rule && $request->id_shop){
+            DashBoard::addNBCartRule($request->id_cart_rule, $request->id_shop, 'nb_add_to_cart');
+        }
+        return 1;
     }
 }

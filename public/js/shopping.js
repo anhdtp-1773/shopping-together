@@ -163,7 +163,20 @@ function onSubmit() {
             type: "GET",
             url: "https://"+domain+"/discount/"+cartRules.shift().code+"",
         });
-        window.location.replace('/cart')
+        $.ajax({
+            url: url+"api/cart-rule/add-to-cart",
+            dataType: 'json', 
+            type: "POST",
+            data: {
+                'id_shop': cartRules.shift().id_shop,
+                'id_cart_rule': cartRules.shift().id
+            },
+            success: function(result){
+                window.location.replace('/cart')
+            },
+            error: function (error) {
+            }
+        });
     })
 }
 
