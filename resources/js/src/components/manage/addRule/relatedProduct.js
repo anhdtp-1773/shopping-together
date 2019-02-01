@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
-import * as _ from "lodash";
+import {debounce, filter, every, values, find} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
-import * as Validate from "../../../models/validate.model";
+import {isPercentage} from "../../../models/validate.model";
 
 export default class RelatedProduct extends Component {
     constructor(){
@@ -18,7 +18,7 @@ export default class RelatedProduct extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
-        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);
+        this.onSearchProduct =  debounce(this.onSearchProduct, 500);
         this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
@@ -57,7 +57,7 @@ export default class RelatedProduct extends Component {
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        let products = _.filter(this.state.products, function(product) {
+        let products = filter(this.state.products, function(product) {
             return idProducts.indexOf(product.id) >= 0
         });
         this.props.onSelectRelatedProduct(products)
@@ -127,7 +127,7 @@ export default class RelatedProduct extends Component {
         const {validates} = this.state;
         switch(name){
             case 'reductionPercent':
-                validates[name] = Validate.isPercentage(value) ? 'valid' : 'invalid';
+                validates[name] = isPercentage(value) ? 'valid' : 'invalid';
             break;
         }
         this.props.handleChangeValue(name, value);
@@ -136,7 +136,7 @@ export default class RelatedProduct extends Component {
     render() {
         const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts, reductionPercent} = this.props;
         const {products, itemsPerPage, totalItems, isFetching, validates} = this.state;
-        const disabledOnClick = !_.every(_.values(validates), function(value) {return value == 'valid'});
+        const disabledOnClick = !every(values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -156,7 +156,7 @@ export default class RelatedProduct extends Component {
                             onChange={this.handleChangeValue}
                             value = {reductionPercent}
                         />
-                        <span className="icon-percent"><i class="fa fa-percent" aria-hidden="true"></i></span>
+                        <span className="icon-percent"><i className="fa fa-percent" aria-hidden="true"></i></span>
                     </div>
                     <div className="form-group section-manage">
                         <label className="related-search__title" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
@@ -180,7 +180,7 @@ export default class RelatedProduct extends Component {
                                                 <input
                                                     type="checkbox"
                                                     name="vehicle3"
-                                                    checked = {(_.find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} />
+                                                    checked = {(find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} />
                                                 <span className="checkmark"></span>
                                             </div>
                                             <div className="caption">

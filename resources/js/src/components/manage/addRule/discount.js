@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import * as _ from "lodash";
+import {assign, every, values, head} from "lodash";
 import classNames from 'classnames'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,7 +17,7 @@ export default class Discount extends Component {
 
     validate (validates) {
         this.setState({
-            validates: _.assign({}, this.state.validates, validates),
+            validates: assign({}, this.state.validates, validates),
         })
     }
 
@@ -32,7 +32,7 @@ export default class Discount extends Component {
                 total += (parseFloat(product.price));
             }
         })
-        const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'});
+        const disabledOnClick = every(values(validates), function(value) {return value == 'valid'});
         return(
             <Fragment>
                 <div className="container section-heading">
@@ -97,7 +97,7 @@ export default class Discount extends Component {
                                 <td>{lang.total}</td>
                                 <td></td>
                                 <td></td>
-                                <td className="set-discount__sale-price">{total +" "+ _.head(discountProducts).currency}</td>
+                                <td className="set-discount__sale-price">{total +" "+ head(discountProducts).currency}</td>
                             </tr>
                         </tbody>
                     </table>
