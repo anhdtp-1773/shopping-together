@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Setting;
 use App\Shop;
 use App\CartRule;
+use App\Currency;
+use DB;
 
 class SettingController extends Controller
 {   
@@ -80,6 +82,7 @@ class SettingController extends Controller
                 $shop_setting = Setting::getSettingByShopId($shop_info->id);
                 $setting = $shop_setting ? $shop_setting : json_decode(file_get_contents($setting_folder.'/defaultSetting.json'), true);
                 $rules_name = CartRule::getRuleName($shop_info->id);
+                $currency = DB::table('currency')->select('currency')->where('id_shop', $shop_info->id)->first();
             }
         }
         return response()->json([
@@ -87,6 +90,7 @@ class SettingController extends Controller
             'data' => array(
                 'setting' => $setting,
                 'rules_name' => $rules_name,
+                'currency' => $currency
             )
         ], 200);
     }

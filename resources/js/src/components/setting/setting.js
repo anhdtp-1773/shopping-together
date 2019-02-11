@@ -59,6 +59,7 @@ export default class Setting extends Component {
             cart: false,
             translation: false,
             display: false,
+            currency: '',
         };
     }
     async componentWillMount(){
@@ -92,6 +93,7 @@ export default class Setting extends Component {
                     backgroundColor: result.data.setting.back_ground_color,
                 }),
                 isFetching: false,
+                currency: result.data.currency.currency
             })
         }else{
             this.setState({
@@ -265,7 +267,7 @@ export default class Setting extends Component {
     }
 
     render () {
-        const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display} = this.state;
+        const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display, currency} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
         const url = window.location.pathname;
         if(isFetching){
@@ -419,6 +421,7 @@ export default class Setting extends Component {
                           showProductQty = {form.showProductQty}
                           productImageWidth = {form.productImageWidth}
                           productImageHeight = {form.productImageHeight}
+                          currency = {currency}
                       />
                   </div>
                   <button

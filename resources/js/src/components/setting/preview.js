@@ -15,10 +15,10 @@ export default class Preview extends Component {
             option2: '',
             option3: '',
             idProduct: '',
-            currency: '',
             priceProducts: []
         };
         this.showAlert = this.showAlert.bind(this);
+        this.handleChangeTotalPrice = this.handleChangeTotalPrice.bind(this);
     }
     async componentWillMount () {
         const response = await api.getProductInfo();
@@ -28,20 +28,17 @@ export default class Preview extends Component {
         this.setState({
             product: result.data,
         });
-  
 	    if(result.data){
             const cartRulesResponse = await api.getCartRules(result.data.id_shopify_product);
             const cartRulesResult = JSON.parse(cartRulesResponse.text);
-
             if(cartRulesResult.data){
                 cartRules = cartRulesResult.data;
                 if (cartRules.length > 0) {
-                    priceProducts['cartRules'] = [];
+                    priceProducts = [];
                     cartRules.forEach(function(cartRule) {
                         if(cartRule.variants.length > 0) {
                             let variants = cartRule.variants;
-                            priceProducts['cartRules'][cartRule.id_product] = [];
-                            priceProducts['cartRules'][cartRule.id_product][variants[0]['id_variant']] = cartRule.is_main_product ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
+                            priceProducts[cartRule.id_product] = cartRule.is_main_product ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
                         }
                     })
                 }
@@ -55,7 +52,6 @@ export default class Preview extends Component {
                 option2: result.data.option2,
                 option3: result.data.option3,
                 idProduct: result.data.id_shopify_product,
-                currency: result.data.currency,
                 cartRules: cartRules
             })
         }
@@ -69,16 +65,23 @@ export default class Preview extends Component {
         });
     };
 
+    handleChangeTotalPrice (cartRule, idProduct, price) {
+        let priceProducts = this.state.priceProducts;
+        priceProducts[idProduct] = cartRule.is_main_product ? parseFloat(price) : (parseFloat(price) - (parseFloat(price) * parseFloat(cartRule.reduction_percent))/100);
+        this.setState({
+            priceProducts
+        })
+    }
+
     showAlert () {
         return alert(lang.go_to_your_live_website_to_use_this_function);
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency, total, priceProducts} = this.state;
+        const {title, src, price, option1, option2, option3, cartRules,  total, priceProducts} = this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
-            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
-
+            oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,
@@ -123,11 +126,10 @@ export default class Preview extends Component {
         };
         
         let totalPrice = 0;
-        if((priceProducts['cartRules'])){
-            _.mapValues(priceProducts['cartRules'], function(value) {
-                totalPrice += Number(_.values(value))
-            })
-        }
+        _.mapValues(priceProducts, function(value) {
+            totalPrice += Number(value)
+        })
+
         return (
             <div className="col-md-12 wrap-preview">
                 <div className="row right-side__menu">
@@ -213,12 +215,14 @@ export default class Preview extends Component {
                                             newPriceStyle = {newPriceStyle}
                                             totalAmountStyle = {totalAmountStyle}
                                             currency = {currency}
+                                            handleChangeTotalPrice = {this.handleChangeTotalPrice}
+                                            idProduct = {cartRule.id_product}
                                         />
                                     })}
-                                    <p className="col-md-12 right-side__total unpadding-left">
+                                    <div className="col-md-12 right-side__total unpadding-left">
                                         <div className="col-md-6 first">{lang.total}</div>
-                                        <div className="col-md-6 second" style={totalAmountStyle}>{totalPrice}</div>
-                                    </p>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{totalPrice}{currency}</div>
+                                    </div>
                                     <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                                 </div>
                             </div>

@@ -12,8 +12,9 @@ export default class RulesList extends Component {
 
     handleChange (event) {
         const value = event.target.value;
-        let variant = _.find(this.props.cartRule.variants, function(variant) { return variant.id_variant == value });
-        this.props.test(this.props.idProduct, variant.id_variant);
+        const {cartRule, idProduct} = this.props;
+        let variant = _.find(cartRule.variants, function(variant) { return variant.id_variant == value });
+        this.props.handleChangeTotalPrice(cartRule, idProduct, variant.price);
         this.setState({
             variant
         });
@@ -28,7 +29,6 @@ export default class RulesList extends Component {
     render () {
         const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency} = this.props;
         const { variant } = this.state;
-
         return (
             <Fragment> 
                 {
@@ -59,9 +59,9 @@ export default class RulesList extends Component {
                                 {
                                     cartRule.is_main_product
                                     ? 
-                                        parseFloat(variant.price) 
+                                        parseFloat(variant.price)+currency
                                     :
-                                        (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100) 
+                                        (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100)+currency
                                 }
                             </span>
                         </div>

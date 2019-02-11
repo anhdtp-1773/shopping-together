@@ -31,7 +31,6 @@ export default class AddRule extends Component {
             message: '',
             showProductQty: 0,
             rulesNameExist: [],
-            
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);
@@ -51,6 +50,7 @@ export default class AddRule extends Component {
                 showProductQty: result.data.setting.show_product_qty,
                 rulesNameExist: result.data.rules_name,
                 isFetching: false,
+                currency: result.data.currency.currency
             })
         }
     }
