@@ -7,49 +7,56 @@ export default class Preview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                cartRules: [],
-                title: '',
-                src: '',
-                price: '',
-                option1: '',
-                option2: '',
-                option3: '',
-                idProduct: '',
-                currency: '',
+            cartRules: [],
+            title: '',
+            src: '',
+            price: '',
+            option1: '',
+            option2: '',
+            option3: '',
+            idProduct: '',
+            currency: '',
+            priceProducts: []
         };
-        this.showCartRule = this.showCartRule.bind(this);
         this.showAlert = this.showAlert.bind(this);
     }
     async componentWillMount () {
         const response = await api.getProductInfo();
         const result = JSON.parse(response.text);
+        let priceProducts = [];
+        let cartRules = [];
         this.setState({
             product: result.data,
         });
+  
 	    if(result.data){
+            const cartRulesResponse = await api.getCartRules(result.data.id_shopify_product);
+            const cartRulesResult = JSON.parse(cartRulesResponse.text);
+
+            if(cartRulesResult.data){
+                cartRules = cartRulesResult.data;
+                if (cartRules.length > 0) {
+                    priceProducts['cartRules'] = [];
+                    cartRules.forEach(function(cartRule) {
+                        if(cartRule.variants.length > 0) {
+                            let variants = cartRule.variants;
+                            priceProducts['cartRules'][cartRule.id_product] = [];
+                            priceProducts['cartRules'][cartRule.id_product][variants[0]['id_variant']] = cartRule.is_main_product ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
+                        }
+                    })
+                }
+            }
             this.setState({
                 title: result.data.title,
-                src: result.data.src,
+                src: result.data.src_image,
                 price: result.data.price,
+                priceProducts: priceProducts,
                 option1: result.data.option1,
                 option2: result.data.option2,
                 option3: result.data.option3,
                 idProduct: result.data.id_shopify_product,
                 currency: result.data.currency,
-            })
-            this.showCartRule(result.data.id_shopify_product);
-        }
-    }
-
-    async showCartRule (idProduct) {
-        const response = await api.getCartRules(idProduct);
-        const result = JSON.parse(response.text);
-        this.setState({
-            cart_rules: result.data,
-        });
-        if(result.data){
-            this.setState({
-                cartRules: result.data,
+                cartRules: cartRules
             })
         }
     }
@@ -67,7 +74,7 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, currency} = this.state;
+        const {title, src, price, option1, option2, option3, cartRules, currency, total, priceProducts} = this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor} = this.props;
@@ -86,7 +93,7 @@ export default class Preview extends Component {
             fontWeight: oldPriceFontStyle == 'italic' ? '' : oldPriceFontStyle,
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
         };
-
+        
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -114,24 +121,24 @@ export default class Preview extends Component {
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
-
-        let total = 0;
-        cartRules.map((cartRule, i) => {
-            cartRule.variants.map((variant, i) => {
-                if(!cartRule.is_main_product){
-                    total += (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100);
-                }
+        
+        let totalPrice = 0;
+        if((priceProducts['cartRules'])){
+            _.mapValues(priceProducts['cartRules'], function(value) {
+                totalPrice += Number(_.values(value))
             })
-        })
+        }
         return (
             <div className="col-md-12 wrap-preview">
                 <div className="row right-side__menu">
-                    <div className="menu-title col-md-4">{lang.happypoint}</div>
-                    <div className="col-md-5 col-md-offset-1">
+                    <div className="menu-title col-md-4 col-xs-6 col-sm-4">
+                        {lang.happypoint}
+                    </div>
+                    <div className="col-md-5 col-md-offset-1 col-sm-offset-1 col-xs-6 col-sm-4">
                         <span>{lang.home}</span>
                         <span>{lang.catalog}</span>
                     </div>
-                    <div className="col-md-2 menu-icon">
+                    <div className="col-md-2 menu-icon col-xs-12 col-sm-3">
                         <span><i className="fa fa-search" aria-hidden="true"></i></span>
                         <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
                     </div>
@@ -210,7 +217,7 @@ export default class Preview extends Component {
                                     })}
                                     <p className="col-md-12 right-side__total unpadding-left">
                                         <div className="col-md-6 first">{lang.total}</div>
-                                        <div className="col-md-6 second" style={totalAmountStyle}>{total}{currency}</div>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{totalPrice}</div>
                                     </p>
                                     <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                                 </div>
