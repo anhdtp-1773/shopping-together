@@ -28,6 +28,8 @@ export default class Discount extends Component {
         discountProducts.map((product) => {
             if(!product.isMainProduct){
                 total += (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100);
+            }else{
+                total += (parseFloat(product.price));
             }
         })
         const disabledOnClick = _.every(_.values(validates), function(value) {return value == 'valid'});
@@ -57,9 +59,9 @@ export default class Discount extends Component {
                                         {
                                             product.isMainProduct
                                             ? 
-                                                null
+                                                parseFloat(product.price)
                                             :
-                                                (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) +" "+ product.currency
+                                                (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) + product.currency
                                         }
                                     </td>
                                 </tr>

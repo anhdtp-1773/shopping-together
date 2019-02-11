@@ -88,10 +88,8 @@ class Product extends Model
     {
         $data = [];
         $query = DB::table('products');
-        $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
-        $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
+        $query->select('products.id', 'products.id_shopify_product', 'products.title', 'products.src_image as src', 'products.price', 'currency.currency');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
-        $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->where('products.id_shop', $id_shop);
         if($is_main_product){
             $query->whereNotIn('products.id_shopify_product', function($q) use ($id_shop){
@@ -159,9 +157,8 @@ class Product extends Model
     public static function search($key_word, $page_number, $items_per_page, $id_shop, $is_main_product = false){
         $data = [];
         $query =  DB::table('products');
-        $query->select('products.*', 'variants.price', 'images.src', 'currency.currency');
+        $query->select('products.id', 'products.id_shopify_product', 'products.title', 'products.src_image as src', 'variants.price', 'currency.currency');
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
-        $query->join('images', 'images.id_product', '=', 'products.id_shopify_product');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->where('products.id_shop', $id_shop);
         if($is_main_product){
@@ -195,6 +192,8 @@ class Product extends Model
                 'id_shop' => $id_shop,
                 'title' => $product->title,
                 'handle' => $product->handle,
+                'src_image' => isset($product->image) ? $product->image->src : null,
+                'price' => array_shift($product->variants)->price,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
