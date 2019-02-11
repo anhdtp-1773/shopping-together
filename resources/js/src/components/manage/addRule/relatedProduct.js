@@ -179,8 +179,8 @@ export default class RelatedProduct extends Component {
                                             <div className="check-product">
                                                 <input
                                                     type="checkbox"
-                                                    name="vehicle3"
-                                                    checked = {(find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} />
+                                                    checked = {(find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} 
+                                                />
                                                 <span className="checkmark"></span>
                                             </div>
                                             <div className="caption">
