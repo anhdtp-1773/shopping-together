@@ -137,6 +137,7 @@ export default class Manage extends Component {
 
     async handleChangeStatus (id, status) {
         const {rules} = this.state;
+        let statusOption = this.state.status;
         let ids = [];
         this.setState({
             isFetching: true
@@ -146,26 +147,23 @@ export default class Manage extends Component {
             if (status === true) {
                 let changeStatusAll = true;
                 rules.map((rule, i) => {
-                    if (rule.id !== id){
-                        if(rule.status == false) {
-                            changeStatusAll = false;
-                        }}
+                    if (rule.id !== id && rule.status == false){
+                        changeStatusAll = false;
+                    }
                 });
                 if (changeStatusAll === true ){
-                    this.state.status = true;
-                } else {
-                    this.state.status = false;
+                    statusOption = true;
                 }
             } else {
-                this.state.status = false;
+                statusOption = false;
             }
             rules.map((rule, i) => {
                 if (rule.id == id){
-                 rule.status = status;
+                    rule.status = status;
                 }
             });
         } else {
-            this.state.status = status;
+            statusOption = status;
             rules.map((rule) => {
                 rule.status = status;
                 ids.push(rule.id);
@@ -178,7 +176,7 @@ export default class Manage extends Component {
                 this.setState({
                     isFetching: false,
                     rules,
-                    status: this.state.status ? this.state.status : false
+                    status: statusOption ? statusOption : false
                 });
             }else{
                 this.setState({
@@ -192,12 +190,11 @@ export default class Manage extends Component {
     } 
 
     selectItems (e) {
-        const {rules} = this.state;
-        const checked = e.target.checked;
+        const {rules, itemsChecked} = this.state;
         let idCartRules = [];
         let idPriceRules = [];
         rules.map((rule) => {
-            if(checked){
+            if(e.target.checked){
                 idCartRules.push(rule.id);
                 idPriceRules.push(rule.id_price_rule_shopify);
             }
@@ -206,7 +203,7 @@ export default class Manage extends Component {
             })
         });
         this.setState({
-            itemsChecked: !this.state.itemsChecked,
+            itemsChecked: !itemsChecked,
             idCartRules,
             idPriceRules
         })
@@ -235,7 +232,7 @@ export default class Manage extends Component {
     }
 
     render() {
-        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, itemsChecked} = this.state;
+        const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, itemsChecked, status} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -289,23 +286,21 @@ export default class Manage extends Component {
                                         </td>
                                         <td>{lang.all}</td>
                                         <td>
-                                            <div className="switch-container">
-                                                <label>
-                                                    <input 
-                                                        ref="switch" 
-                                                        className="glyphicon glyphicon-trash"
-                                                        checked = {this.state.status}
-                                                        onClick={e =>
-                                                            this.handleChangeStatus(0, !this.state.status)
-                                                        } 
-                                                        className="switch" 
-                                                        type="checkbox" 
-                                                        />
-                                                    <div>
-                                                        <div></div>
-                                                    </div>
-                                                </label>
-                                            </div>
+                                            <label>
+                                                <input 
+                                                    ref="switch" 
+                                                    className="glyphicon glyphicon-trash"
+                                                    checked = {status}
+                                                    onClick={e =>
+                                                        this.handleChangeStatus(0, !status)
+                                                    } 
+                                                    className="switch" 
+                                                    type="checkbox" 
+                                                    />
+                                                <div>
+                                                    <div></div>
+                                                </div>
+                                            </label>
                                         </td>
                                         <td>
                                         <span 
@@ -322,21 +317,19 @@ export default class Manage extends Component {
                                             <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={ (event) => this.handleClick(rule.id_price_rule_shopify, event)} /></td>
                                             <td>{rule.name}</td>
                                             <td>
-                                                <div className="switch-container">
-                                                    <label>
-                                                        <input 
-                                                            ref="switch" 
-                                                            className="switch" type="checkbox" 
-                                                            onClick={e =>
-                                                                this.handleChangeStatus(rule.id, !rule.status)
-                                                            } 
-                                                            checked={rule.status} 
-                                                            />
-                                                        <div>
-                                                            <div></div>
-                                                        </div>
-                                                    </label>
-                                                </div>
+                                                <label>
+                                                    <input 
+                                                        ref="switch" 
+                                                        className="switch" type="checkbox" 
+                                                        onClick={e =>
+                                                            this.handleChangeStatus(rule.id, !rule.status)
+                                                        } 
+                                                        checked={rule.status} 
+                                                        />
+                                                    <div>
+                                                        <div></div>
+                                                    </div>
+                                                </label>
                                             </td>
                                             <td>
                                                 <span className="glyphicon glyphicon-edit"></span>
