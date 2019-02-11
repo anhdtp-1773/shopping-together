@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Pagination from "react-js-pagination";
-import * as _ from "lodash";
+import {debounce, filter, head, isEmpty, every, values} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
 
@@ -16,7 +16,7 @@ export default class MainProduct extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
-        this.onSearchProduct =  _.debounce(this.onSearchProduct, 500);
+        this.onSearchProduct =  debounce(this.onSearchProduct, 500);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.nextStep = this.nextStep.bind(this, 2);
     }
@@ -48,8 +48,8 @@ export default class MainProduct extends Component {
     }
 
     onSelectProduct(id){
-        let product = _.filter(this.state.products, function(product) { return product.id == id; });
-        _.head(product).isMainProduct = true;
+        let product = filter(this.state.products, function(product) { return product.id == id; });
+        head(product).isMainProduct = true;
         this.props.onSelectMainProduct(product);
     }
 
@@ -110,7 +110,7 @@ export default class MainProduct extends Component {
     render() {
         const {products, itemsPerPage, totalItems, isFetching, msg} = this.state;
         const {currentPage,  ruleName, requiredFields, validates, keyWord} = this.props;
-        const disabledOnClick =  _.isEmpty(requiredFields) ? true : !_.every(_.values(validates), function(value) {return value == 'valid'});
+        const disabledOnClick =  isEmpty(requiredFields) ? true : !every(values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -152,7 +152,7 @@ export default class MainProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className="product-wrap col-sm-6 col-md-2" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
+                                    <span className="product-wrap col-sm-6 col-md-2 col-xs-6" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <h5 className="split-title-product">{product.title}</h5>

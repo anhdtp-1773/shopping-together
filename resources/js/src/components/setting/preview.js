@@ -131,12 +131,14 @@ export default class Preview extends Component {
         return (
             <div className="col-md-12 wrap-preview">
                 <div className="row right-side__menu">
-                    <div className="menu-title col-md-4">{lang.happypoint}</div>
-                    <div className="col-md-5 col-md-offset-1">
+                    <div className="menu-title col-md-4 col-xs-6 col-sm-4">
+                        {lang.happypoint}
+                    </div>
+                    <div className="col-md-5 col-md-offset-1 col-sm-offset-1 col-xs-6 col-sm-4">
                         <span>{lang.home}</span>
                         <span>{lang.catalog}</span>
                     </div>
-                    <div className="col-md-2 menu-icon">
+                    <div className="col-md-2 menu-icon col-xs-12 col-sm-3">
                         <span><i className="fa fa-search" aria-hidden="true"></i></span>
                         <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
                     </div>

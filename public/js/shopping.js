@@ -64,14 +64,12 @@ function renderCartRule (settings, cartRule) {
             optionVariants += "<option  value='"+variant.id_variant+"'>"+variant.title+"</option>";
         });
         let newPrice =  parseFloat(product.variants[0].price);
-        console.log(product)
-        if(product.is_main_product != 1 ){
+        if(product.is_main_product != 1){
             newPrice = parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
             total += parseFloat(product.variants[0].price) - (parseFloat(product.variants[0].price)*parseFloat(product.reduction_percent))/100;
         }else{
             total += parseFloat(product.variants[0].price);
         }
-        console.log(newPrice)
         var html= 
         "<div class='related-products'>"
             +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
@@ -165,7 +163,20 @@ function onSubmit() {
             type: "GET",
             url: "https://"+domain+"/discount/"+cartRules.shift().code+"",
         });
-        window.location.replace('/cart')
+        $.ajax({
+            url: url+"api/cart-rule/add-to-cart",
+            dataType: 'json', 
+            type: "POST",
+            data: {
+                'id_shop': cartRules.shift().id_shop,
+                'id_cart_rule': cartRules.shift().id
+            },
+            success: function(result){
+                window.location.replace('/cart')
+            },
+            error: function (error) {
+            }
+        });
     })
 }
 

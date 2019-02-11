@@ -10,9 +10,10 @@ import Translation from './translation';
 import Display from './display';
 import api from '../../api';
 import ClassNames from 'classnames'
-import * as Validate from "../../models/validate.model";
+import {require, isNumeric} from "../../models/validate.model";
 import Lodash from 'lodash';
 import Notification from '../notification';
+import { Link } from 'react-router-dom';
 
 export default class Setting extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ export default class Setting extends Component {
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleChangeToggle = this.handleChangeToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.state = {
             isFetching: true,
             form: {
@@ -98,6 +100,15 @@ export default class Setting extends Component {
         }
     }
 
+    toggle (event) {
+      var customize = document.getElementById("btn-customize");
+      var preview = document.getElementById("btn-preview");
+      var leftSide = document.getElementById("left-side");
+      preview.classList.toggle("hide");
+      customize.classList.toggle("show");
+      leftSide.classList.toggle("hide");
+    }
+
     validate (name, value) {
         let {validates} = this.state;
         switch(name){
@@ -110,11 +121,11 @@ export default class Setting extends Component {
             case 'productText':
             case 'cartFontColor':
             case 'backgroundColor':
-                validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                validates[name] = require(value) ? 'valid' : 'invalid';
                 break;
             case 'productImageWidth':
             case 'productImageHeight':
-                validates[name] = Validate.isNumeric(value) ? 'valid' : 'invalid';
+                validates[name] = isNumeric(value) ? 'valid' : 'invalid';
                 break;
         }
 
@@ -256,6 +267,7 @@ export default class Setting extends Component {
     render () {
         const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display} = this.state;
         const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
+        const url = window.location.pathname;
         if(isFetching){
             return (
             <div id="page_loading">
@@ -266,8 +278,39 @@ export default class Setting extends Component {
         )}else {
             return (
                 <div className="container-fluid block-setting">
-                  <div className="col-md-3 left-side">
+                  <div className="row customize-wrap">
+                    <button href="javascript:void(0)" onClick={this.toggle}>
+                        <span id="btn-customize"><i className="fa fa-pencil" aria-hidden="true"></i>{lang.customize}</span>
+                        <span id="btn-preview"><i className="fa fa-eye" aria-hidden="true"></i>{lang.preview}</span>
+                    </button>
+                  </div>
+                  <div className="col-md-3 left-side" id="left-side">
                     <div className="wrap-control">
+                      <div className="col-xs-12 side-menu-inner menu-mobile">
+                        <ul className="">
+                          <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'} >
+                              <Link to={'/'}>
+                                  <span>
+                                      {lang.setup}
+                                  </span>
+                              </Link>
+                          </li>
+                          <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
+                              <Link to={'/manage'}>
+                                  <span>
+                                      {lang.manage}
+                                  </span>
+                              </Link>
+                          </li>
+                          <li className={(url == '/stats') ? 'active treeview' : 'treeview'}>
+                              <Link to={'/stats'}>
+                                  <span>
+                                      {lang.stats}
+                                  </span>
+                              </Link>
+                          </li>
+                        </ul>
+                      </div>
                       <Fragment>
                           <Title
                               titleFontFamily = {form.titleFontFamily}
@@ -394,7 +437,7 @@ export default class Setting extends Component {
                     :
                     null
                   }
-            </div>
+                </div>
             );
         }
     }

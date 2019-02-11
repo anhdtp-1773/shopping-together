@@ -3,7 +3,7 @@ import MainProduct from './mainProduct';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
-import * as Validate from "../../../models/validate.model";
+import {require, isName} from "../../../models/validate.model";
 import Notification from '../../notification';
 
 export default class AddRule extends Component {
@@ -60,11 +60,11 @@ export default class AddRule extends Component {
         switch(name){
             case 'ruleName':
                 if(rulesNameExist){
-                    validates[name] =  _.find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (Validate.require(value) ? 'valid' : 'invalid');
+                    validates[name] =  _.find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (require(value) ? 'valid' : 'invalid');
                 }else{
-                    validates[name] = Validate.require(value) ? 'valid' : 'invalid';
+                    validates[name] = require(value) ? 'valid' : 'invalid';
                 }
-                requiredFields[name] = Validate.isName(value);
+                requiredFields[name] = isName(value);
                 break;
         }
         if (_.isEmpty(value)){
