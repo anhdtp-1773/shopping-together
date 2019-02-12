@@ -20,12 +20,6 @@ export default class RulesList extends Component {
         });
     }
 
-    handleChangeValue (name, newValue) {
-        this.setState ({
-            [name]: newValue
-        });
-    };
-
     render () {
         const { cartRule, productNameStyle, oldPriceStyle, newPriceStyle, currency} = this.props;
         const { variant } = this.state;
