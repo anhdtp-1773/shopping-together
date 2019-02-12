@@ -7,6 +7,8 @@ use App\Shop;
 use App\CartRule;
 use App\Variant;
 use DB;
+use App\Stats;
+use App\DashBoard;
 use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class CartRuleController extends Controller
@@ -62,12 +64,12 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            $code,
+                            'SPT'.$code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
                             date_format(date_create($request->end_date),"Y-m-d H:i:s"),
-                            $discount->price_rule_id
+                            (string)$discount->price_rule_id
                         );
                         if($cart_rule){
                             foreach($request->products as $product){
@@ -107,6 +109,9 @@ class CartRuleController extends Controller
         $id_product = $request->id_product;
         $shop = Shop::getShopByDomain($domain);
         $cart_rules = CartRule::getCartRule($shop->id, $id_product);
+        if($cart_rules){
+            DashBoard::addNBCartRule($cart_rules[0]->id, $shop->id, 'nb_view');
+        }
         foreach($cart_rules as $key=>$cart_rule){
             $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
         }

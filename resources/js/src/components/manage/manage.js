@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import api from './../../api';
-import * as _ from "lodash";
+import {debounce, clone} from "lodash";
 import Pagination from "react-js-pagination";
 import { Link } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export default class Manage extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
-        this.onSearchRule =  _.debounce(this.onSearchRule, 500);
+        this.onSearchRule =  debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeStatus = this.handleChangeStatus.bind(this);
@@ -215,8 +215,8 @@ export default class Manage extends Component {
     handleClick (idPriceRule, e) {
         const id = parseInt(e.target.value);
         const {rules} = this.state;
-        let idCartRules = _.clone(this.state.idCartRules);
-        let idPriceRules = _.clone(this.state.idPriceRules);
+        let idCartRules = clone(this.state.idCartRules);
+        let idPriceRules = clone(this.state.idPriceRules);
         idPriceRules.indexOf(idPriceRule) >= 0 ? idPriceRules.splice(idPriceRules.indexOf(idPriceRule), 1) : idPriceRules.push(idPriceRule);
         idCartRules.indexOf(id) >= 0 ? idCartRules.splice(idCartRules.indexOf(id), 1) : idCartRules.push(id);
         rules.map((rule) => {
