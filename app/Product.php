@@ -192,7 +192,7 @@ class Product extends Model
                 'title' => $product->title,
                 'handle' => $product->handle,
                 'src_image' => isset($product->image) ? $product->image->src : null,
-                'price' => array_shift($product->variants)->price,
+                'price' => ($product->variants)[0]->price,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
@@ -208,7 +208,7 @@ class Product extends Model
                     'option2' => $value->option2,
                     'option3' => $value->option3,
                     'quantity' => $value->inventory_quantity,
-                    'id_image' => !empty((string)$value->image_id) ? (string)$value->image_id : isset($product->image) ? (string)$product->image->id : null,
+                    'id_image' => isset($value->image_id) ? (string)$value->image_id : (isset($product->image) ? (string)$product->image->id : null),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 );

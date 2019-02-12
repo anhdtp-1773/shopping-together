@@ -36,17 +36,22 @@ export default class RulesList extends Component {
                             <div className="col-md-4">
                                 <span style={productNameStyle}>{variant.product_name}</span>
                             </div>
-                            <div className="col-md-3 unpadding-right">
-                                <span className="col-md-10 unpadding-right">
-                                    <select className="select-option" name="variants" onChange={this.handleChange}>
-                                    {
-                                        cartRule.variants.map((variant, j) => {
-                                            return <option key={j} value={variant.id_variant}>{variant.title}</option>
-                                        })
-                                    }
-                                    </select>
-                                </span>
-                            </div>
+                            {
+                                variant.title != "Default Title"
+                                ?
+                                <div className="col-md-3 unpadding-right">
+                                    <span className="col-md-10 unpadding-right">
+                                        <select className="select-option" name="variants" onChange={this.handleChange}>
+                                        {
+                                            cartRule.variants.map((variant, j) => {
+                                                return <option key={j} value={variant.id_variant}>{variant.title}</option>
+                                            })
+                                        }
+                                        </select>
+                                    </span>
+                                </div>
+                                : null
+                            }
                             <div className="col-md-2 unpadding-right">
                             <del><span className="old-price" style={oldPriceStyle}>{variant.price}{currency}</span></del>
                             <span className="new-price" style={newPriceStyle}>
