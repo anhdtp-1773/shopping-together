@@ -57,14 +57,6 @@ export default class Preview extends Component {
         }
     }
 
-    handleChangeValue (name, newValue) {
-        this.setState ({
-            form: Object.assign({}, this.state.form, {
-                [name]: newValue
-            }),
-        });
-    };
-
     handleChangeTotalPrice (cartRule, idProduct, price) {
         let priceProducts = this.state.priceProducts;
         priceProducts[idProduct] = cartRule.is_main_product ? parseFloat(price) : (parseFloat(price) - (parseFloat(price) * parseFloat(cartRule.reduction_percent))/100);
@@ -78,7 +70,7 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules,  total, priceProducts} = this.state;
+        const {title, src, price, option1, option2, option3, cartRules, priceProducts} = this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
