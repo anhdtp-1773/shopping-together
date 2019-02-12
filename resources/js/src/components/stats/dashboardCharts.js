@@ -41,6 +41,18 @@ export default class DashboardCharts extends Component{
                                 </div>
                                 <div className="chart-container">
                                     <div className="chart-header">
+                                        <h3>{lang.add_to_cart}</h3>
+                                    </div>
+                                    <LineChart width={chartWidth} height={chartHeight} data={this.formatCharData(data.add_to_cart)} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                                        <Line type="monotone" dataKey="quantity" stroke="#8884d8" label={false}/>
+                                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                                        <XAxis dataKey="name" tickLine={false} tick={false}/>
+                                        <YAxis />
+                                        <Tooltip />
+                                    </LineChart>
+                                </div>
+                                <div className="chart-container">
+                                    <div className="chart-header">
                                         <h3>{lang.orders}</h3>
                                     </div>
                                     <LineChart width={chartWidth} height={chartHeight} data={this.formatCharData(data.orders)} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -63,18 +75,7 @@ export default class DashboardCharts extends Component{
                                         <Tooltip />
                                     </LineChart>
                                 </div>
-                                <div className="chart-container">
-                                    <div className="chart-header">
-                                        <h3>{lang.add_to_cart}</h3>
-                                    </div>
-                                    <LineChart width={chartWidth} height={chartHeight} data={this.formatCharData(data.add_to_cart)} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                                        <Line type="monotone" dataKey="quantity" stroke="#8884d8" label={false}/>
-                                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                                        <XAxis dataKey="name" tickLine={false} tick={false}/>
-                                        <YAxis />
-                                        <Tooltip />
-                                    </LineChart>
-                                </div>
+                                
                             </div>
                         </div>
                         :
@@ -88,9 +89,10 @@ export default class DashboardCharts extends Component{
                             <tr>
                                 <th>{lang.name}</th>
                                 <th>{lang.view}</th>
+                                <th>{lang.add_to_cart}</th>
                                 <th>{lang.orders}</th>
                                 <th>{lang.revenue}</th>
-                                <th>{lang.add_to_cart}</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -98,9 +100,9 @@ export default class DashboardCharts extends Component{
                                 <tr key={i}>
                                     <td>{value.name}</td>
                                     <td>{value.total_view}</td>
+                                    <td>{value.total_add_to_cart}</td>
                                     <td>{value.total_order}</td>
                                     <td>{value.total_sale}</td>
-                                    <td>{value.total_add_to_cart}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -245,6 +245,15 @@ export default class Manage extends Component {
                     <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">
                         {lang.add_a_new_rule}
                     </Link>
+                    <div className="container table-rule product-search-wrap">
+                        <input
+                            type="text"
+                            className="form-control search-cart-rule"
+                            placeholder={lang.search}
+                            onChange={this.onChangeKeyWord}
+                            value = {keyWord}
+                        />
+                    </div>
                     <div className="container table-rule">
                         <table className="table">
                             <thead>
@@ -256,22 +265,6 @@ export default class Manage extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <div className="product-search-wrap">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder={lang.search}
-                                                onChange={this.onChangeKeyWord}
-                                                value = {keyWord}
-                                            />
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
                                 {
                                     rules.length > 0
                                     ?

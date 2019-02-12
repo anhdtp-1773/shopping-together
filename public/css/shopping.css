@@ -1249,3 +1249,8 @@ Mobile setup
   opacity: 0.5;
   text-decoration: none;
 }
+
+.search-cart-rule {
+  width: 250px;
+  float: right;
+}

@@ -8,9 +8,10 @@ export default class Discount extends Component {
     constructor(){
         super(...arguments);
         this.state = {
-            validates: {}
+            validates: {},
         }
     }
+
     nextStep (step) {
         this.props.nextStep(step);
     }
@@ -42,26 +43,24 @@ export default class Discount extends Component {
                 <div className="section-datePicker container">
                     <div className="filter-from">
                         <div className="datePicker">
-                          <span className="datePicker_title">{lang.start_date}</span>
-                          <DatePicker
-                              showYearDropdown
-                              selected={(startDate)}
-                              onChange={(value) => this.props.onChangeDate('startDate', value)}
-                              className="form-control"
-                              dateFormat="DD/MM/YYYY"
-                          />
+                            <span className="datePicker_title">{lang.start_date}</span>
+                            <DatePicker
+                                showYearDropdown
+                                selected={startDate}
+                                onChange={(value) => this.props.onChangeDate('startDate', value)}
+                                className="form-control"
+                            />
                         </div>
                     </div>
                     <div className="filter-to">
                         <div className="datePicker">
-                          <span className="datePicker_title">{lang.end_date}</span>
-                          <DatePicker
-                              showYearDropdown
-                              selected={(endDate)}
-                              onChange={(value) => this.props.onChangeDate('endDate', value)}
-                              className="form-control"
-                              dateFormat="DD/MM/YYYY"
-                          />
+                            <span className="datePicker_title">{lang.end_date}</span>
+                            <DatePicker
+                                showYearDropdown
+                                selected={endDate}
+                                onChange={(value) => this.props.onChangeDate('endDate', value)}
+                                className="form-control"
+                            />
                         </div>
                     </div>
                 </div>
