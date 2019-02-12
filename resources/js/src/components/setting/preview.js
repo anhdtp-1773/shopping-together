@@ -8,13 +8,10 @@ export default class Preview extends Component {
         super(props);
         this.state = {
             cartRules: [],
-            title: '',
-            src: '',
-            price: '',
-            option1: '',
-            option2: '',
-            option3: '',
-            idProduct: '',
+            option1: [],
+            option2: [],
+            option3: [],
+            product: '',
             priceProducts: []
         };
         this.showAlert = this.showAlert.bind(this);
@@ -25,12 +22,23 @@ export default class Preview extends Component {
         const result = JSON.parse(response.text);
         let priceProducts = [];
         let cartRules = [];
-        this.setState({
-            product: result.data,
-        });
 	    if(result.data){
             const cartRulesResponse = await api.getCartRules(result.data.id_shopify_product);
             const cartRulesResult = JSON.parse(cartRulesResponse.text);
+            let option1 = [];
+            let option2 = [];
+            let option3 = [];
+            result.data.variants.forEach(function(variant) {
+                if(variant.option1 != null){
+                    option1.push(variant.option1)
+                }   
+                if(variant.option2 != null){
+                    option2.push(variant.option2)
+                }   
+                if(variant.option3 != null){
+                    option3.push(variant.option3)
+                }
+            })
             if(cartRulesResult.data){
                 cartRules = cartRulesResult.data;
                 if (cartRules.length > 0) {
@@ -48,11 +56,11 @@ export default class Preview extends Component {
                 src: result.data.src_image,
                 price: result.data.price,
                 priceProducts: priceProducts,
-                option1: result.data.option1,
-                option2: result.data.option2,
-                option3: result.data.option3,
-                idProduct: result.data.id_shopify_product,
-                cartRules: cartRules
+                option1,
+                option2,
+                option3,
+                cartRules: cartRules,
+                product: result.data,
             })
         }
     }
@@ -70,7 +78,7 @@ export default class Preview extends Component {
     }
 
     render () {
-        const {title, src, price, option1, option2, option3, cartRules, priceProducts} = this.state;
+        const {option1, option2, option3, cartRules, priceProducts, product} = this.state;
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
@@ -139,50 +147,50 @@ export default class Preview extends Component {
                 </div>
                 <div className="row right-side__form-product">
                     <div className="col-md-6">
-                        <img className="image-setting-product" src={src}/>
+                        <img className="image-setting-product" src={product.src_image}/>
                     </div>
                     <div className="col-md-6 unpadding-right">
                         <div className="form-group">
-                            <p className="title-product">{title}</p>
-                            <p className="price-product">{price}{currency}</p>
+                            <p className="title-product">{product.title}</p>
+                            <p className="price-product">{product.price}{currency}</p>
                             <div className="col-md-12 option-product">
                             {
-                                option1
+                                option1.length > 0
                                 ?
                                 <div className="col-md-6">
-                                    <p>{lang.option_1}</p>
-                                    <select
-                                        name="option1"
-                                        className="form-control">
-                                        <option>{option1}</option>
+                                    <p>{lang.option_name_1}</p>
+                                    <select name="option1" className="form-control">
+                                        {option1.map((value, i)=>{
+                                           return <option key={i}>{value}</option>
+                                        })}
                                     </select>
                                 </div>
                                 :
                                 null
                             }
                             {
-                                option2
+                                option2.length > 0 
                                 ?
                                 <div className="col-md-6">
-                                    <p>{lang.option_2}</p>
-                                    <select
-                                        name="option2"
-                                        className="form-control">
-                                        <option>{option2}</option>
+                                    <p>{lang.option_name_2}</p>
+                                    <select name="option2" className="form-control">
+                                        {option2.map((value, i)=>{
+                                            return <option key={i}>{value}</option>
+                                        })}
                                     </select>
                                 </div>
                                 :
                                 null
                             }
                             {
-                                option3
+                                option3.length > 0
                                 ?
                                 <div className="col-md-6">
-                                    <p>{lang.option_3}</p>
-                                    <select
-                                        name="option3"
-                                        className="form-control">
-                                        <option>{option3}</option>
+                                    <p>{lang.option_name_3}</p>
+                                    <select name="option3" className="form-control">
+                                        {option3.map((value, i)=>{
+                                            return <option key={i}>{value}</option>
+                                        })}
                                     </select>
                                 </div>
                                 :
