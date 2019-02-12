@@ -55,9 +55,9 @@ export default class TotalAmount extends Component {
         return (
             <div className="full-width display-block">
                 <div data-index="totalAmount" className='btn-block left-side__title' onClick={this.toggle}>
-                  <span>{lang.total_amount}</span>
-                  <span><i className={(totalAmount ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
-                  <span><i className={(totalAmount ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                    {lang.total_amount}
+                    <span><i className={(totalAmount ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                    <span><i className={(totalAmount ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
                 </div>
                 <div className={(totalAmount ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">

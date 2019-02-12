@@ -55,9 +55,9 @@ export default class OldPrice extends Component {
         return (
             <div className="full-width display-block">
                 <div data-index="title" className='btn-block left-side__title' onClick={this.toggle}>
-                  <span>{lang.title}</span>
-                  <span><i className={(title ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
-                  <span><i className={(title ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                    {lang.title}
+                    <span onClick={this.toggle}><i className={(title ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
+                    <span onClick={this.toggle}><i className={(title ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
                 </div>
                 <div className={(title ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
