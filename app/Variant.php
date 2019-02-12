@@ -75,4 +75,23 @@ class Variant extends Model
         $sql->where('variants.id_product', $id_product);
         return $sql->get()->toArray();
     }
+
+
+     /**
+     * @param string $id_product
+     * @return array
+     * <pre>
+     *  array (
+     *  'option1' => string,
+     *  'option1' => string,
+     *  'option1' => string,
+     *  'title' => string,
+     * )    
+     */
+    public static function getOptions ($id_product) {
+        $sql = DB::table('variants');
+        $sql->select('option1', 'option2', 'option3', 'title');
+        $sql->where('variants.id_product', $id_product);
+        return $sql->get()->toArray();
+    }
 }

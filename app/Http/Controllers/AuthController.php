@@ -155,7 +155,8 @@ class AuthController extends Controller
             for ($i=0; $i<$pages; $i++) {
                 $products = $shop->api()->request("GET", "/admin/products.json?limit=250&page=".($i+1))->body->products;
                 try{
-                    Product::cloneProducts($products, $id_shop);                } 
+                    Product::cloneProducts($products, $id_shop);                
+                } 
                 catch(\Exception $e){
                     $status = false;
                     $msg = $e->getMessage();

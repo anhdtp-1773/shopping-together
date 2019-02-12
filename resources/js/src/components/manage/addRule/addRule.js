@@ -31,7 +31,6 @@ export default class AddRule extends Component {
             message: '',
             showProductQty: 0,
             rulesNameExist: [],
-            
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);

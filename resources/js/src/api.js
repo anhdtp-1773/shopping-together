@@ -111,6 +111,13 @@ export default {
         });
     },
 
+    getCartRules(idProduct){
+        return superagent.post('/api/cart-rule/get').send({
+            'shopify_domain': domain,
+            'id_product': idProduct,
+        });
+    },
+    
     changeRuleStatus(idCartRules, status){
         return superagent.post('/api/cart-rule/change-status').send({
             'shopify_domain': domain,

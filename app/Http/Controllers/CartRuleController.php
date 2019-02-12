@@ -113,7 +113,7 @@ class CartRuleController extends Controller
             DashBoard::addNBCartRule($cart_rules[0]->id, $shop->id, 'nb_view');
         }
         foreach($cart_rules as $key=>$cart_rule){
-            $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
+            $cart_rules[$key]->variants = Variant::getVariant($cart_rule->id_product);
         }
         return response()->json([
             'data' => $cart_rules,
