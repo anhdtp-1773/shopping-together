@@ -56,8 +56,10 @@ export default class ProductName extends Component {
             <div className="full-width display-block">
                 <div data-index="productName" className='btn-block left-side__title' onClick={this.toggle}>
                     {lang.product_name}
-                    <span><i className={(productName ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
-                    <span><i className={(productName ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                    <span>
+                        <i data-index="productName" className={(productName ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i>
+                        <i data-index="productName" className={(productName ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i>
+                    </span>
                 </div>
                 <div className={(productName ? 'left-side__control' : 'collapse')}>
                     <div className="full-width display-block">
