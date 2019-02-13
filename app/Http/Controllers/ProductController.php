@@ -155,7 +155,9 @@ class ProductController extends Controller
     public function get(Request $request){
         $shop = Shop::getShopByDomain($request->shopify_domain);
         $product = $shop ? Product::getFirstProduct($shop->id) : null;
-        $product->variants = Variant::getOptions($product->id_shopify_product);
+        if($product){
+            $product->variants = Variant::getOptions($product->id_shopify_product);
+        }   
         return response()->json([
             'message'=> $product ? trans('label.update_successfully') : trans('label.un_successfully'),
             'data' => $product

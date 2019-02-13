@@ -28,17 +28,19 @@ export default class Preview extends Component {
             let option1 = [];
             let option2 = [];
             let option3 = [];
-            result.data.variants.forEach(function(variant) {
-                if(variant.option1 != null){
-                    option1.push(variant.option1)
-                }   
-                if(variant.option2 != null){
-                    option2.push(variant.option2)
-                }   
-                if(variant.option3 != null){
-                    option3.push(variant.option3)
-                }
-            })
+            if(result.data.variants){
+                result.data.variants.forEach(function(variant) {
+                    if(variant.option1 != null){
+                        option1.push(variant.option1)
+                    }   
+                    if(variant.option2 != null){
+                        option2.push(variant.option2)
+                    }   
+                    if(variant.option3 != null){
+                        option3.push(variant.option3)
+                    }
+                })
+            }
             if(cartRulesResult.data){
                 cartRules = cartRulesResult.data;
                 if (cartRules.length > 0) {
