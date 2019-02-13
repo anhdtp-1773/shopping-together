@@ -244,9 +244,9 @@ export default class Preview extends Component {
                                 lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
                             }
                         </div>
-                        <div className="row right-side__footer">
-                            <span>{lang.label_footer}</span>
-                        </div>
+                    </div>
+                    <div className="row right-side__footer">
+                        <span>{lang.label_footer}</span>
                     </div>
                 </div>
             );
