@@ -56,7 +56,7 @@ class CartRuleController extends Controller
                         $discount = CartRule::saveCartRuleOnShopify(
                             $id_main_product,
                             $id_related_product,
-                            $code,
+                            'SPT'.$code,
                             $request->reduction_percent,
                             $request->start_date, 
                             $request->end_date
@@ -113,7 +113,7 @@ class CartRuleController extends Controller
             DashBoard::addNBCartRule($cart_rules[0]->id, $shop->id, 'nb_view');
         }
         foreach($cart_rules as $key=>$cart_rule){
-            $cart_rules[$key]->variants =  Variant::getVariant($cart_rule->id_product);
+            $cart_rules[$key]->variants = Variant::getVariant($cart_rule->id_product);
         }
         return response()->json([
             'data' => $cart_rules,
@@ -211,6 +211,7 @@ class CartRuleController extends Controller
                 $shop->api()->request('DELETE', '/admin/price_rules/'.$value.'.json')->body;
             }
             DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
+            DB::table('stats')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
             DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         }
         catch(\Exception $e){
