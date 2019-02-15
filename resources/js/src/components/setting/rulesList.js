@@ -1,5 +1,6 @@
 import React, { Component, Fragment  } from 'react';
 import * as _ from "lodash";
+import {displayPrice} from './../../utility';
 
 export default class RulesList extends Component {
     constructor(props) {
@@ -53,14 +54,14 @@ export default class RulesList extends Component {
                                 : null
                             }
                             <div className="col-md-2 unpadding-right">
-                            <del><span className="old-price" style={oldPriceStyle}>{variant.price}{currency}</span></del>
+                            <del><span className="old-price" style={oldPriceStyle}>{displayPrice(variant.price, currency)}</span></del>
                             <span className="new-price" style={newPriceStyle}>
                                 {
                                     cartRule.is_main_product
                                     ? 
-                                        parseFloat(variant.price)+currency
+                                        displayPrice(parseFloat(variant.price), currency)
                                     :
-                                        (parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100)+currency
+                                        displayPrice((parseFloat(variant.price) - (parseFloat(variant.price) * parseFloat(cartRule.reduction_percent))/100), currency)
                                 }
                             </span>
                         </div>

@@ -3,6 +3,7 @@ import Pagination from "react-js-pagination";
 import {debounce, filter, head, isEmpty, every, values} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
+import {displayPrice} from './../../../utility';
 
 export default class MainProduct extends Component {
     constructor(){
@@ -106,7 +107,7 @@ export default class MainProduct extends Component {
             this.getListProduct();
         }
     }
-
+   
     render() {
         const {products, itemsPerPage, totalItems, isFetching, msg} = this.state;
         const {currentPage,  ruleName, requiredFields, validates, keyWord} = this.props;
@@ -156,7 +157,7 @@ export default class MainProduct extends Component {
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <h5 className="split-title-product">{product.title}</h5>
-                                            <p>{product.price+ " " + product.currency}</p>
+                                            <p>{displayPrice(product.price, product.currency)}</p>
                                         </div>
                                     </span>
                                 ))}
