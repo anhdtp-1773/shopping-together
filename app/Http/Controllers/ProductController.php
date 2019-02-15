@@ -13,7 +13,6 @@ class ProductController extends Controller
 {
     public $page_number = 1;
     protected $items_per_page = 12;
-    
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -118,11 +117,7 @@ class ProductController extends Controller
     public function delete(Request $request){
         $response = (file_get_contents('php://input'));
         // $domain = request()->header('x-shopify-shop-domain');
-        Mail::raw($response, function ($message) {
-            $message->to("namdv32@wru.vn");
-            $message->subject("hello a Nam");
-        });
-        // DB::table('products')->where('id_shopify_product', $response->id)->delete();
+        DB::table('products')->where('id_shopify_product', $response->id)->delete();
     }
 
     /**
