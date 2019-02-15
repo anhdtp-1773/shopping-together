@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../../api';
 import * as _ from "lodash";
 import RulesList from './rulesList';
+import {displayPrice} from './../../utility';
 
 export default class Preview extends Component {
     constructor(props) {
@@ -28,17 +29,19 @@ export default class Preview extends Component {
             let option1 = [];
             let option2 = [];
             let option3 = [];
-            result.data.variants.forEach(function(variant) {
-                if(variant.option1 != null){
-                    option1.push(variant.option1)
-                }   
-                if(variant.option2 != null){
-                    option2.push(variant.option2)
-                }   
-                if(variant.option3 != null){
-                    option3.push(variant.option3)
-                }
-            })
+            if(result.data.variants){
+                result.data.variants.forEach(function(variant) {
+                    if(variant.option1 != null){
+                        option1.push(variant.option1)
+                    }   
+                    if(variant.option2 != null){
+                        option2.push(variant.option2)
+                    }   
+                    if(variant.option3 != null){
+                        option3.push(variant.option3)
+                    }
+                })
+            }
             if(cartRulesResult.data){
                 cartRules = cartRulesResult.data;
                 if (cartRules.length > 0) {
@@ -152,7 +155,7 @@ export default class Preview extends Component {
                     <div className="col-md-6 unpadding-right">
                         <div className="form-group">
                             <p className="title-product">{product.title}</p>
-                            <p className="price-product">{product.price}{currency}</p>
+                            <p className="price-product">{displayPrice(product.price, currency)}</p>
                             <div className="col-md-12 option-product">
                             {
                                 option1.length > 0
@@ -221,7 +224,7 @@ export default class Preview extends Component {
                                     })}
                                     <div className="col-md-12 right-side__total unpadding-left">
                                         <div className="col-md-6 first">{lang.total}</div>
-                                        <div className="col-md-6 second" style={totalAmountStyle}>{totalPrice}{currency}</div>
+                                        <div className="col-md-6 second" style={totalAmountStyle}>{displayPrice(totalPrice, currency)}</div>
                                     </div>
                                     <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                                 </div>
