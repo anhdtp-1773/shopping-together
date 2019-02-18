@@ -31,6 +31,9 @@ if(config('shopify-app.mode')){
         Route::get('/cart-rule/add', function () {
             return view('app');
         });
+        Route::get('/cart-rule/edit', function () {
+            return view('app');
+        });
         Route::get('/home', 'SettingController@index')->name('home');
     });
 }else{
@@ -44,6 +47,9 @@ if(config('shopify-app.mode')){
         return view('app');
     });
     Route::get('/cart-rule/add', function () {
+        return view('app');
+    });
+    Route::get('/cart-rule/edit', function () {
         return view('app');
     });
     Route::get('/home', 'SettingController@index')->name('home');

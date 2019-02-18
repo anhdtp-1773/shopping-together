@@ -199,7 +199,7 @@ class CartRuleController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function deleteRule( Request $request){
+    public function deleteRule(Request $request){
         $msg = trans('label.delete_successfully');
         $status = true;
         $id_cart_rules = is_array($request->id_cart_rules) ? $request->id_cart_rules : array($request->id_cart_rules);
@@ -221,6 +221,18 @@ class CartRuleController extends Controller
         return response()->json([
             'message'=> $msg,
             'status' => $status,
+        ], 200);
+    }
+
+    public function getDetail (Request $request)
+    {   
+        $data = [];
+        if($request->id){
+            $data = CartRule::getRuleById($request->id);
+        }
+        return response()->json([
+            'message'=> $data ? trans('label.successfully') : trans('label.un_successfully'), 
+            'data' => $data
         ], 200);
     }
 }

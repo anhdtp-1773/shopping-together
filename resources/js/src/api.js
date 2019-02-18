@@ -125,4 +125,10 @@ export default {
             'status': status,
         });
     },
+
+    getCartRule (idCartRule) {
+        return superagent.post('/api/cart-rule/get-detail').send({
+            'id': idCartRule,
+        });
+    }
 }
