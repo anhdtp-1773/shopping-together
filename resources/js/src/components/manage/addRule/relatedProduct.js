@@ -4,6 +4,7 @@ import {debounce, filter, every, values, find} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
 import {isPercentage} from "../../../models/validate.model";
+import {displayPrice} from './../../../utility';
 
 export default class RelatedProduct extends Component {
     constructor(){
@@ -185,7 +186,7 @@ export default class RelatedProduct extends Component {
                                             </div>
                                             <div className="caption">
                                                 <h5 className="split-title-product">{product.title}</h5>
-                                                <p>{product.price+ " " + product.currency}</p>
+                                                <p>{displayPrice(product.price, product.currency)}</p>
                                             </div>
                                         </div>
                                     </span>

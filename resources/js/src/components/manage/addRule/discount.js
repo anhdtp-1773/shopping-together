@@ -3,6 +3,7 @@ import {assign, every, values, head} from "lodash";
 import classNames from 'classnames'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {displayPrice} from './../../../utility';
 
 export default class Discount extends Component {
     constructor(){
@@ -80,14 +81,14 @@ export default class Discount extends Component {
                                 <tr className="info-product" key={key}>
                                     <td><img className="set-discount__img" src={product.src} alt="..." /></td>
                                     <td>{product.title}</td>
-                                    <td>{product.price +" "+ product.currency}</td>
+                                    <td>{displayPrice(product.price, product.currency)}</td>
                                     <td className="set-discount__sale-price">
                                         {
                                             product.isMainProduct
                                             ? 
-                                                parseFloat(product.price) + product.currency
+                                                displayPrice(product.price, product.currency)
                                             :
-                                                (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100) + product.currency
+                                                displayPrice((parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100), product.currency)
                                         }
                                     </td>
                                 </tr>
@@ -96,7 +97,7 @@ export default class Discount extends Component {
                                 <td>{lang.total}</td>
                                 <td></td>
                                 <td></td>
-                                <td className="set-discount__sale-price">{total +" "+ head(discountProducts).currency}</td>
+                                <td className="set-discount__sale-price">{displayPrice(total, head(discountProducts).currency)}</td>
                             </tr>
                         </tbody>
                     </table>
