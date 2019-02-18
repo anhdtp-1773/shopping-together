@@ -200,20 +200,6 @@ export default class Preview extends Component {
                                     null
                                 }
                                 {
-                                    option2.length > 0 
-                                    ?
-                                    <div className="col-md-6">
-                                        <p>{lang.option_name_2}</p>
-                                        <select name="option2" className="form-control">
-                                            {option2.map((value, i)=>{
-                                                return <option key={i}>{value}</option>
-                                            })}
-                                        </select>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {
                                     option3.length > 0
                                     ?
                                     <div className="col-md-6">
