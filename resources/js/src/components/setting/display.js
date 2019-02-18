@@ -22,37 +22,39 @@ export default class Display extends Component {
         return (
             <div className="full-width display-block">
                 <div data-index="display" className='btn-block left-side__title' onClick={this.toggle}>
-                  <span>{lang.display}</span>
-                  <span><i className={(display ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i></span>
-                  <span><i className={(display ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i></span>
+                    {lang.display}
+                    <span>
+                        <i data-index="display" className={(display ? 'hide' : 'appear fa fa-plus')} aria-hidden="true"></i>
+                        <i data-index="display" className={(display ? 'appear fa fa-minus' : 'hide')} aria-hidden="true"></i>
+                    </span>
                 </div>
                 <div className={(display ? 'left-side__control' : 'collapse')}>
                     <div>
                         <p>{lang.show}</p>
                         <label className="check-product">
-                          <input type="checkbox" checked/>
-                          <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
-                          <span className="checkmark"></span>
+                            <input type="checkbox" checked/>
+                            <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
+                            <span className="checkmark"></span>
                         </label>
 
                         <label className="check-product">
-                          <input type="checkbox" defaultChecked/>
-                          <span className="left-side__checkbox-title">{lang.allow_on_mobile_devices}</span>
-                          <span className="checkmark"></span>
+                            <input type="checkbox" defaultChecked/>
+                            <span className="left-side__checkbox-title">{lang.allow_on_mobile_devices}</span>
+                            <span className="checkmark"></span>
                         </label>
                     </div>
                     <div className="left-side__product-group">
                         <p>{lang.products_to_group}</p>
                         <div className="range-show-product">
-                          <input
-                              type="range"
-                              name="showProductQty"
-                              className="slider"
-                              value={showProductQty}
-                              min={rangeProductQuantityMin}
-                              max={rangeProductQuantityMax}
-                              onChange={this.handleChangeValue}
-                          />
+                            <input
+                                type="range"
+                                name="showProductQty"
+                                className="slider"
+                                value={showProductQty}
+                                min={rangeProductQuantityMin}
+                                max={rangeProductQuantityMax}
+                                onChange={this.handleChangeValue}
+                            />
                           <span>{showProductQty}</span>
                         </div>
                     </div>
