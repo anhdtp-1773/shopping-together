@@ -15,7 +15,6 @@ export default class Manage extends Component {
             isFetching: true,
             keyWord: '',
             itemsChecked: false,
-            isChecked: false,
             idCartRules: [],
             idPriceRules: [],
             status: true,
@@ -126,10 +125,10 @@ export default class Manage extends Component {
     }
 
     checkStateStatus (rules) {
-        let checkStateStatus = true;
+        let checkStateStatus = false;
         rules.map((rule, i) => {
-            if (rule.status == false){
-                checkStateStatus = false;
+            if (rule.status == true){
+                checkStateStatus = true;
             }
         });
         return checkStateStatus;
@@ -144,19 +143,13 @@ export default class Manage extends Component {
         });
         if (id) {
             ids = [id];
-            if (status === true) {
-                let changeStatusAll = true;
-                rules.map((rule, i) => {
-                    if (rule.id !== id && rule.status == false){
-                        changeStatusAll = false;
+            if (status ==false) {
+                rules.map((rule, i) =>{
+                    if(rule.id !== id && rule.status ==false){
+                        statusOption = false;
                     }
-                });
-                if (changeStatusAll === true ){
-                    statusOption = true;
-                }
-            } else {
-                statusOption = false;
-            }
+                })
+            } else statusOption = true;
             rules.map((rule, i) => {
                 if (rule.id == id){
                     rule.status = status;
@@ -299,8 +292,12 @@ export default class Manage extends Component {
                                         <span 
                                             className="glyphicon glyphicon-trash"
                                             onClick={e =>
-                                                window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
-                                                this.deleteRule()
+                                                itemsChecked===true 
+                                                ?
+                                                    window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
+                                                    this.deleteRule() 
+                                                : 
+                                                    window.confirm(lang.please_selected_all_rules_box) 
                                             }
                                         />
                                         </td>
@@ -325,7 +322,9 @@ export default class Manage extends Component {
                                                 </label>
                                             </td>
                                             <td>
-                                                <span className="glyphicon glyphicon-edit"></span>
+                                                <span>
+                                                    <Link  to={'/cart-rule/edit'} className="glyphicon glyphicon-edit" onClick={ (event) => this.handleClick(rule.id_price_rule_shopify, event)}/>
+                                                </span>
                                                 <span
                                                     className="glyphicon glyphicon-trash"
                                                     onClick={e =>
