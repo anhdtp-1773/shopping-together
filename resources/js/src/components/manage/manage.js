@@ -255,14 +255,14 @@ export default class Manage extends Component {
                                     ?
                                     <Fragment>
                                         <tr>
-                                            <td><input type="checkbox" defaultChecked={itemsChecked} onClick={this.selectItems}/></td>
+                                            <td><input type="checkbox" checked={itemsChecked} onClick={this.selectItems}/></td>
                                             <td>{lang.all}</td>
                                             <td>
                                                 <label>
                                                     <input 
                                                         ref="switch" 
                                                         className="glyphicon glyphicon-trash"
-                                                        defaultChecked = {status}
+                                                        checked={status}
                                                         onClick={e => this.handleChangeStatus(0, !status)}
                                                         className="switch" 
                                                         type="checkbox" 
@@ -278,20 +278,20 @@ export default class Manage extends Component {
                                                     onClick={e =>
                                                         itemsChecked===true 
                                                         ?
-                                                            window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) && this.deleteRule() 
+                                                            window.confirm(lang.are_you_sure_to_delete_all_of_these_rule) && this.deleteRule() 
                                                         : 
-                                                            window.confirm(lang.please_selected_all_rules_box) 
+                                                            window.confirm(lang.please_tick_the_box_to_select_all_rules) 
                                                     }
                                                 />
                                             </td>
                                         </tr>
                                         {rules.map((rule, i)=>(
                                             <tr key={i}>
-                                                <td><input defaultChecked={rule.is_selected} value={rule.id} type="checkbox" onClick={(event) => this.handleClick(rule.id_price_rule_shopify, event)}/></td>
+                                                <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={(event) => this.handleClick(rule.id_price_rule_shopify, event)}/></td>
                                                 <td>{rule.name}</td>
                                                 <td>
                                                     <label>
-                                                        <input ref="switch" className="switch" type="checkbox" onClick={e => this.handleChangeStatus(rule.id, !rule.status)} defaultChecked={rule.status}/>
+                                                        <input ref="switch" className="switch" type="checkbox" onClick={e => this.handleChangeStatus(rule.id, !rule.status)} checked={rule.status}/>
                                                         <div>
                                                             <div></div>
                                                         </div>
@@ -303,7 +303,7 @@ export default class Manage extends Component {
                                                     </span>
                                                     <span 
                                                         className="glyphicon glyphicon-trash"
-                                                        onClick={e => window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) && this.deleteRule(rule.id, rule.id_price_rule_shopify)}
+                                                        onClick={e => window.confirm(lang.are_you_sure_to_delete_this_rule) && this.deleteRule(rule.id, rule.id_price_rule_shopify)}
                                                     />
                                                 </td>
                                             </tr>
