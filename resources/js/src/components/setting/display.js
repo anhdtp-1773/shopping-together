@@ -34,7 +34,7 @@ export default class Display extends Component {
                         <label className="check-product">
                             <input type="checkbox" checked/>
                             <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
-                            <span className="checkmark"></span>
+                            <span className="checkmark" style={{opacity: 0.5}}></span>
                         </label>
 
                         <label className="check-product">

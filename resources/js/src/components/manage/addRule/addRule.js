@@ -60,9 +60,9 @@ export default class AddRule extends Component {
         switch(name){
             case 'ruleName':
                 if(rulesNameExist){
-                    validates[name] = find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (require(value) ? 'valid' : 'invalid');
+                    validates[name] = find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (require(value.split(' ').join('')) ? 'valid' : 'invalid');
                 }else{
-                    validates[name] = require(value) ? 'valid' : 'invalid';
+                    validates[name] = require(value.split(' ').join('')) ? 'valid' : 'invalid';
                 }
                 requiredFields[name] = isName(value);
                 break;
