@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import Lodash from 'lodash'
+import {debounce, clone, isEqual} from 'lodash'
 import classNames from 'classnames'
 import moment from 'moment'
 import api from './../../api';
 import DashboardCharts from "./dashboardCharts"
+
 export default class Dashboard extends Component{
     constructor(){
         super(...arguments);
@@ -30,7 +31,7 @@ export default class Dashboard extends Component{
             dashboardDetail: [],
         };
 
-        this.forceChartsUpdate = Lodash.debounce(this.forceChartsUpdate, 100);
+        this.forceChartsUpdate = debounce(this.forceChartsUpdate, 100);
     }
 
     initialTimeFrame(range) {
@@ -68,7 +69,7 @@ export default class Dashboard extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-        if(!_.isEqual(nextProps.dashboardData, this.dashboardData)){
+        if(!isEqual(nextProps.dashboardData, this.dashboardData)){
             this.setState({
                 dashboardData: nextProps.dashboardData,
                 loading: false
@@ -269,7 +270,7 @@ export default class Dashboard extends Component{
         );
         const result = JSON.parse(response.text);
         if(result.status){
-            let dashboardData = Lodash.clone(this.state.dashboardData);
+            let dashboardData = clone(this.state.dashboardData);
             Object.assign(dashboardData, {
                 [this.state.range]: result.data.dashboard
             })

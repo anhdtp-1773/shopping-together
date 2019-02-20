@@ -19,7 +19,7 @@ export default class RelatedProduct extends Component {
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
-        this.onSearchProduct =  debounce(this.onSearchProduct, 500);
+        this.onSearchProduct = debounce(this.onSearchProduct, 500);
         this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 

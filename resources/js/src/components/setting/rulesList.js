@@ -1,12 +1,12 @@
 import React, { Component, Fragment  } from 'react';
-import * as _ from "lodash";
+import {head, find} from "lodash";
 import {displayPrice} from './../../utility';
 
 export default class RulesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            variant: _.head(this.props.cartRule.variants),
+            variant: head(this.props.cartRule.variants),
         };
         this.handleChange = this.handleChange.bind(this)
     }
@@ -14,7 +14,7 @@ export default class RulesList extends Component {
     handleChange (event) {
         const value = event.target.value;
         const {cartRule, idProduct} = this.props;
-        let variant = _.find(cartRule.variants, function(variant) { return variant.id_variant == value });
+        let variant = find(cartRule.variants, function(variant) { return variant.id_variant == value });
         this.props.handleChangeTotalPrice(cartRule, idProduct, variant.price);
         this.setState({
             variant
