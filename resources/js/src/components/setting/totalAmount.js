@@ -100,6 +100,7 @@ export default class TotalAmount extends Component {
                             onChange={this.handleChangeValue}
                             onClick={this.handleClick}
                             name="amountFontColor"
+                            style={{backgroundColor: amountFontColor}}
                             className={classNames('form-control', validates.amountFontColor)}
                             onBlur={this.handleClose}
                         />
