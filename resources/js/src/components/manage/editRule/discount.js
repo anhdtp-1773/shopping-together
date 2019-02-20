@@ -118,13 +118,15 @@ export default class Discount extends Component {
                                         ?
                                            <td></td>
                                         :
-                                            <td 
-                                                onClick={e =>
-                                                    window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
-                                                    this.props.deleteProduct(product.id_shopify_product)
-                                                }
-                                            >
-                                                <i className="fa fa-trash" aria-hidden="true"></i>
+                                            <td>
+                                                <span
+                                                    className="glyphicon glyphicon-trash"
+                                                    onClick={ () =>
+                                                        window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
+                                                        this.props.deleteProduct(product.id_shopify_product)
+                                                    }
+                                                >
+                                                </span>
                                             </td>
                                     }
                                 </tr>
