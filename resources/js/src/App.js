@@ -4,12 +4,6 @@ import { Link } from 'react-router-dom';
 import RouterPath from "./router";
 
 export default class App extends Component {
-    constructor(){
-        super(...arguments);
-        this.state = {
-        }
-    }
-
     render() {
         const url = window.location.pathname;
         return (
@@ -23,7 +17,7 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
-                        <li className={(url == '/manage' || url == '/cart-rule/add') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/manage' || url == '/cart-rule/add' || url == '/cart-rule/edit/') ? 'active treeview' : 'treeview'}>
                             <Link to={'/manage'}>
                                 <span>
                                     {lang.manage}

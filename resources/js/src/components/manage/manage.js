@@ -325,7 +325,7 @@ export default class Manage extends Component {
                                                 </label>
                                             </td>
                                             <td>
-                                                <span className="glyphicon glyphicon-edit"></span>
+                                                <Link  to={'/cart-rule/edit/'+rule.id} className="glyphicon glyphicon-edit"/>
                                                 <span
                                                     className="glyphicon glyphicon-trash"
                                                     onClick={e =>

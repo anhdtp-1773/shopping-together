@@ -121,6 +121,7 @@ export default class Cart extends Component {
                                 value={cartFontColor}
                                 onChange={this.handleChangeValue}
                                 name="cartFontColor"
+                                style={{backgroundColor: cartFontColor}}
                                 className={classNames('form-control', validates.cartFontColor)}
                                 onClick={this.handleClickFontColor}
                             />
@@ -141,28 +142,29 @@ export default class Cart extends Component {
                     </div>
                     <div className="full-width"  ref={node => { this.node = node; }}>
                         <p>{lang.back_ground_color}</p>
-                        <input
-                            type="text"
-                            value={backgroundColor}
-                            onChange={this.handleChangeValue}
-                            name="backgroundColor"
-                            className={classNames('form-control', validates.backgroundColor)}
-                            onClick={this.handleClickBackgroundColor}
-                        />
-                        {
-                            displayBackgroundColor
-                            ?
-                            <Fragment>
-                                <ColorPickerPanel
-                                    alpha={80}
-                                    color={backgroundColor}
-                                    onChange={this.changeHandlerColor.bind(this, 'backgroundColor')}
-                                    mode="HSB"
-                                />
-                            </Fragment>
-                            :
-                            null
-                        }
+                            <input
+                                type="text"
+                                value={backgroundColor}
+                                onChange={this.handleChangeValue}
+                                name="backgroundColor"
+                                style={{backgroundColor: backgroundColor}}
+                                className={classNames('form-control', validates.backgroundColor)}
+                                onClick={this.handleClickBackgroundColor}
+                            />
+                            {
+                                displayBackgroundColor
+                                ?
+                                <Fragment>
+                                    <ColorPickerPanel
+                                        alpha={80}
+                                        color={backgroundColor}
+                                        onChange={this.changeHandlerColor.bind(this, 'backgroundColor')}
+                                        mode="HSB"
+                                    />
+                                </Fragment>
+                                :
+                                null
+                            }
                     </div>
                 </div>
             </div>

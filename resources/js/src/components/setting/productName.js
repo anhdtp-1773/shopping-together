@@ -100,6 +100,7 @@ export default class ProductName extends Component {
                             onChange={this.handleChangeValue}
                             onClick={this.handleClick}
                             name="productFontColor"
+                            style={{backgroundColor: productFontColor}}
                             className={classNames('form-control', validates.productFontColor)}
                             onBlur={this.handleClose}
                         />
