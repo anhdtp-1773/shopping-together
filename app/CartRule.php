@@ -186,6 +186,31 @@ class CartRule extends Model
         return $discount_code;
     }
 
+    public static function updateRuleOnShopify ($price_rule_id, $id_related_product, $value, $start_date, $end_date) {
+        $shop = ShopifyApp::shop();
+        $shop->api()->request('PUT', '/admin/price_rules/'.$price_rule_id.'.json',
+            [
+                "price_rule" => [
+                    "id" => $price_rule_id,
+                    "value_type" => "percentage",
+                    "value" => "-$value",
+                    "customer_selection" => "all",
+                    "target_type" => "line_item",
+                    "target_selection"=> "entitled",
+                    "allocation_method"=> "each",
+                    "starts_at"=> $start_date,
+                    "ends_at"=> $end_date,
+                    "entitled_product_ids" => $id_related_product,
+                    "prerequisite_to_entitlement_quantity_ratio" => [
+                        "prerequisite_quantity" => 1,
+                        "entitled_quantity" => 1
+                    ],
+                    "allocation_limit"=> null
+                ]
+            ]
+        );
+    }   
+
     public static function getRuleName ($id_shop) {
         return DB::table('cart_rule')->select('name')->where('id_shop', $id_shop)->get()->toArray();
     }
@@ -194,11 +219,12 @@ class CartRule extends Model
     {   
         $sql = DB::table('cart_rule');
         $sql->select('cart_rule_detail.id_product as id_shopify_product', 'cart_rule_detail.is_main_product','cart_rule.id','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
-                    'cart_rule.start_date','cart_rule.end_date','products.src_image','products.title','products.price', 'currency.currency');
+                    'cart_rule.start_date','cart_rule.end_date','products.src_image as src','products.title','products.price', 'currency.currency');
         $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
         $sql->join('products', 'products.id_shopify_product', '=', 'cart_rule_detail.id_product');
         $sql->join('currency', 'currency.id_shop', '=', 'cart_rule.id_shop');
         $sql->where('cart_rule.id', $id);
+        $sql->groupBy('cart_rule_detail.id_product');
         return $sql->get()->toArray();
     }
 

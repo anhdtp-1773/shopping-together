@@ -3,7 +3,7 @@ import api from './../../../api';
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
 import Notification from '../../notification';
-import {head} from "lodash";
+import {head, clone, findKey} from "lodash";
 
 export default class EditRule extends Component {
     constructor(){
@@ -16,7 +16,7 @@ export default class EditRule extends Component {
                 startDate: new Date(),
                 endDate: new Date(),
             },
-            isFetching: false,
+            isFetching: true,
             step: 1,
             relatedKeyWord: '',
             relatedCurrentPage: '',
@@ -44,8 +44,8 @@ export default class EditRule extends Component {
                         idCartRule: head(resultCartRule.data).id,
                         discountProducts: resultCartRule.data, 
                         reductionPercent: head(resultCartRule.data).reduction_percent,
-                        // startDate: head(resultCartRule.data).start_date,
-                        // endDate: head(resultCartRule.data).end_date,
+                        startDate: head(resultCartRule.data).start_date,
+                        endDate: head(resultCartRule.data).end_date,
                     }),
                     isFetching: false,
                     showProductQty: result.data.setting.show_product_qty,
@@ -109,11 +109,23 @@ export default class EditRule extends Component {
         });
     }
 
+    deleteProduct (idProduct) {
+        let discountProducts = clone(this.state.form.discountProducts);
+        let index = findKey(discountProducts, function(product){
+            return product.id_shopify_product == idProduct
+        })
+        discountProducts.splice(index, 1);
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                discountProducts
+            })
+        })
+    }
+
     render() {
         const {
             form, step, isFetching, showProductQty, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
-        console.log(form.discountProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -127,25 +139,6 @@ export default class EditRule extends Component {
                         {
                             step == 1
                             ?
-                                <RelatedProduct
-                                    currentPage = {relatedCurrentPage}
-                                    keyWord = {relatedKeyWord}
-                                    handleChangeValue = {this.handleChangeValue}
-                                    onSelectRelatedProduct = {this.onSelectRelatedProduct}
-                                    nextStep = {this.nextStep}
-                                    onChangeValue = {this.onChangeValue}
-                                    showProductQty = {showProductQty}
-                                    reductionPercent = {form.reductionPercent}
-                                    discountProducts = {form.discountProducts}
-                                />
-                            :
-                                null
-                        }
-                    </div>
-                    <div className="steps">
-                        {
-                            step == 3
-                            ?
                                 <Discount
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
@@ -155,6 +148,24 @@ export default class EditRule extends Component {
                                     onChangeDate = {this.onChangeDate}
                                     startDate = {form.startDate}
                                     endDate = {form.endDate}
+                                    deleteProduct = {this.deleteProduct.bind(this)}
+                                />
+                            :
+                                null
+                        }
+                    </div>
+                    <div className="steps">
+                        {
+                            step == 2
+                            ?
+                                <RelatedProduct
+                                    currentPage = {relatedCurrentPage}
+                                    keyWord = {relatedKeyWord}
+                                    onSelectRelatedProduct = {this.onSelectRelatedProduct}
+                                    nextStep = {this.nextStep}
+                                    onChangeValue = {this.onChangeValue}
+                                    showProductQty = {showProductQty}
+                                    discountProducts = {form.discountProducts}
                                 />
                             :
                                 null

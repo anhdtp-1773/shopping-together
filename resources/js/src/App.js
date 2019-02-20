@@ -17,7 +17,7 @@ export default class App extends Component {
                                 </span>
                             </Link>
                         </li>
-                        <li className={(url == '/manage' || url == '/cart-rule/add' || url == '/cart-rule/edit') ? 'active treeview' : 'treeview'}>
+                        <li className={(url == '/manage' || url == '/cart-rule/add' || url == '/cart-rule/edit/') ? 'active treeview' : 'treeview'}>
                             <Link to={'/manage'}>
                                 <span>
                                     {lang.manage}

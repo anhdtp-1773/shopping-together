@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import {assign, every, values, head} from "lodash";
+import {every, values, head} from "lodash";
 import classNames from 'classnames'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {displayPrice} from './../../../utility';
+import {isPercentage} from "../../../models/validate.model";
 
 export default class Discount extends Component {
     constructor(){
@@ -11,16 +12,23 @@ export default class Discount extends Component {
         this.state = {
             validates: {},
         }
+        this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
     nextStep (step) {
         this.props.nextStep(step);
     }
 
-    validate (validates) {
-        this.setState({
-            validates: assign({}, this.state.validates, validates),
-        })
+    handleChangeValue (event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        const { validates } = this.state;
+        switch(name){
+            case 'reductionPercent':
+                validates[name] = isPercentage(value) ? 'valid' : 'invalid';
+            break;
+        }
+        this.props.handleChangeValue(name, value);
     }
 
     render(){
@@ -28,7 +36,7 @@ export default class Discount extends Component {
         const {validates} = this.state;
         let total = 0;
         discountProducts.map((product) => {
-            if(!product.isMainProduct){
+            if(product.is_main_product == 0){
                 total += (parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100);
             }else{
                 total += (parseFloat(product.price));
@@ -42,6 +50,18 @@ export default class Discount extends Component {
                 </div>
 
                 <div className="section-datePicker container">
+                    <div className="discount">
+                        <p>{lang.set_discount}</p>
+                        <input
+                            type="text"
+                            className={classNames('form-control', validates.reductionPercent)}
+                            name="reductionPercent"
+                            placeholder={lang.discount_value}
+                            onChange={this.handleChangeValue}
+                            value = {reductionPercent}
+                        />
+                        <span className="icon-percent"><i className="fa fa-percent" aria-hidden="true"></i></span>
+                    </div>
                     <div className="filter-from">
                         <div className="datePicker">
                             <span className="datePicker_title">{lang.start_date}</span>
@@ -64,6 +84,7 @@ export default class Discount extends Component {
                             />
                         </div>
                     </div>
+                   
                 </div>
 
                 <div className="panel panel-default container ">
@@ -74,12 +95,13 @@ export default class Discount extends Component {
                                 <th>{lang.name}</th>
                                 <th>{lang.original_price}</th>
                                 <th className="set-discount__title-sale">{lang.sale_price}</th>
+                                <th className="set-discount__title-sale"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {discountProducts.map((product, key)=>(
                                 <tr className="info-product" key={key}>
-                                    <td><img className="set-discount__img" src={product.src_image} alt="..." /></td>
+                                    <td><img className="set-discount__img" src={product.src} alt="..." /></td>
                                     <td>{product.title}</td>
                                     <td>{displayPrice(product.price, product.currency)}</td>
                                     <td className="set-discount__sale-price">
@@ -91,6 +113,20 @@ export default class Discount extends Component {
                                                 displayPrice((parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100), product.currency)
                                         }
                                     </td>
+                                    {
+                                        product.is_main_product
+                                        ?
+                                           <td></td>
+                                        :
+                                            <td 
+                                                onClick={e =>
+                                                    window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
+                                                    this.props.deleteProduct(product.id_shopify_product)
+                                                }
+                                            >
+                                                <i className="fa fa-trash" aria-hidden="true"></i>
+                                            </td>
+                                    }
                                 </tr>
                             ))}
                             <tr>
@@ -98,6 +134,7 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td className="set-discount__sale-price">{displayPrice(total, head(discountProducts).currency)}</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -110,7 +147,7 @@ export default class Discount extends Component {
                     >
                         {lang.save}
                     </button>
-                    <button onClick={this.nextStep.bind(this, 1)} type="button" className="btn btn-primary btn-back-step">{lang.back}</button>
+                    <button onClick={this.nextStep.bind(this, 2)} type="button" className="btn btn-primary btn-back-step">{lang.select_products}</button>
                 </div>
             </Fragment>
         )

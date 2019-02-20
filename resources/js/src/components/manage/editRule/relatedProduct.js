@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Pagination from "react-js-pagination";
-import {debounce, filter, every, values, find, findKey} from "lodash";
+import {debounce, find, findKey} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
-import {isPercentage} from "../../../models/validate.model";
 import {displayPrice} from './../../../utility';
 
 export default class RelatedProduct extends Component {
@@ -15,12 +14,10 @@ export default class RelatedProduct extends Component {
             totalItems: '',
             isFetching: true,
             msg: '',
-            validates: {},
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.onSearchProduct =  debounce(this.onSearchProduct, 500);
-        this.handleChangeValue = this.handleChangeValue.bind(this);
     }
 
     componentWillMount () {
@@ -124,22 +121,9 @@ export default class RelatedProduct extends Component {
         }
     }
 
-    handleChangeValue (event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        const {validates} = this.state;
-        switch(name){
-            case 'reductionPercent':
-                validates[name] = isPercentage(value) ? 'valid' : 'invalid';
-            break;
-        }
-        this.props.handleChangeValue(name, value);
-    }
-
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, reductionPercent, discountProducts} = this.props;
+        const {currentPage, msg, keyWord, discountProducts} = this.props;
         const {products, itemsPerPage, totalItems, isFetching, validates} = this.state;
-        const disabledOnClick = !every(values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -149,18 +133,6 @@ export default class RelatedProduct extends Component {
         )}else {
             return (
                 <div className="container related-wrap">
-                    <div className="discount">
-                        <p>{lang.set_discount}</p>
-                        <input
-                            type="text"
-                            className={classNames('form-control', validates.reductionPercent)}
-                            name="reductionPercent"
-                            placeholder={lang.discount_value}
-                            onChange={this.handleChangeValue}
-                            value = {reductionPercent}
-                        />
-                        <span className="icon-percent"><i className="fa fa-percent" aria-hidden="true"></i></span>
-                    </div>
                     <div className="form-group section-manage">
                         <label className="related-search__title" htmlFor="formGroupExampleInput">{lang.select_relected_product}</label>
                         <input
@@ -208,7 +180,7 @@ export default class RelatedProduct extends Component {
                         <button
                             onClick={this.nextStep.bind(this, 3)}
                             type="button"
-                            className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
+                            className={classNames({'btn btn-primary btn-next-step': true})}
                         >
                             {lang.next}
                         </button>

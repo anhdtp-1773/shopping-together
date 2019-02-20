@@ -10,7 +10,7 @@ use DB;
 use App\Stats;
 use App\DashBoard;
 use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
-
+use App\CartRuleDetail;
 class CartRuleController extends Controller
 {
     public $page_number = 1;
@@ -101,33 +101,46 @@ class CartRuleController extends Controller
 
     public function updateCartRule(Request $request)
     {   
+        $status = true;
+        $msg = trans('label.update_successfully');
         $id_cart_rule = $request->id_cart_rule;
-        try{
-            if($id_cart_rule){
-                // $cart_rule = CartRule::find($id_cart_rule);
-                // $cart_rule->reduction_percent = $request->reduction_percent;
-                // $cart_rule->start_date = $request->start_date;
-                // $cart_rule->end_date = $request->end_date;
-                // $cart_rule->save();
-
-                $cart_rule_detail = CartRule::getCartRuleDetailByIdCartRule($id_cart_rule);
-                $id_products = [];
-                foreach($request->products as $product){
-                    $id_products[] = $product->id_shopify_product;
+        try {
+            $shop = Shop::getShopByDomain($request->shopify_domain);
+            session(['shopify_domain' => $request->shopify_domain]);
+            if($shop){
+                if($id_cart_rule){
+                    $cart_rule = CartRule::find($id_cart_rule);
+                    $cart_rule->reduction_percent = $request->reduction_percent;
+                    $cart_rule->start_date = $request->start_date;
+                    $cart_rule->end_date = $request->end_date;
+                    $cart_rule->save();
+                    $cart_rule_detail = CartRule::getCartRuleDetailByIdCartRule($id_cart_rule);
+                    $id_related_product = array();
+                    foreach($request->products as $product){
+                        if(!in_array($product['id_shopify_product'], array_column($cart_rule_detail, 'id_product'))){
+                            CartRuleDetail::add($id_cart_rule, $shop->id, $product['id_shopify_product'], 0);
+                        }
+                        if(!$product['is_main_product']){
+                            $id_related_product[] = $product['id_shopify_product'];
+                        }
+                    }
+                    foreach($cart_rule_detail as $value){
+                        if(!in_array($value->id_product, array_column($request->products, 'id_shopify_product'))){
+                            CartRuleDetail::destroy($value->id);
+                        }
+                    }
+                    CartRule::updateRuleOnShopify($cart_rule['id_price_rule_shopify'], $id_related_product, $request->reduction_percent, $request->start_date, $request->end_date);
                 }
-                echo "<pre>";
-                print_r($id_products);die;
-                foreach($cart_rule_detail as $value){
-                    
-                }
-            }
-
-        } 
+            }   
+        }
         catch(\Exception $e){
             $status = false;
             $msg = $e->getMessage();
         }
-       
+        return response()->json([
+            'message' => $msg,
+            'status' => $status,
+        ], 200);
     }
     
     /**
