@@ -119,12 +119,12 @@ export default class Discount extends Component {
                                            <td></td>
                                         :
                                             <td 
-                                                onClick={e =>
+                                                onClick={() =>
                                                     window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
                                                     this.props.deleteProduct(product.id_shopify_product)
                                                 }
                                             >
-                                                X
+                                                <i className="fa fa-trash" aria-hidden="true"></i>
                                             </td>
                                     }
                                 </tr>

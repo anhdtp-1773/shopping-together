@@ -178,7 +178,7 @@ export default class RelatedProduct extends Component {
                             onChange={this.handlePageChange}
                         />
                         <button
-                            onClick={this.nextStep.bind(this, 3)}
+                            onClick={this.nextStep.bind(this, 1)}
                             type="button"
                             className={classNames({'btn btn-primary btn-next-step': true})}
                         >
