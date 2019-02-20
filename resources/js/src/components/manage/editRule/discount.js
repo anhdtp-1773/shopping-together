@@ -114,7 +114,7 @@ export default class Discount extends Component {
                                         }
                                     </td>
                                     {
-                                        product.is_main_product
+                                        product.is_main_product == 1
                                         ?
                                            <td></td>
                                         :
