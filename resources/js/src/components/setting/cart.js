@@ -121,6 +121,7 @@ export default class Cart extends Component {
                                 value={cartFontColor}
                                 onChange={this.handleChangeValue}
                                 name="cartFontColor"
+                                style={{backgroundColor: cartFontColor}}
                                 className={classNames('form-control', validates.cartFontColor)}
                                 onClick={this.handleClickFontColor}
                             />
@@ -146,6 +147,7 @@ export default class Cart extends Component {
                                 value={backgroundColor}
                                 onChange={this.handleChangeValue}
                                 name="backgroundColor"
+                                style={{backgroundColor: backgroundColor}}
                                 className={classNames('form-control', validates.backgroundColor)}
                                 onClick={this.handleClickBackgroundColor}
                             />
