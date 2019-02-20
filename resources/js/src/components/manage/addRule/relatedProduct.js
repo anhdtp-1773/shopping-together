@@ -52,7 +52,7 @@ export default class RelatedProduct extends Component {
         if(index >= 0){
             idProducts.splice(index, 1);
         }else{
-            if(idProducts.length < (this.props.showProductQty)){
+            if(idProducts.length < (this.props.showProductQty - 1)){
                 idProducts.push(id);
             }else{
                 alert(lang.exceed_allowed_products_to_group)
