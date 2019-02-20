@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import MainProduct from './mainProduct';
 import api from './../../../api';
+import {isEmpty, unset, find, assign, head, findIndex, clone} from "lodash";
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
 import {require, isName} from "../../../models/validate.model";
@@ -59,19 +60,19 @@ export default class AddRule extends Component {
         switch(name){
             case 'ruleName':
                 if(rulesNameExist){
-                    validates[name] =  _.find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (require(value) ? 'valid' : 'invalid');
+                    validates[name] = find(rulesNameExist, function(o) { return o.name == value; }) ? 'invalid' : (require(value) ? 'valid' : 'invalid');
                 }else{
                     validates[name] = require(value) ? 'valid' : 'invalid';
                 }
                 requiredFields[name] = isName(value);
                 break;
         }
-        if (_.isEmpty(value)){
-			typeof requiredFields[name] !== 'undefined'? _.unset(requiredFields, name) : null;
+        if (isEmpty(value)){
+			typeof requiredFields[name] !== 'undefined'? unset(requiredFields, name) : null;
 		}
         this.setState({
-            validates: _.assign({}, this.state.validates, validates),
-            requiredFields: _.assign({}, this.state.requiredFields, requiredFields),
+            validates: assign({}, this.state.validates, validates),
+            requiredFields: assign({}, this.state.requiredFields, requiredFields),
             form: Object.assign({}, this.state.form, {
                 [name]: value,
             }),
@@ -103,16 +104,16 @@ export default class AddRule extends Component {
                     mainProduct: products,
                     discountProducts: products,
                 }),
-            idMainProduct: _.head(products).id
+            idMainProduct: head(products).id
         })
     } 
     
     onSelectRelatedProduct (products) {
         let relatedProducts = [];
         let idRelatedProducts = [];
-        let discountProducts = _.clone(this.state.form.mainProduct);
+        let discountProducts = clone(this.state.form.mainProduct);
         products.map((product, key) => {
-            if((_.findIndex(relatedProducts, function(o) { return o.id == product.id; })) == -1){
+            if((findIndex(relatedProducts, function(o) { return o.id == product.id; })) == -1){
                 products[key].isMainProduct = false;
                 relatedProducts.push(product);
                 idRelatedProducts.push(product.id);
@@ -149,8 +150,7 @@ export default class AddRule extends Component {
     render() {
         const {
             form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, rulesNameExist,
-            validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message
-        } = this.state;
+            validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">

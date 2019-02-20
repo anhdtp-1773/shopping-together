@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid} from 'recharts';
-import Lodash from 'lodash';
+import {forIn, } from 'lodash';
 import moment from 'moment';
 
 export default class DashboardCharts extends Component{
     formatCharData(data) {
         const {range} = this.props;
         let chartData = [];
-        Lodash.forIn(data, function(value, key){
+        forIn(data, function(value, key){
             let item = {};
             let formattedDate = range == 'month' ? moment(key*1000).format("MMMM YYYY") : moment(key*1000).format("DD-MM-YYYY");
             item['name'] = formattedDate;
@@ -16,6 +16,7 @@ export default class DashboardCharts extends Component{
         })
         return chartData;
     }
+
     render(){
         const { chartWidth, chartHeight, data, currency, dashboardDetail } = this.props;
         return(
@@ -75,7 +76,6 @@ export default class DashboardCharts extends Component{
                                         <Tooltip />
                                     </LineChart>
                                 </div>
-                                
                             </div>
                         </div>
                         :
@@ -92,7 +92,6 @@ export default class DashboardCharts extends Component{
                                 <th>{lang.add_to_cart}</th>
                                 <th>{lang.orders}</th>
                                 <th>{lang.revenue}</th>
-                               
                             </tr>
                         </thead>
                         <tbody>

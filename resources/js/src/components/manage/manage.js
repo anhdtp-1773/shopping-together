@@ -23,7 +23,7 @@ export default class Manage extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
-        this.onSearchRule =  debounce(this.onSearchRule, 500);
+        this.onSearchRule = debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeStatus = this.handleChangeStatus.bind(this);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../api';
-import * as _ from "lodash";
+import {mapValues} from "lodash";
 import RulesList from './rulesList';
 import {displayPrice} from './../../utility';
 
@@ -136,7 +136,7 @@ export default class Preview extends Component {
         };
         
         let totalPrice = 0;
-        _.mapValues(priceProducts, function(value) {
+        mapValues(priceProducts, function(value) {
             totalPrice += Number(value)
         })
 
