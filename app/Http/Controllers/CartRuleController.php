@@ -99,6 +99,37 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    public function updateCartRule(Request $request)
+    {   
+        $id_cart_rule = $request->id_cart_rule;
+        try{
+            if($id_cart_rule){
+                // $cart_rule = CartRule::find($id_cart_rule);
+                // $cart_rule->reduction_percent = $request->reduction_percent;
+                // $cart_rule->start_date = $request->start_date;
+                // $cart_rule->end_date = $request->end_date;
+                // $cart_rule->save();
+
+                $cart_rule_detail = CartRule::getCartRuleDetailByIdCartRule($id_cart_rule);
+                $id_products = [];
+                foreach($request->products as $product){
+                    $id_products[] = $product->id_shopify_product;
+                }
+                echo "<pre>";
+                print_r($id_products);die;
+                foreach($cart_rule_detail as $value){
+                    
+                }
+            }
+
+        } 
+        catch(\Exception $e){
+            $status = false;
+            $msg = $e->getMessage();
+        }
+       
+    }
+    
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response

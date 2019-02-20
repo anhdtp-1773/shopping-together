@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import api from './../../../api';
 import RelatedProduct from './relatedProduct';
-// import Discount from './discount';
-// import Notification from '../../notification';
+import Discount from './discount';
+import Notification from '../../notification';
 import {head} from "lodash";
 
 export default class EditRule extends Component {
@@ -13,17 +13,15 @@ export default class EditRule extends Component {
                 idCartRule: '',
                 discountProducts: [],
                 reductionPercent: 0,
-                startDate: '',
-                endDate: '',
+                startDate: new Date(),
+                endDate: new Date(),
             },
-            idRelatedProducts: [],
             isFetching: false,
             step: 1,
             relatedKeyWord: '',
             relatedCurrentPage: '',
             message: '',
             showProductQty: 0,
-            idMainProduct: '',
         }
 
         this.onChangeValue = this.onChangeValue.bind(this);
@@ -41,27 +39,19 @@ export default class EditRule extends Component {
             const responseCartRule = await api.getCartRule(this.props.match.params.id);
             const resultCartRule = JSON.parse(responseCartRule.text);
             if(resultCartRule.data.length > 0){
-                let idMainProduct = '';
-                resultCartRule.data.map((cartRule, key) => {
-                    if(cartRule.is_main_product == 1){
-                        idMainProduct = cartRule.id_product;
-                    }
-                })  
                 this.setState({
                     form: Object.assign({}, this.state.form, {
+                        idCartRule: head(resultCartRule.data).id,
                         discountProducts: resultCartRule.data, 
                         reductionPercent: head(resultCartRule.data).reduction_percent,
-                        startDate: head(resultCartRule.data).start_date,
-                        endDate: head(resultCartRule.data).end_date,
-                        showProductQty: result.data.setting.show_product_qty,
+                        // startDate: head(resultCartRule.data).start_date,
+                        // endDate: head(resultCartRule.data).end_date,
                     }),
-                    idMainProduct,
                     isFetching: false,
+                    showProductQty: result.data.setting.show_product_qty,
                 })
-                
             }
         }
-      
     }
 
     handleChangeValue (name, value) {
@@ -77,7 +67,7 @@ export default class EditRule extends Component {
             isFetching: true
         });
         try{
-            const fetch = await api.saveCartRule(this.state.form);
+            const fetch = await api.updateCartRule(this.state.form);
             const result = JSON.parse(fetch.text);
             if(result.status){
                 this.setState({
@@ -92,22 +82,11 @@ export default class EditRule extends Component {
     }
 
     onSelectRelatedProduct (products) {
-        // let relatedProducts = [];
-        // let idRelatedProducts = [];
-        // let discountProducts = _.clone(this.state.form.mainProduct);
-        // products.map((product, key) => {
-        //     if((_.findIndex(relatedProducts, function(o) { return o.id == product.id; })) == -1){
-        //         products[key].isMainProduct = false;
-        //         relatedProducts.push(product);
-        //         idRelatedProducts.push(product.id);
-        //     }
-        // })  
-        // this.setState({
-        //     form: Object.assign({}, this.state.form, {
-        //         discountProducts: discountProducts.concat(relatedProducts)
-        //     }),
-        //     idRelatedProducts,
-        // })
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                discountProducts: products
+            }),
+        })
     }
 
     nextStep (step) {
@@ -132,9 +111,9 @@ export default class EditRule extends Component {
 
     render() {
         const {
-            form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, 
-            validates, relatedCurrentPage, relatedKeyWord, message
+            form, step, isFetching, showProductQty, relatedCurrentPage, relatedKeyWord, message
         } = this.state;
+        console.log(form.discountProducts);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -154,10 +133,8 @@ export default class EditRule extends Component {
                                     handleChangeValue = {this.handleChangeValue}
                                     onSelectRelatedProduct = {this.onSelectRelatedProduct}
                                     nextStep = {this.nextStep}
-                                    idMainProduct = {idMainProduct}
                                     onChangeValue = {this.onChangeValue}
                                     showProductQty = {showProductQty}
-                                    idRelatedProducts = {idRelatedProducts}
                                     reductionPercent = {form.reductionPercent}
                                     discountProducts = {form.discountProducts}
                                 />
@@ -165,7 +142,7 @@ export default class EditRule extends Component {
                                 null
                         }
                     </div>
-                    {/* <div className="steps">
+                    <div className="steps">
                         {
                             step == 3
                             ?
@@ -173,7 +150,6 @@ export default class EditRule extends Component {
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
                                     onSubmit = {this.onSubmit}
-                                    validates = {validates}
                                     discountProducts = {form.discountProducts}
                                     reductionPercent = {form.reductionPercent}
                                     onChangeDate = {this.onChangeDate}
@@ -192,7 +168,7 @@ export default class EditRule extends Component {
                         />
                         :
                         null
-                    } */}
+                    }
                 </Fragment>
             );
         }

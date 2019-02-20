@@ -15,7 +15,7 @@ export default class RouterPath extends Component{
                 <Route exact path={'/manage'} component={Manage}/>
                 <Route exact path={'/stats'} component={Dashboard}/>
                 <Route path={'/cart-rule/add'} component={AddRule}/>
-                <Route path={'/cart-rule/edit/:id?'} component={EditRule} />
+                <Route exact path={'/cart-rule/edit/:id?'} component={EditRule} />
             </Switch>
         )
     }

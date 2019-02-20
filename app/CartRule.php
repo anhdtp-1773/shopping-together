@@ -193,10 +193,16 @@ class CartRule extends Model
     public static function getRuleById ($id) 
     {   
         $sql = DB::table('cart_rule');
-        $sql->select('cart_rule_detail.id_product', 'cart_rule_detail.is_main_product','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
-                    'cart_rule.start_date','cart_rule.end_date');
+        $sql->select('cart_rule_detail.id_product as id_shopify_product', 'cart_rule_detail.is_main_product','cart_rule.id','cart_rule.name','cart_rule.code','cart_rule.status','cart_rule.reduction_percent',
+                    'cart_rule.start_date','cart_rule.end_date','products.src_image','products.title','products.price', 'currency.currency');
         $sql->join('cart_rule_detail', 'cart_rule_detail.id_cart_rule', '=', 'cart_rule.id');
+        $sql->join('products', 'products.id_shopify_product', '=', 'cart_rule_detail.id_product');
+        $sql->join('currency', 'currency.id_shop', '=', 'cart_rule.id_shop');
         $sql->where('cart_rule.id', $id);
         return $sql->get()->toArray();
+    }
+
+    public static function getCartRuleDetailByIdCartRule ($id_cart_rule) {
+        return DB::table('cart_rule_detail')->where('id_cart_rule', $id_cart_rule)->get()->toArray();
     }
 }
