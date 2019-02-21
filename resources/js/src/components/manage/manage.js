@@ -15,7 +15,6 @@ export default class Manage extends Component {
             isFetching: true,
             keyWord: '',
             itemsChecked: false,
-            isChecked: false,
             idCartRules: [],
             idPriceRules: [],
             status: true,
@@ -126,10 +125,10 @@ export default class Manage extends Component {
     }
 
     checkStateStatus (rules) {
-        let checkStateStatus = true;
+        let checkStateStatus = false;
         rules.map((rule, i) => {
-            if (rule.status == false){
-                checkStateStatus = false;
+            if (rule.status == true){
+                checkStateStatus = true;
             }
         });
         return checkStateStatus;
@@ -144,19 +143,13 @@ export default class Manage extends Component {
         });
         if (id) {
             ids = [id];
-            if (status === true) {
-                let changeStatusAll = true;
-                rules.map((rule, i) => {
-                    if (rule.id !== id && rule.status == false){
-                        changeStatusAll = false;
+            if (status ==false) {
+                rules.map((rule, i) =>{
+                    if(rule.id !== id && rule.status ==false){
+                        statusOption = false;
                     }
-                });
-                if (changeStatusAll === true ){
-                    statusOption = true;
-                }
-            } else {
-                statusOption = false;
-            }
+                })
+            } else statusOption = true;
             rules.map((rule, i) => {
                 if (rule.id == id){
                     rule.status = status;
@@ -242,17 +235,9 @@ export default class Manage extends Component {
         )}else {
             return (
                 <div>
-                    <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">
-                        {lang.add_a_new_rule}
-                    </Link>
+                    <Link to={'/cart-rule/add'} className="btn btn-sm btn-add_a_new_rule">{lang.add_a_new_rule}</Link>
                     <div className="container table-rule product-search-wrap">
-                        <input
-                            type="text"
-                            className="form-control search-cart-rule"
-                            placeholder={lang.search}
-                            onChange={this.onChangeKeyWord}
-                            value = {keyWord}
-                        />
+                        <input type="text" className="form-control search-cart-rule" placeholder={lang.search} onChange={this.onChangeKeyWord} value = {keyWord}/>
                     </div>
                     <div className="container table-rule">
                         <table className="table">
@@ -269,74 +254,58 @@ export default class Manage extends Component {
                                     rules.length > 0
                                     ?
                                     <Fragment>
-                                    <tr>
-                                        <td>
-                                            <input 
-                                                type="checkbox"
-                                                checked={itemsChecked} 
-                                                onClick={this.selectItems}
-                                            />
-                                        </td>
-                                        <td>{lang.all}</td>
-                                        <td>
-                                            <label>
-                                                <input 
-                                                    ref="switch" 
-                                                    className="glyphicon glyphicon-trash"
-                                                    checked = {status}
-                                                    onClick={e =>
-                                                        this.handleChangeStatus(0, !status)
-                                                    } 
-                                                    className="switch" 
-                                                    type="checkbox" 
-                                                    />
-                                                <div>
-                                                    <div></div>
-                                                </div>
-                                            </label>
-                                        </td>
-                                        <td>
-                                        <span 
-                                            className="glyphicon glyphicon-trash"
-                                            onClick={e =>
-                                                window.confirm(lang.are_you_sure_you_wish_to_delete_all_of_these_rule) &&
-                                                this.deleteRule()
-                                            }
-                                        />
-                                        </td>
-                                    </tr>
-                                    {rules.map((rule, i)=>(
-                                        <tr key={i}>
-                                            <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={ (event) => this.handleClick(rule.id_price_rule_shopify, event)} /></td>
-                                            <td>{rule.name}</td>
+                                        <tr>
+                                            <td><input type="checkbox" checked={itemsChecked} onClick={this.selectItems}/></td>
+                                            <td>{lang.all}</td>
                                             <td>
                                                 <label>
                                                     <input 
                                                         ref="switch" 
-                                                        className="switch" type="checkbox" 
-                                                        onClick={e =>
-                                                            this.handleChangeStatus(rule.id, !rule.status)
-                                                        } 
-                                                        checked={rule.status} 
-                                                        />
+                                                        className="glyphicon glyphicon-trash"
+                                                        checked={status}
+                                                        onClick={e => this.handleChangeStatus(0, !status)}
+                                                        className="switch" 
+                                                        type="checkbox" 
+                                                    />
                                                     <div>
                                                         <div></div>
                                                     </div>
                                                 </label>
                                             </td>
                                             <td>
-                                                <Link  to={'/cart-rule/edit/'+rule.id} className="glyphicon glyphicon-edit"/>
-                                                <span
+                                                <span 
                                                     className="glyphicon glyphicon-trash"
                                                     onClick={e =>
-                                                        window.confirm(lang.are_you_sure_you_wish_to_delete_this_rule) &&
-                                                        this.deleteRule(rule.id, rule.id_price_rule_shopify)
+                                                        itemsChecked===true 
+                                                        ?
+                                                            window.confirm(lang.are_you_sure_to_delete_all_of_these_rule) && this.deleteRule() 
+                                                        : 
+                                                            window.confirm(lang.please_tick_the_box_to_select_all_rules) 
                                                     }
-                                                >
-                                                </span>
+                                                />
                                             </td>
                                         </tr>
-                                    ))}
+                                        {rules.map((rule, i)=>(
+                                            <tr key={i}>
+                                                <td><input checked={rule.is_selected} value={rule.id} type="checkbox" onClick={(event) => this.handleClick(rule.id_price_rule_shopify, event)}/></td>
+                                                <td>{rule.name}</td>
+                                                <td>
+                                                    <label>
+                                                        <input ref="switch" className="switch" type="checkbox" onClick={e => this.handleChangeStatus(rule.id, !rule.status)} checked={rule.status}/>
+                                                        <div>
+                                                            <div></div>
+                                                        </div>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <Link  to={'/cart-rule/edit/'+rule.id} className="glyphicon glyphicon-edit"/>
+                                                    <span 
+                                                        className="glyphicon glyphicon-trash"
+                                                        onClick={e => window.confirm(lang.are_you_sure_to_delete_this_rule) && this.deleteRule(rule.id, rule.id_price_rule_shopify)}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </Fragment>
                                     :
                                     null

@@ -101,6 +101,7 @@ return [
     'this_name_already_exists' => 'This name already exists',
     'add_a_new_rule_in_manage_page_to_see_how_it_displays_remember_to_select_this_product_as_the_main_product' => 'Add a new rule in "Manage" page to see how it displays. Remember to select this product as the main product!',
     'add_to_cart' => 'Add to cart',
+    'please_tick_the_box_to_select_all_rules' => 'Please tick the box to select all rules!',
     'select_products' => 'Select products',
     'are_you_sure_you_wish_to_delete_product' => 'Are you sure you wish to delete product?',
 ];

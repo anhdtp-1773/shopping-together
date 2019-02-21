@@ -103,12 +103,12 @@ export default class Setting extends Component {
     }
 
     toggle (event) {
-      var customize = document.getElementById("btn-customize");
-      var preview = document.getElementById("btn-preview");
-      var leftSide = document.getElementById("left-side");
-      preview.classList.toggle("hide");
-      customize.classList.toggle("show");
-      leftSide.classList.toggle("hide");
+        var customize = document.getElementById("btn-customize");
+        var preview = document.getElementById("btn-preview");
+        var leftSide = document.getElementById("left-side");
+        preview.classList.toggle("hide");
+        customize.classList.toggle("show");
+        leftSide.classList.toggle("hide");
     }
 
     validate (name, value) {
