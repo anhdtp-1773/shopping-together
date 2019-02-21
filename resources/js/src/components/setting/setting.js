@@ -22,10 +22,10 @@ export default class Setting extends Component {
         this.handleChangeToggle = this.handleChangeToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.handleChangeStatus = this.handleChangeStatus.bind(this)
         this.state = {
             isFetching: true,
             form: {
-                active: 1,
                 titleFontFamily: 'verdana',
                 titleFontStyle: 'italic',
                 titleFontColor: '#2296F3',
@@ -47,6 +47,8 @@ export default class Setting extends Component {
                 backgroundColor: '##ff0000',
                 cartText:'',
                 productText:'',
+                activePC: true,
+                activeMobile: true,
                 showProductQty: 3,
             },
             validates: {},
@@ -91,6 +93,8 @@ export default class Setting extends Component {
                     cartFontStyle: result.data.setting.cart_font_style,
                     cartFontColor: result.data.setting.cart_font_color,
                     backgroundColor: result.data.setting.back_ground_color,
+                    activePC: result.data.setting.active_PC,
+                    activeMobile: result.data.setting.active_mobile,
                 }),
                 isFetching: false,
                 currency: result.data.currency.currency
@@ -100,6 +104,14 @@ export default class Setting extends Component {
                 isFetching: false,
             })
         }
+    }
+
+    handleChangeStatus (activeMobile) {
+        this.setState({
+            form: Object.assign({}, this.state.form, {
+                activeMobile
+            }) 
+        })
     }
 
     toggle (event) {
@@ -386,7 +398,10 @@ export default class Setting extends Component {
 
                                 <Display
                                     showProductQty = {form.showProductQty}
+                                    activePC = {form.activePC}
+                                    activeMobile = {form.activeMobile}
                                     handleChangeValue = {this.handleChangeValue}
+                                    handleChangeStatus = {this.handleChangeStatus}
                                     validates = {validates}
                                     display = {display}
                                     handleChangeToggle = {this.handleChangeToggle}
@@ -419,8 +434,8 @@ export default class Setting extends Component {
                             cartText = {form.cartText}
                             productText = {form.productText}
                             showProductQty = {form.showProductQty}
-                            productImageWidth = {form.productImageWidth}
-                            productImageHeight = {form.productImageHeight}
+                            activePC = {form.activePC}
+                            activeMobile = {form.activeMobile}
                             currency = {currency}
                         />
                     </div>

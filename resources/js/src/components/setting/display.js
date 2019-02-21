@@ -6,6 +6,7 @@ export default class Display extends Component {
     constructor(props) {
         super(props);
         this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.handleChangeStatus = this.handleChangeStatus.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
@@ -13,12 +14,16 @@ export default class Display extends Component {
         this.props.handleChangeValue(event.target.name, event.target.value);
     };
 
+    handleChangeStatus () {
+        this.props.handleChangeStatus(!this.props.activeMobile) 
+    }
+
     toggle (event) {
         this.props.handleChangeToggle(event.target.dataset.index);
     }
 
     render () {
-        const {showProductQty, display} = this.props;
+        const {showProductQty, display, activeMobile} = this.props;
         return (
             <div className="full-width display-block">
                 <div data-index="display" className='btn-block left-side__title' onClick={this.toggle}>
@@ -36,9 +41,13 @@ export default class Display extends Component {
                             <span className="left-side__checkbox-title">{lang.allow_on_pcs}</span>
                             <span className="checkmark" style={{opacity: 0.5}}></span>
                         </label>
-
                         <label className="check-product">
-                            <input type="checkbox" defaultChecked/>
+                            <input 
+                                type="checkbox" 
+                                name="activeMobile"
+                                onClick={this.handleChangeStatus}
+                                checked={activeMobile ? true : false}
+                            />
                             <span className="left-side__checkbox-title">{lang.allow_on_mobile_devices}</span>
                             <span className="checkmark"></span>
                         </label>

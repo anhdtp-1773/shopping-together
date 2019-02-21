@@ -3,8 +3,6 @@
     "product_font_style": "italic",
     "product_font_size": 16,
     "product_font_color": "#f36e22",
-    "product_image_width": 20,
-    "product_imgae_height": 20,
     "amount_font_family": "verdana",
     "amount_font_style": "italic",
     "amount_font_size": 18,
@@ -28,6 +26,7 @@
     "back_ground_color":"#2296F3",
     "cart_text": "Add bundle to cart",
     "product_text":"Frequently purchased products",
-    "active": 2,
+    "active_PC": true,
+    "active_mobile": true,
     "show_product_qty": 4
 }
