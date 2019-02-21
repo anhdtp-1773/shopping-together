@@ -47,7 +47,6 @@ export default class Setting extends Component {
                 backgroundColor: '##ff0000',
                 cartText:'',
                 productText:'',
-                activePC: true,
                 activeMobile: true,
                 showProductQty: 3,
             },
@@ -93,7 +92,6 @@ export default class Setting extends Component {
                     cartFontStyle: result.data.setting.cart_font_style,
                     cartFontColor: result.data.setting.cart_font_color,
                     backgroundColor: result.data.setting.back_ground_color,
-                    activePC: result.data.setting.active_PC,
                     activeMobile: result.data.setting.active_mobile,
                 }),
                 isFetching: false,
@@ -398,7 +396,6 @@ export default class Setting extends Component {
 
                                 <Display
                                     showProductQty = {form.showProductQty}
-                                    activePC = {form.activePC}
                                     activeMobile = {form.activeMobile}
                                     handleChangeValue = {this.handleChangeValue}
                                     handleChangeStatus = {this.handleChangeStatus}
@@ -434,7 +431,6 @@ export default class Setting extends Component {
                             cartText = {form.cartText}
                             productText = {form.productText}
                             showProductQty = {form.showProductQty}
-                            activePC = {form.activePC}
                             activeMobile = {form.activeMobile}
                             currency = {currency}
                         />
