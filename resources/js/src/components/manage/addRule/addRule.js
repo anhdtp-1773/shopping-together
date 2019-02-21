@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import MainProduct from './mainProduct';
 import api from './../../../api';
-import {isEmpty, unset, find, assign, head, findIndex, clone} from "lodash";
+import {isEmpty, unset, find, assign, head} from "lodash";
 import RelatedProduct from './relatedProduct';
 import Discount from './discount';
 import {require, isName} from "../../../models/validate.model";
@@ -19,7 +19,6 @@ export default class AddRule extends Component {
                 startDate: new Date(),
                 endDate: new Date(),
             },
-            idRelatedProducts: [],
             isFetching: true,
             step: 1,
             idMainProduct: '',
@@ -108,22 +107,11 @@ export default class AddRule extends Component {
         })
     } 
     
-    onSelectRelatedProduct (products) {
-        let relatedProducts = [];
-        let idRelatedProducts = [];
-        let discountProducts = clone(this.state.form.mainProduct);
-        products.map((product, key) => {
-            if((findIndex(relatedProducts, function(o) { return o.id == product.id; })) == -1){
-                products[key].isMainProduct = false;
-                relatedProducts.push(product);
-                idRelatedProducts.push(product.id);
-            }
-        })  
+    onSelectRelatedProduct (discountProducts) {
         this.setState({
             form: Object.assign({}, this.state.form, {
-                discountProducts: discountProducts.concat(relatedProducts)
+                discountProducts
             }),
-            idRelatedProducts,
         })
     }
 
@@ -149,7 +137,7 @@ export default class AddRule extends Component {
 
     render() {
         const {
-            form, step, idMainProduct, isFetching, showProductQty, idRelatedProducts, rulesNameExist,
+            form, step, idMainProduct, isFetching, showProductQty, rulesNameExist,
             validates, requiredFields, mainKeyWord, mainCurrentPage, relatedCurrentPage, relatedKeyWord, message} = this.state;
         if(isFetching){ return (
             <div id="page_loading">
@@ -194,8 +182,8 @@ export default class AddRule extends Component {
                                     idMainProduct = {idMainProduct}
                                     onChangeValue = {this.onChangeValue}
                                     showProductQty = {showProductQty}
-                                    idRelatedProducts = {idRelatedProducts}
                                     reductionPercent = {form.reductionPercent}
+                                    discountProducts = {form.discountProducts}
                                 />
                             :
                                 null

@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Pagination from "react-js-pagination";
-import {debounce, filter, every, values, find} from "lodash";
+import {debounce, every, values, find, findKey} from "lodash";
 import classNames from 'classnames'
 import api from './../../../api';
 import {isPercentage} from "../../../models/validate.model";
@@ -46,27 +46,29 @@ export default class RelatedProduct extends Component {
     }
 
     onSelectRelatedProduct (id) {
-
-        let index = this.props.idRelatedProducts.indexOf(id);
-        let idProducts = this.props.idRelatedProducts;
-        if(index >= 0){
-            idProducts.splice(index, 1);
+        let discountProducts = this.props.discountProducts;
+        let index = findKey(discountProducts, function(product){
+            return product.id == id
+        })
+        if(index > 0) {
+            discountProducts.splice(index, 1);
         }else{
-            if(idProducts.length < (this.props.showProductQty - 1)){
-                idProducts.push(id);
+            if(discountProducts.length < this.props.showProductQty){
+                const product =  find(this.state.products, function(product){
+                    return product.id == id
+                })
+                product.isMainProduct = false;
+                discountProducts.push(product)
             }else{
                 alert(lang.exceed_allowed_products_to_group)
             }
         }
-        let products = filter(this.state.products, function(product) {
-            return idProducts.indexOf(product.id) >= 0
-        });
-        this.props.onSelectRelatedProduct(products)
+        this.props.onSelectRelatedProduct(discountProducts)
     }
 
     nextStep (step) {
         if(step == 3){
-            if(this.props.idRelatedProducts.length == 0){
+            if(this.props.discountProducts.length == 1){
                 alert(lang.please_select_at_least_one_product)
             }else{
                 this.props.nextStep(step);
@@ -135,7 +137,7 @@ export default class RelatedProduct extends Component {
     }
 
     render() {
-        const {currentPage, msg, keyWord, idMainProduct, idRelatedProducts, reductionPercent} = this.props;
+        const {currentPage, msg, keyWord, idMainProduct, reductionPercent, discountProducts} = this.props;
         const {products, itemsPerPage, totalItems, isFetching, validates} = this.state;
         const disabledOnClick = !every(values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
@@ -180,7 +182,7 @@ export default class RelatedProduct extends Component {
                                             <div className="check-product">
                                                 <input
                                                     type="checkbox"
-                                                    checked = {(find(idRelatedProducts, function(id) { return id == product.id})) ? true : false} 
+                                                    checked = {(find(discountProducts, function(discountProduct) { return discountProduct.id == product.id && !discountProduct.isMainProduct})) ? true : false} 
                                                 />
                                                 <span className="checkmark"></span>
                                             </div>
@@ -195,32 +197,29 @@ export default class RelatedProduct extends Component {
                         :
                             <p>{msg}</p>
                     }
-
-                    <Fragment>
-                        <div className="pagination-wrap">
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={itemsPerPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange}
-                            />
-                            <button
-                                onClick={this.nextStep.bind(this, 3)}
-                                type="button"
-                                className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
-                            >
-                                {lang.next}
-                            </button>
-                            <button
-                                onClick={this.nextStep.bind(this, 1)}
-                                type="button"
-                                className={classNames({'btn btn-primary btn-back-step': true}, {'disabled-form': disabledOnClick})}
-                            >
-                                {lang.back}
-                            </button>
-                        </div>
-                    </Fragment>
+                    <div className="pagination-wrap">
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={itemsPerPage}
+                            totalItemsCount={totalItems}
+                            pageRangeDisplayed={5}
+                            onChange={this.handlePageChange}
+                        />
+                        <button
+                            onClick={this.nextStep.bind(this, 3)}
+                            type="button"
+                            className={classNames({'btn btn-primary btn-next-step': true}, {'disabled-form': disabledOnClick})}
+                        >
+                            {lang.next}
+                        </button>
+                        <button
+                            onClick={this.nextStep.bind(this, 1)}
+                            type="button"
+                            className={classNames({'btn btn-primary btn-back-step': true}, {'disabled-form': disabledOnClick})}
+                        >
+                            {lang.back}
+                        </button>
+                    </div>
                 </div>
             );
         }
