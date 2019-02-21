@@ -125,4 +125,21 @@ export default {
             'status': status,
         });
     },
+
+    getCartRule (idCartRule) {
+        return superagent.post('/api/cart-rule/get-detail').send({
+            'id': idCartRule,
+        });
+    },
+
+    updateCartRule (data) {
+        return superagent.post('/api/cart-rule/update').send({
+            'shopify_domain': domain,
+            'products': data.discountProducts,
+            'reduction_percent': data.reductionPercent,
+            'id_cart_rule': data.idCartRule,
+            'start_date': data.startDate,
+            'end_date': data.endDate
+        });
+    }
 }

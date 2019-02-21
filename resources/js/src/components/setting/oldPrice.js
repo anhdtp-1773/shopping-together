@@ -101,6 +101,7 @@ export default class OldPrice extends Component {
                             onChange={this.handleChangeValue}
                             onClick={this.handleClick}
                             name="oldPriceFontColor"
+                            style={{backgroundColor: oldPriceFontColor}}
                             className={classNames('form-control', validates.oldPriceFontColor)}
                         />
                         {

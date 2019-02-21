@@ -13,10 +13,6 @@ use App\Variant;
 |
 */
 
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 if(config('shopify-app.mode')){
     Route::group(['middleware' => ['auth.shop', 'billable']], function () {
         Route::get('/', function () {
@@ -31,9 +27,13 @@ if(config('shopify-app.mode')){
         Route::get('/cart-rule/add', function () {
             return view('app');
         });
+        Route::get('/cart-rule/edit/{p}', function () {
+            return view('app');
+        });
         Route::get('/home', 'SettingController@index')->name('home');
     });
 }else{
+    
     Route::get('/', function () {
         return view('app');
     });
@@ -44,6 +44,9 @@ if(config('shopify-app.mode')){
         return view('app');
     });
     Route::get('/cart-rule/add', function () {
+        return view('app');
+    });
+    Route::get('/cart-rule/edit/{p}', function () {
         return view('app');
     });
     Route::get('/home', 'SettingController@index')->name('home');

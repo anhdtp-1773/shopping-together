@@ -28,29 +28,28 @@ export default class Translation extends Component {
                     </span>
                 </div>
                 <div className={(translation ? 'left-side__control' : 'collapse')}>
-                  <div className="full-width display-block">
-                      <p>{lang.add_bundle_to_cart}</p>
-                      <input
-                          type="text"
-                          value={cartText}
-                          onChange={this.handleChangeValue}
-                          name="cartText"
-                          className={classNames('form-control', validates.cartText)}
-                          placeholder={lang.add_bundle_to_cart}
-                      />
-                  </div>
-
-                  <div className="full-width display-block">
-                      <p>{lang.frequentle_purchased_products}</p>
-                      <input
-                          type="text"
-                          value={productText}
-                          onChange={this.handleChangeValue}
-                          name="productText"
-                          className={classNames('form-control', validates.productText)}
-                          placeholder={lang.frequentle_purchased_products}
-                      />
-                  </div>
+                    <div className="full-width display-block">
+                        <p>{lang.add_bundle_to_cart}</p>
+                        <input
+                            type="text"
+                            value={cartText}
+                            onChange={this.handleChangeValue}
+                            name="cartText"
+                            className={classNames('form-control', validates.cartText)}
+                            placeholder={lang.add_bundle_to_cart}
+                        />
+                    </div>
+                    <div className="full-width display-block">
+                        <p>{lang.frequentle_purchased_products}</p>
+                        <input
+                            type="text"
+                            value={productText}
+                            onChange={this.handleChangeValue}
+                            name="productText"
+                            className={classNames('form-control', validates.productText)}
+                            placeholder={lang.frequentle_purchased_products}
+                        />
+                    </div>
                 </div>
             </div>
         );

@@ -11,7 +11,7 @@ import Display from './display';
 import api from '../../api';
 import ClassNames from 'classnames'
 import {require, isNumeric} from "../../models/validate.model";
-import Lodash from 'lodash';
+import {every, values, assign} from 'lodash';
 import Notification from '../notification';
 import { Link } from 'react-router-dom';
 
@@ -132,7 +132,7 @@ export default class Setting extends Component {
         }
 
         this.setState({
-            validates: Lodash.assign({}, this.state.validates, validates),
+            validates: assign({}, this.state.validates, validates),
         });
     }
 
@@ -268,7 +268,7 @@ export default class Setting extends Component {
 
     render () {
         const{form, validates, isFetching, message, title, productName, totalAmount, newPrice, oldPrice, cart, translation, display, currency} = this.state;
-        const disabledOnClick = Lodash.every(Lodash.values(validates), function(value){return value == 'valid'});
+        const disabledOnClick = every(values(validates), function(value){return value == 'valid'});
         const url = window.location.pathname;
         if(isFetching){
             return (
@@ -290,27 +290,27 @@ export default class Setting extends Component {
                         <div className="wrap-control">
                             <div className="col-xs-12 side-menu-inner menu-mobile">
                                 <ul className="">
-                                    <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'} >
-                                        <Link to={'/'}>
-                                            <span>
-                                                {lang.setup}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
-                                        <Link to={'/'}>
-                                            <span>
-                                                {lang.manage}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className={(url == '/stats') ? 'active treeview' : 'treeview'}>
-                                        <Link to={'/'}>
-                                            <span>
-                                                {lang.stats}
-                                            </span>
-                                        </Link>
-                                    </li>
+                                <li className={(url == '/' || url == '/home') ? 'active treeview' : 'treeview'} >
+                                    <Link to={'/'}>
+                                        <span>
+                                            {lang.setup}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className={(url == '/manage') ? 'active treeview' : 'treeview'}>
+                                    <Link to={'/manage'}>
+                                        <span>
+                                            {lang.manage}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className={(url == '/stats') ? 'active treeview' : 'treeview'}>
+                                    <Link to={'/stats'}>
+                                        <span>
+                                            {lang.stats}
+                                        </span>
+                                    </Link>
+                                </li>
                                 </ul>
                             </div>
                             <Fragment>
@@ -391,6 +391,7 @@ export default class Setting extends Component {
                                     display = {display}
                                     handleChangeToggle = {this.handleChangeToggle}
                                 />
+
                             </Fragment>
                         </div>
                     </div>

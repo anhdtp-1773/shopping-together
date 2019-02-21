@@ -22,7 +22,7 @@ export default class Manage extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeKeyWord = this.onChangeKeyWord.bind(this);
         this.deleteRule = this.deleteRule.bind(this);
-        this.onSearchRule =  debounce(this.onSearchRule, 500);
+        this.onSearchRule = debounce(this.onSearchRule, 500);
         this.selectItems = this.selectItems.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChangeStatus = this.handleChangeStatus.bind(this);
@@ -298,9 +298,7 @@ export default class Manage extends Component {
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <span>
-                                                        <Link to={'/cart-rule/edit'} className="glyphicon glyphicon-edit" onClick={(event) => this.handleClick(rule.id_price_rule_shopify, event)}/>
-                                                    </span>
+                                                    <Link  to={'/cart-rule/edit/'+rule.id} className="glyphicon glyphicon-edit"/>
                                                     <span 
                                                         className="glyphicon glyphicon-trash"
                                                         onClick={e => window.confirm(lang.are_you_sure_to_delete_this_rule) && this.deleteRule(rule.id, rule.id_price_rule_shopify)}
