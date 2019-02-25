@@ -11,8 +11,9 @@ use Mail;
 
 class ProductController extends Controller
 {
-    public $page_number = 1;
+    protected $page_number = 1;
     protected $items_per_page = 12;
+
     /**
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -128,7 +129,7 @@ class ProductController extends Controller
         $this->page_number = ($request->page_number) ? (int)$request->page_number : $this->page_number;
         $msg = '';
         $data = array();
-        $status = true;
+        $status = false;
         $key_word = preg_replace('/[^A-Za-z0-9\-]/', '', isset($request->key_word) ? $request->key_word : null);
         $shop = Shop::getShopByDomain($request->shopify_domain);
         if(!empty($key_word)){

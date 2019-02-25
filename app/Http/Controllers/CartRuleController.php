@@ -11,10 +11,12 @@ use App\Stats;
 use App\DashBoard;
 use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 use App\CartRuleDetail;
+
 class CartRuleController extends Controller
 {
-    public $page_number = 1;
+    protected $page_number = 1;
     protected $items_per_page = 10;
+    protected $post_code = 'SPT';
 
     /**
      * @param  Request $request
@@ -35,11 +37,10 @@ class CartRuleController extends Controller
             try{
                 $shop_info = Shop::getShopByDomain($request->shopify_domain);
                 session(['shopify_domain' => $request->shopify_domain]);
-                $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                $size = strlen( $chars );
+                $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 $code = '';
                 for( $i = 0; $i < 8; $i++ ) {
-                    $code .= $chars[ rand( 0, $size - 1 ) ];
+                    $code .= $chars[ rand( 0, strlen($chars) - 1 ) ];
                 }
                 if($shop_info){
                     if($request->products){
@@ -56,7 +57,7 @@ class CartRuleController extends Controller
                         $discount = CartRule::saveCartRuleOnShopify(
                             $id_main_product,
                             $id_related_product,
-                            'SPT'.$code,
+                            $post_code.$code,
                             $request->reduction_percent,
                             $request->start_date, 
                             $request->end_date
@@ -64,7 +65,7 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            'SPT'.$code,
+                            $post_code.$code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
@@ -82,7 +83,7 @@ class CartRuleController extends Controller
                                     'updated_at' => date('Y-m-d H:i:s'),
                                 );
                             }
-                            CartRule::saveCartRuleDetail($products);
+                            CartRuleDetail::saveCartRuleDetail($products);
                         }
                     }
                 }
@@ -92,7 +93,6 @@ class CartRuleController extends Controller
                 $msg = $e->getMessage();
             }
         }
-
         return response()->json([
             'message' => $msg,
             'status' => $status,
@@ -109,12 +109,8 @@ class CartRuleController extends Controller
             session(['shopify_domain' => $request->shopify_domain]);
             if($shop){
                 if($id_cart_rule){
-                    $cart_rule = CartRule::find($id_cart_rule);
-                    $cart_rule->reduction_percent = $request->reduction_percent;
-                    $cart_rule->start_date = $request->start_date;
-                    $cart_rule->end_date = $request->end_date;
-                    $cart_rule->save();
-                    $cart_rule_detail = CartRule::getCartRuleDetailByIdCartRule($id_cart_rule);
+                    $cart_rule = CartRule::updateCartRule($id_cart_rule, $reduction_percent, $start_date, $end_date);
+                    $cart_rule_detail = CartRuleDetail::getByIdCartRule($id_cart_rule);
                     $id_related_product = array();
                     foreach($request->products as $product){
                         if(!in_array($product['id_shopify_product'], array_column($cart_rule_detail, 'id_product'))){
@@ -254,9 +250,7 @@ class CartRuleController extends Controller
             foreach($id_price_rules_shopify as $value){
                 $shop->api()->request('DELETE', '/admin/price_rules/'.$value.'.json')->body;
             }
-            DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
-            DB::table('stats')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
-            DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
+            CartRule::deleteRule($id_cart_rules);
         }
         catch(\Exception $e){
             $msg = $e->getMessage();

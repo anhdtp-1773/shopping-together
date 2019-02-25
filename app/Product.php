@@ -180,7 +180,12 @@ class Product extends Model
         }
         return $data;
     }
+    
 
+    /**
+     * @param array $products
+     * @param int $id_shop
+     */
     public static function cloneProducts ($products, $id_shop) {
         $arr_products = array();
         $arr_variants  = array();
