@@ -17,17 +17,28 @@ class CartRule extends Model
 
      /**
      * @param int $id_shop
-     * @param int $name
+     * @param string $name
+     * @param int $id_product
+     * @param int $reduction_percent
+     * @param int $id_price_rule_shopify
+     * @param string $code
+     * @param string $value
+     * @param string $start_date
+     * @param string $end_date
      * @return array
      * <pre>
-     * array (
+     *  array (
      *  'id' => int,
      *  'id_shop' => int,
-     *  'name' => string,
+     *  'reduction_percent' => int,
+     *  'id_product' => varchar,
+     *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
      *  'status' => tinyint,
-     *  'created_at' => timestamp,
-     *  'updated_at' => timestamp
-     * )
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
+     * )    
      */
     public static function saveCartRule($id_shop, $name, $code, $id_product, $reduction_percent, $start_date, $end_date, $id_price_rule_shopify){
         $cart_rule = new CartRule();
@@ -43,16 +54,22 @@ class CartRule extends Model
         return $cart_rule;
     }
 
-     /**
+    /**
      * @param int $id_shop
      * @param string $id_product
      * @return array
      * <pre>
      *  array (
+     *  'id' => int,
+     *  'id_shop' => int,
      *  'reduction_percent' => int,
-     *  'reduction_amount' => int,
      *  'id_product' => varchar,
      *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
+     *  'status' => tinyint,
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
      * )    
      */
     public static function getCartRule($id_shop, $id_product) {
@@ -139,6 +156,31 @@ class CartRule extends Model
         return $data;
     }
 
+    /**
+     * @param int $id_shop
+     * @param string $name
+     * @param int $id_product
+     * @param int $reduction_percent
+     * @param int $id_price_rule_shopify
+     * @param string $code
+     * @param string $value
+     * @param string $start_date
+     * @param string $end_date
+     * @return array
+     * <pre>
+     *  array (
+     *  'id' => int,
+     *  'id_shop' => int,
+     *  'reduction_percent' => int,
+     *  'id_product' => varchar,
+     *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
+     *  'status' => tinyint,
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
+     * )    
+     */
     public static function saveCartRuleOnShopify ($id_main_product, $id_related_product, $code, $value, $start_date, $end_date) {
         $shop = ShopifyApp::shop();
         $price_rule = $shop->api()->request('POST', '/admin/price_rules.json',
@@ -168,6 +210,27 @@ class CartRule extends Model
         return $shop->api()->request('POST', '/admin/price_rules/'.$price_rule->id.'/discount_codes.json',["discount_code" => ["code" => $price_rule->title]])->body->discount_code;
     }
 
+    /**
+     * @param int $price_rule_id
+     * @param int $id_related_product
+     * @param string $value
+     * @param string $start_date
+     * @param string $end_date
+     * @return array
+     * <pre>
+     *  array (
+     *  'id' => int,
+     *  'id_shop' => int,
+     *  'reduction_percent' => int,
+     *  'id_product' => varchar,
+     *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
+     *  'status' => tinyint,
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
+     * )    
+     */
     public static function updateRuleOnShopify ($price_rule_id, $id_related_product, $value, $start_date, $end_date) {
         $shop = ShopifyApp::shop();
         $shop->api()->request('PUT', '/admin/price_rules/'.$price_rule_id.'.json',
@@ -193,10 +256,39 @@ class CartRule extends Model
         );
     }   
 
+    /**
+     * @param int $id_shop
+     * @return array
+     * <pre>
+     * array (
+     *      'name' => varchar,
+     * )
+     */
     public static function getRuleName ($id_shop) {
         return DB::table('cart_rule')->select('name')->where('id_shop', $id_shop)->get()->toArray();
     }
 
+    /**
+     * @param int $id
+     * @return array
+     * <pre>
+     *  array (
+     *  'id' => int,
+     *  'id_product' => varchar,
+     *  'name' => varchar,
+     *  'reduction_percent' => int,
+     *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
+     *  'status' => tinyint,
+     *  'src_image' => tinyint,
+     *  'title' => varchar,
+     *  'price' => decimal,
+     *  'currency' => varchar,
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
+     * )    
+     */
     public static function getRuleById ($id) 
     {   
         $sql = DB::table('cart_rule');
@@ -210,6 +302,26 @@ class CartRule extends Model
         return $sql->get()->toArray();
     }
   
+    /**
+     * @param int $id_cart_rule
+     * @param int $reduction_percent
+     * @param string $start_date
+     * @param string $end_date
+     * @return array
+     * <pre>
+     *  array (
+     *  'id' => int,
+     *  'id_shop' => int,
+     *  'reduction_percent' => int,
+     *  'id_product' => varchar,
+     *  'is_main_product' => varchar,
+     *  'name' => varchar,
+     *  'code' => varchar,
+     *  'status' => tinyint,
+     *  'start_date' => timestamp,
+     *  'end_date' => timestamp,
+     * )    
+     */
     public static function updateCartRule ($id_cart_rule, $reduction_percent, $start_date, $end_date) {
         $cart_rule = CartRule::find($id_cart_rule);
         $cart_rule->reduction_percent = $request->reduction_percent;
@@ -219,6 +331,9 @@ class CartRule extends Model
         return $cart_rule;
     }
 
+    /**
+     * @param  int $id_shop
+     */
     public static function deleteRule ($id_cart_rules) {
         DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
         DB::table('stats')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 

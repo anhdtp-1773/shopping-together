@@ -29,6 +29,11 @@ class Shop extends Model
     public function settings() {
         return $this->hasOne('App\Setting','id_shop');
     }
+
+    /**
+     * Relationship: products
+     * @return Object products
+     */
     public function products(){
         return $this->hasOne('App\Product','id_shop');
     }
