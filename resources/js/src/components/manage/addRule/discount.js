@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {displayPrice} from './../../../utility';
+import { Link } from 'react-router-dom';
 
 export default class Discount extends Component {
     constructor(){
@@ -74,7 +75,6 @@ export default class Discount extends Component {
                                 <th>{lang.name}</th>
                                 <th>{lang.original_price}</th>
                                 <th className="set-discount__title-sale">{lang.sale_price}</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,7 +92,6 @@ export default class Discount extends Component {
                                                 displayPrice((parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100), product.currency)
                                         }
                                     </td>
-                                    <td className="remove-relate-product">x</td>
                                 </tr>
                             ))}
                             <tr>

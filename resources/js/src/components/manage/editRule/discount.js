@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {displayPrice} from './../../../utility';
 import {isPercentage} from "../../../models/validate.model";
+import { Link } from 'react-router-dom';
 
 export default class Discount extends Component {
     constructor(){
@@ -119,6 +120,7 @@ export default class Discount extends Component {
                                            <td></td>
                                         :
                                             <td 
+                                                className="remove-relate-product"
                                                 onClick={() =>
                                                     window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
                                                     this.props.deleteProduct(product.id_shopify_product)
@@ -146,6 +148,11 @@ export default class Discount extends Component {
                         className={classNames('btn btn-primary btn-next-step', {'disabled-form': !disabledOnClick})}
                     >
                         {lang.save}
+                    </button>
+                    <button >
+                        <Link to={'/manage'} >
+                            {lang.cancel}
+                        </Link>
                     </button>
                     <button onClick={this.nextStep.bind(this, 2)} type="button" className="btn btn-primary btn-back-step">{lang.select_products}</button>
                 </div>
