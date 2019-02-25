@@ -55,10 +55,13 @@ export default class MainProduct extends Component {
     }
 
     nextStep(step){
-        if(!this.props.idMainProduct){
-            alert(lang.please_select_at_least_one_product)
-        }else{
-            this.props.nextStep(step);
+        this.props.checkValidateValue();
+        if((!isEmpty(this.props.requiredFields))){
+            if(!this.props.idMainProduct){
+                alert(lang.please_select_at_least_one_product)
+            }else{
+                this.props.nextStep(step);
+            }
         }
     }
 
@@ -110,8 +113,8 @@ export default class MainProduct extends Component {
    
     render() {
         const {products, itemsPerPage, totalItems, isFetching, msg} = this.state;
-        const {currentPage,  ruleName, requiredFields, validates, keyWord} = this.props;
-        const disabledOnClick =  isEmpty(requiredFields) ? true : !every(values(validates), function(value) {return value == 'valid'});
+        const {currentPage,  ruleName, validates, keyWord} = this.props;
+        const disabledOnClick = !every(values(validates), function(value) {return value == 'valid'});
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
@@ -134,7 +137,6 @@ export default class MainProduct extends Component {
                                 onChange={this.handleChangeValue}
                                 className={classNames('form-control', validates.ruleName)}
                             />
-                            <span>{validates.ruleName == 'invalid' ? lang.this_name_already_exists : null}</span>
                         </div>
                     </div>
 
