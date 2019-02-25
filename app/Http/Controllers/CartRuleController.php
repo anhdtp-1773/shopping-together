@@ -57,7 +57,7 @@ class CartRuleController extends Controller
                         $discount = CartRule::saveCartRuleOnShopify(
                             $id_main_product,
                             $id_related_product,
-                            $post_code.$code,
+                            $this->post_code.$code,
                             $request->reduction_percent,
                             $request->start_date, 
                             $request->end_date
@@ -65,7 +65,7 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            $post_code.$code,
+                            $this->post_code.$code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
@@ -113,7 +113,7 @@ class CartRuleController extends Controller
             session(['shopify_domain' => $request->shopify_domain]);
             if($shop){
                 if($id_cart_rule){
-                    $cart_rule = CartRule::updateCartRule($id_cart_rule, $reduction_percent, $start_date, $end_date);
+                    $cart_rule = CartRule::updateCartRule($id_cart_rule, $request->reduction_percent, $request->start_date, $request->end_date);
                     $cart_rule_detail = CartRuleDetail::getByIdCartRule($id_cart_rule);
                     $id_related_product = array();
                     foreach($request->products as $product){

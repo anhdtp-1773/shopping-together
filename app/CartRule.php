@@ -324,9 +324,9 @@ class CartRule extends Model
      */
     public static function updateCartRule ($id_cart_rule, $reduction_percent, $start_date, $end_date) {
         $cart_rule = CartRule::find($id_cart_rule);
-        $cart_rule->reduction_percent = $request->reduction_percent;
-        $cart_rule->start_date = $request->start_date;
-        $cart_rule->end_date = $request->end_date;
+        $cart_rule->reduction_percent = $reduction_percent;
+        $cart_rule->start_date = $start_date;
+        $cart_rule->end_date = $end_date;
         $cart_rule->save();
         return $cart_rule;
     }
