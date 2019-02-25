@@ -14,9 +14,9 @@ use App\CartRuleDetail;
 
 class CartRuleController extends Controller
 {
-    protected $page_number = 1;
+    public $page_number = 1;
     protected $items_per_page = 10;
-    protected $post_code = 'SPT';
+    public $post_code = 'SPT';
 
     /**
      * @param  Request $request
@@ -57,7 +57,7 @@ class CartRuleController extends Controller
                         $discount = CartRule::saveCartRuleOnShopify(
                             $id_main_product,
                             $id_related_product,
-                            $post_code.$code,
+                            'SPT'.$code,
                             $request->reduction_percent,
                             $request->start_date, 
                             $request->end_date
@@ -65,7 +65,7 @@ class CartRuleController extends Controller
                         $cart_rule = CartRule::saveCartRule(
                             $shop_info->id,
                             $request->name,
-                            $post_code.$code,
+                            'SPT'.$code,
                             $id_main_product,
                             $request->reduction_percent,
                             date_format(date_create($request->start_date),"Y-m-d H:i:s"),
