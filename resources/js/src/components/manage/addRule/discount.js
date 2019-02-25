@@ -74,6 +74,7 @@ export default class Discount extends Component {
                                 <th>{lang.name}</th>
                                 <th>{lang.original_price}</th>
                                 <th className="set-discount__title-sale">{lang.sale_price}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,19 +86,21 @@ export default class Discount extends Component {
                                     <td className="set-discount__sale-price">
                                         {
                                             product.isMainProduct
-                                            ? 
+                                            ?
                                                 displayPrice(product.price, product.currency)
                                             :
                                                 displayPrice((parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100), product.currency)
                                         }
                                     </td>
+                                    <td className="remove-relate-product">x</td>
                                 </tr>
                             ))}
                             <tr>
-                                <td>{lang.total}</td>
+                                <td className="title-total">{lang.total}</td>
                                 <td></td>
                                 <td></td>
                                 <td className="set-discount__sale-price">{displayPrice(total, head(discountProducts).currency)}</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
