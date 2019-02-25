@@ -20,7 +20,6 @@ class DashBoard extends Model
      * @return array
      */
     public static function getStastDetail ($date_from, $date_to) {
-        $stats = array();
         $sql = DB::table('stats');
         $sql->select('cart_rule.name');
         $sql->selectRaw('SUM(nb_view) as total_view');
@@ -30,8 +29,7 @@ class DashBoard extends Model
         $sql->join('cart_rule', 'cart_rule.id', '=', 'stats.id_cart_rule');
         $sql->whereBetween('stats.created_at',["$date_from 00:00:00", "$date_to 23:59:59"]);
         $sql->groupBy('stats.id_cart_rule');
-        $results = $sql->get()->toArray();
-        return $results;
+        return $sql->get()->toArray();
     }
 
     /**

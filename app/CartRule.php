@@ -43,23 +43,6 @@ class CartRule extends Model
         return $cart_rule;
     }
 
-    /**
-     * @param
-     * array(
-     *  array (
-     *  'id_cart_rule' => int,
-     *  'id_shop' => int,
-     *  'id_main_product' => string,
-     *  'id_related_product' => string,
-     *  'reduction_percent' => string,
-     *  'reduction_amount' => string,
-     * ),)
-     */
-    public static function saveCartRuleDetail($array_products)
-    {
-        DB::table('cart_rule_detail')->insert($array_products);
-    }
-    
      /**
      * @param int $id_shop
      * @param string $id_product
@@ -159,31 +142,30 @@ class CartRule extends Model
     public static function saveCartRuleOnShopify ($id_main_product, $id_related_product, $code, $value, $start_date, $end_date) {
         $shop = ShopifyApp::shop();
         $price_rule = $shop->api()->request('POST', '/admin/price_rules.json',
-                [
-                    "price_rule" => [
-                        "title" => $code,
-                        "value_type" => "percentage",
-                        "value" => "-$value",
-                        "customer_selection" => "all",
-                        "target_type" => "line_item",
-                        "target_selection"=> "entitled",
-                        "allocation_method"=> "each",
-                        "starts_at"=> $start_date,
-                        "ends_at"=> $end_date,
-                        "prerequisite_product_ids" => [
-                            $id_main_product
-                        ],
-                        "entitled_product_ids" => $id_related_product,
-                        "prerequisite_to_entitlement_quantity_ratio" => [
-                            "prerequisite_quantity" => 1,
-                            "entitled_quantity" => 1
-                        ],
-                        "allocation_limit"=> null
-                    ]
+            [
+                "price_rule" => [
+                    "title" => $code,
+                    "value_type" => "percentage",
+                    "value" => "-$value",
+                    "customer_selection" => "all",
+                    "target_type" => "line_item",
+                    "target_selection"=> "entitled",
+                    "allocation_method"=> "each",
+                    "starts_at"=> $start_date,
+                    "ends_at"=> $end_date,
+                    "prerequisite_product_ids" => [
+                        $id_main_product
+                    ],
+                    "entitled_product_ids" => $id_related_product,
+                    "prerequisite_to_entitlement_quantity_ratio" => [
+                        "prerequisite_quantity" => 1,
+                        "entitled_quantity" => 1
+                    ],
+                    "allocation_limit"=> null
                 ]
+            ]
         )->body->price_rule;
-        $discount_code = $shop->api()->request('POST', '/admin/price_rules/'.$price_rule->id.'/discount_codes.json',["discount_code" => ["code" => $price_rule->title]])->body->discount_code;
-        return $discount_code;
+        return $shop->api()->request('POST', '/admin/price_rules/'.$price_rule->id.'/discount_codes.json',["discount_code" => ["code" => $price_rule->title]])->body->discount_code;
     }
 
     public static function updateRuleOnShopify ($price_rule_id, $id_related_product, $value, $start_date, $end_date) {
@@ -227,8 +209,19 @@ class CartRule extends Model
         $sql->groupBy('cart_rule_detail.id_product');
         return $sql->get()->toArray();
     }
+  
+    public static function updateCartRule ($id_cart_rule, $reduction_percent, $start_date, $end_date) {
+        $cart_rule = CartRule::find($id_cart_rule);
+        $cart_rule->reduction_percent = $request->reduction_percent;
+        $cart_rule->start_date = $request->start_date;
+        $cart_rule->end_date = $request->end_date;
+        $cart_rule->save();
+        return $cart_rule;
+    }
 
-    public static function getCartRuleDetailByIdCartRule ($id_cart_rule) {
-        return DB::table('cart_rule_detail')->where('id_cart_rule', $id_cart_rule)->get()->toArray();
+    public static function deleteRule ($id_cart_rules) {
+        DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
+        DB::table('stats')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
+        DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
     }
 }
