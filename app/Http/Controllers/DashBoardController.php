@@ -90,6 +90,10 @@ class DashBoardController extends Controller
         return $summary_details;
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function addNumberToCart (Request $request) 
     {
         if($request->id_cart_rule && $request->id_shop){

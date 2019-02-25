@@ -10,6 +10,9 @@ use OhMyBrew\ShopifyApp\Facades\ShopifyApp;
 
 class Authentication extends Model
 {
+    /**
+     * @param array $shop
+     */
     public static function updateShop($shop){
         $shop_owner = new ShopOwner();
         $shop_owner->email = $shop->email;
@@ -32,7 +35,7 @@ class Authentication extends Model
 
     /**
      * @param  int $id_shop
-     * @param  int $id_shop_owner
+     * @param  string $sign
      */
     public static function updateCurrency($id_shop, $sign) {
         $currency = new Currency();
@@ -41,6 +44,9 @@ class Authentication extends Model
         $currency->save();
     }
 
+    /**
+     * @param  int $id_shop
+     */
     public static function uninstall ($id_shop) {
         DB::table('shops')->where('id', $id_shop)->delete();
         DB::table('products')->where('id_shop', $id_shop)->delete();

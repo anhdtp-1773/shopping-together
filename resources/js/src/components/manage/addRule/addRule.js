@@ -40,6 +40,7 @@ export default class AddRule extends Component {
         this.onSelectRelatedProduct = this.onSelectRelatedProduct.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
+        this.checkValidateValue = this.checkValidateValue.bind(this);
     }
 
     async componentWillMount () {
@@ -76,6 +77,16 @@ export default class AddRule extends Component {
                 [name]: value,
             }),
         })
+    }
+
+    checkValidateValue() {
+        let {validates} = this.state;
+        if(isEmpty(this.state.requiredFields)){
+            validates['ruleName'] = 'invalid'
+            this.setState({
+                validates: assign({}, this.state.validates, validates),
+            })
+        }
     }
 
     async onSubmit () {
@@ -164,6 +175,7 @@ export default class AddRule extends Component {
                                     requiredFields = {requiredFields}
                                     onChangeValue = {this.onChangeValue}
                                     rulesNameExist = {rulesNameExist}
+                                    checkValidateValue = {this.checkValidateValue}
                                 />
                             :
                                 null
@@ -197,7 +209,6 @@ export default class AddRule extends Component {
                                     handleChangeValue = {this.handleChangeValue}
                                     nextStep = {this.nextStep}
                                     onSubmit = {this.onSubmit}
-                                    validates = {validates}
                                     discountProducts = {form.discountProducts}
                                     reductionPercent = {form.reductionPercent}
                                     onChangeDate = {this.onChangeDate}

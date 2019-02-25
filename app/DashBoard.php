@@ -88,6 +88,11 @@ class DashBoard extends Model
         return $stats;
     }
 
+    /**
+     * @param int $id_cart_rule
+     * @param int $id_shop
+     * @param $field
+     */
     public static function addNBCartRule ($id_cart_rule, $id_shop, $field)   
     {   
         $curent_date = date('Y-m-d');
