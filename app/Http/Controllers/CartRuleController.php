@@ -99,6 +99,10 @@ class CartRuleController extends Controller
         ], 200); 
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateCartRule(Request $request)
     {   
         $status = true;
@@ -262,6 +266,10 @@ class CartRuleController extends Controller
         ], 200);
     }
 
+    /**
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function getDetail (Request $request)
     {   
         $data = [];
