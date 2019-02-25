@@ -35,6 +35,7 @@ body{position: relative;}
 
 .img-active {
   border-color: #5c6ac4;
+  background-color: #5c6ac4;
   box-shadow: 0px 0px 6px 4px #cccccc9c;;
 }
 .set-discount__img {
@@ -68,6 +69,10 @@ body{position: relative;}
 Manage
 =============================== */
 .steps{margin-top: 80px;}
+.section-manage .related-search__title{
+  font-size: 16px;
+  font-weight: 600;
+}
 .section-manage .rulename-wrap{
   margin-bottom: 20px;
 }
@@ -149,6 +154,9 @@ Manage
   height: 150px;
   object-fit:cover;
   width: 100%;
+}
+.table-rule .pagination > .active >a{
+  background-color: #3d4a98;
 }
 .content-manage .disabled-form.product-wrap{
   background: unset;
@@ -279,7 +287,7 @@ discountType
   margin-right: 45px;
 }
 .section-datePicker .datePicker_title{
-  padding-right: 12px;
+  padding-right: 5px;
 }
 .section-heading .title-heading{
   font-size: 36px;
@@ -292,11 +300,19 @@ discountType
   height: 36px;
   font-size: 15px;
 }
+.set-discount-wrap .title-total{
+  font-weight: bold;
+}
 .set-discount-wrap tr > th,.set-discount-wrap tbody {
   text-align: center;
 }
 .set-discount-wrap tbody > tr >td{
   vertical-align: middle;
+}
+.set-discount-wrap .info-product .remove-relate-product{
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 .set-discount-wrap tbody > .info-product >td:first-child{
   text-align: left;
@@ -310,7 +326,7 @@ discountType
 .set-discount-wrap .set-discount__sale-price{
   color: #fd0909;
   text-align: right;
-  padding-right: 20px;
+  padding-right: 13px;
 }
 .set-discount-wrap .set-discount__title-img{
   width: 156px;
@@ -394,11 +410,15 @@ related
   display: flex;
   position: relative;
 }
+.rulename-wrap .alert-rule-exists{
+  padding-left: 11px;
+}
 .related-wrap .discount p{
-  width: 84px;
-  font-size: 13px;
-  font-weight: bold;
+  width: auto;
+  font-size: 16px;
+  font-weight: 600;
   padding: 6px 0;
+  padding-right: 10px;
   margin-bottom: 15px;
 }
 .related-wrap .discount input{
@@ -407,9 +427,9 @@ related
 }
 .related-wrap .discount .icon-percent{
   position: absolute;
-  left: 243px;
+  left: 259px;
   top: 5px;
-  color: #ccc;
+  color: #000;
 }
 
 /*=============================
@@ -536,7 +556,7 @@ Menu
 }
 
 .left-side__control > div {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .left-side .left-side__control p,
 .right-side__form-product .option-product .col-md-6 p{
@@ -567,8 +587,7 @@ Menu
   top: 3px;
 }
 .left-side__control .left-side__product-group{
-  margin-bottom: 41px;
-  margin-top: 35px;
+  margin-bottom: 8px;
 }
 .left-side__control .left-side__product-group .range-show-product{
   display: flex;
@@ -1104,6 +1123,7 @@ table rule
 .table-rule .glyphicon{
   padding-right: 10px;
   cursor: pointer;
+  color: #3d4a98;
 }
 .table-rule .product-search-wrap input{
   height: 37px;
@@ -1253,4 +1273,11 @@ Mobile setup
 .search-cart-rule {
   width: 250px;
   float: right;
+  margin-top: 19px;
+}
+@media (max-width: 767px) {
+  .search-cart-rule {
+    float: unset;
+    margin: 30px auto 0;
+  }
 }

@@ -11,6 +11,7 @@ use App\Product;
 use App\Variant;
 use App\Image;
 use App\Currency;
+use App\Authentication;
 use Illuminate\Http\Request;
 use OhMyBrew\ShopifyApp\Traits\AuthControllerTrait;
 use DB;
@@ -80,62 +81,18 @@ class AuthController extends Controller
         $shop = ShopifyApp::shop();
         $request = $shop->api()->request('GET', '/admin/shop.json');
         $shop_owner_info = ShopOwner::getShopOwnerByDomain($request->body->shop->email);
-        $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : $this->updateShop($request->body->shop);
-        self::updateCurrency($id_shop, $request->body->shop->currency);
-        $id_shop_owner ? $this->updateShopOwner($id_shop, $id_shop_owner) : '';
+        $id_shop_owner = !empty($shop_owner_info) ? $shop_owner_info->id : Authentication::updateShop($request->body->shop);
+        Authentication::updateCurrency($id_shop, $request->body->shop->currency);
+        $id_shop_owner ? Authentication::updateShopOwner($id_shop, $id_shop_owner) : '';
         // Go to homepage of app
         return redirect()->route('home');
-    }
-
-     /**
-     * @param  object $shop
-     * @return  int
-     */
-    private function updateShop($shop){
-        $shop_owner = new ShopOwner();
-        $shop_owner->email = $shop->email;
-        $shop_owner->name = $shop->name;
-        $shop_owner->phone = $shop->phone;
-        $shop_owner->address = $shop->address1;
-        $shop_owner->save();
-        return $shop_owner->id;
-    }
-
-    /**
-     * @param  int $id_shop
-     * @param  int $id_shop_owner
-     * @return boolean         
-     */
-    private function updateShopOwner($id_shop, $id_shop_owner){
-        $shop = Shop::find($id_shop);
-        $shop->id_shop_owner = $id_shop_owner;
-        $shop->save();
-    }
-
-    /**
-     * @param  int $id_shop
-     * @param  int $id_shop_owner
-     */
-    public function updateCurrency($id_shop, $sign) {
-        $currency = new Currency();
-        $currency->id_shop = $id_shop;
-        $currency->currency = $sign;
-        $currency->save();
     }
 
     public function uninstall(Request $request) {
         $shop_domain = request()->header('x-shopify-shop-domain');
         $shop_info = Shop::getShopByDomain($shop_domain);
         if($shop_info){
-            DB::table('shops')->where('id',  $shop_info->id)->delete();
-            DB::table('products')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('variants')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('images')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('currency')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('settings')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('stats')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('cart_rule')->where('id_shop',  $shop_info->id)->delete();
-            DB::table('cart_rule_detail')->where('id_shop',  $shop_info->id)->delete();
+            Authentication::uninstall($shop_info->id);
         }
     }
 

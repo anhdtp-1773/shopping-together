@@ -18,11 +18,10 @@ class DashBoardController extends Controller
         $status = true;
         $msg = 'successfully';
         $data = array();
-        $granularity = $request->granularity;
         $date_from = $request->date_from;
         $date_to = $request->date_to;
         try{
-            $summary_details = $this->getSummaryDetails($date_from, $date_to, $granularity);
+            $summary_details = $this->getSummaryDetails($date_from, $date_to, $request->granularity);
             $data = array(
                 'dashboard' => array(
                     'views' => $summary_details['views'],

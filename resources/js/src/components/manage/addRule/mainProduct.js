@@ -110,7 +110,7 @@ export default class MainProduct extends Component {
             this.getListProduct();
         }
     }
-   
+
     render() {
         const {products, itemsPerPage, totalItems, isFetching, msg} = this.state;
         const {currentPage,  ruleName, validates, keyWord} = this.props;
@@ -137,6 +137,7 @@ export default class MainProduct extends Component {
                                 onChange={this.handleChangeValue}
                                 className={classNames('form-control', validates.ruleName)}
                             />
+                            {/* {validates.ruleName == 'invalid' ? <span className="alert-rule-exists">{lang.this_name_already_exists}</span> : null} */}
                         </div>
                     </div>
 
