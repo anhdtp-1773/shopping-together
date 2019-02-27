@@ -156,11 +156,12 @@ export default class MainProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className="product-wrap col-sm-6 col-md-2 col-xs-6" key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
+                                    <span className={classNames('product-wrap col-sm-6 col-md-2 col-xs-6', {'sold-out': product.quantity > 0 ? false : true  })} key={i} onClick={this.onSelectProduct.bind(this, product.id)}>
                                         <div className={`thumbnail  ${this.props.idMainProduct == product.id ? 'img-active ': ''}`}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <h5 className="split-title-product">{product.title}</h5>
                                             <p>{displayPrice(product.price, product.currency)}</p>
+                                            <p>{product.quantity <= 0 ? lang.sold_out : null}</p>
                                         </div>
                                     </span>
                                 ))}

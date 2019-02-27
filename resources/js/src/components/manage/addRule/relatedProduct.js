@@ -176,7 +176,7 @@ export default class RelatedProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className={classNames('col-sm-6 col-md-2 col-xs-6 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
+                                    <span className={classNames('col-sm-6 col-md-2 col-xs-6 product-wrap', {'disabled-form': idMainProduct == product.id ? true : false}, {'sold-out': product.quantity > 0 ? false : true  })} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id)}>
                                         <div className={classNames('thumbnail', {'disabled-form  product-step2': idMainProduct == product.id ? true : false})}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <div className="check-product">
@@ -189,6 +189,7 @@ export default class RelatedProduct extends Component {
                                             <div className="caption">
                                                 <h5 className="split-title-product">{product.title}</h5>
                                                 <p>{displayPrice(product.price, product.currency)}</p>
+                                                <p>{product.quantity <= 0 ? lang.sold_out : null}</p>
                                             </div>
                                         </div>
                                     </span>

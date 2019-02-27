@@ -148,7 +148,7 @@ export default class RelatedProduct extends Component {
                         ?
                             <div className="row">
                                 {products.map((product, i)=>(
-                                    <span className={classNames('col-sm-6 col-md-2 col-xs-6 product-wrap', {'disabled-form': (find(discountProducts, function(discountProduct) { return discountProduct.id_shopify_product == product.id_shopify_product && discountProduct.is_main_product == 1}))})} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id_shopify_product)}>
+                                    <span className={classNames('col-sm-6 col-md-2 col-xs-6 product-wrap', {'disabled-form': (find(discountProducts, function(discountProduct) { return discountProduct.id_shopify_product == product.id_shopify_product && discountProduct.is_main_product == 1}))}, {'sold-out': product.quantity > 0 ? false : true  } )} key={i} onClick={this.onSelectRelatedProduct.bind(this, product.id_shopify_product)}>
                                         <div className={classNames('thumbnail', {'disabled-form  product-step2': (find(discountProducts, function(discountProduct) { return discountProduct.id_shopify_product == product.id_shopify_product && discountProduct.is_main_product == 1})) ? true : false})}>
                                             <img className="img-main-product" src={product.src} alt="..." />
                                             <div className="check-product">
@@ -161,6 +161,7 @@ export default class RelatedProduct extends Component {
                                             <div className="caption">
                                                 <h5 className="split-title-product">{product.title}</h5>
                                                 <p>{displayPrice(product.price, product.currency)}</p>
+                                                <p>{product.quantity <= 0 ? lang.sold_out : null}</p>
                                             </div>
                                         </div>
                                     </span>

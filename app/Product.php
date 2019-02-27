@@ -14,7 +14,7 @@ class Product extends Model
      * @var string
      */
     protected $table = 'products';
-    protected $fillable=['id','id_shopify_product','id_shop','title','created_at','updated_at','handle'];
+    protected $fillable=['id','id_shopify_product','id_shop','title','created_at','updated_at','handle','price','quantity'];
     
     /**
      * @param
@@ -88,7 +88,7 @@ class Product extends Model
     {
         $data = [];
         $query = DB::table('products');
-        $query->select('products.id', 'products.id_shopify_product', 'products.title', 'products.src_image as src', 'products.price', 'currency.currency');
+        $query->select('products.id','products.quantity', 'products.id_shopify_product', 'products.title', 'products.src_image as src', 'products.price', 'currency.currency');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->where('products.id_shop', $id_shop);
         if($is_main_product){
@@ -126,7 +126,7 @@ class Product extends Model
      */
     public static function get($id_shopify_product){
         return DB::table('products')
-                    ->select('products.title','products.id_shopify_product', 'products.src_image as src', 'variants.price', 'variants.option1', 
+                    ->select('products.title', 'products.quantity', 'products.id_shopify_product', 'products.src_image as src', 'variants.price', 'variants.option1', 
                             'variants.option2', 'variants.option3')
                     ->join('variants', 'products.id_shopify_product', '=', 'variants.id_product')
                     ->where('id_shopify_product', $id_shopify_product)
@@ -156,7 +156,7 @@ class Product extends Model
     public static function search($key_word, $page_number, $items_per_page, $id_shop, $is_main_product = false){
         $data = [];
         $query =  DB::table('products');
-        $query->select('products.id', 'products.id_shopify_product', 'products.title', 'products.src_image as src', 'variants.price', 'currency.currency');
+        $query->select('products.id', 'products.id_shopify_product', 'products.quantity', 'products.title', 'products.src_image as src', 'variants.price', 'currency.currency');
         $query->join('variants', 'variants.id_product', '=', 'products.id_shopify_product');
         $query->join('currency', 'currency.id_shop', '=', 'products.id_shop');
         $query->where('products.id_shop', $id_shop);
@@ -202,16 +202,8 @@ class Product extends Model
         $arr_products = array();
         $arr_variants  = array();
         $arr_imgs= array();
-        $arr_products[] = array(
-            'id_shopify_product' => (string)$product->id,
-            'id_shop' => $id_shop,
-            'title' => $product->title,
-            'handle' => $product->handle,
-            'src_image' => isset($product->image) ? $product->image->src : '',
-            'price' => ($product->variants)[0]->price,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        );
+        $qty = 0;
+       
         foreach($product->variants as $value){
             $arr_variants[] = array(
                 'id_variant' => (string)$value->id,
@@ -223,11 +215,12 @@ class Product extends Model
                 'option1' => $value->option1,
                 'option2' => $value->option2,
                 'option3' => $value->option3,
-                'quantity' => $value->inventory_quantity,
+                'quantity' => ($value->inventory_management == "shopify") ? $value->inventory_quantity : 1000,
                 'id_image' => isset($value->image_id) ? (string)$value->image_id : (isset($product->image) ? (string)$product->image->id : ''),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
+            $qty += ($value->inventory_management == "shopify") ? $value->inventory_quantity : 10;
         }
         if($product->images){
             foreach($product->images as $value){
@@ -241,6 +234,17 @@ class Product extends Model
                 );
             }
         }
+        $arr_products[] = array(
+            'id_shopify_product' => (string)$product->id,
+            'id_shop' => $id_shop,
+            'title' => $product->title,
+            'handle' => $product->handle,
+            'src_image' => isset($product->image) ? $product->image->src : '',
+            'price' => ($product->variants)[0]->price,
+            'quantity' => $qty,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
         Product::saveProduct($arr_products);
         Variant::saveVariant($arr_variants);
         if($arr_imgs){
