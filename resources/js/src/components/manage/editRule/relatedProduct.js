@@ -47,7 +47,7 @@ export default class RelatedProduct extends Component {
         let index = findKey(discountProducts, function(product){
             return product.id_shopify_product == id
         })
-        if(index > 0) {
+        if(index >= 0) {
             discountProducts.splice(index, 1);
         }else{
             if(discountProducts.length < this.props.showProductQty){
@@ -64,7 +64,7 @@ export default class RelatedProduct extends Component {
     }
 
     nextStep (step) {
-        if(step == 3){
+        if(step == 1){
             if(this.props.discountProducts.length == 1){
                 alert(lang.please_select_at_least_one_product)
             }else{
