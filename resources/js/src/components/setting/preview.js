@@ -18,6 +18,7 @@ export default class Preview extends Component {
         };
         this.showAlert = this.showAlert.bind(this);
         this.handleChangeTotalPrice = this.handleChangeTotalPrice.bind(this);
+        this.onSyncProduct = this.onSyncProduct.bind(this);
     }
 
     async componentWillMount () {
@@ -75,6 +76,30 @@ export default class Preview extends Component {
         }
     }
 
+    async onSyncProduct (){
+        this.setState({
+            isFetching: true
+        });
+        try{
+            const fetch = await api.cloneProducts();
+            const result = JSON.parse(fetch.text);
+            console.log(result.status);
+            if(result.status){
+                this.setState({
+                    isFetching: false,
+                })
+                location.reload();
+            }else{
+                this.setState({
+                    isFetching: false,
+                    message: result.message
+                })
+            }
+        }catch(errors){
+            alert(errors.message)
+        }
+    }
+
     handleChangeTotalPrice (cartRule, idProduct, price) {
         let priceProducts = this.state.priceProducts;
         priceProducts[idProduct] = cartRule.is_main_product ? parseFloat(price) : (parseFloat(price) - (parseFloat(price) * parseFloat(cartRule.reduction_percent))/100);
@@ -89,6 +114,7 @@ export default class Preview extends Component {
 
     render () {
         const {option1, option2, option3, cartRules, priceProducts, product, isFetching} = this.state;
+        console.log(isFetching)
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
@@ -163,36 +189,25 @@ export default class Preview extends Component {
                             <span><i className="fa fa-shopping-bag" aria-hidden="true"></i></span>
                         </div>
                     </div>
-                    <div className="row right-side__form-product">
-                        <div className="col-md-6">
-                            <img className="image-setting-product" src={product.src_image}/>
-                        </div>
-                    <div className="col-md-6 unpadding-right">
-                        <div className="form-group">
-                            <p className="title-product">{product.title}</p>
-                            <p className="price-product">{displayPrice(product.price, currency)}</p>
-                            <div className="col-md-12 option-product">
-                            {
-                                option1.length > 0 && head(option1) != "Default Title"
-                                ?
-                                <div className="col-md-6">
-                                    <p>{lang.option_name_1}</p>
-                                    <select name="option1" className="form-control">
-                                        {option1.map((value, i)=>{
-                                           return <option key={i}>{value}</option>
-                                        })}
-                                    </select>
-                                </div>
-                                :
-                                null
-                            }
-                            {
-                                option2.length > 0 && head(option2) != "Default Title"
-                                ?
-                                <div className="col-md-6">
-                                    <p>{lang.option_name_2}</p>
-                                    <select name="option2" className="form-control">
-                                        {option2.map((value, i)=>{
+                    {
+                        product.length >0
+                        ?
+                        <div className="row right-side__form-product">
+                            <div className="col-md-6">
+                                <img className="image-setting-product" src={product.src_image}/>
+                            </div>
+                        <div className="col-md-6 unpadding-right">
+                            <div className="form-group">
+                                <p className="title-product">{product.title}</p>
+                                <p className="price-product">{displayPrice(product.price, currency)}</p>
+                                <div className="col-md-12 option-product">
+                                {
+                                    option1.length > 0
+                                    ?
+                                    <div className="col-md-6">
+                                        <p>{lang.option_name_1}</p>
+                                        <select name="option1" className="form-control">
+                                            {option1.map((value, i)=>{
                                             return <option key={i}>{value}</option>
                                             })}
                                         </select>
@@ -204,51 +219,68 @@ export default class Preview extends Component {
                                     option3.length > 0 && head(option3) != "Default Title"
                                     ?
                                     <div className="col-md-6">
-                                        <p>{lang.option_name_3}</p>
-                                        <select name="option3" className="form-control">
-                                            {option3.map((value, i)=>{
+                                        <p>{lang.option_name_2}</p>
+                                        <select name="option2" className="form-control">
+                                            {option2.map((value, i)=>{
                                                 return <option key={i}>{value}</option>
+                                                })}
+                                            </select>
+                                        </div>
+                                        :
+                                        null
+                                    }
+                                    {
+                                        option3.length > 0
+                                        ?
+                                        <div className="col-md-6">
+                                            <p>{lang.option_name_3}</p>
+                                            <select name="option3" className="form-control">
+                                                {option3.map((value, i)=>{
+                                                    return <option key={i}>{value}</option>
+                                                })}
+                                            </select>
+                                        </div>
+                                        :
+                                        null
+                                    }
+                                    </div>
+                                </div>
+                                <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                                {
+                                    cartRules.length > 0
+                                    ?
+                                    <div className="col-md-12 right-side__translation">
+                                        <div className="row">
+                                            <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
+                                            {cartRules.map((cartRule, i)=>{
+                                                return <RulesList 
+                                                    key={i}
+                                                    cartRule = {cartRule}
+                                                    productNameStyle = {productNameStyle}
+                                                    titleStyle = {titleStyle}
+                                                    oldPriceStyle = {oldPriceStyle}
+                                                    newPriceStyle = {newPriceStyle}
+                                                    totalAmountStyle = {totalAmountStyle}
+                                                    currency = {currency}
+                                                    handleChangeTotalPrice = {this.handleChangeTotalPrice}
+                                                    idProduct = {cartRule.id_product}
+                                                />
                                             })}
-                                        </select>
+                                            <div className="col-md-12 right-side__total unpadding-left">
+                                                <div className="col-md-6 first">{lang.total}</div>
+                                                <div className="col-md-6 second" style={totalAmountStyle}>{displayPrice(totalPrice, currency)}</div>
+                                            </div>
+                                            <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
+                                        </div>
                                     </div>
                                     :
-                                    null
+                                    lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
                                 }
-                                </div>
                             </div>
-                            <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
-                            {
-                                cartRules.length > 0
-                                ?
-                                <div className="col-md-12 right-side__translation">
-                                    <div className="row">
-                                        <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
-                                        {cartRules.map((cartRule, i)=>{
-                                            return <RulesList 
-                                                key={i}
-                                                cartRule = {cartRule}
-                                                productNameStyle = {productNameStyle}
-                                                titleStyle = {titleStyle}
-                                                oldPriceStyle = {oldPriceStyle}
-                                                newPriceStyle = {newPriceStyle}
-                                                totalAmountStyle = {totalAmountStyle}
-                                                currency = {currency}
-                                                handleChangeTotalPrice = {this.handleChangeTotalPrice}
-                                                idProduct = {cartRule.id_product}
-                                            />
-                                        })}
-                                        <div className="col-md-12 right-side__total unpadding-left">
-                                            <div className="col-md-6 first">{lang.total}</div>
-                                            <div className="col-md-6 second" style={totalAmountStyle}>{displayPrice(totalPrice, currency)}</div>
-                                        </div>
-                                        <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
-                                    </div>
-                                </div>
-                                :
-                                lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
-                            }
                         </div>
-                    </div>
+                        :
+                        <button onClick={this.onSyncProduct}>{lang.sync_products}</button>
+                    }
                     <div className="row right-side__footer">
                         <span>{lang.label_footer}</span>
                     </div>

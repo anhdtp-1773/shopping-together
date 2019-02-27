@@ -67,6 +67,12 @@ export default {
             'page_number': pageNumber
         });
     },
+
+    cloneProducts(){
+        return superagent.post('/api/product/clone').send({
+            'shopify_domain': domain,
+        });
+    },
     
     getProductInfo(){
         return superagent.post('/api/product/get').send({
