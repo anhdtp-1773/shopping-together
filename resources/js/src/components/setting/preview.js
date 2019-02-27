@@ -83,7 +83,6 @@ export default class Preview extends Component {
         try{
             const fetch = await api.cloneProducts();
             const result = JSON.parse(fetch.text);
-            console.log(result.status);
             if(result.status){
                 this.setState({
                     isFetching: false,
@@ -114,7 +113,6 @@ export default class Preview extends Component {
 
     render () {
         const {option1, option2, option3, cartRules, priceProducts, product, isFetching} = this.state;
-        console.log(isFetching)
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
@@ -190,7 +188,7 @@ export default class Preview extends Component {
                         </div>
                     </div>
                     {
-                        product.length >0
+                        product
                         ?
                         <div className="row right-side__form-product">
                             <div className="col-md-6">
@@ -202,7 +200,7 @@ export default class Preview extends Component {
                                 <p className="price-product">{displayPrice(product.price, currency)}</p>
                                 <div className="col-md-12 option-product">
                                 {
-                                    option1.length > 0
+                                    option1.length > 0 && head(option1) != "Default Title"
                                     ?
                                     <div className="col-md-6">
                                         <p>{lang.option_name_1}</p>
@@ -216,7 +214,7 @@ export default class Preview extends Component {
                                     null
                                 }
                                 {
-                                    option3.length > 0 && head(option3) != "Default Title"
+                                    option2.length > 0 && head(option2) != "Default Title"
                                     ?
                                     <div className="col-md-6">
                                         <p>{lang.option_name_2}</p>
@@ -230,7 +228,7 @@ export default class Preview extends Component {
                                         null
                                     }
                                     {
-                                        option3.length > 0
+                                        option3.length > 0 && head(option3) != "Default Title"
                                         ?
                                         <div className="col-md-6">
                                             <p>{lang.option_name_3}</p>

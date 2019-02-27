@@ -95,7 +95,7 @@ export default class Setting extends Component {
                     activeMobile: result.data.setting.active_mobile,
                 }),
                 isFetching: false,
-                currency: result.data.currency
+                currency: result.data.currency.currency
             })
         }else{
             this.setState({

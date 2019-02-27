@@ -88,7 +88,7 @@
             </script>
         @else
             <script>
-                var domain = "sptapp.myshopify.com";
+                var domain = "shoppingtogether1.myshopify.com";
                 var lang = <?php echo $lang ?>;
             </script>
         @endif
