@@ -107,7 +107,7 @@ export default class Discount extends Component {
                                     <td>{displayPrice(product.price, product.currency)}</td>
                                     <td className="set-discount__sale-price">
                                         {
-                                            product.is_main_product
+                                            product.is_main_product == 1
                                             ? 
                                                 displayPrice(product.price, product.currency)
                                             :
