@@ -105,4 +105,5 @@ return [
     'select_products' => 'Select products',
     'are_you_sure_you_wish_to_delete_product' => 'Are you sure you wish to delete product?',
     'cancel' => 'Cancel',
+    'sync_products' => 'Sync products',
 ];
