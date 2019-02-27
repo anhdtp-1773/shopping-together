@@ -93,7 +93,7 @@ class DashBoard extends Model
      * @param int $id_shop
      * @param $field
      */
-    public static function addNBCartRule ($id_cart_rule, $id_shop, $field)   
+    public static function addNBCartRule ($id_cart_rule, $id_shop, $field, $sale = null)   
     {   
         $curent_date = date('Y-m-d');
         $stats = DB::table('stats');
@@ -103,13 +103,13 @@ class DashBoard extends Model
         $stats_nb = $stats->first();
         if($stats_nb){
             $new_stast = DashBoard::find($stats_nb->id);
-            $new_stast->$field = $stats_nb->$field + 1;
+            $new_stast->$field = $sale ? ((float)$stats_nb->$field + (float)$sale) : $stats_nb->$field + 1;
             $new_stast->save();
         }else{
             $stats = new DashBoard();
             $stats->id_shop = $id_shop;
             $stats->id_cart_rule = $id_cart_rule;
-            $stats->$field = 1;
+            $stats->$field = $sale ? $sale : 1;
             $stats->created_at = date('Y-m-d H:i:s');
             $stats->updated_at = date('Y-m-d H:i:s');
             $stats->save();
