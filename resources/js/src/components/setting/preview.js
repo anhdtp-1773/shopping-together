@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../api';
-import {mapValues} from "lodash";
+import {mapValues, head} from "lodash";
 import RulesList from './rulesList';
 import {displayPrice} from './../../utility';
 
@@ -118,6 +118,7 @@ export default class Preview extends Component {
         const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
             amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
+
         let cartStyle={
             color: cartFontColor,
             backgroundColor: backgroundColor,
@@ -215,7 +216,7 @@ export default class Preview extends Component {
                                     null
                                 }
                                 {
-                                    option2.length > 0 
+                                    option3.length > 0 && head(option3) != "Default Title"
                                     ?
                                     <div className="col-md-6">
                                         <p>{lang.option_name_2}</p>

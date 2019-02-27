@@ -187,48 +187,58 @@ class Product extends Model
      * @param int $id_shop
      */
     public static function cloneProducts ($products, $id_shop) {
+        if($products){
+            foreach($products as $product){
+                self::importProduct($product, $id_shop);
+            }
+        }
+    }
+
+     /**
+     * @param object $product
+     * @param int $id_shop
+     */
+    public static function importProduct ($product, $id_shop) {
         $arr_products = array();
         $arr_variants  = array();
         $arr_imgs= array();
-        foreach($products as $product){
-            $arr_products[] = array(
-                'id_shopify_product' => (string)$product->id,
+        $arr_products[] = array(
+            'id_shopify_product' => (string)$product->id,
+            'id_shop' => $id_shop,
+            'title' => $product->title,
+            'handle' => $product->handle,
+            'src_image' => isset($product->image) ? $product->image->src : '',
+            'price' => ($product->variants)[0]->price,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        foreach($product->variants as $value){
+            $arr_variants[] = array(
+                'id_variant' => (string)$value->id,
+                'id_product' => (string)$value->product_id,
                 'id_shop' => $id_shop,
-                'title' => $product->title,
-                'handle' => $product->handle,
-                'src_image' => isset($product->image) ? $product->image->src : null,
-                'price' => ($product->variants)[0]->price,
+                'title' => $value->title,
+                'price' => $value->price,
+                'product_name' => $product->title,
+                'option1' => $value->option1,
+                'option2' => $value->option2,
+                'option3' => $value->option3,
+                'quantity' => $value->inventory_quantity,
+                'id_image' => isset($value->image_id) ? (string)$value->image_id : (isset($product->image) ? (string)$product->image->id : ''),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
-            foreach($product->variants as $value){
-                $arr_variants[] = array(
-                    'id_variant' => (string)$value->id,
+        }
+        if($product->images){
+            foreach($product->images as $value){
+                $arr_imgs[] = array(
+                    'id_image' => (string)$value->id,
                     'id_product' => (string)$value->product_id,
-                    'id_shop' => $id_shop,
-                    'title' => $value->title,
-                    'price' => $value->price,
-                    'product_name' => $product->title,
-                    'option1' => $value->option1,
-                    'option2' => $value->option2,
-                    'option3' => $value->option3,
-                    'quantity' => $value->inventory_quantity,
-                    'id_image' => isset($value->image_id) ? (string)$value->image_id : (isset($product->image) ? (string)$product->image->id : null),
+                    'src' => $value->src,
+                    'id_shop'=> $id_shop,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 );
-            }
-            if($product->images){
-                foreach($product->images as $value){
-                    $arr_imgs[] = array(
-                        'id_image' => (string)$value->id,
-                        'id_product' => (string)$value->product_id,
-                        'src' => $value->src,
-                        'id_shop'=> $id_shop,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    );
-                }
             }
         }
         Product::saveProduct($arr_products);
@@ -236,5 +246,14 @@ class Product extends Model
         if($arr_imgs){
             Image::saveImage($arr_imgs);
         }
+    }
+
+    /**
+     * @param int $id_product
+     */
+    public static function deleteProduct ($id_product) {
+        DB::table('products')->where('id_shopify_product', $id_product)->delete();
+        DB::table('variants')->where('id_product', $id_product)->delete();
+        DB::table('images')->where('id_product', $id_product)->delete();
     }
 }

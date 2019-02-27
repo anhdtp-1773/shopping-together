@@ -7,6 +7,8 @@ use App\Setting;
 use App\Shop;
 use DB;
 use App\DashBoard;
+use App\CartRule;
+
 class DashBoardController extends Controller
 {   
     /**
@@ -100,5 +102,23 @@ class DashBoardController extends Controller
             DashBoard::addNBCartRule($request->id_cart_rule, $request->id_shop, 'nb_add_to_cart');
         }
         return 1;
+    }
+
+    public function cloneOrder (Request $request) 
+    {
+        Mail::raw('Hi, welcome user!', function ($message) {
+            $message->to("namdv32@gmail.com")
+            ->subject("hey hey hey");
+        });
+        // $domain = request()->header('x-shopify-shop-domain');
+        // $shop = Shop::getShopByDomain($domain);
+        // $order = json_decode(file_get_contents('php://input'));
+        // if($order->discount_applications){
+        //     $cart_rule = CartRule::getRuleByCode($order->discount_applications[0]->title);
+        //     if($cart_rule){
+        //         DashBoard::addNBCartRule($cart_rule->id, $shop->id_shop, 'nb_order');
+        //         DashBoard::addNBCartRule($cart_rule->id, $shop->id_shop, 'nb_sale', $order->total_price);
+        //     }
+        // }
     }
 }

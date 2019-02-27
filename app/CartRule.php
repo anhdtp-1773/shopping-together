@@ -201,7 +201,7 @@ class CartRule extends Model
                     "entitled_product_ids" => $id_related_product,
                     "prerequisite_to_entitlement_quantity_ratio" => [
                         "prerequisite_quantity" => 1,
-                        "entitled_quantity" => 1
+                        "entitled_quantity" => count($id_related_product)
                     ],
                     "allocation_limit"=> null
                 ]
@@ -248,7 +248,7 @@ class CartRule extends Model
                     "entitled_product_ids" => $id_related_product,
                     "prerequisite_to_entitlement_quantity_ratio" => [
                         "prerequisite_quantity" => 1,
-                        "entitled_quantity" => 1
+                        "entitled_quantity" => count($id_related_product)
                     ],
                     "allocation_limit"=> null
                 ]
@@ -338,5 +338,9 @@ class CartRule extends Model
         DB::table('cart_rule')->whereIn('id', $id_cart_rules)->delete(); 
         DB::table('stats')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
         DB::table('cart_rule_detail')->whereIn('id_cart_rule', $id_cart_rules)->delete(); 
+    }
+
+    public static function getRuleByCode ($code) {
+        return DB::table('cart_rule')->where('code', $code)->first();
     }
 }

@@ -57,7 +57,7 @@ export default class RulesList extends Component {
                             <del><span className="old-price" style={oldPriceStyle}>{displayPrice(variant.price, currency)}</span></del>
                             <span className="new-price" style={newPriceStyle}>
                                 {
-                                    cartRule.is_main_product
+                                    cartRule.is_main_product == 1
                                     ? 
                                         displayPrice(parseFloat(variant.price), currency)
                                     :

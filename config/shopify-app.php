@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_themes,read_themes,write_script_tags,read_price_rules, write_price_rules'),
+    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_themes,read_themes,write_script_tags,read_price_rules,write_price_rules,read_orders'),
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,10 @@ return [
         [
             'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'products/update'),
             'address' => env('SHOPIFY_WEBHOOK_1_SAVE_PRODUCT', ''),
+        ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'orders/create'),
+            'address' => env('SHOPIFY_WEBHOOK_1_ORDER', ''),
         ],
     ],
 
