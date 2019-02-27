@@ -40,3 +40,4 @@ Route::post('/get-setting', 'SettingController@getSetting');
 Route::post('/cart-rule/add-to-cart/', 'DashBoardController@addNumberToCart');
 Route::post('/cart-rule/get-detail', 'CartRuleController@getDetail');
 Route::post('/cart-rule/update', 'CartRuleController@updateCartRule');
+Route::post('/order/create', 'DashBoardController@cloneOrder');
