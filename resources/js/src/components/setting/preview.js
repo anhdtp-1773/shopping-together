@@ -52,7 +52,7 @@ export default class Preview extends Component {
                     cartRules.forEach(function(cartRule) {
                         if(cartRule.variants.length > 0) {
                             let variants = cartRule.variants;
-                            priceProducts[cartRule.id_product] = cartRule.is_main_product ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
+                            priceProducts[cartRule.id_product] = cartRule.is_main_product == 1 ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
                         }
                     })
                 }
