@@ -53,7 +53,7 @@ export default class OldPrice extends Component {
         const {titleFontFamily, titleFontStyle, titleFontColor, validates, title} = this.props;
         const {displayFontColor} = this.state;
         return (
-            <div className="full-width display-block">
+            <div className="full-width display-block block-title">
                 <div data-index="title" className='btn-block left-side__title' onClick={this.toggle}>
                     {lang.title}
                     <span>

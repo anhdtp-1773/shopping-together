@@ -36,10 +36,10 @@ export default class Preview extends Component {
                 result.data.variants.forEach(function(variant) {
                     if(variant.option1 != null){
                         option1.push(variant.option1)
-                    }   
+                    }
                     if(variant.option2 != null){
                         option2.push(variant.option2)
-                    }   
+                    }
                     if(variant.option3 != null){
                         option3.push(variant.option3)
                     }
@@ -113,8 +113,8 @@ export default class Preview extends Component {
 
     render () {
         const {option1, option2, option3, cartRules, priceProducts, product, isFetching} = this.state;
-        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily, 
-            amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle, 
+        const {titleFontFamily, titleFontColor, titleFontStyle, productFontFamily, productFontStyle, productFontColor, amountFontFamily,
+            amountFontStyle, amountFontColor, newPriceFontFamily, newPriceFontStyle, newPriceFontColor, oldPriceFontFamily, oldPriceFontStyle,
             oldPriceFontColor, productText, cartText, cartFontFamily, cartFontStyle, cartFontColor, backgroundColor, currency} = this.props;
 
         let cartStyle={
@@ -131,7 +131,7 @@ export default class Preview extends Component {
             fontWeight: oldPriceFontStyle == 'italic' ? '' : oldPriceFontStyle,
             fontStyle : oldPriceFontStyle == 'italic' ? oldPriceFontStyle : '',
         };
-        
+
         let newPriceStyle={
             color: newPriceFontColor,
             fontFamily: newPriceFontFamily,
@@ -159,7 +159,7 @@ export default class Preview extends Component {
             fontWeight: amountFontStyle == 'italic' ? '' : amountFontStyle,
             fontStyle : amountFontStyle == 'italic' ? amountFontStyle : '',
         };
-        
+
         let totalPrice = 0;
         mapValues(priceProducts, function(value) {
             totalPrice += Number(value)
@@ -247,11 +247,12 @@ export default class Preview extends Component {
                                 {
                                     cartRules.length > 0
                                     ?
-                                    <div className="col-md-12 right-side__translation">
+                                    <div className="col-md-12 col-xs-12 right-side__translation">
                                         <div className="row">
                                             <div className="col-md-12 right-side__option-title" style={titleStyle}>{productText}</div>
+                                            <div className="col-md-12 col-xs-12">
                                             {cartRules.map((cartRule, i)=>{
-                                                return <RulesList 
+                                                return <RulesList
                                                     key={i}
                                                     cartRule = {cartRule}
                                                     productNameStyle = {productNameStyle}
@@ -264,15 +265,18 @@ export default class Preview extends Component {
                                                     idProduct = {cartRule.id_product}
                                                 />
                                             })}
-                                            <div className="col-md-12 right-side__total unpadding-left">
-                                                <div className="col-md-6 first">{lang.total}</div>
-                                                <div className="col-md-6 second" style={totalAmountStyle}>{displayPrice(totalPrice, currency)}</div>
+                                            </div>
+                                            <div className="col-md-12 right-side__total col-xs-12">
+                                                <div className="col-md-4 col-xs-4 first unpadding-left">{lang.total}</div>
+                                                <div className="col-md-8 col-xs-8 second" style={totalAmountStyle}>{displayPrice(totalPrice, currency)}</div>
                                             </div>
                                             <button className="btn-bundle alert-box" onClick= {this.showAlert} style={cartStyle}>{cartText}</button>
                                         </div>
                                     </div>
                                     :
-                                    lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview
+                                    <div className="note-add-rule">
+                                      {lang.please_add_one_rule_taking_this_product_as_a_main_product_to_preview}
+                                    </div>
                                 }
                             </div>
                         </div>

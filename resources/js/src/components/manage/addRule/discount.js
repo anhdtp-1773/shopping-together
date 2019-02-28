@@ -99,7 +99,6 @@ export default class Discount extends Component {
                                 <td></td>
                                 <td></td>
                                 <td className="set-discount__sale-price">{displayPrice(total, head(discountProducts).currency)}</td>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

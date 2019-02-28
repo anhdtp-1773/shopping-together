@@ -52,16 +52,18 @@ export default class Discount extends Component {
 
                 <div className="section-datePicker container">
                     <div className="discount">
-                        <p>{lang.set_discount}</p>
-                        <input
-                            type="text"
-                            className={classNames('form-control', validates.reductionPercent)}
-                            name="reductionPercent"
-                            placeholder={lang.discount_value}
-                            onChange={this.handleChangeValue}
-                            value = {reductionPercent}
-                        />
-                        <span className="icon-percent"><i className="fa fa-percent" aria-hidden="true"></i></span>
+                        <div className="datePicker_title">{lang.set_discount}</div>
+                        <div>
+                          <input
+                              type="text"
+                              className={classNames('form-control', validates.reductionPercent)}
+                              name="reductionPercent"
+                              placeholder={lang.discount_value}
+                              onChange={this.handleChangeValue}
+                              value = {reductionPercent}
+                          />
+                        </div>
+                        <div className="icon-wrap"><i className="fa fa-percent icon-percent" aria-hidden="true"></i></div>
                     </div>
                     <div className="filter-from">
                         <div className="datePicker">
@@ -85,7 +87,7 @@ export default class Discount extends Component {
                             />
                         </div>
                     </div>
-                   
+
                 </div>
 
                 <div className="panel panel-default container ">
@@ -108,7 +110,7 @@ export default class Discount extends Component {
                                     <td className="set-discount__sale-price">
                                         {
                                             product.is_main_product == 1
-                                            ? 
+                                            ?
                                                 displayPrice(product.price, product.currency)
                                             :
                                                 displayPrice((parseFloat(product.price) - (parseFloat(product.price) * parseFloat(reductionPercent))/100), product.currency)
@@ -119,7 +121,7 @@ export default class Discount extends Component {
                                         ?
                                            <td></td>
                                         :
-                                            <td 
+                                            <td
                                                 className="remove-relate-product"
                                                 onClick={() =>
                                                     window.confirm(lang.are_you_sure_you_wish_to_delete_product) &&
@@ -132,7 +134,7 @@ export default class Discount extends Component {
                                 </tr>
                             ))}
                             <tr>
-                                <td>{lang.total}</td>
+                                <td className="title-total">{lang.total}</td>
                                 <td></td>
                                 <td></td>
                                 <td className="set-discount__sale-price">{displayPrice(total, head(discountProducts).currency)}</td>
@@ -149,11 +151,12 @@ export default class Discount extends Component {
                     >
                         {lang.save}
                     </button>
-                    <button >
-                        <Link to={'/manage'} >
-                            {lang.cancel}
-                        </Link>
-                    </button>
+
+                    <Link to={'/manage'} className="btn-cancel">
+                        {lang.cancel}
+                    </Link>
+
+
                     <button onClick={this.nextStep.bind(this, 2)} type="button" className="btn btn-primary btn-back-step">{lang.select_products}</button>
                 </div>
             </Fragment>
