@@ -101,13 +101,12 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function cloneProducts(Request $request){
-       
         $status = true;
         $msg = trans('label.update_successfully');
         session(['shopify_domain' => $request->shopify_domain]);
         $shop = ShopifyApp::shop();
         $id_shop = $shop->id;
-        $count = $shop->api()->request('GET', '/admin/webhooks.json')->body->webhooks;
+        $count = $shop->api()->request('GET', '/admin/products/count.json')->body->count;
         if($count > 0) {
             $pages = ceil($count / 250);
             for ($i=0; $i<$pages; $i++) {
