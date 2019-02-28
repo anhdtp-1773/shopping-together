@@ -103,7 +103,7 @@ return [
     'add_to_cart' => 'Add to cart',
     'please_tick_the_box_to_select_all_rules' => 'Please tick the box to select all rules!',
     'select_products' => 'Select products',
-    'are_you_sure_you_wish_to_delete_product' => 'Are you sure you wish to delete product?',
+    'are_you_sure_you_wish_to_delete_product' => 'Are you sure to delete product?',
     'cancel' => 'Cancel',
     'sync_products' => 'Sync products',
     'sold_out' => 'SOLD OUT',
