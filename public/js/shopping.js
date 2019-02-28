@@ -65,13 +65,13 @@ function renderCartRule (settings, cartRule) {
         });
         let variants = '';
         if(product.variants[0].title != "Default Title"){
-            variants =  "<select id='select-id-"+key+"' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
+            variants =  "<div class='var-product'><select id='select-id-"+key+"' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                             + optionVariants
-                        +"</select>";
+                        +"</select></div>";
         }else{
-            variants =  "<select id='select-id-"+key+"' style='display:none' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
+            variants =  "<div class='var-product'><select id='select-id-"+key+"' style='display:none' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                             + optionVariants
-                        +"</select>";
+                        +"</select></div>";
         }   
         let newPrice =  parseFloat(product.variants[0].price);
         if(product.is_main_product != 1){
@@ -82,15 +82,15 @@ function renderCartRule (settings, cartRule) {
         }
         var html= 
         "<div class='related-products'>"
-            +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
+            +"<div class='img'><a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
                 +"<img id='variant-img-"+key+"' class='left variant-img' src="+product.variants[0].src+" alt='Smiley face' width='90' height='90'>"
-            +"</a>"
-            +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
+            +"</a></div>"
+            +"<div class='name-product'><a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
                 +"<span class='left spt-product-name'>"+(product.variants[0].product_name)+"</span>"
-            +"</a>" 
+            +"</a></div>" 
             + variants
-            +"<span id='old-price-"+key+"' class='left old-price'>"+displayPrice(product.variants[0].price, currency)+"</span>"
-            +"<span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+displayPrice(newPrice, currency)+"</span>"
+            +"<div class='price-old'><span id='old-price-"+key+"' class='left old-price'>"+displayPrice(product.variants[0].price, currency)+"</span></div>"
+            +"<div class='price-new'><span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+displayPrice(newPrice, currency)+"</span></div>"
         +"</div>"
         $(".cart-rule").append(html);
     });
