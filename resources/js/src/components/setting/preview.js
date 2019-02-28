@@ -61,6 +61,7 @@ export default class Preview extends Component {
                 title: result.data.title,
                 src: result.data.src_image,
                 price: result.data.price,
+                quantity: result.data.quantity,
                 priceProducts: priceProducts,
                 option1,
                 option2,
@@ -243,7 +244,17 @@ export default class Preview extends Component {
                                     }
                                     </div>
                                 </div>
-                                <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                                {
+                                    Number(product.quantity) > 0
+                                    ?
+                                        <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                                    :
+                                        <div>
+                                            <button className="btn btn-primary col-md-12 opacity-button">{lang.sold_out}</button>
+                                            <p> </p>
+                                            <button className="btn btn-primary col-md-12 opacity-button">{lang.add_to_cart}</button>
+                                        </div>
+                                }
                                 {
                                     cartRules.length > 0
                                     ?

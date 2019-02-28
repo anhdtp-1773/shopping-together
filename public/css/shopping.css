@@ -636,6 +636,11 @@ settings block right
   font-size: 20px;
   padding-top: 9px;
 }
+.opacity-button{
+  margin-top: 10px;
+  opacity: 0.5;
+  filter: Alpha(opacity=50);
+}
 .right-side .right-side__menu >div:nth-child(2){
   padding: 10px 6px;
   font-size: 16px;
