@@ -251,7 +251,6 @@ export default class Preview extends Component {
                                     :
                                         <div>
                                             <button className="btn btn-primary col-md-12 opacity-button">{lang.sold_out}</button>
-                                            <p> </p>
                                             <button className="btn btn-primary col-md-12 opacity-button">{lang.add_to_cart}</button>
                                         </div>
                                 }
