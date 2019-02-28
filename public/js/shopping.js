@@ -143,7 +143,7 @@ function onChangeSelect(key) {
     let cartRule = cartRules[key];
     var idVariant = document.getElementById("select-id-"+key+"").value;
     var variant = cartRule.variants.find(x => x.id_variant === idVariant);
-    if(!cartRule.is_main_product){
+    if(cartRule.is_main_product != 1){
         let newPrice =  parseFloat(variant.price);
         newPrice = parseFloat(variant.price) - (parseFloat(variant.price)*parseFloat(cartRule.reduction_percent))/100;
         $("#new-price-"+key+"").html(newPrice+currency);
