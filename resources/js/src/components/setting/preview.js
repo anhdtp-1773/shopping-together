@@ -52,7 +52,7 @@ export default class Preview extends Component {
                     cartRules.forEach(function(cartRule) {
                         if(cartRule.variants.length > 0) {
                             let variants = cartRule.variants;
-                            priceProducts[cartRule.id_product] = cartRule.is_main_product ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
+                            priceProducts[cartRule.id_product] = cartRule.is_main_product == 1 ? parseFloat(variants[0].price) : (parseFloat(variants[0].price) - (parseFloat(variants[0].price) * parseFloat(cartRule.reduction_percent))/100)
                         }
                     })
                 }
@@ -61,6 +61,7 @@ export default class Preview extends Component {
                 title: result.data.title,
                 src: result.data.src_image,
                 price: result.data.price,
+                quantity: result.data.quantity,
                 priceProducts: priceProducts,
                 option1,
                 option2,
@@ -243,7 +244,16 @@ export default class Preview extends Component {
                                     }
                                     </div>
                                 </div>
-                                <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                                {
+                                    Number(product.quantity) > 0
+                                    ?
+                                        <button className="btn btn-primary col-md-12">{lang.add_to_cart}</button>
+                                    :
+                                        <div>
+                                            <button className="btn btn-primary col-md-12 opacity-button">{lang.sold_out}</button>
+                                            <button className="btn btn-primary col-md-12 opacity-button">{lang.add_to_cart}</button>
+                                        </div>
+                                }
                                 {
                                     cartRules.length > 0
                                     ?
