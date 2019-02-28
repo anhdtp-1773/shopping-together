@@ -256,8 +256,8 @@ class Product extends Model
      * @param int $id_product
      */
     public static function deleteProduct ($id_product) {
-        DB::table('products')->where('id_shopify_product', $id_product)->delete();
-        DB::table('variants')->where('id_product', $id_product)->delete();
-        DB::table('images')->where('id_product', $id_product)->delete();
+        DB::table('products')->where('id_shopify_product', (string)$id_product)->delete();
+        DB::table('variants')->where('id_product', (string)$id_product)->delete();
+        DB::table('images')->where('id_product', (string)$id_product)->delete();
     }
 }

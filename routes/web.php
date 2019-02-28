@@ -2,6 +2,7 @@
 use App\Product;
 use App\Image;
 use App\Variant;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
