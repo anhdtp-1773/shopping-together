@@ -108,7 +108,7 @@ export default class Setting extends Component {
         this.setState({
             form: Object.assign({}, this.state.form, {
                 activeMobile
-            }) 
+            })
         })
     }
 
