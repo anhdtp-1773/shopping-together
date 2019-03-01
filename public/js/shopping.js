@@ -68,7 +68,7 @@ function renderCartRule (settings, cartRule) {
             variants =  "<div class='var-product'><select id='select-id-"+key+"' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                             + optionVariants
                         +"</select></div>";
-        }else{
+        }else{  
             variants =  "<div class='var-product'><select id='select-id-"+key+"' style='display:none' data-id="+key+"  class='left product-variant' onChange='onChangeSelect("+key+")'>"
                             + optionVariants
                         +"</select></div>";
@@ -82,15 +82,21 @@ function renderCartRule (settings, cartRule) {
         }
         var html= 
         "<div class='related-products'>"
-            +"<div class='img'><a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
-                +"<img id='variant-img-"+key+"' class='left variant-img' src="+product.variants[0].src+" alt='Smiley face' width='90' height='90'>"
-            +"</a></div>"
-            +"<div class='name-product'><a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
-                +"<span class='left spt-product-name'>"+(product.variants[0].product_name)+"</span>"
-            +"</a></div>" 
-            + variants
-            +"<div class='price-old'><span id='old-price-"+key+"' class='left old-price'>"+displayPrice(product.variants[0].price, currency)+"</span></div>"
-            +"<div class='price-new'><span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+displayPrice(newPrice, currency)+"</span></div>"
+            +"<div class='img'>"
+                +"<a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
+                    +"<img id='variant-img-"+key+"' class='variant-img' src="+product.variants[0].src+" alt='Smiley face' width='90' height='90'>"
+                +"</a>"
+            +"</div>"
+            +"<div class='info-wrap'>"
+                +"<div class='name-product split-title-product' title='"+(product.variants[0].product_name)+"'><a href='https://"+domain+"/products/"+(product.variants[0].handle)+"' target='_blank'>"
+                    +"<span class='left spt-product-name'>"+(product.variants[0].product_name)+"</span>"
+                +"</a></div>" 
+                + variants
+            +"</div>"
+            +"<div class='price-wrap'>"
+                +"<div class='price-old'><span id='old-price-"+key+"' class='left old-price'>"+displayPrice(product.variants[0].price, currency)+"</span></div>"
+                +"<div class='price-new'><span id='new-price-"+key+"' class='left new-price' data-value='"+newPrice+"'>"+displayPrice(newPrice, currency)+"</span></div>"
+            +"</div>"    
         +"</div>"
         $(".cart-rule").append(html);
     });
