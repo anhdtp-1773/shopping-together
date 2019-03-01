@@ -107,19 +107,13 @@ class DashBoardController extends Controller
 
     public function cloneOrder (Request $request) 
     {
-        Mail::raw('Hi, welcome user!', function ($message) {
-            $message->to("namdv32@gmail.com")
-            ->subject("hey hey hey");
-        });
-        // $domain = request()->header('x-shopify-shop-domain');
-        // $shop = Shop::getShopByDomain($domain);
-        // $order = json_decode(file_get_contents('php://input'));
-        // if($order->discount_applications){
-        //     $cart_rule = CartRule::getRuleByCode($order->discount_applications[0]->title);
-        //     if($cart_rule){
-        //         DashBoard::addNBCartRule($cart_rule->id, $shop->id_shop, 'nb_order');
-        //         DashBoard::addNBCartRule($cart_rule->id, $shop->id_shop, 'nb_sale', $order->total_price);
-        //     }
-        // }
+        $order = json_decode(file_get_contents('php://input'));
+        if($order->discount_codes){
+            $cart_rule = CartRule::getRuleByCode($order->discount_codes[0]->code);
+            if($cart_rule){
+                DashBoard::addNBCartRule($cart_rule->id, $cart_rule->id_shop, 'nb_order');
+                DashBoard::addNBCartRule($cart_rule->id, $cart_rule->id_shop, 'nb_sale', $order->total_price);
+            }
+        }
     }
 }

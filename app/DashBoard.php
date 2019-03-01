@@ -30,6 +30,8 @@ class DashBoard extends Model
         $sql->where('stats.id_shop', $id_shop);
         $sql->whereBetween('stats.created_at',["$date_from 00:00:00", "$date_to 23:59:59"]);
         $sql->groupBy('stats.id_cart_rule');
+        $sql->orderBy('nb_sale', 'DESC');
+        $sql->limit(10);
         return $sql->get()->toArray();
     }
 
