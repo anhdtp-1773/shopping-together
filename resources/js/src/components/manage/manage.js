@@ -226,6 +226,7 @@ export default class Manage extends Component {
 
     render() {
         const {rules, itemsPerPage, totalItems, isFetching, currentPage, keyWord, itemsChecked, status} = this.state;
+        console.log(rules);
         if(isFetching){ return (
             <div id="page_loading">
                 <div className="loading">
