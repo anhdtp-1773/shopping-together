@@ -144,14 +144,21 @@ function onChangeSelect(key) {
     var idVariant = document.getElementById("select-id-"+key+"").value;
     var variant = cartRule.variants.find(x => x.id_variant === idVariant);
     if(cartRule.is_main_product != 1){
-        let newPrice =  parseFloat(variant.price);
+        let newPrice = parseFloat(variant.price);
         newPrice = parseFloat(variant.price) - (parseFloat(variant.price)*parseFloat(cartRule.reduction_percent))/100;
-        $("#new-price-"+key+"").html(newPrice+currency);
+        $("#old-price-"+key+"").html(""+displayPrice(variant.price,currency)+"");
+        $("#new-price-"+key+"").html(displayPrice(newPrice,currency));
+        $("#new-price-"+key+"").attr('data-value', newPrice);
     }else{
-        $("#old-price-"+key+"").html(""+variant.price+currency+"");
-        $("#new-price-"+key+"").html(""+variant.price+currency+"");
+        $("#old-price-"+key+"").html(""+displayPrice(variant.price,currency)+"");
+        $("#new-price-"+key+"").html(""+displayPrice(variant.price,currency)+"");
     }
     $("#variant-img-"+key+"").attr('src', variant.src);
+    let total = 0;
+    $(".related-products").each(function() {
+        total += parseFloat($(this).find(".new-price").attr('data-value'));
+    });
+    $(".spt-total-price").html(""+displayPrice(total,currency)+"");
 }
 
 function onSubmit() {

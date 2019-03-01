@@ -64,7 +64,10 @@ class Product extends Model
      * )
      */
     public static function getFirstProduct($id_shop){
-        return DB::table('products')->where('id_shop', $id_shop)->first();
+        $sql = DB::table('products');
+        $sql->where('id_shop', $id_shop);
+        $sql->orderBy('title', 'ASC');
+        return $sql->first();
     }
     
     /**
@@ -203,7 +206,6 @@ class Product extends Model
         $arr_variants  = array();
         $arr_imgs= array();
         $qty = 0;
-       
         foreach($product->variants as $value){
             $arr_variants[] = array(
                 'id_variant' => (string)$value->id,
@@ -215,12 +217,12 @@ class Product extends Model
                 'option1' => $value->option1,
                 'option2' => $value->option2,
                 'option3' => $value->option3,
-                'quantity' => ($value->inventory_management == "shopify") ? $value->inventory_quantity : 1000,
+                'quantity' => ($value->inventory_management == "shopify") ? (($value->inventory_policy == "deny") ? $value->inventory_quantity : 10) : 1000,
                 'id_image' => isset($value->image_id) ? (string)$value->image_id : (isset($product->image) ? (string)$product->image->id : ''),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
-            $qty += ($value->inventory_management == "shopify") ? $value->inventory_quantity : 10;
+            $qty += ($value->inventory_management == "shopify") ? (($value->inventory_policy == "deny") ? $value->inventory_quantity : 10) : 10;
         }
         if($product->images){
             foreach($product->images as $value){
