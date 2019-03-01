@@ -292,7 +292,7 @@ export default class Manage extends Component {
                                                 <td>{rule.name}</td>
                                                 <td>
                                                     <label>
-                                                        <input ref="switch" className="switch" type="checkbox" onClick={e => this.handleChangeStatus(rule.id, !rule.status)} checked={rule.status}/>
+                                                        <input ref="switch" className="switch" type="checkbox" onClick={e => this.handleChangeStatus(rule.id, !rule.status)} checked={rule.status == "1"}/>
                                                         <div>
                                                             <div></div>
                                                         </div>
