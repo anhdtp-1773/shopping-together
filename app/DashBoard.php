@@ -19,7 +19,7 @@ class DashBoard extends Model
      * @param $date_to
      * @return array
      */
-    public static function getStastDetail ($date_from, $date_to) {
+    public static function getStastDetail ($date_from, $date_to, $id_shop) {
         $sql = DB::table('stats');
         $sql->select('cart_rule.name');
         $sql->selectRaw('SUM(nb_view) as total_view');
@@ -27,6 +27,7 @@ class DashBoard extends Model
         $sql->selectRaw('SUM(nb_sale) as total_sale');
         $sql->selectRaw('SUM(nb_add_to_cart) as total_add_to_cart');
         $sql->join('cart_rule', 'cart_rule.id', '=', 'stats.id_cart_rule');
+        $sql->where('stats.id_shop', $id_shop);
         $sql->whereBetween('stats.created_at',["$date_from 00:00:00", "$date_to 23:59:59"]);
         $sql->groupBy('stats.id_cart_rule');
         return $sql->get()->toArray();
@@ -38,7 +39,7 @@ class DashBoard extends Model
      * @param $granularity
      * @return array
      */
-    public static function getStast($date_from, $date_to, $granularity)
+    public static function getStast($date_from, $date_to, $granularity, $id_shop)
     {
         $stats = array();
         $sql = DB::table('stats');
@@ -47,6 +48,7 @@ class DashBoard extends Model
         $sql->selectRaw('SUM(nb_sale) as total_sale');
         $sql->selectRaw('SUM(nb_add_to_cart) as total_add_to_cart');
         $sql->selectRaw('LEFT(created_at, 10) as date');
+        $sql->where('stats.id_shop', $id_shop);
         $sql->whereBetween('created_at',["$date_from 00:00:00", "$date_to 23:59:59"]);
         switch ($granularity) {
             case 'day':

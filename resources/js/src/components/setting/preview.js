@@ -102,7 +102,7 @@ export default class Preview extends Component {
 
     handleChangeTotalPrice (cartRule, idProduct, price) {
         let priceProducts = this.state.priceProducts;
-        priceProducts[idProduct] = cartRule.is_main_product ? parseFloat(price) : (parseFloat(price) - (parseFloat(price) * parseFloat(cartRule.reduction_percent))/100);
+        priceProducts[idProduct] = cartRule.is_main_product == 1 ? parseFloat(price) : (parseFloat(price) - (parseFloat(price) * parseFloat(cartRule.reduction_percent))/100);
         this.setState({
             priceProducts
         })

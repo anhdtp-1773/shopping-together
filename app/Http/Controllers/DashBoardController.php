@@ -22,8 +22,9 @@ class DashBoardController extends Controller
         $data = array();
         $date_from = $request->date_from;
         $date_to = $request->date_to;
+        $shop = Shop::getShopByDomain($request->shopify_domain);
         try{
-            $summary_details = $this->getSummaryDetails($date_from, $date_to, $request->granularity);
+            $summary_details = $this->getSummaryDetails($date_from, $date_to, $request->granularity, $shop->id);
             $data = array(
                 'dashboard' => array(
                     'views' => $summary_details['views'],
@@ -31,7 +32,7 @@ class DashBoardController extends Controller
                     'revenues' => $summary_details['revenues'],
                     'add_to_cart' => $summary_details['add_to_cart'],
                 ),
-                'detail' => DashBoard::getStastDetail($date_from, $date_to),
+                'detail' => DashBoard::getStastDetail($date_from, $date_to, $shop->id),
             );
         }
         catch(\Exception $e){
@@ -52,7 +53,7 @@ class DashBoardController extends Controller
      * @param $granularity
      * @return array
      */
-    public function getSummaryDetails($date_from, $date_to, $granularity)
+    public function getSummaryDetails($date_from, $date_to, $granularity, $id_shop)
     {
         $summary_details = array(
             'views' => array(),
@@ -60,7 +61,7 @@ class DashBoardController extends Controller
             'revenues' => array(),
             'add_to_cart' => array(),
         );
-        $stats = DashBoard::getStast($date_from, $date_to, $granularity);
+        $stats = DashBoard::getStast($date_from, $date_to, $granularity, $id_shop);
         $from = strtotime($date_from.' 00:00:00');
         $to = min(time(), strtotime($date_to.' 23:59:59'));
         switch ($granularity) {
